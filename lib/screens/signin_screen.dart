@@ -1,7 +1,9 @@
+import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/signup_screen.dart';
 import 'package:eggventure/user interface/dashboard_screen.dart'; // Add this import
 import 'package:eggventure/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -75,7 +77,7 @@ class _SigninScreenState extends State<SigninScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => DashboardScreen(),
+          builder: (context) => HomeScreen(),
         ),
       );
     } else {
@@ -337,10 +339,25 @@ class _SigninScreenState extends State<SigninScreen> {
                           ],
                         ),
                         SizedBox(height: 20),
-                        ElevatedButton.icon(
+                        ElevatedButton(
                           onPressed: () {},
-                          icon: const Icon(AntDesign.google_outline),
-                          label: Text('Continue with Google'),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/icons/google_icon.svg',
+                                width: 20,
+                                height: 20,
+                              ),
+                            
+                              Text(
+                                'Continue with Google',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20
+                                ),
+                              )
+                            ],
+                          ),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Color(0xFF353E55),
                             backgroundColor: Colors.white,
