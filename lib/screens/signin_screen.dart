@@ -339,30 +339,17 @@ class _SigninScreenState extends State<SigninScreen> {
                           ],
                         ),
                         SizedBox(height: 20),
-                        Container(
-                          width: MediaQuery.sizeOf(context).width * 0.39,
-                          padding: const EdgeInsets.all(0),
-                          child: ElevatedButton(
+                        SizedBox(height: 10),
+                        ElevatedButton.icon(
                           onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment:  MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/google_icon.svg',
-                                width: 20,
-                                height: 20,
-                              ),
-                              const SizedBox(width: 10),
-                              Text(
-                                'Continue with Google',
-                              )
-                            ],
-                          ),
+                          icon: SvgPicture.asset('assets/icons/google_icon.svg',
+                              height: 16, width: 16),
+                          label: Text('Continue with Google'),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Color(0xFF353E55),
                             backgroundColor: Colors.white,
                             padding: EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 15),
+                                horizontal: 20, vertical: 15),
                             textStyle: TextStyle(
                               fontFamily: 'AvenirNextCyr',
                               fontWeight: FontWeight.bold,
@@ -374,11 +361,11 @@ class _SigninScreenState extends State<SigninScreen> {
                             ),
                           ),
                         ),
-                        ),
                         SizedBox(height: 10),
                         ElevatedButton.icon(
                           onPressed: () {},
-                          icon: Icon(BoxIcons.bxl_facebook_circle),
+                          icon: SvgPicture.asset('assets/icons/fb_icon.svg',
+                              height: 16, width: 16),
                           label: Text('Continue with Facebook'),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Color(0xFF353E55),
