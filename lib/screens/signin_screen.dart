@@ -339,22 +339,22 @@ class _SigninScreenState extends State<SigninScreen> {
                           ],
                         ),
                         SizedBox(height: 20),
-                        ElevatedButton(
+                        Container(
+                          width: MediaQuery.sizeOf(context).width * 0.39,
+                          padding: const EdgeInsets.all(0),
+                          child: ElevatedButton(
                           onPressed: () {},
                           child: Row(
+                            mainAxisAlignment:  MainAxisAlignment.center,
                             children: [
                               SvgPicture.asset(
                                 'assets/icons/google_icon.svg',
                                 width: 20,
                                 height: 20,
                               ),
-                            
+                              const SizedBox(width: 10),
                               Text(
                                 'Continue with Google',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20
-                                ),
                               )
                             ],
                           ),
@@ -373,6 +373,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               side: BorderSide(color: Color(0xFF353E55)),
                             ),
                           ),
+                        ),
                         ),
                         SizedBox(height: 10),
                         ElevatedButton.icon(

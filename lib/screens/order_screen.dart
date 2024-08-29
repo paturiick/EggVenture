@@ -10,3 +10,8 @@ class OrderScreen extends StatelessWidget{
     );
   }
 }
+
+// git status
+// git add .
+// git commit -m "bayot si joel"
+// git push origin master
