@@ -1,3 +1,4 @@
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      routes: AppRoutes.define(),
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       home: SplashScreen(),
     );

@@ -6,7 +6,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      bottomNavigationBar: NavigationBarWidget(),
+      bottomNavigationBar: NavigationBarWidget(currentIndex: 4),
     );
   }
 }
