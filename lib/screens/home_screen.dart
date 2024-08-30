@@ -2,21 +2,26 @@ import 'package:eggventure/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key?key});
+  const HomeScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  'assets/EggVenture.png',
-                  width: 50,
-                ),
-                RichText(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/Eggventure.png',
+                    width: 50,
+                  ),
+                  SizedBox(width: 10),
+                  RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
@@ -60,13 +65,11 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
-            ],
-          )
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: NavigationBarWidget(),
     );
   }
 }
-
-// git pull origin joel
