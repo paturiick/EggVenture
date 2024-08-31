@@ -1,4 +1,4 @@
-import 'package:eggventure/screens/home_screen.dart';
+import 'package:eggventure/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -12,21 +12,11 @@ class ChatScreen extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'AvenirNextCyr',
             fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: Colors.white,
+            fontSize: 30,
+            color: Color(0xFF353E55),
           ),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-              (Route<dynamic> route) => false,
-            );
-          },
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -43,6 +33,7 @@ class ChatScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: NavigationBarWidget(currentIndex: 2),
     );
   }
 }

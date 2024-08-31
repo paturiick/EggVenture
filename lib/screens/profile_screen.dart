@@ -1,114 +1,156 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:eggventure/overlay_screens/menu_screen.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ManageProfilePage(),
-    );
-  }
-}
-
-class ManageProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MANAGE PROFILE'),
-        backgroundColor: Colors.orange,
+        backgroundColor: Color(0xFFFFB612),
+        title: Text(
+          'MANAGE PROFILE',
+          style: TextStyle(
+            fontFamily: 'AvenirNextCyr',
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Color(0xFF353E55),
+          ),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.menu, color: Color(0xFF353E55)),
             onPressed: () {
-              
+              MenuScreen.showMenu(context);
             },
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end, 
-              children: [
-                ElevatedButton.icon(
-                  icon: Icon(Icons.store),
-                  label: Text('Start Selling'),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
+          Positioned(
+            top: 10,
+            right: 10,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                // Add your start selling action here
+              },
+              icon: Icon(Icons.local_mall, size: 16, color: Color(0xFF353E55)),
+              label: Text(
+                'Start Selling',
+                style: TextStyle(
+                  fontFamily: 'AvenirNextCyr',
+                  fontSize: 12,
+                  color: Color(0xFF353E55),
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                side: BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            top: 80,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle add new picture action here
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          backgroundColor: Colors.grey[200],
+                          padding: EdgeInsets.all(40),
+                        ),
+                        child: Icon(
+                          Icons.add_a_photo,
+                          color: Color(0xFF353E55),
+                          size: 40,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '', // Empty string for name
+                              style: TextStyle(
+                                fontFamily: 'AvenirNextCyr',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Color(0xFF353E55),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: List.generate(5, (index) {
+                                return Icon(
+                                  Icons.star_border,
+                                  color: Colors.grey,
+                                );
+                              }),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                _buildStatusColumn('Followers', '0'),
+                                SizedBox(width: 40),
+                                _buildStatusColumn('Following', '0'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/joel.jpg'), 
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(5, (index) {
-                    return Icon(Icons.star, color: Colors.yellow);
-                  }),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Joel Sabuero',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildProfileInfo('follower', '10'),
-                    _buildProfileInfo('following', '10'),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Edit profile'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[200],
-                        foregroundColor: Colors.black,
-                      ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildProfileOption(context, 'Edit Profile'),
+                      _buildProfileOption(context, 'Share Profile'),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Divider(color: Colors.grey, thickness: 1),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildIconOption(context, Icons.payment, 'To Pay'),
+                      _buildIconOption(
+                          context, AntDesign.sync_outline, 'Processing'),
+                      _buildIconOption(context, Icons.rate_review, 'Review'),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Divider(color: Colors.grey, thickness: 1),
+                  SizedBox(height: 20),
+                  Container(
+                    height: 400,
+                    child: ListView.builder(
+                      itemCount: 0,
+                      itemBuilder: (context, index) {
+                        return SizedBox.shrink();
+                      },
                     ),
-                    SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Share Profile'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[200],
-                        foregroundColor: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildTabItem(Icons.payment, 'To Pay'),
-                _buildTabItem(Icons.local_shipping, 'Processing'),
-                _buildTabItem(Icons.reviews, 'Review'),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -117,23 +159,83 @@ class ManageProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileInfo(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+  Widget _buildProfileOption(BuildContext context, String text) {
+    return ElevatedButton(
+      onPressed: () {
+        // Handle button press action here
+      },
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Color(0xFF353E55),
+        backgroundColor: Color(0xFFFFB612),
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontFamily: 'AvenirNextCyr',
+          fontSize: 14,
+          color: Color(0xFF353E55),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconOption(BuildContext context, IconData icon, String text) {
+    return ElevatedButton(
+      onPressed: () {
+        // Handle button press action here
+      },
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Color(0xFF353E55),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      ),
       child: Column(
         children: [
-          Text(value, style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(title),
+          Icon(
+            icon,
+            size: 40,
+            color: Color(0xFF353E55),
+          ),
+          SizedBox(height: 10),
+          Text(
+            text,
+            style: TextStyle(
+              fontFamily: 'AvenirNextCyr',
+              fontSize: 14,
+              color: Color(0xFF353E55),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildTabItem(IconData icon, String label) {
+  Widget _buildStatusColumn(String label, String value) {
     return Column(
       children: [
-        Icon(icon, size: 30),
-        Text(label),
+        Text(
+          value,
+          style: TextStyle(
+            fontFamily: 'AvenirNextCyr',
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Color(0xFF353E55),
+          ),
+        ),
+        SizedBox(height: 5),
+        Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'AvenirNextCyr',
+            fontSize: 14,
+            color: Color(0xFF353E55),
+          ),
+        ),
       ],
     );
   }

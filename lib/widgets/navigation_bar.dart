@@ -1,16 +1,19 @@
-import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/screens/chat_screen.dart';
-import 'package:eggventure/screens/home_screen.dart';
-import 'package:eggventure/screens/order_screen.dart';
-import 'package:eggventure/screens/profile_screen.dart';
-import 'package:eggventure/screens/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/screens/home_screen.dart';
+import 'package:eggventure/screens/order_screen.dart';
+import 'package:eggventure/screens/chat_screen.dart';
+import 'package:eggventure/screens/tray_screen.dart';
+import 'package:eggventure/screens/profile_screen.dart';
 
 class NavigationBarWidget extends StatefulWidget {
   final int currentIndex;
 
-  const NavigationBarWidget({Key? key, required this.currentIndex}) : super(key: key);
+  const NavigationBarWidget({
+    Key? key,
+    required this.currentIndex,
+  }) : super(key: key);
 
   @override
   _NavigationBarWidgetState createState() => _NavigationBarWidgetState();
@@ -30,74 +33,77 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
       _selectedIndex = index;
     });
 
-    Widget getScreen(int index) {
-      switch (index) {
-        case 0:
-          return HomeScreen();
-        case 1:
-          return OrderScreen();
-        case 2:
-          return ChatScreen();
-        case 3:
-          return TrayScreen();
-        case 4:
-          return ProfileScreen();
-        default:
-          return HomeScreen();
-      }
-    }
+    final routes = [
+      HomeScreen(),
+      OrderScreen(),
+      ChatScreen(),
+      TrayScreen(),
+      ProfileScreen(),
+    ];
 
-    Navigator.of(context).pushReplacement(PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => getScreen(index),
-      transitionDuration: Duration.zero,  // No transition duration
-      reverseTransitionDuration: Duration.zero,  // No reverse transition duration
-    ));
+    // Navigate without any transition effect
+    Navigator.of(context).pushAndRemoveUntil(
+      NoAnimationMaterialPageRoute(builder: (context) => routes[index]),
+      (route) => false, // Remove all previous routes
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: CircularNotchedRectangle(), // Optional: add notch if using FloatingActionButton
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.home,
-              color: _selectedIndex == 0 ? Color(0xFFF9B514) : Color(0xFF353E55),
-            ),
-            onPressed: () => _onItemTapped(0),
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed, // Ensure labels are always visible
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.home,
+            color: _selectedIndex == 0 ? Color(0xFFF9B514) : Color(0xFF353E55),
           ),
-          IconButton(
-            icon: Icon(
-              AntDesign.calendar_outline,
-              color: _selectedIndex == 1 ? Color(0xFFF9B514) : Color(0xFF353E55),
-            ),
-            onPressed: () => _onItemTapped(1),
+          label: 'Home', // This ensures the label is always displayed
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            AntDesign.calendar_outline,
+            color: _selectedIndex == 1 ? Color(0xFFF9B514) : Color(0xFF353E55),
           ),
-          IconButton(
-            icon: Icon(
-              AntDesign.message_outline,
-              color: _selectedIndex == 2 ? Color(0xFFF9B514) : Color(0xFF353E55),
-            ),
-            onPressed: () => _onItemTapped(2),
+          label: 'Order', // This ensures the label is always displayed
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            AntDesign.message_outline,
+            color: _selectedIndex == 2 ? Color(0xFFF9B514) : Color(0xFF353E55),
           ),
-          IconButton(
-            icon: Icon(
-              AntDesign.inbox_outline,
-              color: _selectedIndex == 3 ? Color(0xFFF9B514) : Color(0xFF353E55),
-            ),
-            onPressed: () => _onItemTapped(3),
+          label: 'Chats', // This ensures the label is always displayed
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            AntDesign.inbox_outline,
+            color: _selectedIndex == 3 ? Color(0xFFF9B514) : Color(0xFF353E55),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.person,
-              color: _selectedIndex == 4 ? Color(0xFFF9B514) : Color(0xFF353E55),
-            ),
-            onPressed: () => _onItemTapped(4),
+          label: 'Tray', // This ensures the label is always displayed
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.person_rounded,
+            color: _selectedIndex == 4 ? Color(0xFFF9B514) : Color(0xFF353E55),
           ),
-        ],
-      ),
+          label: 'Profile', // This ensures the label is always displayed
+        ),
+      ],
+      currentIndex: _selectedIndex, // Set the current index
+      selectedItemColor: Color(0xFFF9B514),
+      unselectedItemColor: Color(0xFF353E55),
+      onTap: _onItemTapped, // Handle item taps
     );
+  }
+}
+
+class NoAnimationMaterialPageRoute<T> extends MaterialPageRoute<T> {
+  NoAnimationMaterialPageRoute({required WidgetBuilder builder})
+      : super(builder: builder);
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return child; // No animation effect
   }
 }

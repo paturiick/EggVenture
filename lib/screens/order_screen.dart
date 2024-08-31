@@ -33,22 +33,24 @@ class _OrderScreenState extends State<OrderScreen>
               style: TextStyle(
                 fontFamily: 'AvenirNextCyr',
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 30,
+                height: 1.2, // Adjusted for better line spacing
                 color: Color(0xFF353E55),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 5), // Adjusted spacing
             Container(
-              width: 800,
-              height: 6,
+              width:
+                  MediaQuery.of(context).size.width, // Span entire screen width
+              height: 1, // Reduced thickness of the line
               decoration: BoxDecoration(
                 color: Color(0xFF353E55),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                    offset: Offset(0, 2), // Position of the shadow
+                    spreadRadius: 3,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
                   ),
                 ],
               ),
@@ -57,29 +59,43 @@ class _OrderScreenState extends State<OrderScreen>
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: Color(0xFFFFB612),
-          unselectedLabelColor: Color(0xFF353E55),
-          indicatorColor: Color(0xFFFFB612),
-          tabs: [
-            Tab(text: 'All'),
-            Tab(text: 'Received'),
-            Tab(text: 'Pending'),
-            Tab(text: 'Cancelled'),
-          ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(30), // Reduced height of tab bar
+          child: TabBar(
+            controller: _tabController,
+            labelColor: Color(0xFFFFB612),
+            unselectedLabelColor: Color(0xFF353E55),
+            indicatorColor: Color(0xFFFFB612),
+            indicatorWeight: 1, // Adjusted indicator thickness
+            isScrollable: false, // Fit all tabs on screen without scrolling
+            tabs: [
+              Tab(text: 'All'),
+              Tab(text: 'Received'),
+              Tab(text: 'Pending'),
+              Tab(text: 'Cancelled'),
+            ],
+          ),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
-          Center(child: Text('No Transaction')),
-          Center(child: Text('No Order Received Yet')),
-          Center(child: Text('No Pending Orders')),
-          Center(child: Text('No Cancelled Orders')),
+          _buildTabContent('No Transaction'),
+          _buildTabContent('No Order Received Yet'),
+          _buildTabContent('No Pending Orders'),
+          _buildTabContent('No Cancelled Orders'),
         ],
       ),
       bottomNavigationBar: NavigationBarWidget(currentIndex: 1),
+    );
+  }
+
+  Widget _buildTabContent(String message) {
+    return Center(
+      child: Text(
+        message,
+        style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
+      ),
     );
   }
 }
