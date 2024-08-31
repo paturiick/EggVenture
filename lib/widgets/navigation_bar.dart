@@ -1,128 +1,103 @@
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/screens/chat_screen.dart';
+import 'package:eggventure/screens/home_screen.dart';
+import 'package:eggventure/screens/order_screen.dart';
+import 'package:eggventure/screens/profile_screen.dart';
+import 'package:eggventure/screens/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-// Import other screens as needed
 
 class NavigationBarWidget extends StatefulWidget {
   final int currentIndex;
-  
-  const NavigationBarWidget({
-    Key? key,
-    required this.currentIndex
-  });
-  
+
+  const NavigationBarWidget({Key? key, required this.currentIndex}) : super(key: key);
+
   @override
   _NavigationBarWidgetState createState() => _NavigationBarWidgetState();
 }
 
 class _NavigationBarWidgetState extends State<NavigationBarWidget> {
-
   late int _selectedIndex;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _selectedIndex = widget.currentIndex;
   }
 
   void _onItemTapped(int index) {
     setState(() {
-       _selectedIndex = index;
+      _selectedIndex = index;
     });
 
+    Widget getScreen(int index) {
+      switch (index) {
+        case 0:
+          return HomeScreen();
+        case 1:
+          return OrderScreen();
+        case 2:
+          return ChatScreen();
+        case 3:
+          return TrayScreen();
+        case 4:
+          return ProfileScreen();
+        default:
+          return HomeScreen();
+      }
+    }
 
-     // Navigate based on the selected index
-    final routes = [
-      AppRoutes.HOMESCREEN,
-      AppRoutes.ORDERSCREEN,
-      AppRoutes.CHATSCREEN,
-      AppRoutes.TRAYSCREEN,
-      AppRoutes.PROFILESCREEN,
-    ];
-
-    Navigator.pushNamed(context, routes[index]);
-    // // Handle navigation based on the selected index
-    // switch (_selectedIndex) {
-    //   case 0:
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => HomeScreen()),
-    //     );
-    //     break;
-    //   case 1:
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => OrderScreen()),
-    //     );
-    //     break;
-
-    //   case 2:
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => ChatScreen()),
-    //     );
-    //     break;
-
-    //   case 3:
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => TrayScreen()),
-    //     );
-    //     break;
-
-    //   case 4:
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => ProfileScreen()),
-    //     );
-    //     break;
-    // }
+    Navigator.of(context).pushReplacement(PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => getScreen(index),
+      transitionDuration: Duration.zero,  // No transition duration
+      reverseTransitionDuration: Duration.zero,  // No reverse transition duration
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-            color: _selectedIndex == 0 ? Color(0xFFF9B514) : Color(0xFF353E55), // Change color based on selection
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(), // Optional: add notch if using FloatingActionButton
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.home,
+              color: _selectedIndex == 0 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            ),
+            onPressed: () => _onItemTapped(0),
           ),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            AntDesign.calendar_outline,
-            color: _selectedIndex == 1 ? Color(0xFFF9B514) : Color(0xFF353E55), // Change color based on selection
+          IconButton(
+            icon: Icon(
+              AntDesign.calendar_outline,
+              color: _selectedIndex == 1 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            ),
+            onPressed: () => _onItemTapped(1),
           ),
-          label: 'Order',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            AntDesign.message_outline,
-            color: _selectedIndex == 2 ? Color(0xFFF9B514) : Color(0xFF353E55), // Change color based on selection
+          IconButton(
+            icon: Icon(
+              AntDesign.message_outline,
+              color: _selectedIndex == 2 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            ),
+            onPressed: () => _onItemTapped(2),
           ),
-          label: 'Chats',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            AntDesign.inbox_outline,
-            color: _selectedIndex == 3 ? Color(0xFFF9B514) : Color(0xFF353E55), // Change color based on selection
+          IconButton(
+            icon: Icon(
+              AntDesign.inbox_outline,
+              color: _selectedIndex == 3 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            ),
+            onPressed: () => _onItemTapped(3),
           ),
-          label: 'Tray',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person,
-            color: _selectedIndex == 4 ? Color(0xFFF9B514) : Color(0xFF353E55), // Change color based on selection
+          IconButton(
+            icon: Icon(
+              Icons.person,
+              color: _selectedIndex == 4 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            ),
+            onPressed: () => _onItemTapped(4),
           ),
-          label: 'Profile',
-        ),
-      ],
-      currentIndex: _selectedIndex, // Set the current index
-      selectedItemColor: Color(0xFFF9B514),
-      unselectedItemColor: Color(0xFF353E55),
-      onTap: _onItemTapped, // Handle item taps
+        ],
+      ),
     );
   }
 }
