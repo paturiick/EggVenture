@@ -37,9 +37,9 @@ class _OrderScreenState extends State<OrderScreen>
                 color: Color(0xFF353E55),
               ),
             ),
-            SizedBox(height: 10), // Space between the text and the line
+            SizedBox(height: 10),
             Container(
-              width: 500,
+              width: 800,
               height: 6,
               decoration: BoxDecoration(
                 color: Color(0xFF353E55),
