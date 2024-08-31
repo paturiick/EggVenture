@@ -71,6 +71,7 @@ flutter:
     - assets/Bottom BG.jpeg
     - assets/icons/google_icon.svg
     - assets/icons/fb_icon.svg
+    - assets/joel.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
