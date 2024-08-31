@@ -5,7 +5,7 @@ class OrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NavigationBarWidget(currentIndex: 1,),
+      bottomNavigationBar: NavigationBarWidget(currentIndex: 1),
     );
   }
 }
