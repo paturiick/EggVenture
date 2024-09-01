@@ -72,6 +72,13 @@ flutter:
     - assets/icons/google_icon.svg
     - assets/icons/fb_icon.svg
     - assets/joel.jpg
+    - assets/stores/pabilona.jpg
+    - assets/stores/white_feathers.jpg
+    - assets/stores/pelonio.png
+    - assets/stores/vista.jpg
+    - assets/stores/sundo.png
+    - assets/stores/daily_fresh.jpg
+    - assets/stores/pabilona_duck.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
