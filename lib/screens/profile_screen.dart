@@ -66,21 +66,19 @@ class ProfileScreen extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      GestureDetector(
-                        onTap: () {
+                      ElevatedButton(
+                        onPressed: () {
                           // Handle add new picture action here
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey[200],
-                          ),
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          backgroundColor: Colors.grey[200],
                           padding: EdgeInsets.all(40),
-                          child: Icon(
-                            Icons.add_a_photo,
-                            color: Color(0xFF353E55),
-                            size: 40,
-                          ),
+                        ),
+                        child: Icon(
+                          Icons.add_a_photo,
+                          color: Color(0xFF353E55),
+                          size: 40,
                         ),
                       ),
                       SizedBox(width: 20),
