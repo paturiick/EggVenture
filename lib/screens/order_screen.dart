@@ -67,7 +67,9 @@ class _OrderScreenState extends State<OrderScreen>
             unselectedLabelColor: Color(0xFF353E55),
             indicatorColor: Color(0xFFFFB612),
             indicatorWeight: 1, // Adjusted indicator thickness
-            isScrollable: false, // Fit all tabs on screen without scrolling
+            isScrollable: true, // Allows the tabs to be scrollable
+            labelPadding: EdgeInsets.symmetric(
+                horizontal: 12), // Adjust this value to control gaps
             tabs: [
               Tab(text: 'All'),
               Tab(text: 'Received'),
