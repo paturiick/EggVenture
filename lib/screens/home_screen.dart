@@ -171,7 +171,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Helper method to build each store item with rounded edges and opening times
-  Widget _buildStoreItem(BuildContext context, String imagePath, String title,
+  Widget  _buildStoreItem(BuildContext context, String imagePath, String title,
       String time, String days) {
     return GestureDetector(
       onTap: () {
@@ -181,14 +181,22 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                imagePath,
-                width: 150,
-                height: 150,
-                fit: BoxFit.cover,
-              ),
+          Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.black
+                  )
+                ),
+              
+              // child: Image.asset(
+              //   imagePath,
+              //   width: 150,
+              //   height: 150,
+              //   fit: BoxFit.cover,
+              // ),
             ),
             SizedBox(height: 5),
             Text(

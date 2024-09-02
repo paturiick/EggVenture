@@ -95,6 +95,14 @@ flutter:
     - family: AvenirNextCyr
       fonts:
         - asset: fonts/AvenirNextCyr-BoldItalic.ttf
+        - asset: fonts/AvenirNextCyr-DemiItalic.ttf
+        - asset: fonts/AvenirNextCyr-Heavy.ttf
+        - asset: fonts/AvenirNextCyr-HeavyItalic.ttf
+        - asset: fonts/AvenirNextCyr-MediumItalic.ttf
+        - asset: fonts/AvenirNextCyr-ThinItalic.ttf
+        - asset: fonts/AvenirNextCyr-LightItalic.ttf
+        - asset: fonts/AvenirNextCyr-Demi.ttf
+        - asset: fonts/AvenirNextCyr-Regular.ttf
         - weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
