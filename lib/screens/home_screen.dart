@@ -1,3 +1,4 @@
+import 'package:eggventure/store_screen/wf_screen.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -95,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'AvenirNextCyr',
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 25,
                   color: Color(0xFF353E55),
                 ),
               ),
@@ -107,10 +108,25 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildStoreItem(context, 'assets/stores/white_feathers.jpg',
-                      'White Feathers Farm', '8am - 5pm', 'Mon - Sat'),
-                  _buildStoreItem(context, 'assets/stores/pabilona_duck.jpg',
-                      'Pabilona Duck Farm', '8am - 5pm', 'Mon - Sat'),
+                  _buildStoreItem(
+                      context,
+                      'assets/stores/white_feathers.jpg',
+                      'White Feathers Farm',
+                      '8am - 5pm',
+                      'Mon - Sat', onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => WfScreen()),
+                    );
+                  }),
+                  _buildStoreItem(
+                      context,
+                      'assets/stores/pabilona_duck.jpg',
+                      'Pabilona Duck Farm',
+                      '8am - 5pm',
+                      'Mon - Sat', onTap: () {
+                    //fill this up
+                  }),
                 ],
               ),
             ),
@@ -136,9 +152,13 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildStoreItem(context, 'assets/stores/vista.jpg',
-                          'Vista', '8am - 5pm', 'Mon - Sat'),
+                          'Vista', '8am - 5pm', 'Mon - Sat', onTap: () {
+                        //vista screen
+                      }),
                       _buildStoreItem(context, 'assets/stores/pelonio.png',
-                          'Pelonio', '8am - 5pm', 'Mon - Sat'),
+                          'Pelonio', '8am - 5pm', 'Mon - Sat', onTap: () {
+                        //pelonio screen store
+                      }),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -171,26 +191,21 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Helper method to build each store item with rounded edges and opening times
-  Widget  _buildStoreItem(BuildContext context, String imagePath, String title,
-      String time, String days) {
+  Widget _buildStoreItem(BuildContext context, String imagePath, String title,
+      String time, String days,
+      {VoidCallback? onTap}) {
     return GestureDetector(
-      onTap: () {
-        // Navigate to other screen
-      },
+      onTap: onTap, // Pass the navigation callback when the store is tapped
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-          Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
-                    color: Colors.black
-                  )
-                ),
-              
+            Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                  border: Border.all(width: 2, color: Colors.black)),
+
               // child: Image.asset(
               //   imagePath,
               //   width: 150,
