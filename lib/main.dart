@@ -1,5 +1,6 @@
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/splash_screen.dart';
+import 'package:eggventure/store_screen/wf_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: AppRoutes.define(),
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
-      home: SplashScreen(),
+      home: WfScreen(),
     );
   }
 }

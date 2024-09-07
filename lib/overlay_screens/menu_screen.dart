@@ -10,29 +10,42 @@ class MenuScreen {
       builder: (context) {
         return DraggableScrollableSheet(
           expand: false,
+          maxChildSize: 0.6,
+          minChildSize: 0.4,
           builder: (context, scrollController) {
             return Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
               ),
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _buildMenuButton(context, 'Vouchers & offers'),
-                      _buildMenuButton(context, 'Invite friends'),
-                      _buildMenuButton(context, 'Location'),
-                      _buildMenuButton(context, 'Terms & Conditions'),
-                      _buildMenuButton(context, 'Help Center'),
-                      _buildMenuButton(context, 'Switch account'),
-                      Divider(thickness: 1, color: Colors.grey[300]),
-                      _buildLogoutButton(context, 'Log out'),
-                    ],
-                  ),
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    // Scrollable section for menu items
+                    Expanded(
+                      child: ListView(
+                        controller: scrollController,
+                        children: [
+                          _buildMenuButton(context, 'Vouchers & offers',
+                              Icons.card_giftcard),
+                          _buildMenuButton(
+                              context, 'Invite friends', Icons.people),
+                          _buildMenuButton(
+                              context, 'Location', Icons.location_on),
+                          _buildMenuButton(
+                              context, 'Terms & Conditions', Icons.description),
+                          _buildMenuButton(
+                              context, 'Help Center', Icons.help_outline),
+                          _buildMenuButton(
+                              context, 'Switch account', Icons.swap_horiz),
+                          Divider(thickness: 1, color: Colors.grey[300]),
+                        ],
+                      ),
+                    ),
+                    // Non-scrollable section for the logout button
+                    _buildLogoutButton(context, 'Log out'),
+                  ],
                 ),
               ),
             );
@@ -42,10 +55,11 @@ class MenuScreen {
     );
   }
 
-  static Widget _buildMenuButton(BuildContext context, String title) {
+  static Widget _buildMenuButton(
+      BuildContext context, String title, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: ElevatedButton(
+      child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(vertical: 15),
           backgroundColor: Color(0xFF353E55),
@@ -56,12 +70,10 @@ class MenuScreen {
         onPressed: () {
           // Handle the menu item actions here
         },
-        child: Text(
+        icon: Icon(icon, color: Colors.white),
+        label: Text(
           title,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-          ),
+          style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
     );
@@ -72,15 +84,15 @@ class MenuScreen {
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 15),
-          backgroundColor: Colors.white,
+          padding: EdgeInsets.symmetric(
+              vertical: 15), // Match padding with other buttons
+          backgroundColor: Colors.red,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10), // Match border radius
             side: BorderSide(color: Colors.red),
           ),
         ),
         onPressed: () {
-          // Log out the user and navigate to the SigninScreen
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => SigninScreen()),
             (Route<dynamic> route) => false,
@@ -89,10 +101,11 @@ class MenuScreen {
         child: Text(
           title,
           style: TextStyle(
-            color: Colors.red,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+              color: Colors.white,
+              fontSize: 16,
+              fontFamily: 'AvenirNextCyr',
+              fontWeight: FontWeight.bold,
+              backgroundColor: Colors.red),
         ),
       ),
     );
