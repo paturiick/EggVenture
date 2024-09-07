@@ -79,7 +79,10 @@ flutter:
     - assets/stores/sundo.png
     - assets/stores/daily_fresh.jpg
     - assets/stores/pabilona_duck.jpg
-    - assets/browse store/Egg_S.jpg
+    - assets/browse store/small_eggs.jpg
+    - assets/browse store/large_eggs.jpeg
+    - assets/browse store/medium_eggs.jpg
+    - assets/browse store/xl_eggs.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -96,14 +99,6 @@ flutter:
     - family: AvenirNextCyr
       fonts:
         - asset: fonts/AvenirNextCyr-BoldItalic.ttf
-        - asset: fonts/AvenirNextCyr-DemiItalic.ttf
-        - asset: fonts/AvenirNextCyr-Heavy.ttf
-        - asset: fonts/AvenirNextCyr-HeavyItalic.ttf
-        - asset: fonts/AvenirNextCyr-MediumItalic.ttf
-        - asset: fonts/AvenirNextCyr-ThinItalic.ttf
-        - asset: fonts/AvenirNextCyr-LightItalic.ttf
-        - asset: fonts/AvenirNextCyr-Demi.ttf
-        - asset: fonts/AvenirNextCyr-Regular.ttf
         - weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

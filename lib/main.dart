@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: AppRoutes.define(),
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       home: HomeScreen(),
+
     );
   }
 }

@@ -1,6 +1,7 @@
-import 'package:eggventure/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:eggventure/store_screen/wf_screen.dart';
+import 'package:eggventure/widgets/navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -61,8 +62,7 @@ class HomeScreen extends StatelessWidget {
         // To enable scrolling if content overflows
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Align children to the start
+          crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start
           children: [
             Center(
               child: Padding(
@@ -122,8 +122,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: 'Search...',
@@ -143,30 +142,32 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'AvenirNextCyr',
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 25,
                   color: Color(0xFF353E55),
                 ),
               ),
             ),
             const SizedBox(height: 10),
-            GridView.builder(
-                shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2
-              ), 
-              itemCount: populars.length,
-              itemBuilder: (context, index) {
-                final popular = populars[index];
-                return _buildStoreItem(
-                  context, 
-                  popular['image']!, 
-                  popular['name']!, 
-                  popular['hours']!, 
-                  popular['days']!
-                );
-              }
+            SizedBox(
+              height: 250, // Define a height for the grid
+              child: GridView.builder(
+                padding: EdgeInsets.zero,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                itemCount: populars.length,
+                itemBuilder: (context, index) {
+                  final popular = populars[index];
+                  return _buildStoreItem(
+                    context,
+                    popular['image']!,
+                    popular['name']!,
+                    popular['hours']!,
+                    popular['days']!,
+                  );
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -180,26 +181,27 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            
             const SizedBox(height: 10),
-            GridView.builder(
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 1.1, // Define a height for the grid
+              child: GridView.builder(
+                padding: EdgeInsets.zero,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                itemCount: stores.length,
+                itemBuilder: (context, index) {
+                  final store = stores[index];
+                  return _buildStoreItem(
+                    context,
+                    store['image']!,
+                    store['name']!,
+                    store['hours']!,
+                    store['days']!,
+                  );
+                },
               ),
-              itemCount: stores.length,
-              itemBuilder: (context, index) {
-                final store = stores[index];
-                return _buildStoreItem(
-                  context,
-                  store['image']!,
-                  store['name']!,
-                  store['hours']!,
-                  store['days']!,
-                );
-              },
             ),
           ],
         ),
@@ -209,13 +211,13 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Helper method to build each store item with rounded edges and opening times
-  Widget _buildStoreItem(BuildContext context, String imagePath, String title,
-      String time, String days) {
+  Widget _buildStoreItem(BuildContext context, String imagePath, String title, String time, String days) {
     return GestureDetector(
       onTap: () {
-        // Navigate to other screen
+        // Add navigation logic if needed
       },
       child: Container(
+        padding: EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -223,14 +225,18 @@ class HomeScreen extends StatelessWidget {
               width: 150,
               height: 150,
               decoration: BoxDecoration(
-                  border: Border.all(width: 2, color: Colors.black)),
-
-              // child: Image.asset(
-              //   imagePath,
-              //   width: 150,
-              //   height: 150,
-              //   fit: BoxFit.cover,
-              // ),
+                border: Border.all(width: 2, color: Colors.black),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  imagePath,
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             SizedBox(height: 5),
             Text(
