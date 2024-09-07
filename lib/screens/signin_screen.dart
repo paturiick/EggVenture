@@ -214,6 +214,12 @@ class _SigninScreenState extends State<SigninScreen> {
                                       : Colors.grey,
                                 ),
                               ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF353E55), // Border color when focused
+                                  width: 2.0, // Width of the focused border (optional)
+                                ),
+                              ),
                               prefixIcon: Icon(Icons.email),
                             ),
                             validator: (value) {
@@ -240,6 +246,12 @@ class _SigninScreenState extends State<SigninScreen> {
                                   color: _isPasswordFocused
                                       ? Color(0xFF353E55)
                                       : Colors.grey,
+                                ),
+                              ),
+                               focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xFF353E55), // Border color when focused
+                                  width: 2.0, // Width of the focused border (optional)
                                 ),
                               ),
                               prefixIcon: Icon(Icons.lock),
