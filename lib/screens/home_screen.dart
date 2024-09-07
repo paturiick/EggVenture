@@ -3,7 +3,56 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  final List<Map<String, String>> stores = [
+    {
+      'image': 'assets/stores/vista.jpg',
+      'name': 'Vista',
+      'hours': '8am - 5pm',
+      'days': 'Mon - Sat'
+    },
+    {
+      'image': 'assets/stores/pelonio.png',
+      'name': 'Pelonio',
+      'hours': '8am - 5pm',
+      'days': 'Mon - Sat'
+    },
+    {
+      'image': 'assets/stores/daily_fresh.jpg',
+      'name': 'Daily Fresh',
+      'hours': '8am - 5pm',
+      'days': 'Mon - Sat'
+    },
+    {
+      'image': 'assets/stores/sundo.png',
+      'name': 'Sundo',
+      'hours': '8am - 5pm',
+      'days': 'Mon - Sat'
+    },
+    {
+      'image': 'assets/stores/pabilona.jpg',
+      'name': 'Pabilona',
+      'hours': '8am - 5pm',
+      'days': 'Mon - Sat'
+    },
+    // Add more stores here if needed
+  ];
+
+  final List<Map<String, String>> populars = [
+    {
+      'image': 'assets/stores/white_feathers.jpg',
+      'name': 'White Feathers Farm',
+      'hours': '8am - 5pm',
+      'days': 'Mon - Sat'
+    },
+    {
+      'image': 'assets/stores/pabilona_duck.jpg',
+      'name': 'Pabilona Duck Farm',
+      'hours': '8am - 5pm',
+      'days': 'Mon - Sat'
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +130,6 @@ class HomeScreen extends StatelessWidget {
                   prefixIcon: Icon(AntDesign.search_outline),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
                   ),
                   filled: true,
                   fillColor: Color(0xFFF5F5F5),
@@ -100,19 +148,25 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Popular section (2 items in a row)
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildStoreItem(context, 'assets/stores/white_feathers.jpg',
-                      'White Feathers Farm', '8am - 5pm', 'Mon - Sat'),
-                  _buildStoreItem(context, 'assets/stores/pabilona_duck.jpg',
-                      'Pabilona Duck Farm', '8am - 5pm', 'Mon - Sat'),
-                ],
-              ),
+            const SizedBox(height: 10),
+            GridView.builder(
+                shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2
+              ), 
+              itemCount: populars.length,
+              itemBuilder: (context, index) {
+                final popular = populars[index];
+                return _buildStoreItem(
+                  context, 
+                  popular['image']!, 
+                  popular['name']!, 
+                  popular['hours']!, 
+                  popular['days']!
+                );
+              }
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -126,42 +180,26 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Suggested Stores section (2 items in a row)
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildStoreItem(context, 'assets/stores/vista.jpg',
-                          'Vista', '8am - 5pm', 'Mon - Sat'),
-                      _buildStoreItem(context, 'assets/stores/pelonio.png',
-                          'Pelonio', '8am - 5pm', 'Mon - Sat'),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildStoreItem(context, 'assets/stores/daily_fresh.jpg',
-                          'Daily Fresh', '8am - 5pm', 'Mon - Sat'),
-                      _buildStoreItem(context, 'assets/stores/sundo.png',
-                          'Sundo', '8am - 5pm', 'Mon - Sat'),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildStoreItem(context, 'assets/stores/pabilona.jpg',
-                          'Pabilona', '8am - 5pm', 'Mon - Sat'),
-                      // Add more stores here if needed
-                    ],
-                  ),
-                ],
+            
+            const SizedBox(height: 10),
+            GridView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
               ),
+              itemCount: stores.length,
+              itemBuilder: (context, index) {
+                final store = stores[index];
+                return _buildStoreItem(
+                  context,
+                  store['image']!,
+                  store['name']!,
+                  store['hours']!,
+                  store['days']!,
+                );
+              },
             ),
           ],
         ),
@@ -171,7 +209,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Helper method to build each store item with rounded edges and opening times
-  Widget  _buildStoreItem(BuildContext context, String imagePath, String title,
+  Widget _buildStoreItem(BuildContext context, String imagePath, String title,
       String time, String days) {
     return GestureDetector(
       onTap: () {
@@ -181,16 +219,12 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-          Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
-                    color: Colors.black
-                  )
-                ),
-              
+            Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                  border: Border.all(width: 2, color: Colors.black)),
+
               // child: Image.asset(
               //   imagePath,
               //   width: 150,
