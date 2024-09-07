@@ -1,10 +1,11 @@
-import 'package:eggventure/screens_farmer/home_screen_farmer.dart';
+
+import 'package:eggventure/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/overlay_screens/menu_screen.dart';
-import 'package:eggventure/widgets/navigation_bar.dart';
+import 'package:eggventure/widgets/navigation_bar_farmer.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreenFarmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,14 +39,14 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeScreenFarmer()),
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
                 );
             
                 // Add your start selling action here
               },
               icon: Icon(Icons.local_mall, size: 16, color: Color(0xFF353E55)),
               label: Text(
-                'Start Selling',
+                'Back to Buying',
                 style: TextStyle(
                   fontFamily: 'AvenirNextCyr',
                   fontSize: 12,
@@ -161,7 +162,7 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: NavigationBarWidget(currentIndex: 4),
+      bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 4),
     );
   }
 
