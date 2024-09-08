@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:eggventure/widgets/navigation_bar_farmer.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class ChatScreenFarmer extends StatefulWidget {
   @override

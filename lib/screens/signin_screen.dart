@@ -1,10 +1,9 @@
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/signup_screen.dart';
-import 'package:eggventure/user interface/dashboard_screen.dart'; // Add this import
+// Add this import
 import 'package:eggventure/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -206,7 +205,8 @@ class _SigninScreenState extends State<SigninScreen> {
                             textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               labelText: 'Email Address or Phone Number',
-                              labelStyle: TextStyle(fontSize: 11),
+                              labelStyle: TextStyle(
+                                  fontSize: 11, color: Color(0xFF353E55)),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: _isEmailFocused
@@ -216,8 +216,10 @@ class _SigninScreenState extends State<SigninScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Color(0xFF353E55), // Border color when focused
-                                  width: 2.0, // Width of the focused border (optional)
+                                  color: Color(
+                                      0xFFF9B514), // Border color when focused
+                                  width:
+                                      2.0, // Width of the focused border (optional)
                                 ),
                               ),
                               prefixIcon: Icon(Icons.email),
@@ -240,7 +242,8 @@ class _SigninScreenState extends State<SigninScreen> {
                             obscureText: !_isPasswordVisible,
                             decoration: InputDecoration(
                               labelText: 'Password',
-                              labelStyle: TextStyle(fontSize: 11),
+                              labelStyle: TextStyle(
+                                  fontSize: 11, color: Color(0xFF353E55)),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: _isPasswordFocused
@@ -248,10 +251,12 @@ class _SigninScreenState extends State<SigninScreen> {
                                       : Colors.grey,
                                 ),
                               ),
-                               focusedBorder: OutlineInputBorder(
+                              focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Color(0xFF353E55), // Border color when focused
-                                  width: 2.0, // Width of the focused border (optional)
+                                  color: Color(
+                                      0xFFF9B514), // Border color when focused
+                                  width:
+                                      2.0, // Width of the focused border (optional)
                                 ),
                               ),
                               prefixIcon: Icon(Icons.lock),

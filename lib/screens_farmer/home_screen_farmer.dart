@@ -1,9 +1,6 @@
 import 'package:eggventure/widgets/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:eggventure/routes/routes.dart';
 
 
 class HomeScreenFarmer extends StatelessWidget {

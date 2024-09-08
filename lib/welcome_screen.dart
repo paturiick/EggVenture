@@ -149,7 +149,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                           text: 'ENTURE',
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
-                            fontWeight: FontWeight.w700, // Semibold weight
+                            fontWeight: FontWeight.bold, // Semibold weight
                             fontSize: 32,
                             color: Color(0xFFFFFFFF),
                           ),
