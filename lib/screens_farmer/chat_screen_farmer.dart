@@ -76,7 +76,7 @@ class _ChatScreenFarmerState extends State<ChatScreenFarmer>
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 0),
+      bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 3),
     );
   }
 }

@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: AppRoutes.define(),
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
-      home: WfScreen(),
+      home: SplashScreen(),
     );
   }
 }

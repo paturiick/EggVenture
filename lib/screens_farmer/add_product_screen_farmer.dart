@@ -62,7 +62,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer>
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 0),
+      bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 2),
     );
   }
 }

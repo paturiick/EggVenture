@@ -76,7 +76,7 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 0),
+      bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 1),
     );
   }
 }
