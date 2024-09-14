@@ -85,11 +85,11 @@ class MenuScreen {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(
-              vertical: 15), // Match padding with other buttons
+              vertical: 20), // Match padding with other buttons
           backgroundColor: Colors.red,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10), // Match border radius
-            side: BorderSide(color: Colors.red),
+            side: BorderSide(color: Colors.red, width: 10), // Enlarged border
           ),
         ),
         onPressed: () {

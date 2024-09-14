@@ -1,3 +1,4 @@
+import 'package:eggventure/store_screen/wf_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
@@ -61,7 +62,8 @@ class HomeScreen extends StatelessWidget {
         // To enable scrolling if content overflows
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Align children to the start
           children: [
             Center(
               child: Padding(
@@ -121,7 +123,8 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: 'Search...',
@@ -182,7 +185,8 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: MediaQuery.sizeOf(context).height * 1.1, // Define a height for the grid
+              height: MediaQuery.sizeOf(context).height *
+                  1.1, // Define a height for the grid
               child: GridView.builder(
                 padding: EdgeInsets.zero,
                 physics: NeverScrollableScrollPhysics(),
@@ -210,10 +214,17 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Helper method to build each store item with rounded edges and opening times
-  Widget _buildStoreItem(BuildContext context, String imagePath, String title, String time, String days) {
+  Widget _buildStoreItem(BuildContext context, String imagePath, String title,
+      String time, String days) {
     return GestureDetector(
       onTap: () {
-        // Add navigation logic if needed
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WfScreen(),
+          ),
+        );
+        // Add more navigation logic for other items if needed
       },
       child: Container(
         padding: EdgeInsets.all(8.0),

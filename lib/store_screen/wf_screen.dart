@@ -7,26 +7,32 @@ class WfScreen extends StatefulWidget {
 }
 
 class _WfScreenState extends State<WfScreen> {
-  String selectedImage = "assets/browse store/small_eggs.jpg";
-  String selectedPrice = "P 140";
-  String selectedName = "Small Egg Tray";
+  int currentPageIndex = 0;
+  final PageController _pageController = PageController();
+
+  final List<String> imagePaths = [
+    "assets/browse store/small_eggs.jpg",
+    "assets/browse store/medium_eggs.jpg",
+    "assets/browse store/large_eggs.jpeg",
+    "assets/browse store/xl_eggs.jpg"
+  ];
 
   final Map<String, Map<String, String>> productDetails = {
     "assets/browse store/small_eggs.jpg": {
       "price": "P 140",
-      "name": "Small Egg Tray"
+      "name": "Small Egg Tray",
     },
     "assets/browse store/medium_eggs.jpg": {
       "price": "P 180",
-      "name": "Medium Egg Tray"
+      "name": "Medium Egg Tray",
     },
     "assets/browse store/large_eggs.jpeg": {
       "price": "P 220",
-      "name": "Large Egg Tray"
+      "name": "Large Egg Tray",
     },
     "assets/browse store/xl_eggs.jpg": {
       "price": "P 250",
-      "name": "XL Egg Tray"
+      "name": "XL Egg Tray",
     },
   };
 
@@ -67,11 +73,48 @@ class _WfScreenState extends State<WfScreen> {
             children: [
               Center(
                 child: Container(
-                  height: screenHeight * 0.3,
+                  height: screenHeight * 0.35,
                   width: double.infinity,
-                  child: Image.asset(
-                    selectedImage,
-                    fit: BoxFit.contain,
+                  child: Stack(
+                    children: [
+                      PageView.builder(
+                        controller: _pageController,
+                        itemCount: imagePaths.length,
+                        onPageChanged: (index) {
+                          setState(() {
+                            currentPageIndex = index;
+                          });
+                        },
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Image.asset(
+                              imagePaths[index],
+                              fit: BoxFit.contain,
+                            ),
+                          );
+                        },
+                      ),
+                      Positioned(
+                        bottom: 8,
+                        right: 16,
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '${currentPageIndex + 1} / ${imagePaths.length}', // Image number indicator
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenWidth * 0.04,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -80,6 +123,7 @@ class _WfScreenState extends State<WfScreen> {
                 child: Text(
                   "4 Variations Available",
                   style: TextStyle(
+                    color: Color(0xFF353E55),
                     fontWeight: FontWeight.w500,
                     fontSize: screenWidth * 0.04,
                   ),
@@ -103,7 +147,7 @@ class _WfScreenState extends State<WfScreen> {
               Padding(
                 padding: EdgeInsets.all(screenWidth * 0.03),
                 child: Text(
-                  selectedPrice,
+                  productDetails[imagePaths[currentPageIndex]]!["price"]!,
                   style: TextStyle(
                     fontFamily: "AvernirNextCyr",
                     fontSize: screenWidth * 0.06,
@@ -114,14 +158,33 @@ class _WfScreenState extends State<WfScreen> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                child: Text(
-                  selectedName,
-                  style: TextStyle(
-                    fontFamily: "AvernirNextCyr",
-                    fontSize: screenWidth * 0.09,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF353E55),
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      productDetails[imagePaths[currentPageIndex]]!["name"]!,
+                      style: TextStyle(
+                        fontFamily: "AvernirNextCyr",
+                        fontSize: screenWidth * 0.09,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF353E55),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    // Add product rating below product name
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        "Product Ratings",
+                        style: TextStyle(
+                          fontFamily: 'AvenirNextCyr',
+                          fontSize: screenWidth * 0.045,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF353E55),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -135,12 +198,15 @@ class _WfScreenState extends State<WfScreen> {
                     Icon(Icons.star, color: Colors.yellow, size: 20),
                     Icon(Icons.star, color: Colors.yellow, size: 20),
                     SizedBox(width: 5),
-                    Text(
-                      "5/5 (Total Reviews)",
-                      style: TextStyle(
-                          fontFamily: 'AvenirNextCyr',
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF353E55)),
+                    Flexible(
+                      child: Text(
+                        "5/5 (Total Reviews)",
+                        style: TextStyle(
+                            fontFamily: 'AvenirNextCyr',
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF353E55)),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),
@@ -176,88 +242,105 @@ class _WfScreenState extends State<WfScreen> {
                       fontSize: screenWidth * 0.05,
                       color: Color(0xFF353E55),
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
+              SizedBox(height: 10), // Add extra spacing at the bottom
             ],
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  color: Color(0xFF353E55),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle Chat Now action
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          AntDesign.message_outline,
-                          color: Colors.white,
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          "Chat Now",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              VerticalDivider(width: 1, color: Colors.white),
-              Expanded(
-                child: Container(
-                  color: Color(0xFF353E55),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle Add to Tray action
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          AntDesign.inbox_outline,
-                          color: Colors.white,
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          "Add to Tray",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Color(0xFFF9B514),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle Buy Now action
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Buy Now",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: screenWidth * 0.05,
+        bottomNavigationBar: ClipRect(
+          child: BottomAppBar(
+            color: Colors.transparent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 60, // Reduced height
+                    color: Color(0xFF353E55),
+                    child: TextButton(
+                      onPressed: () {
+                        // Handle Chat Now action
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(AntDesign.message_outline,
+                              color: Colors.white, size: 17),
+                          SizedBox(height: 5),
+                          Flexible(
+                            child: Text(
+                              "Chat Now",
+                              style: TextStyle(
+                                  fontFamily: 'AvenirNextCyr',
+                                  color: Colors.white),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Container(
+                    height: 60, // Reduced height
+                    color: Color(0xFF353E55),
+                    child: TextButton(
+                      onPressed: () {
+                        // Handle Add to Tray action
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            AntDesign.inbox_outline,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                          SizedBox(height: 5),
+                          Flexible(
+                            child: Text(
+                              "Add to Tray",
+                              style: TextStyle(
+                                  fontFamily: 'AvenirNextCyr',
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 60, // Reduced height
+                    color: Colors.yellow[700],
+                    child: TextButton(
+                      onPressed: () {
+                        // Handle Buy Now action
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "Buy Now",
+                              style: TextStyle(
+                                  fontFamily: 'AvenirNextCyr',
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF353E55)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -265,26 +348,29 @@ class _WfScreenState extends State<WfScreen> {
   }
 
   Widget _buildProductVariation(String imagePath) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedImage = imagePath;
-          selectedPrice = productDetails[imagePath]!["price"]!;
-          selectedName = productDetails[imagePath]!["name"]!;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+    bool isSelected = imagePaths[currentPageIndex] == imagePath;
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () {
+          int newIndex = imagePaths.indexOf(imagePath);
+          setState(() {
+            currentPageIndex = newIndex;
+          });
+          _pageController.jumpToPage(newIndex);
+        },
         child: Container(
-          width: 80,
           decoration: BoxDecoration(
-            border: Border.all(
-              color:
-                  selectedImage == imagePath ? Color(0xFFF9B514) : Colors.grey,
-            ),
-            borderRadius: BorderRadius.circular(5),
+            border: isSelected
+                ? Border.all(color: Colors.yellow, width: 2)
+                : Border.all(color: Colors.transparent),
+            borderRadius: BorderRadius.circular(8),
           ),
-          child: Image.asset(imagePath),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(imagePath, width: 80, height: 80),
+          ),
         ),
       ),
     );

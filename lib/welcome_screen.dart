@@ -13,6 +13,10 @@ class WelcomeScreen extends StatefulWidget {
 class _OnboardingViewState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
+    // Get the screen width and height
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -22,10 +26,10 @@ class _OnboardingViewState extends State<WelcomeScreen> {
           children: [
             // Background image with drop shadow (top)
             Positioned(
-              top: 59,
+              top: screenHeight * 0.07, // Adjusted relative to screen height
               child: Container(
-                width: 400, // Fixed width
-                height: 500, // Fixed height
+                width: screenWidth * 0.9, // 90% of the screen width
+                height: screenHeight * 0.5, // 50% of the screen height
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                   boxShadow: [
@@ -40,61 +44,45 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.0),
-                  child: Image.asset(
-                    'assets/BG Home - EggVenture.png',
-                    fit: BoxFit.cover,
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        'assets/BG Home - EggVenture.png',
+                        width: screenWidth * 0.9,
+                        height: screenHeight * 0.5,
+                        fit: BoxFit.cover,
+                      ),
+                      BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        child: Container(
+                          width: screenWidth * 0.9,
+                          height: screenHeight * 0.5,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-            // Background image with layer blur (top)
+            // Bottom image with blur effect
             Positioned(
-              top: 0,
+              bottom: screenHeight * 0.02, // Positioned relative to bottom
               child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(20.0), // Adjust the radius as needed
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      'assets/BG Home - EggVenture.png',
-                      width: 400, // Fixed width
-                      height: 500, // Fixed height
-                      fit: BoxFit.cover,
-                    ),
-                    BackdropFilter(
-                      filter: ImageFilter.blur(
-                          sigmaX: 5.0,
-                          sigmaY: 5.0), // Adjust the blur radius as needed
-                      child: Container(
-                        width: 400,
-                        height: 500,
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 15,
-              child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(20.0), // Adjust the radius as needed
+                borderRadius: BorderRadius.circular(20.0),
                 child: Stack(
                   children: [
                     Image.asset(
                       'assets/Bottom BG.jpeg',
-                      width: 400, // Fixed width
-                      height: 360, // Fixed height
-                      fit: BoxFit.cover,
+                      width: screenWidth * 0.9, // Responsive width
+                      height: screenHeight * 0.3, // Responsive height
+                      fit: BoxFit.fill,
                     ),
                     BackdropFilter(
-                      filter: ImageFilter.blur(
-                          sigmaX: 5.0,
-                          sigmaY: 5.0), // Adjust the blur radius as needed
+                      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                       child: Container(
-                        width: 100,
-                        height: 100,
+                        width: screenWidth * 0.9,
+                        height: screenHeight * 0.3,
                         color: Colors.transparent,
                       ),
                     ),
@@ -102,17 +90,17 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                 ),
               ),
             ),
-            // Foreground image
+            // Foreground logo and text
             Align(
-              alignment: Alignment(
-                  0.0, -0.2), // Adjust the vertical alignment to move it up
+              alignment: Alignment(0.0, -0.2),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(
                     'assets/Eggventure.png',
-                    width: 200, // Fixed width
-                    height: 200, // Fixed height
+                    width: screenWidth * 0.4, // Scaled relative to screen width
+                    height: screenWidth *
+                        0.4, // Make the height proportional to width
                     fit: BoxFit.contain,
                   ),
                   RichText(
@@ -122,17 +110,18 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                           text: 'E',
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
-                            fontWeight: FontWeight.w700, // Semibold weight
-                            fontSize: 44,
-                            color: Color(0xFFF9B514), // Color from the palette
+                            fontWeight: FontWeight.w700,
+                            fontSize:
+                                screenWidth * 0.12, // Responsive font size
+                            color: Color(0xFFF9B514),
                           ),
                         ),
                         TextSpan(
                           text: 'GG',
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
-                            fontWeight: FontWeight.w700, // Semibold weight
-                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                            fontSize: screenWidth * 0.09,
                             color: Color(0xFFFFFFFF),
                           ),
                         ),
@@ -140,26 +129,24 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                           text: 'V',
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
-                            fontWeight: FontWeight.w700, // Semibold weight
-                            fontSize: 44,
-                            color: Color(0xFFF9B514), // Color from the palette
+                            fontWeight: FontWeight.w700,
+                            fontSize: screenWidth * 0.12,
+                            color: Color(0xFFF9B514),
                           ),
                         ),
                         TextSpan(
                           text: 'ENTURE',
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
-                            fontWeight: FontWeight.bold, // Semibold weight
-                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            fontSize: screenWidth * 0.09,
                             color: Color(0xFFFFFFFF),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                      height:
-                          10), // Increased space between "EggVenture" and the new text
+                  SizedBox(height: screenHeight * 0.01), // Responsive spacing
                   Column(
                     children: [
                       Text(
@@ -167,7 +154,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                         style: TextStyle(
                           fontFamily: 'AvenirNextCyr',
                           fontWeight: FontWeight.bold,
-                          fontSize: 23,
+                          fontSize: screenWidth * 0.06,
                           color: Color(0xFF353E55),
                         ),
                       ),
@@ -176,7 +163,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                         style: TextStyle(
                           fontFamily: 'AvenirNextCyr',
                           fontWeight: FontWeight.bold,
-                          fontSize: 23,
+                          fontSize: screenWidth * 0.06,
                           color: Color(0xFF353E55),
                         ),
                       ),
@@ -185,7 +172,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                         style: TextStyle(
                           fontFamily: 'AvenirNextCyr',
                           fontStyle: FontStyle.italic,
-                          fontSize: 14,
+                          fontSize: screenWidth * 0.04,
                           color: Color(0xFF353E55),
                         ),
                         textAlign: TextAlign.center,
@@ -197,7 +184,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
             ),
             // Sign In and Sign Up buttons
             Positioned(
-              bottom: 50,
+              bottom: screenHeight * 0.08, // Adjusted for responsiveness
               child: Column(
                 children: [
                   InkWell(
@@ -214,20 +201,21 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                     child: Material(
                       color: Colors.transparent,
                       child: Container(
-                        width: 250,
+                        width: screenWidth * 0.6,
                         decoration: BoxDecoration(
                           color: Color(0xFFF9B514),
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.07,
+                            vertical: screenHeight * 0.02),
                         child: Center(
                           child: Text(
                             'Sign In',
                             style: TextStyle(
                               fontFamily: 'AvenirNextCyr',
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: screenWidth * 0.05,
                               color: Color(0xFF353E55),
                             ),
                           ),
@@ -235,7 +223,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: screenHeight * 0.02),
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -250,21 +238,22 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                     child: Material(
                       color: Colors.transparent,
                       child: Container(
-                        width: 250,
+                        width: screenWidth * 0.6,
                         decoration: BoxDecoration(
                           color: Color(0xFF353E55),
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(color: Color(0xFF353E55)),
                         ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.07,
+                            vertical: screenHeight * 0.02),
                         child: Center(
                           child: Text(
                             'Sign Up',
                             style: TextStyle(
                               fontFamily: 'AvenirNextCyr',
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: screenWidth * 0.05,
                               color: Color(0xFFF9B514),
                             ),
                           ),
