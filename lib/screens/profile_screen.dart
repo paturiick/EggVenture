@@ -1,4 +1,4 @@
-import 'package:eggventure/screens_farmer/home_screen_farmer.dart';
+import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/overlay_screens/menu_screen.dart';
@@ -38,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomeScreenFarmer()),
+                  MaterialPageRoute(builder: (context) => ShopInformationScreen()),
                 );
             
                 // Add your start selling action here

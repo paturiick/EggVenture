@@ -72,7 +72,7 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarWidgetFarmer> {
             color: _selectedIndex == 2 ? Color(0xFFF9B514) : Color(0xFF353E55),
             
           ),
-          label: 'Add Product',  
+          label: '',  
         ),
         BottomNavigationBarItem(
           icon: Icon(
