@@ -250,99 +250,108 @@ class _WfScreenState extends State<WfScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: ClipRect(
-          child: BottomAppBar(
-            color: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 60, // Reduced height
-                    color: Color(0xFF353E55),
-                    child: TextButton(
-                      onPressed: () {
-                        // Handle Chat Now action
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(AntDesign.message_outline,
-                              color: Colors.white, size: 17),
-                          SizedBox(height: 5),
-                          Flexible(
-                            child: Text(
-                              "Chat Now",
-                              style: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 60, // Reduced height
-                    color: Color(0xFF353E55),
-                    child: TextButton(
-                      onPressed: () {
-                        // Handle Add to Tray action
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            AntDesign.inbox_outline,
-                            color: Colors.white,
-                            size: 18,
-                          ),
-                          SizedBox(height: 5),
-                          Flexible(
-                            child: Text(
-                              "Add to Tray",
-                              style: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 60, // Reduced height
-                    color: Colors.yellow[700],
-                    child: TextButton(
-                      onPressed: () {
-                        // Handle Buy Now action
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "Buy Now",
-                              style: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF353E55)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        
+        // gi container lng nako sha instead of bottomAppBar kay naay padding daan ang bottomAppBar
+        // bottomNavigationBar: Container(
+        //   decoration: BoxDecoration(
+        //     color: Color(0xFF353E55)
+        //   ),
+        //   height: 60,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //     children: [
+        //       Expanded(
+        //         child: Container(
+        //         child:  TextButton(
+        //             onPressed: null,
+        //             child: Column(
+        //               mainAxisSize: MainAxisSize.min,
+        //                children: [
+        //                   Icon(AntDesign.message_outline,
+        //                       color: Colors.white, size: 17),
+        //                   SizedBox(height: 5),
+        //                   Flexible(
+        //                     child: Text(
+        //                       "Chat Now",
+        //                       style: TextStyle(
+        //                           fontFamily: 'AvenirNextCyr',
+        //                           color: Colors.white),
+        //                     ),
+        //                   ),
+        //                 ],
+        //             ),
+        //           ),
+        //       ),
+        //       ),
+
+        //       Expanded(
+        //         child: Container(
+        //           decoration: BoxDecoration(
+        //             border: Border(
+        //               left: BorderSide(
+        //                 width: 1,
+        //                 color: Colors.white
+        //               )
+        //             )
+        //           ),
+        //         child: TextButton(
+        //               onPressed: () {
+        //                 // Handle Add to Tray action
+        //               },
+        //               child: Column(
+        //                 mainAxisSize: MainAxisSize.min,
+        //                 children: [
+        //                   Icon(
+        //                     AntDesign.inbox_outline,
+        //                     color: Colors.white,
+        //                     size: 18,
+        //                   ),
+        //                   SizedBox(height: 5),
+        //                   Flexible(
+        //                     child: Text(
+        //                       "Add to Tray",
+        //                       style: TextStyle(
+        //                           fontFamily: 'AvenirNextCyr',
+        //                           color: Colors.white),
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
+        //       ),
+        //       ),
+
+        //      Expanded(
+        //       child: Container(
+        //         decoration: BoxDecoration(
+        //           color: Colors.yellow[700],
+        //         ),
+        //         child: TextButton(
+        //           onPressed: () {
+        //             // Handle Buy Now action
+        //           },
+        //           child: Column(
+        //             mainAxisAlignment: MainAxisAlignment.center,
+        //             children: [
+        //               Flexible(
+        //                 child: Text(
+        //                   "Buy Now",
+        //                   style: TextStyle(
+        //                     fontFamily: 'AvenirNextCyr',
+        //                     fontSize: 17,
+        //                     fontWeight: FontWeight.bold,
+        //                     color: Color(0xFF353E55),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }

@@ -26,7 +26,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
           children: [
             // Background image with drop shadow (top)
             Positioned(
-              top: screenHeight * 0.07, // Adjusted relative to screen height
+              top: 0.07, // Adjusted relative to screen height
               child: Container(
                 width: screenWidth * 0.9, // 90% of the screen width
                 height: screenHeight * 0.5, // 50% of the screen height

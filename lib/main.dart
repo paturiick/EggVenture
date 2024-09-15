@@ -1,6 +1,7 @@
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/splash_screen.dart';
 import 'package:eggventure/store_screen/wf_screen.dart';
+import 'package:eggventure/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       routes: AppRoutes.define(),
       theme: ThemeData(
           fontFamily: 'AvenirNextCyr', scaffoldBackgroundColor: Colors.white),
-      home: WfScreen(),
+      home: WelcomeScreen(),
     );
   }
 }
