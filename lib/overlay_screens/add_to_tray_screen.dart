@@ -1,35 +1,27 @@
 import 'package:flutter/material.dart';
 
-class AddToCartScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+class AddToTrayScreen {
+  static void showAddToTrayScreen(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Container(
-              color: Colors.black.withOpacity(0.5),
-            ),
-          ),
-          DraggableScrollableSheet(
-            initialChildSize: 0.5,
-            minChildSize: 0.4,
-            maxChildSize: 0.9,
-            builder: (context, scrollController) {
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          maxChildSize: 0.6,
+          minChildSize: 0.4,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
                 ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
                       child: Container(
@@ -42,24 +34,18 @@ class AddToCartScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      "Select Your Egg Trays",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Color(0xFF353E55),
-                      ),
-                    ),
-                    SizedBox(height: 20),
                     Expanded(
                       child: ListView(
                         controller: scrollController,
                         children: [
-                          _buildCartItem(context, "Small Egg Tray", "P 140"),
-                          _buildCartItem(context, "Medium Egg Tray", "P 160"),
-                          _buildCartItem(context, "Large Egg Tray", "P 180"),
-                          _buildCartItem(context, "XL Egg Tray", "P 200"),
-                          _buildCartItem(context, "Jumbo Egg Tray", "P 220"),
+                          _buildTrayItem(context, "Small Egg Tray", "P 140",
+                              "assets/browse store/small_eggs.jpg"),
+                          _buildTrayItem(context, "Medium Egg Tray", "P 160",
+                              "assets/browse store/medium_eggs.jpg"),
+                          _buildTrayItem(context, "Large Egg Tray", "P 180",
+                              "assets/browse store/large_eggs.jpeg"),
+                          _buildTrayItem(context, "XL Egg Tray", "P 200",
+                              "assets/browse store/xl_eggs.jpg"),
                         ],
                       ),
                     ),
@@ -76,7 +62,7 @@ class AddToCartScreen extends StatelessWidget {
                             side: BorderSide(color: Colors.red),
                             backgroundColor: Colors.white,
                             padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
+                                horizontal: 30, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -96,7 +82,7 @@ class AddToCartScreen extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFFFFB612),
                             padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
+                                horizontal: 30, vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -113,15 +99,17 @@ class AddToCartScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
-  Widget _buildCartItem(BuildContext context, String title, String price) {
+  // Function to build each item in the tray with an image, price, and increment counter
+  static Widget _buildTrayItem(
+      BuildContext context, String title, String price, String imagePath) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
@@ -132,6 +120,26 @@ class AddToCartScreen extends StatelessWidget {
               // Handle change
             },
           ),
+          Column(
+            children: [
+              Image.asset(
+                imagePath,
+                width: 50,
+                height: 50,
+                fit: BoxFit.fill,
+              ),
+              SizedBox(height: 5),
+              Text(
+                price,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFFFFB612),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(width: 20),
           Expanded(
             child: Text(
               title,
@@ -142,17 +150,51 @@ class AddToCartScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 10),
-          Text(
-            price,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.orange[700],
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          _buildCounter(),
         ],
       ),
+    );
+  }
+
+  // Widget to build the increment/decrement counter
+  static Widget _buildCounter() {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        int _count = 1;
+
+        return Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.remove),
+              color: Color(0xFF353E55),
+              onPressed: () {
+                if (_count > 1) {
+                  setState(() {
+                    _count--;
+                  });
+                }
+              },
+            ),
+            Text(
+              '$_count',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF353E55),
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.add),
+              color: Color(0xFFFFB612),
+              onPressed: () {
+                setState(() {
+                  _count++;
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

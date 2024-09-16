@@ -82,30 +82,44 @@ class MenuScreen {
   static Widget _buildLogoutButton(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(
-              vertical: 20), // Match padding with other buttons
-          backgroundColor: Colors.red,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10), // Match border radius
-            side: BorderSide(color: Colors.red, width: 10), // Enlarged border
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFFF5A5F),
+              Color(0xFFD73833),
+            ],
           ),
         ),
-        onPressed: () {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => SigninScreen()),
-            (Route<dynamic> route) => false,
-          );
-        },
-        child: Text(
-          title,
-          style: TextStyle(
+        child: ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 100),
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => SigninScreen()),
+              (Route<dynamic> route) => false,
+            );
+          },
+          icon: Icon(
+            Icons.logout, // Using the logout icon
+            color: Colors.white,
+          ),
+          label: Text(
+            title,
+            style: TextStyle(
               color: Colors.white,
               fontSize: 16,
-              fontFamily: 'AvenirNextCyr',
               fontWeight: FontWeight.bold,
-              backgroundColor: Colors.red),
+              fontFamily: 'AvenirNextCyr',
+            ),
+          ),
         ),
       ),
     );

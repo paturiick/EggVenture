@@ -206,7 +206,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             decoration: InputDecoration(
                               labelText: 'Email Address or Phone Number',
                               labelStyle: TextStyle(
-                                  fontSize: 11, color: Color(0xFF353E55)),
+                                  fontSize: 10, color: Color(0xFF353E55)),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: _isEmailFocused
@@ -243,7 +243,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             decoration: InputDecoration(
                               labelText: 'Password',
                               labelStyle: TextStyle(
-                                  fontSize: 11, color: Color(0xFF353E55)),
+                                  fontSize: 10, color: Color(0xFF353E55)),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: _isPasswordFocused

@@ -1,4 +1,4 @@
-import 'package:eggventure/overlay_screens/add_to_cart_screen.dart';
+import 'package:eggventure/overlay_screens/add_to_tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -288,10 +288,7 @@ class _SundoScreenState extends State<SundoScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddToCartScreen()));
+                      AddToTrayScreen.showAddToTrayScreen(context);
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

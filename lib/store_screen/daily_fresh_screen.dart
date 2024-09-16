@@ -1,3 +1,4 @@
+import 'package:eggventure/overlay_screens/add_to_tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -288,7 +289,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      // Handle Add to Tray action
+                      AddToTrayScreen.showAddToTrayScreen(context);
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
