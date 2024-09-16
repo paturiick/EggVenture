@@ -210,7 +210,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: _isEmailFocused
-                                      ? Color(0xFF353E55)
+                                      ? Color(0xFFF9B514)
                                       : Colors.grey,
                                 ),
                               ),
@@ -247,7 +247,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: _isPasswordFocused
-                                      ? Color(0xFF353E55)
+                                      ? Color(0xFFF9B514)
                                       : Colors.grey,
                                 ),
                               ),

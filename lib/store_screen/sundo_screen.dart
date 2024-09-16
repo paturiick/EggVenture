@@ -2,12 +2,12 @@ import 'package:eggventure/overlay_screens/add_to_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class WfScreen extends StatefulWidget {
+class SundoScreen extends StatefulWidget {
   @override
-  _WfScreenState createState() => _WfScreenState();
+  _SundoScreenState createState() => _SundoScreenState();
 }
 
-class _WfScreenState extends State<WfScreen> {
+class _SundoScreenState extends State<SundoScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -232,11 +232,10 @@ class _WfScreenState extends State<WfScreen> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage:
-                        AssetImage("assets/stores/white_feathers.jpg"),
+                    backgroundImage: AssetImage("assets/stores/sundo.png"),
                   ),
                   title: Text(
-                    "White Feathers Farm",
+                    "Sundo Farm",
                     style: TextStyle(
                       fontFamily: "AvenirNextCyr",
                       fontWeight: FontWeight.bold,

@@ -1,3 +1,8 @@
+import 'package:eggventure/store_screen/daily_fresh_screen.dart';
+import 'package:eggventure/store_screen/pabilona_screen.dart';
+import 'package:eggventure/store_screen/pelonio_screen.dart';
+import 'package:eggventure/store_screen/sundo_screen.dart';
+import 'package:eggventure/store_screen/vista_screen.dart';
 import 'package:eggventure/store_screen/wf_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -6,64 +11,69 @@ import 'package:eggventure/widgets/navigation_bar.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  final List<Map<String, String>> stores = [
+  // Store list with their respective screens
+  final List<Map<String, dynamic>> stores = [
     {
       'image': 'assets/stores/vista.jpg',
       'name': 'Vista',
       'hours': '8am - 5pm',
-      'days': 'Mon - Sat'
+      'days': 'Mon - Sat',
+      'screen': VistaScreen(),
     },
     {
       'image': 'assets/stores/pelonio.png',
       'name': 'Pelonio',
       'hours': '8am - 5pm',
-      'days': 'Mon - Sat'
+      'days': 'Mon - Sat',
+      'screen': PelonioScreen(),
     },
     {
       'image': 'assets/stores/daily_fresh.jpg',
       'name': 'Daily Fresh',
       'hours': '8am - 5pm',
-      'days': 'Mon - Sat'
+      'days': 'Mon - Sat',
+      'screen': DailyFreshScreen(),
     },
     {
       'image': 'assets/stores/sundo.png',
       'name': 'Sundo',
       'hours': '8am - 5pm',
-      'days': 'Mon - Sat'
+      'days': 'Mon - Sat',
+      'screen': SundoScreen(),
     },
     {
       'image': 'assets/stores/pabilona.jpg',
       'name': 'Pabilona',
       'hours': '8am - 5pm',
-      'days': 'Mon - Sat'
+      'days': 'Mon - Sat',
+      'screen': PabilonaScreen(),
     },
-    // Add more stores here if needed
   ];
 
-  final List<Map<String, String>> populars = [
+  final List<Map<String, dynamic>> populars = [
     {
       'image': 'assets/stores/white_feathers.jpg',
       'name': 'White Feathers Farm',
       'hours': '8am - 5pm',
-      'days': 'Mon - Sat'
+      'days': 'Mon - Sat',
+      'screen': WfScreen(),
     },
     {
       'image': 'assets/stores/pabilona_duck.jpg',
       'name': 'Pabilona Duck Farm',
       'hours': '8am - 5pm',
-      'days': 'Mon - Sat'
-    }
+      'days': 'Mon - Sat',
+      'screen': PabilonaScreen(),
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        // To enable scrolling if content overflows
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Align children to the start
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
               child: Padding(
@@ -151,7 +161,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: 250, // Define a height for the grid
+              height: 250,
               child: GridView.builder(
                 padding: EdgeInsets.zero,
                 physics: NeverScrollableScrollPhysics(),
@@ -167,6 +177,7 @@ class HomeScreen extends StatelessWidget {
                     popular['name']!,
                     popular['hours']!,
                     popular['days']!,
+                    popular['screen'], // Pass the screen for navigation
                   );
                 },
               ),
@@ -185,8 +196,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: MediaQuery.sizeOf(context).height *
-                  1.1, // Define a height for the grid
+              height: MediaQuery.sizeOf(context).height * 1.1,
               child: GridView.builder(
                 padding: EdgeInsets.zero,
                 physics: NeverScrollableScrollPhysics(),
@@ -202,6 +212,7 @@ class HomeScreen extends StatelessWidget {
                     store['name']!,
                     store['hours']!,
                     store['days']!,
+                    store['screen'], // Pass the screen for navigation
                   );
                 },
               ),
@@ -213,18 +224,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Helper method to build each store item with rounded edges and opening times
   Widget _buildStoreItem(BuildContext context, String imagePath, String title,
-      String time, String days) {
+      String time, String days, Widget screen) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WfScreen(),
+            builder: (context) => screen, // Navigate to the respective screen
           ),
         );
-        // Add more navigation logic for other items if needed
       },
       child: Container(
         padding: EdgeInsets.all(8.0),
@@ -236,46 +245,38 @@ class HomeScreen extends StatelessWidget {
               height: 150,
               decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.black),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  imagePath,
-                  width: 150,
-                  height: 150,
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: AssetImage(imagePath),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 10),
             Text(
               title,
-              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'AvenirNextCyr',
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
                 color: Color(0xFF353E55),
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               time,
               style: TextStyle(
                 fontFamily: 'AvenirNextCyr',
-                fontWeight: FontWeight.w500,
-                fontSize: 12,
-                color: Color(0xFF707070),
+                fontSize: 14,
+                color: Colors.grey,
               ),
             ),
             Text(
               days,
               style: TextStyle(
                 fontFamily: 'AvenirNextCyr',
-                fontWeight: FontWeight.w500,
-                fontSize: 12,
-                color: Color(0xFF707070),
+                fontSize: 14,
+                color: Colors.grey,
               ),
             ),
           ],

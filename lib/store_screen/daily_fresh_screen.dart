@@ -1,13 +1,12 @@
-import 'package:eggventure/overlay_screens/add_to_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class WfScreen extends StatefulWidget {
+class DailyFreshScreen extends StatefulWidget {
   @override
-  _WfScreenState createState() => _WfScreenState();
+  _DailyFreshScreenState createState() => _DailyFreshScreenState();
 }
 
-class _WfScreenState extends State<WfScreen> {
+class _DailyFreshScreenState extends State<DailyFreshScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -193,11 +192,11 @@ class _WfScreenState extends State<WfScreen> {
                     horizontal: screenWidth * 0.03, vertical: 4.0),
                 child: Row(
                   children: [
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
                     SizedBox(width: 5),
                     Flexible(
                       child: Text(
@@ -233,10 +232,10 @@ class _WfScreenState extends State<WfScreen> {
                 child: ListTile(
                   leading: CircleAvatar(
                     backgroundImage:
-                        AssetImage("assets/stores/white_feathers.jpg"),
+                        AssetImage("assets/stores/daily_fresh.jpg"),
                   ),
                   title: Text(
-                    "White Feathers Farm",
+                    "Daily Fresh Eggs",
                     style: TextStyle(
                       fontFamily: "AvenirNextCyr",
                       fontWeight: FontWeight.bold,
@@ -289,10 +288,7 @@ class _WfScreenState extends State<WfScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddToCartScreen()));
+                      // Handle Add to Tray action
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
