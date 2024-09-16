@@ -31,6 +31,15 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: label,
+          labelStyle: TextStyle(
+            fontFamily: 'AvenirNextCyr',
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF353E55),
+          ),
+        ),
+        style: TextStyle(
+          fontFamily: 'AvenirNextCyr',
+          color: Color(0xFF353E55),
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
@@ -52,7 +61,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
       ),
       child: Center(
         child: IconButton(
-          icon: Icon(Icons.add),
+          icon: Icon(Icons.add, color: Color(0xFF353E55)),
           onPressed: () {
             // Logic to add a profile picture
           },
@@ -64,7 +73,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   Widget _stepCircle(bool isActive) {
     return CircleAvatar(
       radius: 12,
-      backgroundColor: isActive ? Colors.orange : Colors.grey[300],
+      backgroundColor: isActive ? Color(0xFFF9B514) : Colors.grey[300],
       child: Icon(Icons.circle, color: Colors.white, size: 16),
     );
   }
@@ -84,7 +93,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
         automaticallyImplyLeading: false,
         title: Text(
           'Shop Information',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -100,12 +109,12 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
               },
               child: Text(
                 'Save',
-                style: TextStyle(color: Colors.orange),
+                style: TextStyle(color: Color(0xFFF9B514), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
               ),
             ),
           ),
         ],
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Color(0xFF353E55)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
@@ -131,12 +140,12 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                 children: [
                   Text(
                     'Shop Information',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
                   ),
                   SizedBox(width: 60), // Adjust the space between text
                   Text(
                     'Business Information',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -158,7 +167,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     SizedBox(height: 10),
                     Text(
                       'Insert Profile Picture',
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: Colors.grey, fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -181,12 +190,12 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      side: BorderSide(color: Colors.orange),
+                      side: BorderSide(color: Color(0xFFF9B514)),
                       padding: EdgeInsets.symmetric(horizontal: 95),
                     ),
                     child: Text(
                       'Back',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
                     ),
                   ),
                   ElevatedButton(
@@ -201,12 +210,12 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Color(0xFFF9B514),
                       padding: EdgeInsets.symmetric(horizontal: 95),
                     ),
                     child: Text(
                       'Next',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

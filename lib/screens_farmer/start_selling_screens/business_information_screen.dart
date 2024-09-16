@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart'; // Import your ShopInformationScreen
-import 'package:eggventure/screens_farmer/profile_screen_farmer.dart'; // Import your HomeScreenFarmer
+import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
+import 'package:eggventure/screens_farmer/profile_screen_farmer.dart';
 
 class BusinessInformationScreen extends StatefulWidget {
   @override
@@ -9,8 +9,8 @@ class BusinessInformationScreen extends StatefulWidget {
 }
 
 class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
-  String _sellerType = 'Sole Proprietorship'; // Default seller type
-  String? _fileName; // Selected file name
+  String _sellerType = 'Sole Proprietorship';
+  String? _fileName;
 
   final _formKey = GlobalKey<FormState>();
   final _registeredNameController = TextEditingController();
@@ -30,7 +30,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Business Information", style: TextStyle(color: Colors.black)),
+        title: Text("Business Information", style: TextStyle(color: Color(0xFF353E55))),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -39,7 +39,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
             onPressed: () {
               // Handle Save action
             },
-            child: Text("Save", style: TextStyle(color: Colors.orange)),
+            child: Text("Save", style: TextStyle(color: Color(0xFFF9B514))),
           ),
         ],
       ),
@@ -50,7 +50,6 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Stepper Indicator
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -68,29 +67,29 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                 children: [
                   Text(
                     'Shop Information',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
                   ),
-                  SizedBox(width: 60), // Adjust the space between text
+                  SizedBox(width: 60),
                   Text(
                     '     Business Information',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
                   ),
                 ],
               ),
               SizedBox(height: 20),
-
-              // Seller Type Selection
               _buildSellerTypeOptions(),
-
               SizedBox(height: 20),
-
-              // Registered Name Field
               TextFormField(
                 controller: _registeredNameController,
                 decoration: InputDecoration(
                   labelText: 'Registered Name',
                   hintText: 'Last Name, First Name (e.g. Sabuero, Joel)',
                   border: OutlineInputBorder(),
+                  labelStyle: TextStyle(
+                    fontFamily: 'AvenirNextCyr',
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF353E55),
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -100,9 +99,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                 },
               ),
               SizedBox(height: 20),
-
-              // BIR Certificate Upload
-              Text("BIR Certificate of Registration", style: TextStyle(fontSize: 16)),
+              Text("BIR Certificate of Registration", style: TextStyle(fontSize: 16, color: Color(0xFF353E55))),
               GestureDetector(
                 onTap: _pickFile,
                 child: Container(
@@ -122,18 +119,21 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                               Text("+Upload (0/1)", style: TextStyle(color: Colors.grey)),
                             ],
                           )
-                        : Text(_fileName!),
+                        : Text(_fileName!, style: TextStyle(color: Color(0xFF353E55))),
                   ),
                 ),
               ),
               SizedBox(height: 20),
-
-              // Business Name / Trade Name Field
               TextFormField(
                 controller: _businessNameController,
                 decoration: InputDecoration(
                   labelText: 'Business Name',
                   border: OutlineInputBorder(),
+                  labelStyle: TextStyle(
+                    fontFamily: 'AvenirNextCyr',
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF353E55),
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -143,7 +143,6 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                 },
               ),
               SizedBox(height: 20),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -152,18 +151,18 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ShopInformationScreen(), // Navigate to ShopInformationScreen
+                          builder: (context) => ShopInformationScreen(),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      side: BorderSide(color: Colors.orange),
+                      side: BorderSide(color: Color(0xFFF9B514)),
                       padding: EdgeInsets.symmetric(horizontal: 90),
                     ),
                     child: Text(
                       'Back',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Color(0xFF353E55)),
                     ),
                   ),
                   ElevatedButton(
@@ -172,13 +171,13 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProfileScreenFarmer(), // Navigate to HomeScreenFarmer
+                            builder: (context) => ProfileScreenFarmer(),
                           ),
                         );
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Color(0xFFF9B514),
                       padding: EdgeInsets.symmetric(horizontal: 90),
                     ),
                     child: Text(
@@ -199,13 +198,13 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.orange),
+        border: Border.all(color: Color(0xFFF9B514)),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
           RadioListTile(
-            title: Text("Sole Proprietorship"),
+            title: Text("Sole Proprietorship", style: TextStyle(color: Color(0xFF353E55))),
             value: 'Sole Proprietorship',
             groupValue: _sellerType,
             onChanged: (String? value) {
@@ -215,7 +214,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
             },
           ),
           RadioListTile(
-            title: Text("Partnership / Corporation"),
+            title: Text("Partnership / Corporation", style: TextStyle(color: Color(0xFF353E55))),
             value: 'Partnership / Corporation',
             groupValue: _sellerType,
             onChanged: (String? value) {
@@ -229,24 +228,10 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
     );
   }
 
-  Widget _buildButton(String text, Color color, VoidCallback onPressed) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        minimumSize: Size(120, 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      child: Text(text, style: TextStyle(color: Colors.white)),
-    );
-  }
-
   Widget _stepCircle(bool isActive) {
     return CircleAvatar(
       radius: 12,
-      backgroundColor: isActive ? Colors.orange : Colors.grey[300],
+      backgroundColor: isActive ? Color(0xFFF9B514) : Colors.grey[300],
       child: Icon(Icons.check, color: Colors.white, size: 16),
     );
   }
@@ -255,7 +240,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
     return Container(
       height: 2,
       width: 50,
-      color: Colors.orange,
+      color: Colors.grey,
     );
   }
 }

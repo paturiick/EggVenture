@@ -1,10 +1,7 @@
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/screens/home_screen.dart';
-import 'package:eggventure/screens/profile_screen.dart';
 import 'package:eggventure/screens_farmer/start_selling_screens/business_information_screen.dart';
 import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
 import 'package:eggventure/splash_screen.dart';
-import 'package:eggventure/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
