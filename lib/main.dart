@@ -1,7 +1,5 @@
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/screens_farmer/start_selling_screens/business_information_screen.dart';
-import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
-import 'package:eggventure/splash_screen.dart';
+import 'package:eggventure/screens_farmer/order_screen_farmer.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           fontFamily: 'AvenirNextCyr', scaffoldBackgroundColor: Colors.white,),
           
-      home: SplashScreen(),
+      home: OrderScreenFarmer(),
     );
   }
 }
