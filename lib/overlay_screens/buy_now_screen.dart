@@ -1,7 +1,8 @@
+import 'package:eggventure/overlay_screens/checkout_screen.dart';
 import 'package:flutter/material.dart';
 
-class AddToTrayScreen {
-  static void showAddToTrayScreen(BuildContext context) {
+class BuyNowScreen {
+  static void showBuyNowScreen(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -77,7 +78,7 @@ class AddToTrayScreen {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Handle the Add to Cart functionality here
+                            CheckoutScreen.showCheckOutScreen(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFFFFB612),
@@ -88,7 +89,7 @@ class AddToTrayScreen {
                             ),
                           ),
                           child: Text(
-                            'Add To Tray',
+                            'Proceed',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF353E55),

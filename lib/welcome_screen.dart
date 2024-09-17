@@ -24,12 +24,11 @@ class _OnboardingViewState extends State<WelcomeScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Background image with drop shadow (top)
             Positioned(
-              top: 0.07, // Adjusted relative to screen height
+              top: 0.08, // Adjusted relative to screen height
               child: Container(
-                width: screenWidth * 0.9, // 90% of the screen width
-                height: screenHeight * 0.5, // 50% of the screen height
+                width: screenWidth * 1,
+                height: screenHeight * 0.53,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                   boxShadow: [
@@ -48,15 +47,15 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                     children: [
                       Image.asset(
                         'assets/BG Home - EggVenture.png',
-                        width: screenWidth * 0.9,
-                        height: screenHeight * 0.5,
+                        width: screenWidth * 1,
+                        height: screenHeight * 1,
                         fit: BoxFit.cover,
                       ),
                       BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                         child: Container(
-                          width: screenWidth * 0.9,
-                          height: screenHeight * 0.5,
+                          width: screenWidth * 1,
+                          height: screenHeight * 1,
                           color: Colors.transparent,
                         ),
                       ),
@@ -74,7 +73,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                   children: [
                     Image.asset(
                       'assets/Bottom BG.jpeg',
-                      width: screenWidth * 0.9, // Responsive width
+                      width: screenWidth * 1, // Responsive width
                       height: screenHeight * 0.3, // Responsive height
                       fit: BoxFit.fill,
                     ),
@@ -98,9 +97,9 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                 children: [
                   Image.asset(
                     'assets/Eggventure.png',
-                    width: screenWidth * 0.4, // Scaled relative to screen width
+                    width: screenWidth * 0.6, // Scaled relative to screen width
                     height: screenWidth *
-                        0.4, // Make the height proportional to width
+                        0.5, // Make the height proportional to width
                     fit: BoxFit.contain,
                   ),
                   RichText(
@@ -112,7 +111,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                             fontFamily: 'AvenirNextCyr',
                             fontWeight: FontWeight.w700,
                             fontSize:
-                                screenWidth * 0.12, // Responsive font size
+                                screenWidth * 0.14, // Responsive font size
                             color: Color(0xFFF9B514),
                           ),
                         ),
@@ -121,7 +120,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
                             fontWeight: FontWeight.w700,
-                            fontSize: screenWidth * 0.09,
+                            fontSize: screenWidth * 0.12,
                             color: Color(0xFFFFFFFF),
                           ),
                         ),
@@ -130,7 +129,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
                             fontWeight: FontWeight.w700,
-                            fontSize: screenWidth * 0.12,
+                            fontSize: screenWidth * 0.14,
                             color: Color(0xFFF9B514),
                           ),
                         ),
@@ -139,14 +138,15 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
                             fontWeight: FontWeight.bold,
-                            fontSize: screenWidth * 0.09,
+                            fontSize: screenWidth * 0.12,
                             color: Color(0xFFFFFFFF),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.01), // Responsive spacing
+                  SizedBox(
+                      height: screenHeight * 0.02), // Increased spacing here
                   Column(
                     children: [
                       Text(

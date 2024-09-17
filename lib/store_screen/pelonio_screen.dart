@@ -1,4 +1,5 @@
 import 'package:eggventure/overlay_screens/add_to_tray_screen.dart';
+import 'package:eggventure/overlay_screens/buy_now_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -319,7 +320,7 @@ class _PelonioScreenState extends State<PelonioScreen> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      // Handle Buy Now action
+                      BuyNowScreen.showBuyNowScreen(context);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
