@@ -8,17 +8,14 @@ import 'package:eggventure/widgets/navigation_bar.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Set the status bar color and icon brightness here
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // Set your desired status bar color
-      statusBarIconBrightness:
-          Brightness.dark, // Dark icons for light status bar
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
     ));
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        statusBarColor: Colors.white, // White status bar color
-        statusBarIconBrightness: Brightness.dark, // Dark icons
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark,
       ),
       child: SafeArea(
         child: Scaffold(
