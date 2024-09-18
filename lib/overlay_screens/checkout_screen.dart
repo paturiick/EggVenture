@@ -128,29 +128,34 @@ class CheckoutScreen {
                       height: 50,
                     ),
                     Center(
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            PickupDeliveryScreen.showPickupDeliveryScreen(
-                                context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF353E55),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                PickupDeliveryScreen.showPickupDeliveryScreen(
+                                    context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF353E55),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              child: Text(
+                                "Checkout",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Color(0xFFFFB612),
+                                ),
+                              ),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 16),
                           ),
-                          child: Text(
-                            "Proceed to Checkout",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Color(0xFFFFB612),
-                            ),
-                          ),
-                        ),
+                        ],
                       ),
                     ),
                   ],

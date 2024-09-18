@@ -1,5 +1,6 @@
 import 'package:eggventure/overlay_screens/add_to_tray_screen.dart';
 import 'package:eggventure/overlay_screens/buy_now_screen.dart';
+import 'package:eggventure/screens/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -22,19 +23,19 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
   final Map<String, Map<String, String>> productDetails = {
     "assets/browse store/small_eggs.jpg": {
       "price": "P 140",
-      "name": "Small Egg Tray",
+      "name": "Small Duck Eggs",
     },
     "assets/browse store/medium_eggs.jpg": {
       "price": "P 180",
-      "name": "Medium Egg Tray",
+      "name": "Medium Duck Eggs",
     },
     "assets/browse store/large_eggs.jpeg": {
       "price": "P 220",
-      "name": "Large Egg Tray",
+      "name": "Large Duck Eggs",
     },
     "assets/browse store/xl_eggs.jpg": {
       "price": "P 250",
-      "name": "XL Egg Tray",
+      "name": "XL Duck Egg",
     },
   };
 
@@ -46,7 +47,7 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Color(0xFF353E55)),
@@ -58,7 +59,8 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
             IconButton(
               icon: Icon(AntDesign.inbox_outline, color: Color(0xFF353E55)),
               onPressed: () {
-                // Navigate to TrayScreen
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TrayScreen()));
               },
             ),
             IconButton(
@@ -317,7 +319,7 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.yellow[700],
+                    color: Color(0xFFF9B514),
                   ),
                   child: TextButton(
                     onPressed: () {
@@ -365,7 +367,7 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
         child: Container(
           decoration: BoxDecoration(
             border: isSelected
-                ? Border.all(color: Colors.yellow, width: 2)
+                ? Border.all(color: Color(0xFFF9B514), width: 2)
                 : Border.all(color: Colors.transparent),
             borderRadius: BorderRadius.circular(8),
           ),

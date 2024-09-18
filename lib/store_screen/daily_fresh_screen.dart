@@ -1,5 +1,6 @@
 import 'package:eggventure/overlay_screens/add_to_tray_screen.dart';
 import 'package:eggventure/overlay_screens/buy_now_screen.dart';
+import 'package:eggventure/screens/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -46,7 +47,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Color(0xFF353E55)),
@@ -58,7 +59,8 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
             IconButton(
               icon: Icon(AntDesign.inbox_outline, color: Color(0xFF353E55)),
               onPressed: () {
-                // Navigate to TrayScreen
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TrayScreen()));
               },
             ),
             IconButton(
@@ -317,7 +319,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.yellow[700],
+                    color: Color(0xFFF9B514),
                   ),
                   child: TextButton(
                     onPressed: () {
@@ -365,7 +367,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
         child: Container(
           decoration: BoxDecoration(
             border: isSelected
-                ? Border.all(color: Colors.yellow, width: 2)
+                ? Border.all(color: Color(0xFFF9B514), width: 2)
                 : Border.all(color: Colors.transparent),
             borderRadius: BorderRadius.circular(8),
           ),

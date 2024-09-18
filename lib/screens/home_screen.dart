@@ -11,7 +11,6 @@ import 'package:eggventure/widgets/navigation_bar.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  // Store list with their respective screens
   final List<Map<String, dynamic>> stores = [
     {
       'image': 'assets/stores/vista.jpg',

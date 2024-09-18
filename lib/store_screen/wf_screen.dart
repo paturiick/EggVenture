@@ -1,11 +1,14 @@
 import 'package:eggventure/overlay_screens/add_to_tray_screen.dart';
 import 'package:eggventure/overlay_screens/buy_now_screen.dart';
+import 'package:eggventure/screens/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class WfScreen extends StatefulWidget {
+  const WfScreen({super.key});
+
   @override
-  _WfScreenState createState() => _WfScreenState();
+  State<WfScreen> createState() => _WfScreenState();
 }
 
 class _WfScreenState extends State<WfScreen> {
@@ -46,7 +49,7 @@ class _WfScreenState extends State<WfScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Color(0xFF353E55)),
@@ -58,7 +61,8 @@ class _WfScreenState extends State<WfScreen> {
             IconButton(
               icon: Icon(AntDesign.inbox_outline, color: Color(0xFF353E55)),
               onPressed: () {
-                // Navigate to TrayScreen
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TrayScreen()));
               },
             ),
             IconButton(
@@ -194,11 +198,11 @@ class _WfScreenState extends State<WfScreen> {
                     horizontal: screenWidth * 0.03, vertical: 4.0),
                 child: Row(
                   children: [
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
-                    Icon(Icons.star, color: Color(0xFFF9B514), size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
+                    Icon(Icons.star, color: Colors.yellow, size: 20),
                     SizedBox(width: 5),
                     Flexible(
                       child: Text(
@@ -317,7 +321,7 @@ class _WfScreenState extends State<WfScreen> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.yellow[700],
+                    color: Color(0xFFF9B514),
                   ),
                   child: TextButton(
                     onPressed: () {
@@ -365,7 +369,7 @@ class _WfScreenState extends State<WfScreen> {
         child: Container(
           decoration: BoxDecoration(
             border: isSelected
-                ? Border.all(color: Colors.yellow, width: 2)
+                ? Border.all(color: Color(0xFFF9B514), width: 2)
                 : Border.all(color: Colors.transparent),
             borderRadius: BorderRadius.circular(8),
           ),
