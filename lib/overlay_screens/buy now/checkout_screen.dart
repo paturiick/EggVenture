@@ -1,4 +1,4 @@
-import 'package:eggventure/overlay_screens/pickup_delivery_screen.dart';
+import 'package:eggventure/overlay_screens/buy%20now/pickup_delivery_screen.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutScreen {

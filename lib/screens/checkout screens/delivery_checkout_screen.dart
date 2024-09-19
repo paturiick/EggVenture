@@ -20,7 +20,6 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
     return Scaffold(
       body: Column(
         children: [
-          // AppBar with custom shadow below it
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -29,13 +28,13 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 5,
-                  offset: Offset(0, 3), // changes position of shadow
+                  offset: Offset(0, 3),
                 ),
               ],
             ),
             child: AppBar(
               backgroundColor: Colors.white,
-              elevation: 0, // Remove default AppBar shadow
+              elevation: 0,
               centerTitle: true,
               title: Text(
                 "Checkout",
@@ -147,7 +146,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                             "Terms and Conditions",
                             style: TextStyle(
                               fontSize: screenWidth * 0.04,
-                              color: Color(0xFFF9B514),
+                              color: Color(0xFF353E55),
                               fontWeight: FontWeight.bold,
                             ),
                           ),

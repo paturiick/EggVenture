@@ -40,51 +40,71 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Color(0xFF353E55)),
-            onPressed: () {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-              }
-            },
-          ),
-          title: Text(
-            "Pick-Up",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-              color: Color(0xFF353E55),
+        body: Column(
+          children: [
+            // Custom AppBar with shadow
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2), // Shadow color
+                    spreadRadius: 1, // Spread of the shadow
+                    blurRadius: 5, // Blur effect
+                    offset: Offset(0, 2), // Offset of the shadow
+                  ),
+                ],
+              ),
+              child: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0, // No built-in elevation
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Color(0xFF353E55)),
+                  onPressed: () {
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+                title: Text(
+                  "Pick-Up",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Color(0xFF353E55),
+                  ),
+                ),
+                centerTitle: true,
+              ),
             ),
-          ),
-          centerTitle: true, // Center the title
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSectionTitle("Store Address"),
-              const SizedBox(height: 8),
-              _buildAddressInput(context),
-              const SizedBox(height: 20),
-              _buildSectionTitle("Pick-up Date"),
-              const SizedBox(height: 8),
-              _buildDatePicker(context),
-              const SizedBox(height: 20),
-              _buildSectionTitle("Pick-up Time"),
-              const SizedBox(height: 8),
-              _buildTimePicker(context),
-              const SizedBox(height: 40),
-              _buildTotalPrice(),
-              const SizedBox(height: 8),
-              _buildTermsAndConditions(),
-              const Spacer(),
-              _buildConfirmButton(context),
-            ],
-          ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildSectionTitle("Store Address"),
+                    const SizedBox(height: 8),
+                    _buildAddressInput(context),
+                    const SizedBox(height: 20),
+                    _buildSectionTitle("Pick-up Date"),
+                    const SizedBox(height: 8),
+                    _buildDatePicker(context),
+                    const SizedBox(height: 20),
+                    _buildSectionTitle("Pick-up Time"),
+                    const SizedBox(height: 8),
+                    _buildTimePicker(context),
+                    const SizedBox(height: 40),
+                    _buildTotalPrice(),
+                    const SizedBox(height: 8),
+                    _buildTermsAndConditions(),
+                    const Spacer(),
+                    _buildConfirmButton(context),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -164,31 +184,93 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
   }
 
   Widget _buildTimePicker(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.grey.shade200,
-        contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide.none,
-        ),
-      ),
-      value: _selectedTime,
-      hint: Text("ASAP",
-          style: TextStyle(fontSize: 16, color: Color(0xFF353E55))),
-      items: _times.map((String time) {
-        return DropdownMenuItem<String>(
-          value: time,
-          child: Text(time,
-              style: TextStyle(fontSize: 16, color: Color(0xFF353E55))),
-        );
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          _selectedTime = value;
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            String? tempSelectedTime = _selectedTime;
+            return Container(
+              height: 300,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListWheelScrollView(
+                      itemExtent: 50.0,
+                      physics: FixedExtentScrollPhysics(),
+                      onSelectedItemChanged: (int index) {
+                        tempSelectedTime = _times[index];
+                      },
+                      children: _times.map((String time) {
+                        return Center(
+                          child: Text(
+                            time,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: Color(0xFF353E55),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedTime = tempSelectedTime;
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 15.0, horizontal: 25),
+                      child: Text(
+                        'Done',
+                        style: TextStyle(
+                          color: Color(0xFF353E55),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFF9B514),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            );
+          },
+        ).whenComplete(() {
+          if (_selectedTime == null) {
+            setState(() {
+              _selectedTime = "Select a time";
+            });
+          }
         });
       },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              _selectedTime ?? "Select a time",
+              style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
+            ),
+            Icon(Icons.arrow_drop_down, color: Colors.grey),
+          ],
+        ),
+      ),
     );
   }
 
@@ -241,8 +323,8 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
               "Terms and Conditions",
               style: TextStyle(
                 fontSize: 14,
+                fontWeight: FontWeight.bold,
                 color: Color(0xFF353E55),
-                decoration: TextDecoration.underline,
               ),
             ),
           ),
@@ -255,20 +337,25 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
+        onPressed: () {
+          // Handle order confirmation
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15.0),
+          child: Text(
+            'Confirm',
+            style: TextStyle(
+              color: Color(0xFF353E55),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFFF9B514),
-          padding: EdgeInsets.symmetric(vertical: 16.0),
-        ),
-        onPressed: () {
-          String userAddress = _addressController.text;
-          print('Selected address: $userAddress');
-        },
-        child: Text(
-          "Confirm Pick-up Date",
-          style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF353E55)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       ),
     );
