@@ -1,3 +1,5 @@
+import 'package:eggventure/screens/checkout%20screens/delivery_checkout_screen.dart';
+import 'package:eggventure/screens/checkout%20screens/pickup_checkout_screen.dart';
 import 'package:flutter/material.dart';
 
 class PickupDeliveryScreen {
@@ -43,7 +45,11 @@ class PickupDeliveryScreen {
                         children: [
                           ElevatedButton(
                               onPressed: () {
-                                //Delivery Navigation
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DeliveryCheckoutScreen()));
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Color(0xFF353E55),
@@ -62,7 +68,11 @@ class PickupDeliveryScreen {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                //Pickup Navigation
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PickupCheckoutScreen()));
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Color(0xFF353E55),
