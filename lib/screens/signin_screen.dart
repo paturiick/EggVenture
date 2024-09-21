@@ -116,7 +116,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     children: <Widget>[
                       Image.asset(
                         'assets/Eggventure.png',
-                        width: size.width * 0.2,
+                        width: size.width * 0.25,
                       ),
                       SizedBox(width: 10),
                       RichText(
@@ -127,7 +127,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               style: TextStyle(
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
-                                fontSize: 32,
+                                fontSize: size.width * 0.09,
                                 color: Color(0xFFF9B514),
                               ),
                             ),
@@ -136,7 +136,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               style: TextStyle(
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
-                                fontSize: 20,
+                                fontSize: size.width * 0.07,
                                 color: Color(0xFF353E55),
                               ),
                             ),
@@ -145,7 +145,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               style: TextStyle(
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
-                                fontSize: 32,
+                                fontSize: size.width * 0.09,
                                 color: Color(0xFFF9B514),
                               ),
                             ),
@@ -154,7 +154,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               style: TextStyle(
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
-                                fontSize: 20,
+                                fontSize: size.width * 0.07,
                                 color: Color(0xFF353E55),
                               ),
                             ),

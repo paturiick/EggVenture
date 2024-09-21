@@ -27,54 +27,72 @@ class _OrderScreenState extends State<OrderScreen>
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Column(
-            children: [
-              Text(
-                'Order History',
-                style: TextStyle(
-                  fontFamily: 'AvenirNextCyr',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  height: 1.2,
-                  color: Color(0xFF353E55),
-                ),
-              ),
-              SizedBox(height: 5),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: Color(0xFF353E55),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 3,
-                      blurRadius: 5,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          backgroundColor: Colors.white,
+          title: Text(
+            'Order History',
+            style: TextStyle(
+              fontFamily: 'AvenirNextCyr',
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: Color(0xFF353E55),
+            ),
           ),
           centerTitle: true,
-          backgroundColor: Colors.white,
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(30), // Reduced height of tab bar
-            child: TabBar(
-              controller: _tabController,
-              labelColor: Color(0xFFFFB612),
-              unselectedLabelColor: Color(0xFF353E55),
-              indicatorColor: Color(0xFFFFB612),
-              indicatorWeight: 1,
-              isScrollable: true,
-              labelPadding: EdgeInsets.symmetric(
-                  horizontal: 10), // Adjust this value to control gaps
-              tabs: [
-                Tab(text: 'All'),
-                Tab(text: 'Received'),
-                Tab(text: 'Pending'),
-                Tab(text: 'Cancelled'),
-              ],
+            preferredSize: Size.fromHeight(50),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: TabBar(
+                      controller: _tabController,
+                      labelColor: Color(0xFFFFB612),
+                      unselectedLabelColor: Colors.grey[600],
+                      indicatorColor: Color(0xFFFFB612),
+                      indicatorWeight: 4,
+                      labelPadding: EdgeInsets.only(right: 15, left: 4),
+                      tabs: [
+                        Tab(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text("All"),
+                          ),
+                        ),
+                        Tab(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 1),
+                            child: Text("Received"),
+                          ),
+                        ),
+                        Tab(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0.9),
+                            child: Text("Pending"),
+                          ),
+                        ),
+                        Tab(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 0.9),
+                            child: Text("Cancelled"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -96,7 +114,7 @@ class _OrderScreenState extends State<OrderScreen>
     return Center(
       child: Text(
         message,
-        style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
+        style: TextStyle(fontSize: 14, color: Color(0xFF353E55)),
       ),
     );
   }

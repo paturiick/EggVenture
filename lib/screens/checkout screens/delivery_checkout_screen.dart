@@ -117,13 +117,34 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                   ),
                   SizedBox(height: 10),
                   _buildPaymentMethod(
-                      "GCash", Icons.mobile_friendly, screenWidth),
+                    "GCash",
+                    Image.asset(
+                      "assets/icons/gcash.png",
+                      height: 24,
+                      width: 24,
+                    ),
+                    screenWidth,
+                  ),
                   _buildPaymentMethod(
-                      "PayMaya", Icons.credit_card, screenWidth),
+                    "PayMaya",
+                    Image.asset(
+                      "assets/icons/paymaya.png",
+                      height: 24,
+                      width: 24,
+                    ),
+                    screenWidth,
+                  ),
                   _buildPaymentMethod(
-                      "Credit or Debit Card", Icons.credit_card, screenWidth),
-                  _buildPaymentMethod("Cash on Delivery",
-                      Icons.delivery_dining_rounded, screenWidth),
+                    "Credit or Debit Card",
+                    Icon(Icons.credit_card, color: Color(0xFF353E55), size: 24),
+                    screenWidth,
+                  ),
+                  _buildPaymentMethod(
+                    "Cash on Delivery",
+                    Icon(Icons.delivery_dining_rounded,
+                        color: Color(0xFF353E55), size: 24),
+                    screenWidth,
+                  ),
                   _buildFullWidthDivider(),
                   _buildTotalPriceSection(screenWidth),
                   SizedBox(height: 20),
@@ -165,7 +186,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
     );
   }
 
-  Widget _buildPaymentMethod(String method, IconData icon, double screenWidth) {
+  Widget _buildPaymentMethod(String method, Widget icon, double screenWidth) {
     return RadioListTile<String>(
       activeColor: Color(0xFFF9B514),
       value: method,
@@ -177,9 +198,17 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
       },
       title: Text(
         method,
-        style: TextStyle(color: Color(0xFF353E55)),
+        style: TextStyle(
+          fontSize: screenWidth * 0.045,
+          fontWeight: FontWeight.w500,
+          color: Color(0xFF353E55),
+        ),
       ),
-      secondary: Icon(icon, color: Color(0xFF353E55)),
+      secondary: SizedBox(
+        height: 24,
+        width: 24,
+        child: Center(child: icon),
+      ),
     );
   }
 
@@ -221,7 +250,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                     color: Color(0xFFF9B514)),
               ),
               Text(
-                "P 190.00",
+                "Price Here",
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -252,7 +281,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
         style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFFF9B514),
           padding: EdgeInsets.symmetric(vertical: 15),
-          elevation: 0, // Set to 0 because the container already has shadow
+          elevation: 0,
         ),
         onPressed: () {
           // Handle place order action
@@ -264,7 +293,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
             style: TextStyle(
               fontSize: screenWidth * 0.05,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Color(0xFF353E55),
             ),
             textAlign: TextAlign.center,
           ),

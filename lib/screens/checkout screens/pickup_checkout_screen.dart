@@ -42,16 +42,15 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            // Custom AppBar with shadow
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2), // Shadow color
-                    spreadRadius: 1, // Spread of the shadow
-                    blurRadius: 5, // Blur effect
-                    offset: Offset(0, 2), // Offset of the shadow
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
                   ),
                 ],
               ),

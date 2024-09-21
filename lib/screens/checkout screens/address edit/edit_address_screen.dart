@@ -3,22 +3,42 @@ import 'package:flutter/material.dart';
 class EditAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          "Edit Address",
-          style: TextStyle(
-              color: Color(0xFF353E55),
-              fontSize: 30,
-              fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
+    return SafeArea(
+        child: Scaffold(
+      body: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  offset: Offset(0, 2),
+                  blurRadius: 5,
+                  spreadRadius: 5)
+            ]),
+            child: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Color(0xFF353E55),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              title: Text(
+                "Edit Address",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF353E55)),
+              ),
+              centerTitle: true,
+            ),
+          )
+        ],
       ),
-      body: Center(
-        child: Text("Address Editing Screen"),
-      ),
-    );
+    ));
   }
 }
