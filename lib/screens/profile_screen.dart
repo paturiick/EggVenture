@@ -172,8 +172,18 @@ class ProfileScreen extends StatelessWidget {
                               context, Icons.payment, 'To Pay', screenWidth),
                           _buildIconOption(context, AntDesign.sync_outline,
                               'Processing', screenWidth),
-                          _buildIconOption(context, Icons.rate_review, 'Review',
-                              screenWidth),
+                          _buildIconOption(
+                              context,
+                              Icons.rate_review,
+                              'Review',
+                              screenWidth, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProfileScreenReview()),
+                            );
+                          }),
                         ],
                       ),
                       SizedBox(height: screenHeight * 0.02),
@@ -200,7 +210,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileOption(BuildContext context, String text) {
+  Widget _buildProfileOption(
+      BuildContext context, String text, double screenWidth) {
     return ElevatedButton(
       onPressed: () {
         // Handle button press action here
@@ -227,16 +238,13 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIconOption(BuildContext context, IconData icon, String text) {
+  Widget _buildIconOption(BuildContext context, IconData icon, String text,
+      double screenWidth, [VoidCallback? onPressed]) {
     return ElevatedButton(
-      onPressed: () {
-        if (text == 'Review') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProfileScreenReview()),
-          );
-        }
-      },
+      onPressed: onPressed ??
+          () {
+            // Default action if no onPressed is provided
+          },
       style: ElevatedButton.styleFrom(
         foregroundColor: Color(0xFF353E55),
         backgroundColor: Colors.white,
@@ -267,7 +275,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusColumn(String label, String value) {
+  Widget _buildStatusColumn(String label, String value, double screenWidth) {
     return Column(
       children: [
         Text(
