@@ -149,7 +149,7 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
       {
         'product': 'Medium Egg Tray',
         'quantity': '1',
-        'price': '₱160',
+        'price': '160',
         'status': 'To Deliver',
         'user': '"Name of the Consumer"',
         'productImage': 'assets/browse store/medium_eggs.jpg',

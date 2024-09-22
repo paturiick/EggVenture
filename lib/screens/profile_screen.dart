@@ -1,3 +1,4 @@
+import 'package:eggventure/screens/profile_screen_review.dart';
 import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -170,8 +171,18 @@ class ProfileScreen extends StatelessWidget {
                               context, Icons.payment, 'To Pay', screenWidth),
                           _buildIconOption(context, AntDesign.sync_outline,
                               'Processing', screenWidth),
-                          _buildIconOption(context, Icons.rate_review, 'Review',
-                              screenWidth),
+                          _buildIconOption(
+                              context,
+                              Icons.rate_review,
+                              'Review',
+                              screenWidth, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProfileScreenReview()),
+                            );
+                          }),
                         ],
                       ),
                       SizedBox(height: screenHeight * 0.02),
@@ -226,12 +237,13 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIconOption(
-      BuildContext context, IconData icon, String text, double screenWidth) {
+  Widget _buildIconOption(BuildContext context, IconData icon, String text,
+      double screenWidth, [VoidCallback? onPressed]) {
     return ElevatedButton(
-      onPressed: () {
-        // Handle button press action here
-      },
+      onPressed: onPressed ??
+          () {
+            // Default action if no onPressed is provided
+          },
       style: ElevatedButton.styleFrom(
         foregroundColor: Color(0xFF353E55),
         backgroundColor: Colors.white,

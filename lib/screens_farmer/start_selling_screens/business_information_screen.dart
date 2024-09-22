@@ -69,7 +69,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     'Shop Information',
                     style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
                   ),
-                  SizedBox(width: 60),
+                  SizedBox(width: 45),
                   Text(
                     '     Business Information',
                     style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
@@ -158,7 +158,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       side: BorderSide(color: Color(0xFFF9B514)),
-                      padding: EdgeInsets.symmetric(horizontal: 90),
+                      padding: EdgeInsets.symmetric(horizontal: 65),
                     ),
                     child: Text(
                       'Back',
@@ -178,7 +178,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFF9B514),
-                      padding: EdgeInsets.symmetric(horizontal: 90),
+                      padding: EdgeInsets.symmetric(horizontal: 65),
                     ),
                     child: Text(
                       'Submit',
