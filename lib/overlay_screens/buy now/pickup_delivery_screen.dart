@@ -1,9 +1,13 @@
 import 'package:eggventure/screens/checkout%20screens/delivery_checkout_screen.dart';
 import 'package:eggventure/screens/checkout%20screens/pickup_checkout_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PickupDeliveryScreen {
   static void showPickupDeliveryScreen(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark));
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

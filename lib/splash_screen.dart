@@ -37,57 +37,56 @@ class _SplashScreenState extends State<SplashScreen>
         children: [
           Center(
             child: SizedBox(
-              width: 200, // Adjust width as needed
-              height: 200, // Adjust height as needed
+              width: 200,
+              height: 200,
               child: Image(
                 image: AssetImage('assets/Eggventure.png'),
-                fit: BoxFit.contain, // Adjust the fit as needed
+                fit: BoxFit.contain,
               ),
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding:
-                  const EdgeInsets.only(bottom: 20), // Adjust bottom padding
+              padding: const EdgeInsets.only(bottom: 20),
               child: RichText(
-                textAlign: TextAlign.center, // Center align text
+                textAlign: TextAlign.center,
                 text: TextSpan(
                   children: [
                     TextSpan(
                       text: 'E',
                       style: TextStyle(
                         fontFamily: 'AvenirNextCyr',
-                        fontWeight: FontWeight.w700, // Semibold weight
-                        color: Color(0xFFF9B514), // Color from the palette
-                        fontSize: 32, // Increased font size for 'E'
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFF9B514),
+                        fontSize: 32,
                       ),
                     ),
                     TextSpan(
                       text: 'GG',
                       style: TextStyle(
                         fontFamily: 'AvenirNextCyr',
-                        fontWeight: FontWeight.w700, // Semibold weight
+                        fontWeight: FontWeight.w700,
                         color: Color(0xFF353E55),
-                        fontSize: 20,
+                        fontSize: 26,
                       ),
                     ),
                     TextSpan(
                       text: 'V',
                       style: TextStyle(
                         fontFamily: 'AvenirNextCyr',
-                        fontWeight: FontWeight.w700, // Semibold weight
-                        color: Color(0xFFF9B514), // Color from the palette
-                        fontSize: 32, // Increased font size for 'V'
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFF9B514),
+                        fontSize: 32,
                       ),
                     ),
                     TextSpan(
                       text: 'ENTURE',
                       style: TextStyle(
                         fontFamily: 'AvenirNextCyr',
-                        fontWeight: FontWeight.w700, // Semibold weight
+                        fontWeight: FontWeight.w700,
                         color: Color(0xFF353E55),
-                        fontSize: 20,
+                        fontSize: 26,
                       ),
                     ),
                   ],

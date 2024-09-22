@@ -10,13 +10,26 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
   String selectedPaymentMethod = "GCash";
 
   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+    ));
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+    ));
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.dark));
-
     return Scaffold(
       body: Column(
         children: [
@@ -47,7 +60,13 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
               leading: IconButton(
                 icon: Icon(Icons.arrow_back, color: Color(0xFF353E55)),
                 onPressed: () {
-                  Navigator.pop(context);
+                  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                    statusBarColor: Colors.white,
+                    statusBarIconBrightness: Brightness.dark,
+                  ));
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  }
                 },
               ),
             ),

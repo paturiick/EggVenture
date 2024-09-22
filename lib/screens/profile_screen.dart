@@ -1,7 +1,6 @@
 import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/overlay_screens/menu_screen.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
@@ -58,9 +57,9 @@ class ProfileScreen extends StatelessWidget {
                           builder: (context) => ShopInformationScreen()),
                     );
                   },
-                  icon: SvgPicture.asset(
-                    "assets/icons/start_selling.svg",
-                    height: screenHeight * 0.02,
+                  icon: Image.asset(
+                    "assets/icons/start_selling.jpg",
+                    height: screenHeight * 0.03,
                   ),
                   label: Text(
                     'Start Selling',
@@ -108,7 +107,7 @@ class ProfileScreen extends StatelessWidget {
                             child: Icon(
                               Icons.add_a_photo,
                               color: Color(0xFF353E55),
-                              size: screenWidth * 0.1, // Responsive icon size
+                              size: screenWidth * 0.1,
                             ),
                           ),
                           SizedBox(width: screenWidth * 0.05),

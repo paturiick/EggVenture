@@ -136,7 +136,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               style: TextStyle(
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
-                                fontSize: size.width * 0.07,
+                                fontSize: size.width * 0.06,
                                 color: Color(0xFF353E55),
                               ),
                             ),
@@ -154,7 +154,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               style: TextStyle(
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
-                                fontSize: size.width * 0.07,
+                                fontSize: size.width * 0.06,
                                 color: Color(0xFF353E55),
                               ),
                             ),
@@ -216,17 +216,19 @@ class _SigninScreenState extends State<SigninScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Color(
-                                      0xFFF9B514), // Border color when focused
-                                  width:
-                                      2.0, // Width of the focused border (optional)
+                                  color: Color(0xFFF9B514),
+                                  width: 2.0,
                                 ),
                               ),
                               prefixIcon: Icon(Icons.email),
                             ),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF353E55),
+                                fontWeight: FontWeight.normal),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your email or phone number';
+                                return 'Please enter your email or number';
                               }
                               return null;
                             },
@@ -253,10 +255,8 @@ class _SigninScreenState extends State<SigninScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Color(
-                                      0xFFF9B514), // Border color when focused
-                                  width:
-                                      2.0, // Width of the focused border (optional)
+                                  color: Color(0xFFF9B514),
+                                  width: 2.0,
                                 ),
                               ),
                               prefixIcon: Icon(Icons.lock),
@@ -273,6 +273,10 @@ class _SigninScreenState extends State<SigninScreen> {
                                 },
                               ),
                             ),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF353E55),
+                                fontWeight: FontWeight.normal),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your password';

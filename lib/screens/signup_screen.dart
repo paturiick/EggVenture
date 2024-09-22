@@ -78,14 +78,20 @@ class _SignupScreenState extends State<SignupScreen> {
       _attemptedSignUp = true;
     });
 
-    if (_formKey.currentState!.validate() && _agreeToTerms) {
-      // Proceed with the sign-up process
-    } else if (!_agreeToTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('You must agree to the terms and conditions.'),
-        ),
-      );
+    // Trigger validation on form fields
+    if (_formKey.currentState!.validate()) {
+      if (_agreeToTerms) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => VerificationScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('You must agree to the terms and conditions.'),
+          ),
+        );
+      }
     }
   }
 
@@ -125,7 +131,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     vertical: size.height * 0.03),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Color(0xFFF9B514)),
+                  border: Border.all(color: const Color(0xFFF9B514)),
                 ),
                 child: Form(
                   key: _formKey,
@@ -133,42 +139,64 @@ class _SignupScreenState extends State<SignupScreen> {
                     children: [
                       _buildTitle(size),
                       SizedBox(height: 20),
-                      _buildTextField('Last Name', _lastNameController, false,
-                          TextInputType.name, _lastNameFocusNode),
-                      SizedBox(height: 20),
-                      _buildTextField('First Name', _firstNameController, false,
-                          TextInputType.name, _firstNameFocusNode),
-                      SizedBox(height: 20),
-                      _buildTextField('Email Address', _emailController, false,
-                          TextInputType.emailAddress, _emailFocusNode,
-                          prefixIcon: Icon(Icons.email)),
-                      SizedBox(height: 20),
-                      _buildTextField('Phone Number', _phoneController, false,
-                          TextInputType.phone, _phoneFocusNode,
-                          prefixIcon: Icon(Icons.phone)),
+                      _buildTextField(
+                        'Last Name',
+                        _lastNameController,
+                        false,
+                        TextInputType.name,
+                        _lastNameFocusNode,
+                      ),
                       SizedBox(height: 20),
                       _buildTextField(
-                          'Password',
-                          _passwordController,
-                          !_passwordVisible,
-                          TextInputType.text,
-                          _passwordFocusNode,
-                          prefixIcon: Icon(Icons.lock),
-                          suffixIcon: _toggleVisibilityButton()),
+                        'First Name',
+                        _firstNameController,
+                        false,
+                        TextInputType.name,
+                        _firstNameFocusNode,
+                      ),
                       SizedBox(height: 20),
                       _buildTextField(
-                          'Confirm Password',
-                          _confirmPasswordController,
-                          !_confirmPasswordVisible,
-                          TextInputType.text,
-                          _confirmPasswordFocusNode,
-                          prefixIcon: Icon(Icons.lock),
-                          suffixIcon: _toggleVisibilityButton(isConfirm: true)),
+                        'Email Address',
+                        _emailController,
+                        false,
+                        TextInputType.emailAddress,
+                        _emailFocusNode,
+                        prefixIcon: const Icon(Icons.email),
+                      ),
+                      SizedBox(height: 20),
+                      _buildTextField(
+                        'Phone Number',
+                        _phoneController,
+                        false,
+                        TextInputType.phone,
+                        _phoneFocusNode,
+                        prefixIcon: const Icon(Icons.phone),
+                      ),
+                      SizedBox(height: 20),
+                      _buildTextField(
+                        'Password',
+                        _passwordController,
+                        !_passwordVisible,
+                        TextInputType.text,
+                        _passwordFocusNode,
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: _toggleVisibilityButton(),
+                      ),
+                      SizedBox(height: 20),
+                      _buildTextField(
+                        'Confirm Password',
+                        _confirmPasswordController,
+                        !_confirmPasswordVisible,
+                        TextInputType.text,
+                        _confirmPasswordFocusNode,
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: _toggleVisibilityButton(isConfirm: true),
+                      ),
                       SizedBox(height: 20),
                       _buildTermsCheckbox(),
                       if (!_agreeToTerms && _attemptedSignUp)
                         Padding(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 10),
                           child: Text(
                             'You must agree to the terms and conditions.',
                             style: TextStyle(
@@ -211,7 +239,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   fontFamily: 'AvenirNextCyr',
                   fontWeight: FontWeight.w700,
                   fontSize: size.width * 0.09,
-                  color: Color(0xFFF9B514),
+                  color: const Color(0xFFF9B514),
                 ),
               ),
               TextSpan(
@@ -219,8 +247,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 style: TextStyle(
                   fontFamily: 'AvenirNextCyr',
                   fontWeight: FontWeight.w700,
-                  fontSize: size.width * 0.07,
-                  color: Color(0xFF353E55),
+                  fontSize: size.width * 0.06,
+                  color: const Color(0xFF353E55),
                 ),
               ),
               TextSpan(
@@ -229,7 +257,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   fontFamily: 'AvenirNextCyr',
                   fontWeight: FontWeight.w700,
                   fontSize: size.width * 0.09,
-                  color: Color(0xFFF9B514),
+                  color: const Color(0xFFF9B514),
                 ),
               ),
               TextSpan(
@@ -237,8 +265,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 style: TextStyle(
                   fontFamily: 'AvenirNextCyr',
                   fontWeight: FontWeight.w700,
-                  fontSize: size.width * 0.07,
-                  color: Color(0xFF353E55),
+                  fontSize: size.width * 0.06,
+                  color: const Color(0xFF353E55),
                 ),
               ),
             ],
@@ -255,7 +283,7 @@ class _SignupScreenState extends State<SignupScreen> {
         fontFamily: 'AvenirNextCyr',
         fontWeight: FontWeight.bold,
         fontSize: size.width * 0.06,
-        color: Color(0xFF353E55),
+        color: const Color(0xFF353E55),
       ),
     );
   }
@@ -268,24 +296,32 @@ class _SignupScreenState extends State<SignupScreen> {
     FocusNode focusNode, {
     Icon? prefixIcon,
     IconButton? suffixIcon,
+    double textSize = 12,
+    Color textColor = const Color(0xFF353E55),
+    Color labelColor = const Color(0xFF353E55),
   }) {
     Size size = MediaQuery.of(context).size;
+
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
       focusNode: focusNode,
+      style: TextStyle(
+        fontSize: textSize,
+        color: textColor,
+      ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle:
-            TextStyle(fontSize: size.width * 0.04, color: Color(0xFF353E55)),
+        labelStyle: TextStyle(
+          fontSize: size.width * 0.03,
+          color: labelColor,
+        ),
         border: OutlineInputBorder(),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Color(0xFFF9B514),
-          ),
+          borderSide: BorderSide(color: Color(0xFFF9B514)),
         ),
       ),
       validator: (value) {
@@ -308,7 +344,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildTermsCheckbox() {
     return Row(
-      children: [
+      children: <Widget>[
         Checkbox(
           value: _agreeToTerms,
           onChanged: (value) {
@@ -318,28 +354,32 @@ class _SignupScreenState extends State<SignupScreen> {
           },
         ),
         Expanded(
-          child: RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'I agree to the ',
-                  style: TextStyle(
-                    fontFamily: 'AvenirNextCyr',
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
-                    color: Colors.grey,
-                  ),
+          child: Row(
+            children: [
+              Text(
+                "I agree with",
+                style: TextStyle(
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.normal,
+                  fontSize: 13,
                 ),
-                TextSpan(
-                  text: 'Terms and Conditions',
+              ),
+              SizedBox(width: 5),
+              GestureDetector(
+                onTap: () {
+                  // Handle the Terms and Conditions tap
+                },
+                child: Text(
+                  "Terms and Conditions",
                   style: TextStyle(
-                    fontFamily: 'AvenirNextCyr',
-                    fontSize: MediaQuery.of(context).size.width * 0.04,
-                    color: Color(0xFF353E55),
+                    color: const Color(0xFF353E55),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
                     decoration: TextDecoration.underline,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],
@@ -348,14 +388,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _buildSignUpButton(Size size) {
     return ElevatedButton(
-      onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => VerificationScreen()));
-      },
-      child: Text('Sign up'),
+      onPressed: _signUp,
+      child: const Text('Sign up'),
       style: ElevatedButton.styleFrom(
-        foregroundColor: Color(0xFF353E55),
-        backgroundColor: Color(0xFFF9B514),
+        foregroundColor: const Color(0xFF353E55),
+        backgroundColor: const Color(0xFFF9B514),
         padding: EdgeInsets.symmetric(
           horizontal: size.width * 0.2,
           vertical: size.height * 0.02,
@@ -373,48 +410,40 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _buildSignInPrompt() {
-    Size size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Already have an account?',
-          style: TextStyle(
-            fontFamily: 'AvenirNextCyr',
-            fontSize: size.width * 0.04,
-            color: Colors.grey[600],
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return SigninScreen();
-                },
-              ),
-            );
-          },
-          child: Text(
-            'Sign In',
-            style: TextStyle(
-              fontFamily: 'AvenirNextCyr',
-              fontSize: size.width * 0.04,
-              color: Color(0xFFF9B514),
+    return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SigninScreen()),
+          );
+        },
+        child: Column(
+          children: [
+            Text(
+              "Already have an account?",
+              style: TextStyle(
+                  color: Color(0xFF353E55), fontWeight: FontWeight.bold),
             ),
-          ),
-        ),
-      ],
-    );
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Sign In",
+              style: TextStyle(
+                  color: Color(0xFFF9B514), fontWeight: FontWeight.bold),
+            )
+          ],
+        ));
   }
 
   IconButton _toggleVisibilityButton({bool isConfirm = false}) {
     return IconButton(
       icon: Icon(
-        (isConfirm ? _confirmPasswordVisible : _passwordVisible)
-            ? Icons.visibility
-            : Icons.visibility_off,
+        isConfirm
+            ? (_confirmPasswordVisible
+                ? Icons.visibility
+                : Icons.visibility_off)
+            : (_passwordVisible ? Icons.visibility : Icons.visibility_off),
       ),
       onPressed: () {
         setState(() {

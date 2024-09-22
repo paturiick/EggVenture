@@ -120,7 +120,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
                             fontWeight: FontWeight.w700,
-                            fontSize: screenWidth * 0.12,
+                            fontSize: screenWidth * 0.1,
                             color: Color(0xFFFFFFFF),
                           ),
                         ),
@@ -138,7 +138,7 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                           style: TextStyle(
                             fontFamily: 'AvenirNextCyr',
                             fontWeight: FontWeight.bold,
-                            fontSize: screenWidth * 0.12,
+                            fontSize: screenWidth * 0.1,
                             color: Color(0xFFFFFFFF),
                           ),
                         ),
@@ -152,7 +152,6 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                       Text(
                         'Get Your Fresh Eggs',
                         style: TextStyle(
-                          fontFamily: 'AvenirNextCyr',
                           fontWeight: FontWeight.bold,
                           fontSize: screenWidth * 0.06,
                           color: Color(0xFF353E55),
@@ -161,7 +160,6 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                       Text(
                         'Delivered at your Doorstep',
                         style: TextStyle(
-                          fontFamily: 'AvenirNextCyr',
                           fontWeight: FontWeight.bold,
                           fontSize: screenWidth * 0.06,
                           color: Color(0xFF353E55),
@@ -170,7 +168,6 @@ class _OnboardingViewState extends State<WelcomeScreen> {
                       Text(
                         '“From egg farms to your home: Fresh eggs just a few clicks away.”',
                         style: TextStyle(
-                          fontFamily: 'AvenirNextCyr',
                           fontStyle: FontStyle.italic,
                           fontSize: screenWidth * 0.04,
                           color: Color(0xFF353E55),

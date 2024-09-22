@@ -53,7 +53,7 @@ class _OrderScreenState extends State<OrderScreen>
                 ],
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
                     child: TabBar(
@@ -62,11 +62,13 @@ class _OrderScreenState extends State<OrderScreen>
                       unselectedLabelColor: Colors.grey[600],
                       indicatorColor: Color(0xFFFFB612),
                       indicatorWeight: 4,
-                      labelPadding: EdgeInsets.only(right: 15, left: 4),
+                      labelPadding:
+                          EdgeInsetsDirectional.only(start: 0, end: 20.0),
+                      isScrollable: true,
                       tabs: [
                         Tab(
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            padding: EdgeInsets.only(left: 0),
                             child: Text("All"),
                           ),
                         ),
