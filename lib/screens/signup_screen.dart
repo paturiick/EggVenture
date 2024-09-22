@@ -1,4 +1,5 @@
 import 'package:eggventure/screens/signin_screen.dart';
+import 'package:eggventure/screens/verification_screen.dart';
 import 'package:eggventure/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +13,6 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   bool _agreeToTerms = false;
   bool _attemptedSignUp = false;
-  final double _textFieldFontSize = 12.0; // Adjustable font size
-  final double _textButtonFontSize = 12.0; // Fixed text button font size
 
   final _lastNameController = TextEditingController();
   final _firstNameController = TextEditingController();
@@ -21,6 +20,13 @@ class _SignupScreenState extends State<SignupScreen> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+
+  final _lastNameFocusNode = FocusNode();
+  final _firstNameFocusNode = FocusNode();
+  final _emailFocusNode = FocusNode();
+  final _phoneFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  final _confirmPasswordFocusNode = FocusNode();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,29 +42,13 @@ class _SignupScreenState extends State<SignupScreen> {
     _addClearErrorListener(_phoneController);
     _addClearErrorListener(_passwordController);
     _addClearErrorListener(_confirmPasswordController);
-
-    // Also listen to password changes for confirm password validation
-    _passwordController.addListener(() {
-      if (_attemptedSignUp) {
-        setState(() {
-          _formKey.currentState?.validate();
-        });
-      }
-    });
-    _confirmPasswordController.addListener(() {
-      if (_attemptedSignUp) {
-        setState(() {
-          _formKey.currentState?.validate();
-        });
-      }
-    });
   }
 
   void _addClearErrorListener(TextEditingController controller) {
     controller.addListener(() {
       if (_attemptedSignUp) {
         setState(() {
-          _formKey.currentState?.validate(); // Manually trigger validation
+          _formKey.currentState?.validate();
         });
       }
     });
@@ -72,6 +62,14 @@ class _SignupScreenState extends State<SignupScreen> {
     _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+
+    _lastNameFocusNode.dispose();
+    _firstNameFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _phoneFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
+
     super.dispose();
   }
 
@@ -94,11 +92,14 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    bool isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: size.height,
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -115,63 +116,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   );
                 },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset(
-                      'assets/Eggventure.png',
-                      width: size.width * 0.2,
-                    ),
-                    SizedBox(width: 10),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'E',
-                            style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 32,
-                              color: Color(0xFFF9B514),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'GG',
-                            style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
-                              color: Color(0xFF353E55),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'V',
-                            style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 32,
-                              color: Color(0xFFF9B514),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'ENTURE',
-                            style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
-                              color: Color(0xFF353E55),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                child: _buildLogo(size, isPortrait),
               ),
               SizedBox(height: 20),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.04,
+                    vertical: size.height * 0.03),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Color(0xFFF9B514)),
@@ -180,236 +131,56 @@ class _SignupScreenState extends State<SignupScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      Text(
-                        'Create your account',
-                        style: TextStyle(
-                          fontFamily: 'AvenirNextCyr',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          color: Color(0xFF353E55),
-                        ),
-                      ),
+                      _buildTitle(size),
                       SizedBox(height: 20),
-                      TextFormField(
-                        controller: _lastNameController,
-                        decoration: InputDecoration(
-                          labelText: 'Last Name',
-                          labelStyle: TextStyle(fontSize: _textFieldFontSize),
-                          border: OutlineInputBorder(),
-                        ),
-                        textCapitalization: TextCapitalization.words,
-                        keyboardType: TextInputType.name,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your last name';
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildTextField('Last Name', _lastNameController, false,
+                          TextInputType.name, _lastNameFocusNode),
                       SizedBox(height: 20),
-                      TextFormField(
-                        controller: _firstNameController,
-                        decoration: InputDecoration(
-                          labelText: 'First Name',
-                          labelStyle: TextStyle(fontSize: _textFieldFontSize),
-                          border: OutlineInputBorder(),
-                        ),
-                        textCapitalization: TextCapitalization.words,
-                        keyboardType: TextInputType.name,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your first name';
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildTextField('First Name', _firstNameController, false,
+                          TextInputType.name, _firstNameFocusNode),
                       SizedBox(height: 20),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          labelText: 'Email Address',
-                          labelStyle: TextStyle(fontSize: _textFieldFontSize),
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.email),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email address';
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildTextField('Email Address', _emailController, false,
+                          TextInputType.emailAddress, _emailFocusNode,
+                          prefixIcon: Icon(Icons.email)),
                       SizedBox(height: 20),
-                      TextFormField(
-                        controller: _phoneController,
-                        decoration: InputDecoration(
-                          labelText: 'Phone Number',
-                          labelStyle: TextStyle(fontSize: _textFieldFontSize),
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.phone),
-                        ),
-                        keyboardType: TextInputType.phone,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your phone number';
-                          }
-                          return null;
-                        },
-                      ),
+                      _buildTextField('Phone Number', _phoneController, false,
+                          TextInputType.phone, _phoneFocusNode,
+                          prefixIcon: Icon(Icons.phone)),
                       SizedBox(height: 20),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: !_passwordVisible,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(fontSize: _textFieldFontSize),
-                          border: OutlineInputBorder(),
+                      _buildTextField(
+                          'Password',
+                          _passwordController,
+                          !_passwordVisible,
+                          TextInputType.text,
+                          _passwordFocusNode,
                           prefixIcon: Icon(Icons.lock),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            },
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
-                      ),
+                          suffixIcon: _toggleVisibilityButton()),
                       SizedBox(height: 20),
-                      TextFormField(
-                        controller: _confirmPasswordController,
-                        obscureText: !_confirmPasswordVisible,
-                        decoration: InputDecoration(
-                          labelText: 'Confirm Password',
-                          labelStyle: TextStyle(fontSize: _textFieldFontSize),
-                          border: OutlineInputBorder(),
+                      _buildTextField(
+                          'Confirm Password',
+                          _confirmPasswordController,
+                          !_confirmPasswordVisible,
+                          TextInputType.text,
+                          _confirmPasswordFocusNode,
                           prefixIcon: Icon(Icons.lock),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _confirmPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _confirmPasswordVisible =
-                                    !_confirmPasswordVisible;
-                              });
-                            },
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please confirm your password';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Passwords do not match';
-                          }
-                          return null;
-                        },
-                      ),
+                          suffixIcon: _toggleVisibilityButton(isConfirm: true)),
                       SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: _agreeToTerms,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _agreeToTerms = value ?? false;
-                              });
-                            },
-                          ),
-                          Expanded(
-                            child: TextButton(
-                              onPressed: () {
-                                // Handle terms and conditions click
-                              },
-                              child: Text(
-                                'Agree with Terms and Conditions',
-                                style: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: _textButtonFontSize,
-                                  color: Color(0xFF353E55),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
+                      _buildTermsCheckbox(),
                       if (!_agreeToTerms && _attemptedSignUp)
-                        Text(
-                          'You must agree to the terms and conditions.',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: _textButtonFontSize,
-                          ),
-                        ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: _signUp,
-                        child: Text('Sign up'),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Color(0xFFF9B514),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 100, vertical: 15),
-                          textStyle: TextStyle(
-                            fontFamily: 'AvenirNextCyr',
-                            fontWeight: FontWeight.bold,
-                            fontSize: _textFieldFontSize,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Already have an account?',
+                        Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text(
+                            'You must agree to the terms and conditions.',
                             style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontSize: _textButtonFontSize,
-                              color: Color(0xFF353E55),
+                              color: Colors.red,
+                              fontSize: size.width * 0.03,
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return SigninScreen();
-                                  },
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Sign In',
-                              style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
-                                fontSize: _textButtonFontSize,
-                                color: Color(0xFFF9B514),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      SizedBox(height: 20),
+                      _buildSignUpButton(size),
+                      SizedBox(height: 20),
+                      _buildSignInPrompt(),
                     ],
                   ),
                 ),
@@ -418,6 +189,242 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildLogo(Size size, bool isPortrait) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Image.asset(
+          'assets/Eggventure.png',
+          width: size.width * (isPortrait ? 0.25 : 0.2),
+        ),
+        SizedBox(width: 10),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'E',
+                style: TextStyle(
+                  fontFamily: 'AvenirNextCyr',
+                  fontWeight: FontWeight.w700,
+                  fontSize: size.width * 0.09,
+                  color: Color(0xFFF9B514),
+                ),
+              ),
+              TextSpan(
+                text: 'GG',
+                style: TextStyle(
+                  fontFamily: 'AvenirNextCyr',
+                  fontWeight: FontWeight.w700,
+                  fontSize: size.width * 0.07,
+                  color: Color(0xFF353E55),
+                ),
+              ),
+              TextSpan(
+                text: 'V',
+                style: TextStyle(
+                  fontFamily: 'AvenirNextCyr',
+                  fontWeight: FontWeight.w700,
+                  fontSize: size.width * 0.09,
+                  color: Color(0xFFF9B514),
+                ),
+              ),
+              TextSpan(
+                text: 'ENTURE',
+                style: TextStyle(
+                  fontFamily: 'AvenirNextCyr',
+                  fontWeight: FontWeight.w700,
+                  fontSize: size.width * 0.07,
+                  color: Color(0xFF353E55),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTitle(Size size) {
+    return Text(
+      'Create your account',
+      style: TextStyle(
+        fontFamily: 'AvenirNextCyr',
+        fontWeight: FontWeight.bold,
+        fontSize: size.width * 0.06,
+        color: Color(0xFF353E55),
+      ),
+    );
+  }
+
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller,
+    bool obscureText,
+    TextInputType keyboardType,
+    FocusNode focusNode, {
+    Icon? prefixIcon,
+    IconButton? suffixIcon,
+  }) {
+    Size size = MediaQuery.of(context).size;
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      focusNode: focusNode,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle:
+            TextStyle(fontSize: size.width * 0.04, color: Color(0xFF353E55)),
+        border: OutlineInputBorder(),
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xFFF9B514),
+          ),
+        ),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter $label';
+        }
+        if (label == 'Email Address' && !value.contains('@')) {
+          return 'Please enter a valid email';
+        }
+        if (label == 'Password' && value.length < 8) {
+          return 'Password must be at least 8 characters';
+        }
+        if (label == 'Confirm Password' && value != _passwordController.text) {
+          return 'Passwords do not match';
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _buildTermsCheckbox() {
+    return Row(
+      children: [
+        Checkbox(
+          value: _agreeToTerms,
+          onChanged: (value) {
+            setState(() {
+              _agreeToTerms = value!;
+            });
+          },
+        ),
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'I agree to the ',
+                  style: TextStyle(
+                    fontFamily: 'AvenirNextCyr',
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    color: Colors.grey,
+                  ),
+                ),
+                TextSpan(
+                  text: 'Terms and Conditions',
+                  style: TextStyle(
+                    fontFamily: 'AvenirNextCyr',
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                    color: Color(0xFF353E55),
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSignUpButton(Size size) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => VerificationScreen()));
+      },
+      child: Text('Sign up'),
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Color(0xFF353E55),
+        backgroundColor: Color(0xFFF9B514),
+        padding: EdgeInsets.symmetric(
+          horizontal: size.width * 0.2,
+          vertical: size.height * 0.02,
+        ),
+        textStyle: TextStyle(
+          fontFamily: 'AvenirNextCyr',
+          fontWeight: FontWeight.bold,
+          fontSize: size.width * 0.045,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignInPrompt() {
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Already have an account?',
+          style: TextStyle(
+            fontFamily: 'AvenirNextCyr',
+            fontSize: size.width * 0.04,
+            color: Colors.grey[600],
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return SigninScreen();
+                },
+              ),
+            );
+          },
+          child: Text(
+            'Sign In',
+            style: TextStyle(
+              fontFamily: 'AvenirNextCyr',
+              fontSize: size.width * 0.04,
+              color: Color(0xFFF9B514),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  IconButton _toggleVisibilityButton({bool isConfirm = false}) {
+    return IconButton(
+      icon: Icon(
+        (isConfirm ? _confirmPasswordVisible : _passwordVisible)
+            ? Icons.visibility
+            : Icons.visibility_off,
+      ),
+      onPressed: () {
+        setState(() {
+          if (isConfirm) {
+            _confirmPasswordVisible = !_confirmPasswordVisible;
+          } else {
+            _passwordVisible = !_passwordVisible;
+          }
+        });
+      },
     );
   }
 }

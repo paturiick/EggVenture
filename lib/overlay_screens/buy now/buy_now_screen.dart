@@ -1,4 +1,4 @@
-import 'package:eggventure/overlay_screens/checkout_screen.dart';
+import 'package:eggventure/overlay_screens/buy%20now/checkout_screen.dart';
 import 'package:flutter/material.dart';
 
 class BuyNowScreen {
@@ -110,49 +110,57 @@ class BuyNowScreen {
 
   static Widget _buildTrayItem(
       BuildContext context, String title, String price, String imagePath) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Row(
-        children: [
-          Checkbox(
-            value: false, // You can manage this state
-            onChanged: (bool? value) {
-              // Handle change
-            },
-          ),
-          Column(
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        bool isChecked = false;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Row(
             children: [
-              Image.asset(
-                imagePath,
-                width: 50,
-                height: 50,
-                fit: BoxFit.fill,
+              Checkbox(
+                value: isChecked,
+                onChanged: (bool? value) {
+                  setState(() {
+                    isChecked = value ?? false;
+                  });
+                },
               ),
-              SizedBox(height: 5),
-              Text(
-                price,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFFFFB612),
-                  fontWeight: FontWeight.bold,
+              Column(
+                children: [
+                  Image.asset(
+                    imagePath,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.fill,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    price,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFFFFB612),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Color(0xFF353E55),
+                  ),
                 ),
               ),
+              _buildCounter(),
             ],
           ),
-          SizedBox(width: 20),
-          Expanded(
-            child: Text(
-              title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: Color(0xFF353E55),
-              ),
-            ),
-          ),
-          _buildCounter(),
-        ],
-      ),
+        );
+      },
     );
   }
 
