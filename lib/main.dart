@@ -1,6 +1,7 @@
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/order_screen.dart';
+import 'package:eggventure/screens/signup_screen.dart';
 import 'package:eggventure/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'AvenirNextCyr',
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }

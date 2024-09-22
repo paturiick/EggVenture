@@ -12,6 +12,10 @@ import 'package:eggventure/widgets/navigation_bar.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
+  // FocusNode and TextEditingController added for TextField
+  final FocusNode _searchFocusNode = FocusNode();
+  final TextEditingController _searchController = TextEditingController();
+
   final List<Map<String, dynamic>> stores = [
     {
       'image': 'assets/stores/vista.jpg',
@@ -72,169 +76,181 @@ class HomeScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     // ignore: deprecated_member_use
     MediaQuery.textScaleFactorOf(context);
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark
-          .copyWith(statusBarIconBrightness: Brightness.dark),
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.only(top: size.height * 0.05),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(
-                        'assets/Eggventure.png',
-                        width: size.width * 0.15,
-                      ),
-                      SizedBox(width: size.width * 0.02),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'E',
-                              style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
-                                fontWeight: FontWeight.w700,
-                                fontSize: size.width * 0.09,
-                                color: Color(0xFFF9B514),
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'GG',
-                              style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
-                                fontWeight: FontWeight.w700,
-                                fontSize: size.width * 0.06,
-                                color: Color(0xFF353E55),
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'V',
-                              style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
-                                fontWeight: FontWeight.w700,
-                                fontSize: size.width * 0.09,
-                                color: Color(0xFFF9B514),
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'ENTURE',
-                              style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
-                                fontWeight: FontWeight.w700,
-                                fontSize: size.width * 0.06,
-                                color: Color(0xFF353E55),
-                              ),
-                            ),
-                          ],
+
+    return GestureDetector(
+      // Detects taps outside the text field
+      onTap: () {
+        // Unfocus the text field and optionally clear its content
+        FocusScope.of(context).unfocus();
+        _searchController.clear();
+      },
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark
+            .copyWith(statusBarIconBrightness: Brightness.dark),
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: size.height * 0.05),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          'assets/Eggventure.png',
+                          width: size.width * 0.15,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: size.width * 0.02),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'E',
+                                style: TextStyle(
+                                  fontFamily: 'AvenirNextCyr',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.width * 0.09,
+                                  color: Color(0xFFF9B514),
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'GG',
+                                style: TextStyle(
+                                  fontFamily: 'AvenirNextCyr',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.width * 0.06,
+                                  color: Color(0xFF353E55),
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'V',
+                                style: TextStyle(
+                                  fontFamily: 'AvenirNextCyr',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.width * 0.09,
+                                  color: Color(0xFFF9B514),
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'ENTURE',
+                                style: TextStyle(
+                                  fontFamily: 'AvenirNextCyr',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.width * 0.06,
+                                  color: Color(0xFF353E55),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
+                Padding(
+                  padding: EdgeInsets.symmetric(
                     horizontal: size.width * 0.05,
-                    vertical: size.height * 0.02),
-                child: TextField(
-                  cursorColor: Color(0xFFF9B514),
-                  decoration: InputDecoration(
-                      hintText: 'Search...',
-                      prefixIcon: Icon(AntDesign.search_outline),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(color: Color(0xFFF9B514)))),
-                  style: TextStyle(color: Color(0xFF353E55)),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-                child: Text(
-                  'Popular',
-                  style: TextStyle(
-                    fontFamily: 'AvenirNextCyr',
-                    fontWeight: FontWeight.bold,
-                    fontSize: size.width * 0.06,
-                    color: Color(0xFF353E55),
+                    vertical: size.height * 0.02,
+                  ),
+                  child: TextField(
+                    cursorColor: Color(0xFFF9B514),
+                    focusNode: _searchFocusNode, // Assign FocusNode
+                    controller: _searchController, // Assign Controller
+                    decoration: InputDecoration(
+                        hintText: 'Search',
+                        prefixIcon: Icon(AntDesign.search_outline),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Color(0xFFF9B514)))),
+                    style: TextStyle(color: Color(0xFF353E55)),
                   ),
                 ),
-              ),
-              SizedBox(height: size.height * 0.01),
-              SizedBox(
-                height: size.height * 0.25,
-                child: GridView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemCount: populars.length,
-                  itemBuilder: (context, index) {
-                    final popular = populars[index];
-                    return _buildStoreItem(
-                      context,
-                      popular['image']!,
-                      popular['name']!,
-                      popular['hours']!,
-                      popular['days']!,
-                      popular['screen'],
-                      size,
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-                child: Text(
-                  'Suggested Stores',
-                  style: TextStyle(
-                    fontFamily: 'AvenirNextCyr',
-                    fontWeight: FontWeight.bold,
-                    fontSize: size.width * 0.045,
-                    color: Color(0xFF353E55),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                  child: Text(
+                    'Popular',
+                    style: TextStyle(
+                      fontFamily: 'AvenirNextCyr',
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.06,
+                      color: Color(0xFF353E55),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: size.height * 0.01),
-              SizedBox(
-                height: size.height * 1.1,
-                child: GridView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                SizedBox(height: size.height * 0.01),
+                SizedBox(
+                  height: size.height * 0.25,
+                  child: GridView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemCount: populars.length,
+                    itemBuilder: (context, index) {
+                      final popular = populars[index];
+                      return _buildStoreItem(
+                        context,
+                        popular['image']!,
+                        popular['name']!,
+                        popular['hours']!,
+                        popular['days']!,
+                        popular['screen'],
+                        size,
+                      );
+                    },
                   ),
-                  itemCount: stores.length,
-                  itemBuilder: (context, index) {
-                    final store = stores[index];
-                    return _buildStoreItem(
-                      context,
-                      store['image']!,
-                      store['name']!,
-                      store['hours']!,
-                      store['days']!,
-                      store['screen'],
-                      size,
-                    );
-                  },
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                  child: Text(
+                    'Suggested Stores',
+                    style: TextStyle(
+                      fontFamily: 'AvenirNextCyr',
+                      fontWeight: FontWeight.bold,
+                      fontSize: size.width * 0.045,
+                      color: Color(0xFF353E55),
+                    ),
+                  ),
+                ),
+                SizedBox(height: size.height * 0.01),
+                SizedBox(
+                  height: size.height * 1.1,
+                  child: GridView.builder(
+                    padding: EdgeInsets.zero,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemCount: stores.length,
+                    itemBuilder: (context, index) {
+                      final store = stores[index];
+                      return _buildStoreItem(
+                        context,
+                        store['image']!,
+                        store['name']!,
+                        store['hours']!,
+                        store['days']!,
+                        store['screen'],
+                        size,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
+          bottomNavigationBar: NavigationBarWidget(currentIndex: 0),
         ),
-        bottomNavigationBar: NavigationBarWidget(currentIndex: 0),
       ),
     );
   }
@@ -281,7 +297,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'AvenirNextCyr',
                 fontSize: size.width * 0.035,
-                color: Colors.grey,
+                color: Colors.grey[600],
               ),
             ),
             Text(
@@ -289,7 +305,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'AvenirNextCyr',
                 fontSize: size.width * 0.035,
-                color: Colors.grey,
+                color: Colors.grey[600],
               ),
             ),
           ],
