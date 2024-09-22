@@ -1,3 +1,4 @@
+import 'package:eggventure/screens/profile_screen_review.dart';
 import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -181,6 +182,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // Profile options buttons like 'Edit Profile' and 'Share Profile'
   Widget _buildProfileOption(BuildContext context, String text) {
     return ElevatedButton(
       onPressed: () {
@@ -205,10 +207,16 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // Icon options like 'To Pay', 'Processing', 'Review'
   Widget _buildIconOption(BuildContext context, IconData icon, String text) {
     return ElevatedButton(
       onPressed: () {
-        // Handle button press action here
+        if (text == 'Review') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ProfileScreenReview()),
+          );
+        }
       },
       style: ElevatedButton.styleFrom(
         foregroundColor: Color(0xFF353E55),
@@ -237,6 +245,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // Column for followers and following status
   Widget _buildStatusColumn(String label, String value) {
     return Column(
       children: [

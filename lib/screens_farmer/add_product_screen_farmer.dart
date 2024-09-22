@@ -51,7 +51,8 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
       ),
     );
   }
-    @override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -122,37 +123,49 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                 ],
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Column(
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Logic for Cancel
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      side: BorderSide(color: Colors.grey),
-                    ),
-                    child: Text('Cancel'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // Logic for Cancel
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(150, 50), // Custom button size
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          side: BorderSide(color: Colors.orange),
+                        ),
+                        child: Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Logic for Save and Delist
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(150, 50), // Custom button size
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          side: BorderSide(color: Colors.orange),
+                        ),
+                        child: Text('Save and Delist'),
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Logic for Save and Delist
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orangeAccent,
-                      foregroundColor: Colors.black,
-                    ),
-                    child: Text('Save and Delist'),
-                  ),
+                  SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
                       // Logic for Save and Publish
                     },
                     style: ElevatedButton.styleFrom(
+                      minimumSize: Size(150, 50), // Custom button size
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       backgroundColor: Colors.orange,
-                      foregroundColor: Colors.white,
+                      foregroundColor: Colors.black,
                     ),
                     child: Text('Save and Publish'),
                   ),

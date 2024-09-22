@@ -142,7 +142,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     'Shop Information',
                     style: TextStyle(fontSize: 16, color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 60), // Adjust the space between text
+                  SizedBox(width: 45), // Adjust the space between text
                   Text(
                     'Business Information',
                     style: TextStyle(fontSize: 16, color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
@@ -191,7 +191,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       side: BorderSide(color: Color(0xFFF9B514)),
-                      padding: EdgeInsets.symmetric(horizontal: 95),
+                      padding: EdgeInsets.symmetric(horizontal: 65),
                     ),
                     child: Text(
                       'Back',
@@ -211,7 +211,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFF9B514),
-                      padding: EdgeInsets.symmetric(horizontal: 95),
+                      padding: EdgeInsets.symmetric(horizontal: 65),
                     ),
                     child: Text(
                       'Next',
