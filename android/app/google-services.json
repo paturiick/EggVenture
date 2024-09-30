@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "192163738046",
+    "project_id": "eggventure-18d82",
+    "storage_bucket": "eggventure-18d82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192163738046:android:e0e2a16001a68c271ac9ef",
+        "android_client_info": {
+          "package_name": "com.example.eggventure"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRqRMZj0eQwkG72Zzza3niQSFwvGG3y24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
