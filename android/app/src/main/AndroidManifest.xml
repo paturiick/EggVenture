@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 package="com.example.eggventure">
+=======
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.eggventure">
+>>>>>>> b9ba733fd977e9704ecf16849ad9bd7fa1208d4e
     <application
         android:label="eggventure"
         android:name="${applicationName}"
