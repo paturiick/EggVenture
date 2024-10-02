@@ -1,6 +1,7 @@
 <?xml version = "1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">1234</string>
-    <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">56789</string>
+    <string name="app_name">EggVenture</string>
+    <string name="facebook_app_id">378895051610479</string>
+    <string name="facebook_client_token">06974abd68171ae24100c1ab4443b0bb</string>
+    <string name="fb_login_protocol_scheme">fb378895051610479</string>
 </resources>

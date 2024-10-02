@@ -36,6 +36,7 @@ dependencies:
   google_maps_flutter: ^2.9.0
   location: ^6.0.2
   intl: ^0.18.0
+  flutter_facebook_auth: ^7.1.1
   
 
   # The following adds the Cupertino Icons font to your application.

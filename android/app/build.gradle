@@ -28,7 +28,7 @@ if (flutterVersionName == null) {
 android {
     namespace = "com.example.eggventure"
     compileSdk = 34 // Set compile SDK version
-    ndkVersion = "19.3.6528147" // Set NDK version, optional
+    ndkVersion = "23.3.6528147" // Set NDK version, optional
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -37,7 +37,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.eggventure"
-        minSdk = 19 // Set minimum SDK version
+        minSdk = 23 // Set minimum SDK version
         targetSdk = 34 // Set target SDK version
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
