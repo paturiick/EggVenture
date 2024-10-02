@@ -1,3 +1,4 @@
+import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/signup_screen.dart';
 // Add this import
@@ -431,10 +432,9 @@ class _SigninScreenState extends State<SigninScreen> {
                             SizedBox(height: 20),
 
 // Google Sign-In Button
-                            GestureDetector(
-                              onTap: () {
-                                // Action for Google Sign-In button
-                              },
+                            ElevatedButton(
+                              onPressed: () =>
+                                  FirebaseAuthService().signInWithGoogle,
                               child: Container(
                                 width: size.width,
                                 height: size.height * 0.06,
