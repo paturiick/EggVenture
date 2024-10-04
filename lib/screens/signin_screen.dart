@@ -430,10 +430,9 @@ class _SigninScreenState extends State<SigninScreen> {
                               ],
                             ),
                             SizedBox(height: 20),
-
-// Google Sign-In Button
-                            ElevatedButton(
-                              onPressed: () =>
+                            // Google Sign-In Button
+                            GestureDetector(
+                              onTap: () =>
                                   FirebaseAuthService().signInWithGoogle,
                               child: Container(
                                 width: size.width,
