@@ -53,8 +53,8 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
 
   Widget _buildProfilePicturePicker() {
     return Container(
-      width: 150,
-      height: 150,
+      width: MediaQuery.of(context).size.width * 0.4, // 40% of the screen width
+      height: MediaQuery.of(context).size.width * 0.4, // 40% of the screen width
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(12),
@@ -72,28 +72,37 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
 
   Widget _stepCircle(bool isActive) {
     return CircleAvatar(
-      radius: 12,
+      radius: MediaQuery.of(context).size.width * 0.03, // Adjust radius based on screen width
       backgroundColor: isActive ? Color(0xFFF9B514) : Colors.grey[300],
-      child: Icon(Icons.circle, color: Colors.white, size: 16),
+      child: Icon(Icons.circle, color: Colors.white, size: MediaQuery.of(context).size.width * 0.04),
     );
   }
 
   Widget _stepLine() {
     return Container(
       height: 2,
-      width: 50,
+      width: MediaQuery.of(context).size.width * 0.1, // Adjust width dynamically
       color: Colors.grey,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Using MediaQuery to get the screen height and width
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
           'Shop Information',
-          style: TextStyle(color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Color(0xFF353E55),
+            fontFamily: 'AvenirNextCyr',
+            fontWeight: FontWeight.bold,
+            fontSize: screenWidth * 0.05, // Adjust text size based on screen width
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -109,118 +118,162 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
               },
               child: Text(
                 'Save',
-                style: TextStyle(color: Color(0xFFF9B514), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: Color(0xFFF9B514),
+                  fontFamily: 'AvenirNextCyr',
+                  fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.045, // Adjust text size based on screen width
+                ),
               ),
             ),
           ),
         ],
         iconTheme: IconThemeData(color: Color(0xFF353E55)),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-        child: Form(
-          key: _formKey, // Added formKey
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _stepCircle(false),
-                  _stepLine(),
-                  _stepLine(),
-                  _stepLine(),
-                  _stepLine(),
-                  _stepCircle(false),
-                ],
-              ),
-              SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Shop Information',
-                    style: TextStyle(fontSize: 16, color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(width: 45), // Adjust the space between text
-                  Text(
-                    'Business Information',
-                    style: TextStyle(fontSize: 16, color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-
-              // Shop Information Input Fields
-              _buildTextField('Shop Name', _shopNameController),
-              _buildTextField('Email', _emailController),
-              _buildTextField('Pickup Address', _pickupAddressController),
-              _buildTextField('Contact Number', _contactNumberController),
-
-              SizedBox(height: 20),
-
-              // Profile Picture Picker
-              Center(
-                child: Column(
+      body: SingleChildScrollView( // To avoid overflow issues on small screens
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.05, // 5% of screen width
+            vertical: screenHeight * 0.02,  // 2% of screen height
+          ),
+          child: Form(
+            key: _formKey, // Added formKey
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildProfilePicturePicker(),
-                    SizedBox(height: 10),
+                    _stepCircle(false),
+                    _stepLine(),
+                    _stepLine(),
+                    _stepLine(),
+                    _stepLine(),
+                    _stepCircle(false),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Text(
-                      'Insert Profile Picture',
-                      style: TextStyle(color: Colors.grey, fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
+                      'Shop Information',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.04, // Responsive text size
+                        color: Color(0xFF353E55),
+                        fontFamily: 'AvenirNextCyr',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: screenWidth * 0.15), // Adjust spacing dynamically
+                    Text(
+                      'Business Information',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.04, // Responsive text size
+                        color: Color(0xFF353E55),
+                        fontFamily: 'AvenirNextCyr',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
-              ),
+                SizedBox(height: screenHeight * 0.02),
 
-              SizedBox(height: 20),
+                // Shop Information Input Fields
+                _buildTextField('Shop Name', _shopNameController),
+                _buildTextField('Email', _emailController),
+                _buildTextField('Pickup Address', _pickupAddressController),
+                _buildTextField('Contact Number', _contactNumberController),
 
-              // Buttons for Back and Next
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen(), // Navigate to ProfileScreen
+                SizedBox(height: screenHeight * 0.02),
+
+                // Profile Picture Picker
+                Center(
+                  child: Column(
+                    children: [
+                      _buildProfilePicturePicker(),
+                      SizedBox(height: screenHeight * 0.01),
+                      Text(
+                        'Insert Profile Picture',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'AvenirNextCyr',
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenWidth * 0.035, // Responsive text size
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      side: BorderSide(color: Color(0xFFF9B514)),
-                      padding: EdgeInsets.symmetric(horizontal: 65),
-                    ),
-                    child: Text(
-                      'Back',
-                      style: TextStyle(color: Color(0xFF353E55), fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
-                    ),
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                ),
+                SizedBox(height: screenHeight * 0.03),
+
+                // Buttons for Back and Next
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BusinessInformationScreen(), // Navigate to BusinessInformationScreen
+                            builder: (context) => ProfileScreen(), // Navigate to ProfileScreen
                           ),
                         );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFF9B514),
-                      padding: EdgeInsets.symmetric(horizontal: 65),
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: Color(0xFFF9B514)),
+                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15), // Adjust button padding
+                      ),
+                      child: Text(
+                        'Back',
+                        style: TextStyle(
+                          color: Color(0xFF353E55),
+                          fontFamily: 'AvenirNextCyr',
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenWidth * 0.04, // Responsive text size
+                        ),
+                      ),
                     ),
-                    child: Text(
-                      'Next',
-                      style: TextStyle(color: Colors.white, fontFamily: 'AvenirNextCyr', fontWeight: FontWeight.bold),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                             String shopName = _shopNameController.text.trim();
+                            String email = _emailController.text.trim();
+                            String address = _pickupAddressController.text.trim();
+                            int phoneNumber = int.parse(_contactNumberController.text.trim()); 
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BusinessInformationScreen(
+                                address: address, 
+                                email: email, 
+                                phoneNumber: phoneNumber, 
+                                shopName: shopName), // Navigate to BusinessInformationScreen
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFF9B514),
+                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15), // Adjust button padding
+                      ),
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'AvenirNextCyr',
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenWidth * 0.04, // Responsive text size
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -2,7 +2,6 @@ import 'package:eggventure/overlay_screens/add%20to%20tray/add_to_tray_screen.da
 import 'package:eggventure/overlay_screens/buy%20now/buy_now_screen.dart';
 import 'package:eggventure/screens/tray_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class WfScreen extends StatefulWidget {

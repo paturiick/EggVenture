@@ -23,6 +23,6 @@ class AppRoutes {
       CHATSCREEN: (context) => ChatScreen(),
       TRAYSCREEN: (context) => TrayScreen(),
       PROFILESCREEN: (context) => ProfileScreen(),
-    };
+    };  
   }
 }

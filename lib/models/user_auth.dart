@@ -1,12 +1,35 @@
-class User {
-  // pwede ni ma gamit for cleaner code 
-  //e check gani tong youtube naa sa chrome mao ras
-  // pag add diri og unsa ang need na details
-  String name;
-  int number;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eggventure/constants/strings.dart';
 
-  User(this.name, this.number);
+class UserAuthModel {
+  
+  UserAuthModel({
+    required this.lastName, 
+    required this.firstName, 
+    required this.userPhoneNumber
+  });
 
+  final String lastName, firstName;
+  final int userPhoneNumber;
+
+  factory UserAuthModel.fromSnapshot(DocumentSnapshot snapshot) {
+    final data = snapshot.data() as Map<String, dynamic>;
+
+    return UserAuthModel(
+        lastName: data[StringConstants.LASTNAME],
+        firstName: data[StringConstants.FIRSTNAME],
+        userPhoneNumber: data[StringConstants.USERPHONENUMBER]
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+    // e add ang appstrings parehas sa ubos
+  };
+
+  @override
+  String toString() {
+    return super.toString();
+  }
 }
 
 // sample code
@@ -17,6 +40,7 @@ class User {
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 // class CarOwnerModel {
+
 //   CarOwnerModel( { 
 //     this.id,
 //     this.uid,

@@ -76,23 +76,23 @@ class _SigninScreenState extends State<SigninScreen> {
     super.dispose();
   }
 
- // void _signIn() {
+  // void _signIn() {
   //  setState(() {
 //      _autoValidate = true;
-   // });
+  // });
 //
 //    if (_formKey.currentState!.validate()) {
-      // Proceed with the sign-in process
- //     Navigator.pushReplacement(
- //       context,
+  // Proceed with the sign-in process
+  //     Navigator.pushReplacement(
+  //       context,
 //MaterialPageRoute(
   ///        builder: (context) => HomeScreen(),
-   //     ),
+  //     ),
 ////);
- //   } else {
- //     print("Form is not valid. Display error messages.");
+  //   } else {
+  //     print("Form is not valid. Display error messages.");
 //}
- // }
+  // }
 
   // Check if the user is logged in via Facebook
   Future<void> _checkIfIsLoggedIn() async {
@@ -140,7 +140,7 @@ class _SigninScreenState extends State<SigninScreen> {
   Widget build(BuildContext context) {
     final emailString = _emailController.text.trim();
     final passwordString = _passwordController.text.trim();
-    
+
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: _onWillPop,
@@ -387,21 +387,24 @@ class _SigninScreenState extends State<SigninScreen> {
                             SizedBox(height: 30),
                             GestureDetector(
                               onTap: () async {
-                                        User? user = await _auth.signIn(emailString, passwordString);
-                                        debugPrint('signup clicked');
-                                         user != null
-                                         ? Navigator.pushAndRemoveUntil(
+                                User? user = await _auth.signIn(
+                                    emailString, passwordString);
+                                debugPrint('signup clicked');
+                                user != null
+                                    ? Navigator.pushAndRemoveUntil(
                                         context,
-                                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                                        MaterialPageRoute(
+                                            builder: (context) => HomeScreen()),
                                         (Route<dynamic> route) => false,
-                                                                )
-                                          : ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content:
-                                                Text('Sign In failed. Please check your credentials.'),
-                                          ),
-                                        );
-                                        },
+                                      )
+                                    : ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              'Sign In failed. Please check your credentials.'),
+                                        ),
+                                      );
+                              },
                               child: Container(
                                 width: size.width,
                                 height: size.height * 0.06,
@@ -422,9 +425,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                 ),
                               ),
                             ),
-                            
-                            
-
 // OR Line Separator
                             SizedBox(height: 20),
                             Row(
@@ -615,10 +615,10 @@ class _SigninScreenState extends State<SigninScreen> {
   }
 
   // void _login() async {
-  //   String email = _emailController.text;
-  //   String password = _passwordController.text;
+  //   String email = _emailController.text.trim();
+  //   String password = _passwordController.text.trim();
 
-  //   User? user = await _auth.signInWithEmailAndPassword(email: email, password:password);
+  //   User? user = await _auth.signIn(email, password);
 
   //   if (user != null) {
   //     print("User is successfully created");

@@ -63,7 +63,7 @@ class _OrderScreenState extends State<OrderScreen>
                       indicatorColor: Color(0xFFFFB612),
                       indicatorWeight: 4,
                       labelPadding:
-                          EdgeInsetsDirectional.only(start: 0, end: 20.0),
+                          EdgeInsetsDirectional.only(start: 20, end: 20.0),
                       isScrollable: true,
                       tabs: [
                         Tab(

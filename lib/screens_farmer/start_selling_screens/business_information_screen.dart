@@ -1,11 +1,21 @@
+import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
 import 'package:eggventure/screens_farmer/profile_screen_farmer.dart';
 
 class BusinessInformationScreen extends StatefulWidget {
+  final String shopName, email, address;
+  final int phoneNumber;
+  BusinessInformationScreen(
+      {required this.address,
+      required this.email,
+      required this.phoneNumber,
+      required this.shopName});
+
   @override
-  _BusinessInformationScreenState createState() => _BusinessInformationScreenState();
+  _BusinessInformationScreenState createState() =>
+      _BusinessInformationScreenState();
 }
 
 class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
@@ -15,6 +25,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
   final _formKey = GlobalKey<FormState>();
   final _registeredNameController = TextEditingController();
   final _businessNameController = TextEditingController();
+  final FirestoreService _service = FirestoreService();
 
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -27,10 +38,16 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen width and height
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Business Information", style: TextStyle(color: Color(0xFF353E55))),
+        title: Text("Business Information",
+            style: TextStyle(
+                color: Color(0xFF353E55), fontSize: screenWidth * 0.05)),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -39,12 +56,15 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
             onPressed: () {
               // Handle Save action
             },
-            child: Text("Save", style: TextStyle(color: Color(0xFFF9B514))),
+            child: Text("Save",
+                style: TextStyle(
+                    color: Color(0xFFF9B514), fontSize: screenWidth * 0.04)),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.05, vertical: screenHeight * 0.02),
         child: Form(
           key: _formKey,
           child: Column(
@@ -53,32 +73,34 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _stepCircle(true),
-                  _stepLine(),
-                  _stepLine(),
-                  _stepLine(),
-                  _stepLine(),
-                  _stepCircle(false),
+                  _stepCircle(true, screenWidth),
+                  _stepLine(screenWidth),
+                  _stepLine(screenWidth),
+                  _stepLine(screenWidth),
+                  _stepLine(screenWidth),
+                  _stepCircle(false, screenWidth),
                 ],
               ),
-              SizedBox(height: 5),
+              SizedBox(height: screenHeight * 0.01),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Shop Information',
-                    style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
+                    style: TextStyle(
+                        fontSize: screenWidth * 0.04, color: Color(0xFF353E55)),
                   ),
-                  SizedBox(width: 45),
+                  SizedBox(width: screenWidth * 0.12),
                   Text(
-                    '     Business Information',
-                    style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
+                    'Business Information',
+                    style: TextStyle(
+                        fontSize: screenWidth * 0.04, color: Color(0xFF353E55)),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              _buildSellerTypeOptions(),
-              SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.03),
+              _buildSellerTypeOptions(screenWidth),
+              SizedBox(height: screenHeight * 0.03),
               TextFormField(
                 controller: _registeredNameController,
                 decoration: InputDecoration(
@@ -98,13 +120,17 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
-              Text("BIR Certificate of Registration", style: TextStyle(fontSize: 16, color: Color(0xFF353E55))),
+              SizedBox(height: screenHeight * 0.03),
+              Text(
+                "BIR Certificate of Registration",
+                style: TextStyle(
+                    fontSize: screenWidth * 0.04, color: Color(0xFF353E55)),
+              ),
               GestureDetector(
                 onTap: _pickFile,
                 child: Container(
                   width: double.infinity,
-                  height: 150,
+                  height: screenHeight * 0.2,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(5),
@@ -114,16 +140,19 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.upload_file, size: 40, color: Colors.grey),
-                              SizedBox(height: 10),
-                              Text("+Upload (0/1)", style: TextStyle(color: Colors.grey)),
+                              Icon(Icons.upload_file,
+                                  size: screenWidth * 0.1, color: Colors.grey),
+                              SizedBox(height: screenHeight * 0.01),
+                              Text("+Upload (0/1)",
+                                  style: TextStyle(color: Colors.grey)),
                             ],
                           )
-                        : Text(_fileName!, style: TextStyle(color: Color(0xFF353E55))),
+                        : Text(_fileName!,
+                            style: TextStyle(color: Color(0xFF353E55))),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.03),
               TextFormField(
                 controller: _businessNameController,
                 decoration: InputDecoration(
@@ -142,7 +171,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.03),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -158,31 +187,50 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       side: BorderSide(color: Color(0xFFF9B514)),
-                      padding: EdgeInsets.symmetric(horizontal: 65),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
                     ),
                     child: Text(
                       'Back',
-                      style: TextStyle(color: Color(0xFF353E55)),
+                      style: TextStyle(
+                          color: Color(0xFF353E55),
+                          fontSize: screenWidth * 0.04),
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfileScreenFarmer(),
-                          ),
-                        );
-                      }
+                    onPressed: () async {
+                      try {
+                          // Submit business data to Firestore
+                          await _service.submitBusiness(widget.shopName,
+                              widget.email, widget.address, widget.shopName);
+                          debugPrint('Button clicked');
+                          // Navigate to the ProfileScreenFarmer
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreenFarmer(),
+                            ),
+                          );
+                        } catch (e) {
+                          // Handle any errors here
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Failed to submit business: $e')),
+                          );
+                        }
+                      // if (_formKey.currentState!.validate()) {
+                        
+                      // }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFF9B514),
-                      padding: EdgeInsets.symmetric(horizontal: 65),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
                     ),
                     child: Text(
                       'Submit',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white, fontSize: screenWidth * 0.04),
                     ),
                   ),
                 ],
@@ -194,9 +242,9 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
     );
   }
 
-  Widget _buildSellerTypeOptions() {
+  Widget _buildSellerTypeOptions(double screenWidth) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(screenWidth * 0.03),
       decoration: BoxDecoration(
         border: Border.all(color: Color(0xFFF9B514)),
         borderRadius: BorderRadius.circular(10),
@@ -204,7 +252,9 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
       child: Column(
         children: [
           RadioListTile(
-            title: Text("Sole Proprietorship", style: TextStyle(color: Color(0xFF353E55))),
+            title: Text("Sole Proprietorship",
+                style: TextStyle(
+                    color: Color(0xFF353E55), fontSize: screenWidth * 0.04)),
             value: 'Sole Proprietorship',
             groupValue: _sellerType,
             onChanged: (String? value) {
@@ -214,7 +264,9 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
             },
           ),
           RadioListTile(
-            title: Text("Partnership / Corporation", style: TextStyle(color: Color(0xFF353E55))),
+            title: Text("Partnership / Corporation",
+                style: TextStyle(
+                    color: Color(0xFF353E55), fontSize: screenWidth * 0.04)),
             value: 'Partnership / Corporation',
             groupValue: _sellerType,
             onChanged: (String? value) {
@@ -228,18 +280,18 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
     );
   }
 
-  Widget _stepCircle(bool isActive) {
+  Widget _stepCircle(bool isActive, double screenWidth) {
     return CircleAvatar(
-      radius: 12,
+      radius: screenWidth * 0.03,
       backgroundColor: isActive ? Color(0xFFF9B514) : Colors.grey[300],
-      child: Icon(Icons.check, color: Colors.white, size: 16),
+      child: Icon(Icons.check, color: Colors.white, size: screenWidth * 0.04),
     );
   }
 
-  Widget _stepLine() {
+  Widget _stepLine(double screenWidth) {
     return Container(
       height: 2,
-      width: 50,
+      width: screenWidth * 0.12,
       color: Colors.grey,
     );
   }
