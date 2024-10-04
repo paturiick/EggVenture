@@ -7,36 +7,43 @@ import 'package:eggventure/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart'; // Ensure to include this for Facebook login
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize Firebase before the app starts
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Set system UI overlay style
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
-    WidgetsFlutterBinding.ensureInitialized();
-  
-  try {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    print("Firebase Initialized Successfully");
-  } catch (e) {
-    print("Error initializing Firebase: $e");
-  }
-  
+    statusBarColor: Colors.white, // Set the status bar color to white
+    statusBarIconBrightness:
+        Brightness.dark, // Set the status bar icon color to dark
+  ));
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: AppRoutes.define(),
+      routes: AppRoutes.define(), // Define app routes
       theme: ThemeData(
-        fontFamily: 'AvenirNextCyr',
-        scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'AvenirNextCyr', // Set custom font
+        scaffoldBackgroundColor: Colors.white, // Set background color to white
       ),
-      home: SplashScreen(),
+      home: SplashScreen(), // Show splash screen on startup
     );
   }
 }

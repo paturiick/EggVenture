@@ -1,13 +1,13 @@
+import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/signup_screen.dart';
-// Add this import
 import 'package:eggventure/welcome_screen.dart';
-import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -31,11 +31,15 @@ class _SigninScreenState extends State<SigninScreen> {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  Map<String, dynamic>? _userData; // Store user data from Facebook login
+  AccessToken? _accessToken;
+
   @override
   void initState() {
     super.initState();
     _emailFocusNode.addListener(_handleFocusChange);
     _passwordFocusNode.addListener(_handleFocusChange);
+    _checkIfIsLoggedIn(); // Check if the user is already logged in
   }
 
   void _handleFocusChange() {
@@ -89,6 +93,48 @@ class _SigninScreenState extends State<SigninScreen> {
  //     print("Form is not valid. Display error messages.");
 //}
  // }
+
+  // Check if the user is logged in via Facebook
+  Future<void> _checkIfIsLoggedIn() async {
+    final accessToken = await FacebookAuth.instance.accessToken;
+
+    if (accessToken != null) {
+      final userData = await FacebookAuth.instance.getUserData();
+      setState(() {
+        _accessToken = accessToken;
+        _userData = userData;
+      });
+    }
+  }
+
+  // Facebook login function
+  Future<void> _loginWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+    if (result.status == LoginStatus.success) {
+      _accessToken = result.accessToken;
+      final userData = await FacebookAuth.instance.getUserData();
+      setState(() {
+        _userData = userData;
+      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                HomeScreen()), // Navigate to HomeScreen after login
+      );
+    } else {
+      print("Facebook login failed: ${result.message}");
+    }
+  }
+
+  // Facebook logout function
+  Future<void> _logoutFromFacebook() async {
+    await FacebookAuth.instance.logOut();
+    setState(() {
+      _accessToken = null;
+      _userData = null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -276,18 +322,18 @@ class _SigninScreenState extends State<SigninScreen> {
                                     ),
                                   ),
                                   prefixIcon: Icon(Icons.lock),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _isPasswordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                    ),
-                                    onPressed: () {
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
                                       setState(() {
                                         _isPasswordVisible =
                                             !_isPasswordVisible;
                                       });
                                     },
+                                    child: Icon(
+                                      _isPasswordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
                                   ),
                                 ),
                                 style: TextStyle(
@@ -310,40 +356,37 @@ class _SigninScreenState extends State<SigninScreen> {
                                   children: [
                                     Checkbox(
                                       value: _isChecked,
-                                      onChanged: (bool? value) {
+                                      onChanged: (value) {
                                         setState(() {
-                                          _isChecked = value ?? false;
+                                          _isChecked = value!;
                                         });
                                       },
+                                      activeColor: Color(0xFFF9B514),
                                     ),
-                                    SizedBox(width: 0),
                                     Text(
-                                      'Save Password',
+                                      'Remember me',
                                       style: TextStyle(
-                                        fontFamily: 'AvenirNextCyr',
-                                        fontSize: 12,
-                                        color: Color(0xFF353E55),
-                                      ),
+                                          fontFamily: 'AvenirNextCyr',
+                                          fontSize: 10,
+                                          color: Color(0xFF353E55)),
                                     ),
                                   ],
                                 ),
-                                SizedBox(width: 20),
-                                Text(
-                                  'Forgot Password?',
-                                  style: TextStyle(
-                                    fontFamily: 'AvenirNextCyr',
-                                    fontSize: 12,
-                                    color: Color.fromARGB(255, 116, 116, 116),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Text(
+                                    'Forgot Password?',
+                                    style: TextStyle(
+                                        fontFamily: 'AvenirNextCyr',
+                                        fontSize: 10,
+                                        color: Color(0xFF353E55)),
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 20),
-                            
-                            
-                            ElevatedButton(
-                                  
-                              onPressed: () async {
+                            SizedBox(height: 30),
+                            GestureDetector(
+                              onTap: () async {
                                         User? user = await _auth.signIn(emailString, passwordString);
                                         debugPrint('signup clicked');
                                          user != null
@@ -359,118 +402,200 @@ class _SigninScreenState extends State<SigninScreen> {
                                           ),
                                         );
                                         },
-                              child: Text('Sign In'),
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Color(0xFF353E55),
-                                backgroundColor: Color(0xFFF9B514),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 100, vertical: 15),
-                                textStyle: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                              child: Container(
+                                width: size.width,
+                                height: size.height * 0.06,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF9B514),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
+                                child: Center(
+                                  child: Text(
+                                    'Sign In',
+                                    style: TextStyle(
+                                      fontFamily: 'AvenirNextCyr',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
+                            
+                            
+
+// OR Line Separator
                             SizedBox(height: 20),
                             Row(
                               children: [
                                 Expanded(
-                                    child: Divider(color: Color(0xFF353E55))),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    'or',
-                                    style: TextStyle(
-                                      fontFamily: 'AvenirNextCyr',
-                                      fontSize: 14,
-                                      color: Color(0xFF353E55),
-                                    ),
+                                  child: Divider(
+                                    color: Colors.grey.shade400,
+                                    thickness: 1,
+                                    endIndent: 10,
+                                  ),
+                                ),
+                                Text(
+                                  "or",
+                                  style: TextStyle(
+                                    fontFamily: 'AvenirNextCyr',
+                                    fontSize: 16,
+                                    color: Colors.grey.shade600,
                                   ),
                                 ),
                                 Expanded(
-                                    child: Divider(color: Color(0xFF353E55))),
+                                  child: Divider(
+                                    color: Colors.grey.shade400,
+                                    thickness: 1,
+                                    indent: 10,
+                                  ),
+                                ),
                               ],
                             ),
                             SizedBox(height: 20),
-                            SizedBox(height: 10),
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: SvgPicture.asset(
-                                  'assets/icons/google_icon.svg',
-                                  height: 16,
-                                  width: 16),
-                              label: Text('Continue with Google'),
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Color(0xFF353E55),
-                                backgroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15),
-                                textStyle: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+
+// Google Sign-In Button
+                            ElevatedButton(
+                              onPressed: () =>
+                                  FirebaseAuthService().signInWithGoogle,
+                              child: Container(
+                                width: size.width,
+                                height: size.height * 0.06,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 4),
+                                    ),
+                                  ],
+                                  border: Border.all(
+                                    color: Colors.grey.shade300,
+                                    width: 1.0, // Border width
+                                  ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: BorderSide(color: Color(0xFF353E55)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/google_icon.svg', // Google icon SVG
+                                      height: 16,
+                                      width: 16,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Continue with Google',
+                                      style: TextStyle(
+                                        fontFamily: 'AvenirNextCyr',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Color(0xFF353E55),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                             SizedBox(height: 10),
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: SvgPicture.asset('assets/icons/fb_icon.svg',
-                                  height: 16, width: 16),
-                              label: Text('Continue with Facebook'),
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: Color(0xFF353E55),
-                                backgroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 15),
-                                textStyle: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: BorderSide(color: Color(0xFF353E55)),
+// Facebook Sign-In Button with Decoration
+                            if (_accessToken == null)
+                              GestureDetector(
+                                onTap: _loginWithFacebook,
+                                child: Container(
+                                  width: size.width,
+                                  height: size.height * 0.06,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 8,
+                                        offset:
+                                            Offset(0, 4), // Shadow positioning
+                                      ),
+                                    ],
+                                    border: Border.all(
+                                      color:
+                                          Colors.grey.shade300, // Border color
+                                      width: 1.0, // Border width
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icons/fb_icon.svg',
+                                        height: 16,
+                                        width: 16,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        'Continue with Facebook',
+                                        style: TextStyle(
+                                          fontFamily: 'AvenirNextCyr',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Color(0xFF353E55),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
+
+                            if (_accessToken != null)
+                              GestureDetector(
+                                onTap: _logoutFromFacebook,
+                                child: Container(
+                                  width: size.width,
+                                  height: size.height * 0.06,
+                                  decoration: BoxDecoration(
+                                    color: Colors.redAccent,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Log Out from Facebook',
+                                      style: TextStyle(
+                                        fontFamily: 'AvenirNextCyr',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Don't have an account?",
+                                  "Don't have an account? ",
                                   style: TextStyle(
                                     fontFamily: 'AvenirNextCyr',
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: Color(0xFF353E55),
                                   ),
                                 ),
-                                TextButton(
-                                  onPressed: () {
+                                GestureDetector(
+                                  onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) {
-                                          return SignupScreen();
-                                        },
-                                      ),
+                                          builder: (context) => SignupScreen()),
                                     );
                                   },
                                   child: Text(
-                                    'Sign Up',
+                                    "Sign up",
                                     style: TextStyle(
                                       fontFamily: 'AvenirNextCyr',
-                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
                                       color: Color(0xFFF9B514),
                                     ),
                                   ),
