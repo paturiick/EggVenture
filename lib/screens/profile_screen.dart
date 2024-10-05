@@ -1,10 +1,8 @@
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/screens/profile_screen_review.dart';
-import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:eggventure/overlay_screens/menu_screen.dart';
+import 'package:eggventure/widgets/overlay/menu.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
 
 class ProfileScreen extends StatelessWidget {

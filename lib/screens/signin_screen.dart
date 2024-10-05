@@ -1,9 +1,11 @@
 import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/signup_screen.dart';
-// Add this import
 import 'package:eggventure/welcome_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
@@ -22,6 +24,8 @@ class _SigninScreenState extends State<SigninScreen> {
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
   bool _autoValidate = false;
+
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -72,23 +76,23 @@ class _SigninScreenState extends State<SigninScreen> {
     super.dispose();
   }
 
-  void _signIn() {
-    setState(() {
-      _autoValidate = true;
-    });
-
-    if (_formKey.currentState!.validate()) {
-      // Proceed with the sign-in process
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-      );
-    } else {
-      print("Form is not valid. Display error messages.");
-    }
-  }
+  // void _signIn() {
+  //  setState(() {
+//      _autoValidate = true;
+  // });
+//
+//    if (_formKey.currentState!.validate()) {
+  // Proceed with the sign-in process
+  //     Navigator.pushReplacement(
+  //       context,
+//MaterialPageRoute(
+  ///        builder: (context) => HomeScreen(),
+  //     ),
+////);
+  //   } else {
+  //     print("Form is not valid. Display error messages.");
+//}
+  // }
 
   // Check if the user is logged in via Facebook
   Future<void> _checkIfIsLoggedIn() async {
@@ -134,6 +138,9 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final emailString = _emailController.text.trim();
+    final passwordString = _passwordController.text.trim();
+
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: _onWillPop,
@@ -379,7 +386,25 @@ class _SigninScreenState extends State<SigninScreen> {
                             ),
                             SizedBox(height: 30),
                             GestureDetector(
-                              onTap: _signIn,
+                              onTap: () async {
+                                User? user = await _auth.signIn(
+                                    emailString, passwordString);
+                                debugPrint('signup clicked');
+                                user != null
+                                    ? Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomeScreen()),
+                                        (Route<dynamic> route) => false,
+                                      )
+                                    : ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              'Sign In failed. Please check your credentials.'),
+                                        ),
+                                      );
+                              },
                               child: Container(
                                 width: size.width,
                                 height: size.height * 0.06,
@@ -400,7 +425,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                 ),
                               ),
                             ),
-
 // OR Line Separator
                             SizedBox(height: 20),
                             Row(
@@ -588,4 +612,18 @@ class _SigninScreenState extends State<SigninScreen> {
           ),
         ));
   }
+
+  // void _login() async {
+  //   String email = _emailController.text.trim();
+  //   String password = _passwordController.text.trim();
+
+  //   User? user = await _auth.signIn(email, password);
+
+  //   if (user != null) {
+  //     print("User is successfully created");
+  //     Navigator.pushNamed(context, "_signUp");
+  //   } else {
+  //     print("Error!");
+  //   }
+  // }
 }

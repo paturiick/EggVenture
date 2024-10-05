@@ -1,6 +1,8 @@
+import 'package:eggventure/firebase/firebase_auth_service.dart';
+import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/signin_screen.dart';
-import 'package:eggventure/screens/verification_screen.dart';
 import 'package:eggventure/welcome_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -13,6 +15,8 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   bool _agreeToTerms = false;
   bool _attemptedSignUp = false;
+
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
   final _lastNameController = TextEditingController();
   final _firstNameController = TextEditingController();
@@ -62,6 +66,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    ;
 
     _lastNameFocusNode.dispose();
     _firstNameFocusNode.dispose();
@@ -77,28 +82,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return true;
   }
 
-  void _signUp() {
-    setState(() {
-      _attemptedSignUp = true;
-    });
-
-    // Trigger validation on form fields
-    if (_formKey.currentState!.validate()) {
-      if (_agreeToTerms) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => VerificationScreen()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('You must agree to the terms and conditions.'),
-          ),
-        );
-      }
-    }
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -398,10 +382,29 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _buildSignUpButton(Size size) {
+    final emailString = _emailController.text.trim();
+    final passwordString = _passwordController.text.trim();
+    debugPrint('$emailString');
+    debugPrint('$passwordString');
     return Container(
       width: size.width,
       child: ElevatedButton(
-        onPressed: _signUp,
+        onPressed: () async {
+          User? user = await _auth.signupUser(emailString, passwordString);
+          debugPrint('signup clicked');
+          user != null
+              ? Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  (Route<dynamic> route) => false,
+                )
+              : ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content:
+                        Text('Sign up failed. Please check your credentials.'),
+                  ),
+                );
+        },
         child: Text(
           'Sign Up',
           style: TextStyle(

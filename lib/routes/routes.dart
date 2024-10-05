@@ -1,12 +1,3 @@
-import 'package:eggventure/screens/chat_screen.dart';
-import 'package:eggventure/screens/home_screen.dart';
-import 'package:eggventure/screens/order_screen.dart';
-import 'package:eggventure/screens/profile_screen.dart';
-import 'package:eggventure/screens/profile_screen_review.dart';
-import 'package:eggventure/screens/signin_screen.dart';
-import 'package:eggventure/screens/tray_screen.dart';
-import 'package:flutter/material.dart';
-
 class AppRoutes {
   static const SIGNIN = '/signin';
   static const SIGNUP = '/sigup';
@@ -17,9 +8,20 @@ class AppRoutes {
   static const TRAYSCREEN = '/tray-screen';
   static const PROFILESCREEN = '/profile-screen';
   static const PROFILESCREENREVIEW = '/profile-screen-review';
-  static const SHOPINFO = '/shop-info';
   static const BUSINESSINFO = '/business-info';
-  static const DELIVERYCHECKOUT = '/delivery-checkout';
+  static const DELIVERYCHECKOUT = '/delivery-screen';
+  static const SHOPINFO = '/shop-info';
   static const PICKUPCHECKOUT = '/pickup-checkout';
+  static const DAILYFRESH = '/daily-fresh';
+  static const PABILONA = '/pabilona';
+  static const PELONIO = '/pelonio';
+  static const SUNDO = '/sundo';
+  static const VISTA = '/vista';
+  static const WHITEFEATHERS = '/white-feathers';
+  static const ADDPRODUCTFARMER = '/app-product-screen';
+  static const CHATFARMER = '/chat-farmer';
+  static const HOMEFARMER = '/home-farmer';
+  static const ORDERFARMER = '/order-farmer';
+  static const PROFILEFARMER = '/profile-farmer';
   static const EDITADDRESS = '/edit-address';
 }

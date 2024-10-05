@@ -1,4 +1,3 @@
-import 'package:eggventure/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreenReview extends StatefulWidget {

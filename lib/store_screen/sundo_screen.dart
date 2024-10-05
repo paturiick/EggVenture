@@ -1,5 +1,5 @@
-import 'package:eggventure/overlay_screens/add%20to%20tray/add_to_tray_screen.dart';
-import 'package:eggventure/overlay_screens/buy%20now/buy_now_screen.dart';
+import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
+import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
 import 'package:eggventure/screens/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
