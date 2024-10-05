@@ -116,7 +116,7 @@ class _SigninScreenState extends State<SigninScreen> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                HomeScreen()), // Navigate to HomeScreen after login
+                HomeScreen()),
       );
     } else {
       print("Facebook login failed: ${result.message}");

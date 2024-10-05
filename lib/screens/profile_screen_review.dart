@@ -6,7 +6,8 @@ class ProfileScreenReview extends StatefulWidget {
   _ProfileScreenReviewState createState() => _ProfileScreenReviewState();
 }
 
-class _ProfileScreenReviewState extends State<ProfileScreenReview> with SingleTickerProviderStateMixin {
+class _ProfileScreenReviewState extends State<ProfileScreenReview>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -38,10 +39,7 @@ class _ProfileScreenReviewState extends State<ProfileScreenReview> with SingleTi
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()),
-            );
+            Navigator.pop(context);
           },
         ),
       ),
@@ -49,7 +47,7 @@ class _ProfileScreenReviewState extends State<ProfileScreenReview> with SingleTi
         children: [
           TabBar(
             controller: _tabController,
-            labelColor: Colors.black,
+            labelColor: Color(0xFF353E55),
             indicatorColor: Color(0xFFFFB612),
             tabs: [
               Tab(text: 'Awaiting Review (2)'),
@@ -77,14 +75,14 @@ class AwaitingReviewTab extends StatelessWidget {
     return ListView(
       children: [
         ReviewItem(
-          imageUrl: 'assets/browse store/small_eggs.jpg', // Replace with your own image URL
+          imageUrl: 'assets/browse store/small_eggs.jpg',
           title: 'Small Egg Tray',
           quantity: 1,
           size: 'Small',
           buttonText: 'Review',
         ),
         ReviewItem(
-          imageUrl: 'assets/browse store/large_eggs.jpeg', // Replace with your own image URL
+          imageUrl: 'assets/browse store/large_eggs.jpeg',
           title: 'Large Egg Tray',
           quantity: 1,
           size: 'Large',
@@ -101,7 +99,8 @@ class ReviewedTab extends StatelessWidget {
     return ListView(
       children: [
         ReviewItem(
-          imageUrl: 'assets/browse store/medium_eggs.jpg', // Replace with your own image URL
+          imageUrl:
+              'assets/browse store/medium_eggs.jpg', // Replace with your own image URL
           title: 'Medium Egg Tray',
           quantity: 1,
           size: 'Medium',
@@ -146,4 +145,3 @@ class ReviewItem extends StatelessWidget {
     );
   }
 }
-

@@ -1,7 +1,9 @@
 import 'package:eggventure/firebase_options.dart';
+import 'package:eggventure/routes/pages.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/order_screen.dart';
+import 'package:eggventure/screens/profile_screen.dart';
 import 'package:eggventure/screens/signup_screen.dart';
 import 'package:eggventure/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,12 +40,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: AppRoutes.define(), // Define app routes
+      routes: AppPages.getRoutes(),
       theme: ThemeData(
         fontFamily: 'AvenirNextCyr', // Set custom font
         scaffoldBackgroundColor: Colors.white, // Set background color to white
       ),
-      home: SplashScreen(), // Show splash screen on startup
+      home: ProfileScreen(), // Show splash screen on startup
     );
   }
 }

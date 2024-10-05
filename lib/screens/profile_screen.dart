@@ -1,3 +1,4 @@
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/profile_screen_review.dart';
 import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
 import 'package:flutter/material.dart';
@@ -52,10 +53,8 @@ class ProfileScreen extends StatelessWidget {
                 right: screenWidth * 0.05,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ShopInformationScreen()),
+                    Navigator.pushNamed(
+                      context, AppRoutes.SHOPINFO
                     );
                   },
                   icon: Image.asset(
@@ -176,11 +175,7 @@ class ProfileScreen extends StatelessWidget {
                               Icons.rate_review,
                               'Review',
                               screenWidth, () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProfileScreenReview()),
+                            Navigator.pushNamed(context, AppRoutes.PROFILESCREENREVIEW
                             );
                           }),
                         ],
