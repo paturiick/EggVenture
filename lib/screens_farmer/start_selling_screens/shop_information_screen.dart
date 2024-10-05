@@ -160,7 +160,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     Text(
                       'Shop Information',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.04, // Responsive text size
+                        fontSize: screenWidth * 0.03, // Responsive text size
                         color: Color(0xFF353E55),
                         fontFamily: 'AvenirNextCyr',
                         fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     Text(
                       'Business Information',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.04, // Responsive text size
+                        fontSize: screenWidth * 0.03, // Responsive text size
                         color: Color(0xFF353E55),
                         fontFamily: 'AvenirNextCyr',
                         fontWeight: FontWeight.bold,
