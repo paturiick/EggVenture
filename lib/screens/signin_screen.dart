@@ -219,7 +219,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     SizedBox(height: 20),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         border: Border.all(color: AppColors.YELLOW),
@@ -234,7 +234,6 @@ class _SigninScreenState extends State<SigninScreen> {
                             Text(
                               'Welcome Back!',
                               style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24,
                                 color: Color(0xFF353E55),
@@ -244,7 +243,6 @@ class _SigninScreenState extends State<SigninScreen> {
                             Text(
                               'Log-In to your account',
                               style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
                                 fontSize: 15,
                                 color: Color(0xFF353E55),
                               ),
@@ -256,8 +254,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                 cursorColor: AppColors.YELLOW,
                                 controller: _emailController,
                                 focusNode: _emailFocusNode,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
                                 decoration: InputDecoration(
                                   labelText: 'Email Address or Phone Number',
                                   labelStyle: TextStyle(
@@ -296,8 +292,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                 cursorColor: AppColors.YELLOW,
                                 controller: _passwordController,
                                 focusNode: _passwordFocusNode,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
                                 obscureText: !_isPasswordVisible,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
@@ -538,29 +532,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                   ),
                                 ),
                               ),
-
-                            if (_accessToken != null)
-                              GestureDetector(
-                                onTap: _logoutFromFacebook,
-                                child: Container(
-                                  width: size.width,
-                                  height: size.height * 0.06,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.RED,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Log Out from Facebook',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
                             SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -568,7 +539,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                 Text(
                                   "Don't have an account? ",
                                   style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: AppColors.BLUE,
                                   ),
                                 ),
@@ -584,7 +555,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                     "Sign up",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       color: AppColors.YELLOW,
                                     ),
                                   ),

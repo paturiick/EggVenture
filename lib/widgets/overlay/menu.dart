@@ -1,3 +1,5 @@
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -87,7 +89,7 @@ class MenuScreen {
           borderRadius: BorderRadius.circular(30),
           gradient: LinearGradient(
             colors: [
-              Color(0xFFFF5A5F),
+              AppColors.RED,
               Color(0xFFD73833),
             ],
           ),
@@ -102,10 +104,14 @@ class MenuScreen {
             ),
           ),
           onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => SigninScreen()),
-              (Route<dynamic> route) => false,
-            );
+            FirebaseAuthService().signOut();
+
+            //back to signin
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => SigninScreen()),
+                //ensure no back navigation
+                (Route<dynamic> route) => false);
           },
           icon: Icon(
             Icons.logout, // Using the logout icon
@@ -117,7 +123,6 @@ class MenuScreen {
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              fontFamily: 'AvenirNextCyr',
             ),
           ),
         ),

@@ -32,7 +32,11 @@ class FirebaseAuthService {
       return null; // Return null in case of an error
     }
   }
-  
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   //google_signin
   signInwithGoogle() async {
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();

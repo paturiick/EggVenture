@@ -24,19 +24,19 @@ class _VistaScreenState extends State<VistaScreen> {
   final Map<String, Map<String, String>> productDetails = {
     "assets/browse store/small_eggs.jpg": {
       "price": "P 140",
-      "name": "Small Duck Eggs",
+      "name": "Small Egg Tray",
     },
     "assets/browse store/medium_eggs.jpg": {
       "price": "P 180",
-      "name": "Medium Duck Eggs",
+      "name": "Medium Egg Tray",
     },
     "assets/browse store/large_eggs.jpeg": {
       "price": "P 220",
-      "name": "Large Duck Eggs",
+      "name": "Large Egg Tray",
     },
     "assets/browse store/xl_eggs.jpg": {
       "price": "P 250",
-      "name": "XL Duck Egg",
+      "name": "XL Egg Tray",
     },
   };
 
@@ -114,7 +114,7 @@ class _VistaScreenState extends State<VistaScreen> {
                             '${currentPageIndex + 1} / ${imagePaths.length}', // Image number indicator
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: screenWidth * 0.04,
+                              fontSize: screenWidth * 0.02,
                             ),
                           ),
                         ),
@@ -154,7 +154,7 @@ class _VistaScreenState extends State<VistaScreen> {
                 child: Text(
                   productDetails[imagePaths[currentPageIndex]]!["price"]!,
                   style: TextStyle(
-                    fontSize: screenWidth * 0.06,
+                    fontSize: screenWidth * 0.04,
                     fontWeight: FontWeight.bold,
                     color: AppColors.YELLOW,
                   ),
@@ -168,7 +168,7 @@ class _VistaScreenState extends State<VistaScreen> {
                     Text(
                       productDetails[imagePaths[currentPageIndex]]!["name"]!,
                       style: TextStyle(
-                        fontSize: screenWidth * 0.09,
+                        fontSize: screenWidth * 0.04,
                         fontWeight: FontWeight.bold,
                         color: AppColors.BLUE,
                       ),
@@ -180,7 +180,7 @@ class _VistaScreenState extends State<VistaScreen> {
                       child: Text(
                         "Product Ratings",
                         style: TextStyle(
-                          fontSize: screenWidth * 0.045,
+                          fontSize: screenWidth * 0.03,
                           fontWeight: FontWeight.w400,
                           color: AppColors.BLUE,
                         ),
@@ -204,9 +204,7 @@ class _VistaScreenState extends State<VistaScreen> {
                       child: Text(
                         "5/5 (Total Reviews)",
                         style: TextStyle(
-                            fontFamily: 'AvenirNextCyr',
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.BLUE),
+                            fontWeight: FontWeight.bold, color: AppColors.BLUE),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -221,11 +219,9 @@ class _VistaScreenState extends State<VistaScreen> {
                     Icon(Icons.timer_outlined, color: AppColors.BLUE),
                     SizedBox(width: 5),
                     Text("25 - 40 MINS",
-                        style: TextStyle(
-                          color: AppColors.BLUE,
-                        )),
+                        style: TextStyle(color: AppColors.BLUE)),
                     SizedBox(width: 15),
-                    Icon(Icons.pedal_bike, color: Color(0xFF353E55)),
+                    Icon(Icons.pedal_bike, color: AppColors.BLUE),
                   ],
                 ),
               ),
@@ -233,14 +229,13 @@ class _VistaScreenState extends State<VistaScreen> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage:
-                        AssetImage("assets/stores/vista.jpg"),
+                    backgroundImage: AssetImage("assets/stores/vista.jpg"),
                   ),
                   title: Text(
-                    "Vista Fresh Healthy Eggs",
+                    "Vista Fesh Healthy Eggs",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.05,
+                      fontSize: screenWidth * 0.03,
                       color: AppColors.BLUE,
                     ),
                     overflow: TextOverflow.ellipsis,

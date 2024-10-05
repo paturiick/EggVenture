@@ -114,7 +114,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                             '${currentPageIndex + 1} / ${imagePaths.length}', // Image number indicator
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: screenWidth * 0.04,
+                              fontSize: screenWidth * 0.02,
                             ),
                           ),
                         ),
@@ -154,7 +154,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                 child: Text(
                   productDetails[imagePaths[currentPageIndex]]!["price"]!,
                   style: TextStyle(
-                    fontSize: screenWidth * 0.06,
+                    fontSize: screenWidth * 0.04,
                     fontWeight: FontWeight.bold,
                     color: AppColors.YELLOW,
                   ),
@@ -168,7 +168,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                     Text(
                       productDetails[imagePaths[currentPageIndex]]!["name"]!,
                       style: TextStyle(
-                        fontSize: screenWidth * 0.09,
+                        fontSize: screenWidth * 0.04,
                         fontWeight: FontWeight.bold,
                         color: AppColors.BLUE,
                       ),
@@ -180,7 +180,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                       child: Text(
                         "Product Ratings",
                         style: TextStyle(
-                          fontSize: screenWidth * 0.045,
+                          fontSize: screenWidth * 0.03,
                           fontWeight: FontWeight.w400,
                           color: AppColors.BLUE,
                         ),
@@ -221,8 +221,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                     SizedBox(width: 5),
                     Text("25 - 40 MINS",
                         style: TextStyle(
-                            color: AppColors.BLUE,
-                            fontFamily: 'AvenirNextCyr')),
+                            color: AppColors.BLUE)),
                     SizedBox(width: 15),
                     Icon(Icons.pedal_bike, color: AppColors.BLUE),
                   ],
@@ -238,9 +237,8 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                   title: Text(
                     "Daily Fresh Eggs",
                     style: TextStyle(
-                      fontFamily: "AvenirNextCyr",
                       fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.05,
+                      fontSize: screenWidth * 0.03,
                       color: AppColors.BLUE,
                     ),
                     overflow: TextOverflow.ellipsis,
