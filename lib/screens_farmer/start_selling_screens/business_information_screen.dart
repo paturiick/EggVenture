@@ -88,13 +88,13 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                   Text(
                     'Shop Information',
                     style: TextStyle(
-                        fontSize: screenWidth * 0.04, color: Color(0xFF353E55)),
+                        fontSize: screenWidth * 0.03, color: Color(0xFF353E55)),
                   ),
-                  SizedBox(width: screenWidth * 0.12),
+                  SizedBox(width: screenWidth * 0.15),
                   Text(
                     'Business Information',
                     style: TextStyle(
-                        fontSize: screenWidth * 0.04, color: Color(0xFF353E55)),
+                        fontSize: screenWidth * 0.03, color: Color(0xFF353E55)),
                   ),
                 ],
               ),
