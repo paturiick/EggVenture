@@ -1,13 +1,13 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/signup_screen.dart';
 import 'package:eggventure/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -118,9 +118,7 @@ class _SigninScreenState extends State<SigninScreen> {
       });
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) =>
-                HomeScreen()),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } else {
       print("Facebook login failed: ${result.message}");
@@ -178,48 +176,43 @@ class _SigninScreenState extends State<SigninScreen> {
                             width: size.width * 0.25,
                           ),
                           SizedBox(width: 10),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'E',
-                                  style: TextStyle(
-                                    fontFamily: 'AvenirNextCyr',
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: size.width * 0.09,
-                                    color: Color(0xFFF9B514),
-                                  ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'E',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.width * 0.09,
+                                  color: AppColors.YELLOW,
                                 ),
-                                TextSpan(
-                                  text: 'GG',
-                                  style: TextStyle(
-                                    fontFamily: 'AvenirNextCyr',
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: size.width * 0.06,
-                                    color: Color(0xFF353E55),
-                                  ),
+                              ),
+                              Text(
+                                'GG',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.width * 0.06,
+                                  color: AppColors.BLUE,
                                 ),
-                                TextSpan(
-                                  text: 'V',
-                                  style: TextStyle(
-                                    fontFamily: 'AvenirNextCyr',
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: size.width * 0.09,
-                                    color: Color(0xFFF9B514),
-                                  ),
+                              ),
+                              Text(
+                                'V',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.width * 0.09,
+                                  color: AppColors.YELLOW,
                                 ),
-                                TextSpan(
-                                  text: 'ENTURE',
-                                  style: TextStyle(
-                                    fontFamily: 'AvenirNextCyr',
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: size.width * 0.06,
-                                    color: Color(0xFF353E55),
-                                  ),
+                              ),
+                              Text(
+                                'ENTURE',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: size.width * 0.06,
+                                  color: AppColors.BLUE,
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -229,7 +222,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
-                        border: Border.all(color: Color(0xFFF9B514)),
+                        border: Border.all(color: AppColors.YELLOW),
                       ),
                       child: Form(
                         key: _formKey,
@@ -260,6 +253,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             GestureDetector(
                               onTap: () => _toggleFocus(_emailFocusNode),
                               child: TextFormField(
+                                cursorColor: AppColors.YELLOW,
                                 controller: _emailController,
                                 focusNode: _emailFocusNode,
                                 textCapitalization:
@@ -267,17 +261,17 @@ class _SigninScreenState extends State<SigninScreen> {
                                 decoration: InputDecoration(
                                   labelText: 'Email Address or Phone Number',
                                   labelStyle: TextStyle(
-                                      fontSize: 10, color: Color(0xFF353E55)),
+                                      fontSize: 10, color: AppColors.BLUE),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: _isEmailFocused
-                                          ? Color(0xFFF9B514)
+                                          ? AppColors.YELLOW
                                           : Colors.grey,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(0xFFF9B514),
+                                      color: AppColors.YELLOW,
                                       width: 2.0,
                                     ),
                                   ),
@@ -299,6 +293,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             GestureDetector(
                               onTap: () => _toggleFocus(_passwordFocusNode),
                               child: TextFormField(
+                                cursorColor: AppColors.YELLOW,
                                 controller: _passwordController,
                                 focusNode: _passwordFocusNode,
                                 textCapitalization:
@@ -307,17 +302,17 @@ class _SigninScreenState extends State<SigninScreen> {
                                 decoration: InputDecoration(
                                   labelText: 'Password',
                                   labelStyle: TextStyle(
-                                      fontSize: 10, color: Color(0xFF353E55)),
+                                      fontSize: 10, color: AppColors.BLUE),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: _isPasswordFocused
-                                          ? Color(0xFFF9B514)
+                                          ? AppColors.YELLOW
                                           : Colors.grey,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(0xFFF9B514),
+                                      color: AppColors.YELLOW,
                                       width: 2.0,
                                     ),
                                   ),
@@ -361,14 +356,14 @@ class _SigninScreenState extends State<SigninScreen> {
                                           _isChecked = value!;
                                         });
                                       },
-                                      activeColor: Color(0xFFF9B514),
+                                      activeColor: AppColors.YELLOW,
                                     ),
                                     Text(
                                       'Remember me',
                                       style: TextStyle(
                                           fontFamily: 'AvenirNextCyr',
-                                          fontSize: 10,
-                                          color: Color(0xFF353E55)),
+                                          fontSize: 11,
+                                          color: AppColors.BLUE),
                                     ),
                                   ],
                                 ),
@@ -378,8 +373,8 @@ class _SigninScreenState extends State<SigninScreen> {
                                     'Forgot Password?',
                                     style: TextStyle(
                                         fontFamily: 'AvenirNextCyr',
-                                        fontSize: 10,
-                                        color: Color(0xFF353E55)),
+                                        fontSize: 11,
+                                        color: AppColors.BLUE),
                                   ),
                                 ),
                               ],
@@ -409,7 +404,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                 width: size.width,
                                 height: size.height * 0.06,
                                 decoration: BoxDecoration(
-                                  color: Color(0xFFF9B514),
+                                  color: AppColors.YELLOW,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Center(
@@ -419,7 +414,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                       fontFamily: 'AvenirNextCyr',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
-                                      color: Colors.white,
+                                      color: Color(0xFF353E55),
                                     ),
                                   ),
                                 ),
@@ -457,7 +452,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             // Google Sign-In Button
                             GestureDetector(
                               onTap: () =>
-                                  FirebaseAuthService().signInWithGoogle,
+                                  FirebaseAuthService().signInwithGoogle,
                               child: Container(
                                 width: size.width,
                                 height: size.height * 0.06,
@@ -466,7 +461,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
+                                      color: AppColors.BLUE.withOpacity(0.1),
                                       blurRadius: 8,
                                       offset: Offset(0, 4),
                                     ),
@@ -488,10 +483,9 @@ class _SigninScreenState extends State<SigninScreen> {
                                     Text(
                                       'Continue with Google',
                                       style: TextStyle(
-                                        fontFamily: 'AvenirNextCyr',
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
-                                        color: Color(0xFF353E55),
+                                        color: AppColors.BLUE,
                                       ),
                                     ),
                                   ],
@@ -511,7 +505,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
+                                        color: AppColors.BLUE.withOpacity(0.1),
                                         blurRadius: 8,
                                         offset:
                                             Offset(0, 4), // Shadow positioning
@@ -535,10 +529,9 @@ class _SigninScreenState extends State<SigninScreen> {
                                       Text(
                                         'Continue with Facebook',
                                         style: TextStyle(
-                                          fontFamily: 'AvenirNextCyr',
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
-                                          color: Color(0xFF353E55),
+                                          color: AppColors.BLUE,
                                         ),
                                       ),
                                     ],
@@ -553,14 +546,13 @@ class _SigninScreenState extends State<SigninScreen> {
                                   width: size.width,
                                   height: size.height * 0.06,
                                   decoration: BoxDecoration(
-                                    color: Colors.redAccent,
+                                    color: AppColors.RED,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Center(
                                     child: Text(
                                       'Log Out from Facebook',
                                       style: TextStyle(
-                                        fontFamily: 'AvenirNextCyr',
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                         color: Colors.white,
@@ -576,9 +568,8 @@ class _SigninScreenState extends State<SigninScreen> {
                                 Text(
                                   "Don't have an account? ",
                                   style: TextStyle(
-                                    fontFamily: 'AvenirNextCyr',
                                     fontSize: 12,
-                                    color: Color(0xFF353E55),
+                                    color: AppColors.BLUE,
                                   ),
                                 ),
                                 GestureDetector(
@@ -592,10 +583,9 @@ class _SigninScreenState extends State<SigninScreen> {
                                   child: Text(
                                     "Sign up",
                                     style: TextStyle(
-                                      fontFamily: 'AvenirNextCyr',
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
-                                      color: Color(0xFFF9B514),
+                                      color: AppColors.YELLOW,
                                     ),
                                   ),
                                 ),

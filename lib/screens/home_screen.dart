@@ -1,10 +1,11 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:flutter/services.dart'; // Import this for SystemUiOverlayStyle
 import 'package:eggventure/store_screen/daily_fresh_screen.dart';
 import 'package:eggventure/store_screen/pabilona_screen.dart';
 import 'package:eggventure/store_screen/pelonio_screen.dart';
 import 'package:eggventure/store_screen/sundo_screen.dart';
 import 'package:eggventure/store_screen/vista_screen.dart';
-import 'package:eggventure/store_screen/wf_screen.dart';
+import 'package:eggventure/store_screen/white_feathers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
@@ -60,7 +61,7 @@ class HomeScreen extends StatelessWidget {
       'name': 'White Feathers Farm',
       'hours': '8am - 5pm',
       'days': 'Mon - Sat',
-      'screen': WfScreen(),
+      'screen': WhiteFeathersScreen(),
     },
     {
       'image': 'assets/stores/pabilona_duck.jpg',
@@ -104,48 +105,43 @@ class HomeScreen extends StatelessWidget {
                           width: size.width * 0.15,
                         ),
                         SizedBox(width: size.width * 0.02),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'E',
-                                style: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: size.width * 0.09,
-                                  color: Color(0xFFF9B514),
-                                ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'E',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: size.width * 0.09,
+                                color: AppColors.YELLOW,
                               ),
-                              TextSpan(
-                                text: 'GG',
-                                style: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: size.width * 0.06,
-                                  color: Color(0xFF353E55),
-                                ),
+                            ),
+                            Text(
+                              'GG',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: size.width * 0.06,
+                                color: AppColors.BLUE,
                               ),
-                              TextSpan(
-                                text: 'V',
-                                style: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: size.width * 0.09,
-                                  color: Color(0xFFF9B514),
-                                ),
+                            ),
+                            Text(
+                              'V',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: size.width * 0.09,
+                                color: AppColors.YELLOW,
                               ),
-                              TextSpan(
-                                text: 'ENTURE',
-                                style: TextStyle(
-                                  fontFamily: 'AvenirNextCyr',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: size.width * 0.06,
-                                  color: Color(0xFF353E55),
-                                ),
+                            ),
+                            Text(
+                              'ENTURE',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: size.width * 0.06,
+                                color: AppColors.BLUE,
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -156,7 +152,7 @@ class HomeScreen extends StatelessWidget {
                     vertical: size.height * 0.02,
                   ),
                   child: TextField(
-                    cursorColor: Color(0xFFF9B514),
+                    cursorColor: AppColors.YELLOW,
                     focusNode: _searchFocusNode, // Assign FocusNode
                     controller: _searchController, // Assign Controller
                     decoration: InputDecoration(
@@ -169,8 +165,8 @@ class HomeScreen extends StatelessWidget {
                         fillColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Color(0xFFF9B514)))),
-                    style: TextStyle(color: Color(0xFF353E55)),
+                            borderSide: BorderSide(color: AppColors.YELLOW))),
+                    style: TextStyle(color: AppColors.BLUE),
                   ),
                 ),
                 Padding(
@@ -178,10 +174,9 @@ class HomeScreen extends StatelessWidget {
                   child: Text(
                     'Popular',
                     style: TextStyle(
-                      fontFamily: 'AvenirNextCyr',
                       fontWeight: FontWeight.bold,
                       fontSize: size.width * 0.06,
-                      color: Color(0xFF353E55),
+                      color: AppColors.BLUE,
                     ),
                   ),
                 ),
@@ -218,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                       fontFamily: 'AvenirNextCyr',
                       fontWeight: FontWeight.bold,
                       fontSize: size.width * 0.045,
-                      color: Color(0xFF353E55),
+                      color: AppColors.BLUE,
                     ),
                   ),
                 ),
@@ -275,7 +270,7 @@ class HomeScreen extends StatelessWidget {
               width: size.width * 0.33,
               height: size.height * 0.12,
               decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Color(0xFFF9B514)),
+                border: Border.all(width: 1, color: AppColors.YELLOW),
                 borderRadius: BorderRadius.circular(size.width * 0.03),
                 image: DecorationImage(
                   image: AssetImage(imagePath),
@@ -288,14 +283,13 @@ class HomeScreen extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: size.width * 0.04,
-                color: Color(0xFF353E55),
+                color: AppColors.BLUE,
               ),
             ),
             SizedBox(height: size.height * 0.005),
             Text(
               time,
               style: TextStyle(
-                fontFamily: 'AvenirNextCyr',
                 fontSize: size.width * 0.035,
                 color: Colors.grey[600],
               ),
@@ -303,7 +297,6 @@ class HomeScreen extends StatelessWidget {
             Text(
               days,
               style: TextStyle(
-                fontFamily: 'AvenirNextCyr',
                 fontSize: size.width * 0.035,
                 color: Colors.grey[600],
               ),

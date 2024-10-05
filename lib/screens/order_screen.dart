@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,7 @@ class _OrderScreenState extends State<OrderScreen>
               fontFamily: 'AvenirNextCyr',
               fontWeight: FontWeight.bold,
               fontSize: 30,
-              color: Color(0xFF353E55),
+              color: AppColors.BLUE,
             ),
           ),
           centerTitle: true,
@@ -58,9 +59,9 @@ class _OrderScreenState extends State<OrderScreen>
                   Expanded(
                     child: TabBar(
                       controller: _tabController,
-                      labelColor: Color(0xFFFFB612),
+                      labelColor: AppColors.YELLOW,
                       unselectedLabelColor: Colors.grey[600],
-                      indicatorColor: Color(0xFFFFB612),
+                      indicatorColor: AppColors.YELLOW,
                       indicatorWeight: 4,
                       labelPadding:
                           EdgeInsetsDirectional.only(start: 20, end: 20.0),

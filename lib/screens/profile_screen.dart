@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,20 +25,19 @@ class ProfileScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xFFFFB612),
+            backgroundColor: AppColors.YELLOW,
             title: Text(
               'MANAGE PROFILE',
               style: TextStyle(
-                fontFamily: 'AvenirNextCyr',
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.06, // Responsive font size
-                color: Color(0xFF353E55),
+                color: AppColors.BLUE,
               ),
             ),
             centerTitle: true,
             actions: [
               IconButton(
-                icon: Icon(Icons.menu, color: Color(0xFF353E55)),
+                icon: Icon(Icons.menu, color: AppColors.BLUE),
                 onPressed: () {
                   MenuScreen.showMenu(context);
                 },
@@ -62,9 +62,8 @@ class ProfileScreen extends StatelessWidget {
                   label: Text(
                     'Start Selling',
                     style: TextStyle(
-                      fontFamily: 'AvenirNextCyr',
                       fontSize: screenWidth * 0.03,
-                      color: Color(0xFF353E55),
+                      color: AppColors.BLUE,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -104,7 +103,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             child: Icon(
                               Icons.add_a_photo,
-                              color: Color(0xFF353E55),
+                              color: AppColors.BLUE,
                               size: screenWidth * 0.1,
                             ),
                           ),
@@ -116,10 +115,9 @@ class ProfileScreen extends StatelessWidget {
                                 Text(
                                   '', // Empty string for name
                                   style: TextStyle(
-                                    fontFamily: 'AvenirNextCyr',
                                     fontWeight: FontWeight.bold,
                                     fontSize: screenWidth * 0.05, // Responsive
-                                    color: Color(0xFF353E55),
+                                    color: AppColors.BLUE,
                                   ),
                                 ),
                                 SizedBox(height: screenHeight * 0.01),
@@ -173,8 +171,7 @@ class ProfileScreen extends StatelessWidget {
                               Icons.rate_review,
                               'Review',
                               screenWidth, () {
-                            Navigator.pushNamed(context, AppRoutes.PROFILESCREENREVIEW
-                            );
+                            Navigator.pushNamed(context, AppRoutes.PROFILESCREENREVIEW);
                           }),
                         ],
                       ),
@@ -209,8 +206,8 @@ class ProfileScreen extends StatelessWidget {
         // Handle button press action here
       },
       style: ElevatedButton.styleFrom(
-        foregroundColor: Color(0xFF353E55),
-        backgroundColor: Color(0xFFFFB612),
+        foregroundColor: AppColors.BLUE,
+        backgroundColor: AppColors.YELLOW,
         padding: EdgeInsets.symmetric(
           horizontal: screenWidth * 0.07,
           vertical: screenWidth * 0.03,
@@ -222,7 +219,6 @@ class ProfileScreen extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontFamily: 'AvenirNextCyr',
           fontSize: screenWidth * 0.04,
           color: Color(0xFF353E55),
         ),
@@ -238,7 +234,7 @@ class ProfileScreen extends StatelessWidget {
             // Default action if no onPressed is provided
           },
       style: ElevatedButton.styleFrom(
-        foregroundColor: Color(0xFF353E55),
+        foregroundColor: AppColors.BLUE,
         backgroundColor: Colors.white,
         elevation: 0,
         padding: EdgeInsets.symmetric(
@@ -251,15 +247,14 @@ class ProfileScreen extends StatelessWidget {
           Icon(
             icon,
             size: screenWidth * 0.1,
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
           SizedBox(height: screenWidth * 0.02),
           Text(
             text,
             style: TextStyle(
-              fontFamily: 'AvenirNextCyr',
               fontSize: screenWidth * 0.035,
-              color: Color(0xFF353E55),
+              color: AppColors.BLUE,
             ),
           ),
         ],
@@ -273,19 +268,17 @@ class ProfileScreen extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            fontFamily: 'AvenirNextCyr',
             fontWeight: FontWeight.bold,
             fontSize: screenWidth * 0.05,
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
         ),
         SizedBox(height: screenWidth * 0.01),
         Text(
           label,
           style: TextStyle(
-            fontFamily: 'AvenirNextCyr',
             fontSize: screenWidth * 0.035,
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
         ),
       ],

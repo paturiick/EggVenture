@@ -32,24 +32,19 @@ class FirebaseAuthService {
       return null; // Return null in case of an error
     }
   }
+  
+  //google_signin
+  signInwithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-  //google sign in
-  Future<dynamic> signInWithGoogle() async {
-    //proceeds to sign in
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-    //if user cancels the sign in of google
-    if (gUser == null) return;
+    AuthCredential credential = await GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
-    //auth details
-    final GoogleSignInAuthentication? gAuth = await gUser.authentication;
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
-    //create new credential for user
-    final credential = GoogleAuthProvider.credential(
-      accessToken: gAuth?.accessToken,
-      idToken: gAuth?.idToken,
-    );
-    //sign in
-    return await _auth.signInWithCredential(credential);
+    print(userCredential.user?.displayName);
   }
 }

@@ -21,7 +21,7 @@ import 'package:eggventure/store_screen/pabilona_screen.dart';
 import 'package:eggventure/store_screen/pelonio_screen.dart';
 import 'package:eggventure/store_screen/sundo_screen.dart';
 import 'package:eggventure/store_screen/vista_screen.dart';
-import 'package:eggventure/store_screen/wf_screen.dart';
+import 'package:eggventure/store_screen/white_feathers_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppPages {
@@ -44,7 +44,7 @@ class AppPages {
       AppRoutes.PELONIO: (context) => PelonioScreen(),
       AppRoutes.SUNDO: (context) => SundoScreen(),
       AppRoutes.VISTA: (context) => VistaScreen(),
-      AppRoutes.WHITEFEATHERS: (context) => WfScreen(),
+      AppRoutes.WHITEFEATHERS: (context) => WhiteFeathersScreen(),
       AppRoutes.CHATFARMER: (context) => ChatScreenFarmer(),
       AppRoutes.ADDPRODUCTFARMER: (context) => AddProductScreenFarmer(),
       AppRoutes.HOMEFARMER: (context) => HomeScreenFarmer(),

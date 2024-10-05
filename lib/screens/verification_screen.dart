@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -42,7 +43,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
                                 fontSize: screenWidth * 0.09,
-                                color: Color(0xFFF9B514),
+                                color: AppColors.YELLOW,
                               ),
                             ),
                             TextSpan(
@@ -51,7 +52,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
                                 fontSize: screenWidth * 0.07,
-                                color: Color(0xFF353E55),
+                                color: AppColors.BLUE,
                               ),
                             ),
                             TextSpan(
@@ -60,7 +61,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
                                 fontSize: screenWidth * 0.09,
-                                color: Color(0xFFF9B514),
+                                color: AppColors.YELLOW,
                               ),
                             ),
                             TextSpan(
@@ -69,7 +70,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.w700,
                                 fontSize: screenWidth * 0.07,
-                                color: Color(0xFF353E55),
+                                color: AppColors.BLUE,
                               ),
                             ),
                           ],
@@ -87,7 +88,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: Color(0xFFF9B514)),
+                      border: Border.all(color: AppColors.YELLOW),
                     ),
                     child: Column(
                       children: [
@@ -98,7 +99,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             fontSize:
                                 screenWidth * 0.06, // Responsive text size
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF353E55),
+                            color: AppColors.BLUE,
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.015),
@@ -106,7 +107,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           'Please enter the verification code sent to \n "phone number"',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xFF353E55),
+                            color: AppColors.BLUE,
                             fontSize: screenWidth * 0.04,
                           ),
                         ),
@@ -125,9 +126,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             borderRadius: BorderRadius.circular(5),
                             fieldHeight: screenWidth * 0.16,
                             fieldWidth: screenWidth * 0.16,
-                            activeColor: Color(0xFF353E55),
+                            activeColor: AppColors.BLUE,
                             inactiveColor: Colors.grey[300],
-                            selectedColor: Color(0xFFFFB612),
+                            selectedColor: AppColors.YELLOW,
                           ),
                           onChanged: (value) {
                             print(value);
@@ -142,7 +143,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           child: Text(
                             'Resend code',
                             style: TextStyle(
-                              color: Color(0xFF353E55),
+                              color: AppColors.BLUE,
                               fontWeight: FontWeight.bold,
                               fontSize: screenWidth * 0.05,
                             ),
@@ -157,7 +158,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                     builder: (context) => SigninScreen()));
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFFFB612),
+                            backgroundColor: AppColors.YELLOW,
                             padding: EdgeInsets.symmetric(
                               horizontal: screenWidth * 0.25,
                               vertical: screenHeight * 0.02,
@@ -169,7 +170,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           child: Text(
                             'Verify',
                             style: TextStyle(
-                              color: Color(0xFF353E55),
+                              color: AppColors.BLUE,
                               fontWeight: FontWeight.bold,
                               fontSize: screenWidth * 0.08,
                             ),
@@ -183,7 +184,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           child: Text(
                             'Change Email',
                             style: TextStyle(
-                              color: Color(0xFF353E55),
+                              color: AppColors.BLUE,
                               fontWeight: FontWeight.bold,
                               fontSize: screenWidth * 0.05,
                               decoration: TextDecoration.underline,

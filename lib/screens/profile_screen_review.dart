@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreenReview extends StatefulWidget {
@@ -25,7 +26,7 @@ class _ProfileScreenReviewState extends State<ProfileScreenReview>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFFB612),
+        backgroundColor: AppColors.YELLOW,
         title: Text(
           'Review Center',
           style: TextStyle(
@@ -36,7 +37,10 @@ class _ProfileScreenReviewState extends State<ProfileScreenReview>
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(
+            Icons.arrow_back,
+            color: AppColors.BLUE,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -46,8 +50,8 @@ class _ProfileScreenReviewState extends State<ProfileScreenReview>
         children: [
           TabBar(
             controller: _tabController,
-            labelColor: Color(0xFF353E55),
-            indicatorColor: Color(0xFFFFB612),
+            labelColor: AppColors.BLUE,
+            indicatorColor: AppColors.YELLOW,
             tabs: [
               Tab(text: 'Awaiting Review (2)'),
               Tab(text: 'Reviewed'),
@@ -71,23 +75,28 @@ class _ProfileScreenReviewState extends State<ProfileScreenReview>
 class AwaitingReviewTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        ReviewItem(
-          imageUrl: 'assets/browse store/small_eggs.jpg',
-          title: 'Small Egg Tray',
-          quantity: 1,
-          size: 'Small',
-          buttonText: 'Review',
-        ),
-        ReviewItem(
-          imageUrl: 'assets/browse store/large_eggs.jpeg',
-          title: 'Large Egg Tray',
-          quantity: 1,
-          size: 'Large',
-          buttonText: 'Review',
-        ),
-      ],
+    return Container(
+      color: Colors.grey[200], // Background color for the ListView
+      child: ListView(
+        children: [
+          ReviewItem(
+            imageUrl: 'assets/browse store/small_eggs.jpg',
+            title: 'Small Egg Tray',
+            quantity: 1,
+            size: 'Small',
+            buttonText: 'Review',
+            backgroundColor: Colors.white, // Custom background color
+          ),
+          ReviewItem(
+            imageUrl: 'assets/browse store/large_eggs.jpeg',
+            title: 'Large Egg Tray',
+            quantity: 1,
+            size: 'Large',
+            buttonText: 'Review',
+            backgroundColor: Colors.white, // Custom background color
+          ),
+        ],
+      ),
     );
   }
 }
@@ -95,16 +104,19 @@ class AwaitingReviewTab extends StatelessWidget {
 class ReviewedTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        ReviewItem(
-          imageUrl:
-              'assets/browse store/medium_eggs.jpg', // Replace with your own image URL
-          title: 'Medium Egg Tray',
-          quantity: 1,
-          size: 'Medium',
-        ),
-      ],
+    return Container(
+      color: Colors.grey[200], // Background color for the ListView
+      child: ListView(
+        children: [
+          ReviewItem(
+            imageUrl:
+                'assets/browse store/medium_eggs.jpg', // Replace with your own image URL
+            title: 'Medium Egg Tray',
+            quantity: 1,
+            size: 'Medium',
+          ),
+        ],
+      ),
     );
   }
 }
@@ -115,6 +127,7 @@ class ReviewItem extends StatelessWidget {
   final int quantity;
   final String size;
   final String? buttonText;
+  final Color backgroundColor;
 
   ReviewItem({
     required this.imageUrl,
@@ -122,18 +135,30 @@ class ReviewItem extends StatelessWidget {
     required this.quantity,
     required this.size,
     this.buttonText,
+    this.backgroundColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: backgroundColor,
       margin: EdgeInsets.all(10.0),
       child: ListTile(
         leading: Image.asset(imageUrl),
-        title: Text(title),
-        subtitle: Text('Qty: $quantity\nSize: $size'),
+        title: Text(
+          title,
+          style: TextStyle(color: AppColors.BLUE),
+        ),
+        subtitle: Text(
+          'Qty: $quantity\nSize: $size',
+          style: TextStyle(color: AppColors.BLUE),
+        ),
         trailing: buttonText != null
             ? ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: AppColors.BLUE,
+                  backgroundColor: AppColors.YELLOW,
+                ),
                 onPressed: () {
                   // Implement review action
                 },
