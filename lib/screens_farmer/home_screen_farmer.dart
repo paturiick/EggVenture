@@ -1,4 +1,5 @@
-import 'package:eggventure/widgets/navigation_bar_farmer.dart';
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -9,149 +10,191 @@ class HomeScreenFarmer extends StatefulWidget {
   _HomeScreenFarmerState createState() => _HomeScreenFarmerState();
 }
 
-class _HomeScreenFarmerState extends State<HomeScreenFarmer> {
-  int selectedRating = 0; // 0 for All, 1 for 1 star, 2 for 2 stars, etc.
+class _HomeScreenFarmerState extends State<HomeScreenFarmer>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController =
+        TabController(length: 6, vsync: this); // 6 tabs: All, 1-5 stars
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 40.0),
+      body: Column(
+        children: [
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: size.height * 0.05),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/Eggventure.png',
+                    width: size.width * 0.15,
+                  ),
+                  SizedBox(width: size.width * 0.02),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'E',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: size.width * 0.09,
+                          color: AppColors.YELLOW,
+                        ),
+                      ),
+                      Text(
+                        'GG',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: size.width * 0.06,
+                          color: AppColors.BLUE,
+                        ),
+                      ),
+                      Text(
+                        'V',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: size.width * 0.09,
+                          color: AppColors.YELLOW,
+                        ),
+                      ),
+                      Text(
+                        'ENTURE',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: size.width * 0.06,
+                          color: AppColors.BLUE,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: size.width * 0.05,
+              vertical: size.height * 0.02,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                // Define the action to be taken on tap
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: AppColors.YELLOW,
+                    width: 1.0,
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: size.width * 0.04,
+                  vertical: size.height * 0.015,
+                ),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      'assets/Eggventure.png',
-                      width: 50,
-                    ),
-                    SizedBox(width: 10),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'E',
-                            style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 32,
-                              color: Color(0xFFF9B514),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'GG',
-                            style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Color(0xFF353E55),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'V',
-                            style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 32,
-                              color: Color(0xFFF9B514),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'ENTURE',
-                            style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 25,
-                              color: Color(0xFF353E55),
-                            ),
-                          ),
-                        ],
+                    Icon(AntDesign.search_outline, color: AppColors.BLUE),
+                    SizedBox(width: size.width * 0.03),
+                    Text(
+                      'Search',
+                      style: TextStyle(
+                        color: AppColors.BLUE,
+                        fontSize: size.width * 0.04,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  prefixIcon: Icon(AntDesign.search_outline),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Color(0xFFF5F5F5),
-                ),
-              ),
+          ),
+          TabBar(
+            controller: _tabController,
+            labelColor: AppColors.YELLOW,
+            unselectedLabelColor: Color(0xFF353E55),
+            indicatorColor: AppColors.YELLOW,
+            tabs: [
+              Tab(text: 'All'),
+              _buildTabWithStar('1', size),
+              _buildTabWithStar('2', size),
+              _buildTabWithStar('3', size),
+              _buildTabWithStar('4', size),
+              _buildTabWithStar('5', size),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildContentForRating(0, size), // Content for "All"
+                _buildContentForRating(1, size), // Content for 1 star
+                _buildContentForRating(2, size), // Content for 2 stars
+                _buildContentForRating(3, size), // Content for 3 stars
+                _buildContentForRating(4, size), // Content for 4 stars
+                _buildContentForRating(5, size), // Content for 5 stars
+              ],
             ),
-            // Filter Buttons (All, 1 star, 2 star, etc.)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  filterButton('All', 0),
-                  filterButton('1 ★', 1),
-                  filterButton('2 ★', 2),
-                  filterButton('3 ★', 3),
-                  filterButton('4 ★', 4),
-                  filterButton('5 ★', 5),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            // This space is intentionally left blank for now
-            // Add your content or other widgets here in the future
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Container(
-                height: 400, // Empty space for future content
-                color: Colors.grey[200],
-                child: Center(
-                  child: Text(
-                    'Content will be displayed here',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 0),
     );
   }
 
-  // Widget for the filter buttons
-  Widget filterButton(String text, int rating) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedRating = rating;
-        });
-      },
+  // Helper method to generate a tab with rating number and star
+  Tab _buildTabWithStar(String rating, Size size) {
+    return Tab(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            rating,
+            style:
+                TextStyle(fontSize: size.width * 0.04), // Responsive font size
+          ),
+          SizedBox(
+              width: size.width * 0.01), // Small space between number and star
+          Icon(
+            Icons.star,
+            color: AppColors.YELLOW,
+            size: size.width * 0.04, // Responsive icon size
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper method to generate content based on the selected rating
+  Widget _buildContentForRating(int rating, Size size) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: selectedRating == rating ? Color(0xFFF9B514) : Color(0xFFF5F5F5),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: selectedRating == rating ? Colors.white : Colors.black,
-            fontWeight: FontWeight.bold,
+        height: size.height * 0.2,
+        child: Center(
+          child: Text(
+            rating == 0
+                ? 'All Ratings Content'
+                : 'Content for $rating Star Rating',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: size.width * 0.04,
+            ),
           ),
         ),
       ),

@@ -12,7 +12,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   final _emailController = TextEditingController();
   final _pickupAddressController = TextEditingController();
   final _contactNumberController = TextEditingController();
-  final _formKey = GlobalKey<FormState>(); // Added formKey
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -32,13 +32,11 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
           border: OutlineInputBorder(),
           labelText: label,
           labelStyle: TextStyle(
-            fontFamily: 'AvenirNextCyr',
             fontWeight: FontWeight.bold,
             color: Color(0xFF353E55),
           ),
         ),
         style: TextStyle(
-          fontFamily: 'AvenirNextCyr',
           color: Color(0xFF353E55),
         ),
         validator: (value) {
@@ -53,8 +51,8 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
 
   Widget _buildProfilePicturePicker() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.4, // 40% of the screen width
-      height: MediaQuery.of(context).size.width * 0.4, // 40% of the screen width
+      width: MediaQuery.of(context).size.width * 0.4, 
+      height: MediaQuery.of(context).size.width * 0.4,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(12),
@@ -72,7 +70,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
 
   Widget _stepCircle(bool isActive) {
     return CircleAvatar(
-      radius: MediaQuery.of(context).size.width * 0.03, // Adjust radius based on screen width
+      radius: MediaQuery.of(context).size.width * 0.03,
       backgroundColor: isActive ? Color(0xFFF9B514) : Colors.grey[300],
       child: Icon(Icons.circle, color: Colors.white, size: MediaQuery.of(context).size.width * 0.04),
     );
@@ -99,9 +97,8 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
           'Shop Information',
           style: TextStyle(
             color: Color(0xFF353E55),
-            fontFamily: 'AvenirNextCyr',
             fontWeight: FontWeight.bold,
-            fontSize: screenWidth * 0.05, // Adjust text size based on screen width
+            fontSize: screenWidth * 0.05,
           ),
         ),
         centerTitle: true,
@@ -120,9 +117,8 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                 'Save',
                 style: TextStyle(
                   color: Color(0xFFF9B514),
-                  fontFamily: 'AvenirNextCyr',
                   fontWeight: FontWeight.bold,
-                  fontSize: screenWidth * 0.045, // Adjust text size based on screen width
+                  fontSize: screenWidth * 0.045,
                 ),
               ),
             ),
@@ -162,7 +158,6 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                       style: TextStyle(
                         fontSize: screenWidth * 0.03, // Responsive text size
                         color: Color(0xFF353E55),
-                        fontFamily: 'AvenirNextCyr',
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -172,7 +167,6 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                       style: TextStyle(
                         fontSize: screenWidth * 0.03, // Responsive text size
                         color: Color(0xFF353E55),
-                        fontFamily: 'AvenirNextCyr',
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -198,7 +192,6 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                         'Insert Profile Picture',
                         style: TextStyle(
                           color: Colors.grey,
-                          fontFamily: 'AvenirNextCyr',
                           fontWeight: FontWeight.bold,
                           fontSize: screenWidth * 0.035, // Responsive text size
                         ),
@@ -208,29 +201,22 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                 ),
                 SizedBox(height: screenHeight * 0.03),
 
-                // Buttons for Back and Next
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfileScreen(), // Navigate to ProfileScreen
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         side: BorderSide(color: Color(0xFFF9B514)),
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15), // Adjust button padding
+                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
                       ),
                       child: Text(
                         'Back',
                         style: TextStyle(
                           color: Color(0xFF353E55),
-                          fontFamily: 'AvenirNextCyr',
                           fontWeight: FontWeight.bold,
                           fontSize: screenWidth * 0.04, // Responsive text size
                         ),

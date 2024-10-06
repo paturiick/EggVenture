@@ -8,7 +8,7 @@ import 'package:eggventure/store_screen/vista_screen.dart';
 import 'package:eggventure/store_screen/white_feathers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:eggventure/widgets/navigation_bar.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -151,22 +151,38 @@ class HomeScreen extends StatelessWidget {
                     horizontal: size.width * 0.05,
                     vertical: size.height * 0.02,
                   ),
-                  child: TextField(
-                    cursorColor: AppColors.YELLOW,
-                    focusNode: _searchFocusNode, // Assign FocusNode
-                    controller: _searchController, // Assign Controller
-                    decoration: InputDecoration(
-                        hintText: 'Search',
-                        prefixIcon: Icon(AntDesign.search_outline),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                  child: GestureDetector(
+                    onTap: () {
+                      // Define the action to be taken on tap, e.g., navigate to search screen
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: AppColors
+                              .YELLOW, // Add border color for focus effect
+                          width: 1.0, // Border width
                         ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: AppColors.YELLOW))),
-                    style: TextStyle(color: AppColors.BLUE),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.04,
+                        vertical: size.height * 0.015,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(AntDesign.search_outline, color: AppColors.BLUE),
+                          SizedBox(width: size.width * 0.03),
+                          Text(
+                            'Search',
+                            style: TextStyle(
+                              color: AppColors.BLUE,
+                              fontSize: size.width * 0.04,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 Padding(

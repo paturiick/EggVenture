@@ -1,5 +1,8 @@
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:eggventure/widgets/navigation_bar_farmer.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 
 class OrderScreenFarmer extends StatefulWidget {
@@ -42,116 +45,153 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          children: [
-            Text(
-              'Orders',
-              style: TextStyle(
-                fontFamily: 'AvenirNextCyr',
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-                height: 1.2,
-                color: Color(0xFF353E55),
-              ),
+    // Getting screen dimensions using MediaQuery
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
+    final screenHeight = mediaQuery.size.height;
+
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0, // Remove shadow
+          centerTitle: true,
+          title: Text(
+            'Orders',
+            style: TextStyle(
+              fontFamily: 'AvenirNextCyr',
+              fontWeight: FontWeight.bold,
+              fontSize: screenWidth * 0.07, // Responsive font size
+              color: Color(0xFF353E55),
             ),
-            SizedBox(height: 5),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 1,
-              decoration: BoxDecoration(
-                color: Color(0xFF353E55),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: Offset(0, 2),
+          ),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1), // Height of the bottom border
+            child: Container(
+              color: Colors.grey[300], // Bottom border color
+              height: 1, // Border thickness
+            ),
+          ),
+        ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.05, // Responsive padding
+            vertical: screenHeight * 0.02, // Responsive vertical padding
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  //search orders here
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.02,
+                      vertical: screenHeight * 0.01),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: AppColors.BLUE),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Search bar
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search orders...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Color(0xFFF5F5F5),
-              ),
-            ),
-            SizedBox(height: 10),
-            // Date range picker button under the search bar
-            Align(
-              alignment: Alignment.centerLeft,
-              child: ElevatedButton(
-                onPressed: _selectDateRange,
-                child: Text(
-                  selectedDateRange == null
-                      ? 'Select Date'
-                      : '${DateFormat('yyyy/MM/dd').format(selectedDateRange!.start)} - ${DateFormat('yyyy/MM/dd').format(selectedDateRange!.end)}',
+                  child: Row(
+                    children: [
+                      Icon(
+                        AntDesign.search_outline,
+                        color: AppColors.BLUE,
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.01,
+                      ),
+                      Text(
+                        "Search Orders",
+                        style: TextStyle(color: AppColors.BLUE),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.01), // Responsive spacing
 
-            // TabBar for different order statuses
-            TabBar(
-              controller: _tabController,
-              labelColor: Color(0xFF353E55),
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: Color(0xFF353E55),
-              tabs: [
-                Tab(text: 'All'),
-                Tab(text: 'To Process'),
-                Tab(text: 'Processed'),
-              ],
-            ),
-            SizedBox(height: 20),
+              // Date range picker button under the search bar
+              // Date range picker button under the search bar
+              Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                  onTap:
+                      _selectDateRange, // Opens the date range picker when tapped
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.amber, width: 1.5),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.calendar_today, color: Colors.grey),
+                        SizedBox(
+                            width: 8), // Spacing between icon and date text
+                        Text(
+                          selectedDateRange == null
+                              ? 'Select Date' // Placeholder when no date is selected
+                              : '${DateFormat('yyyy/MM/dd').format(selectedDateRange!.start)} - ${DateFormat('yyyy/MM/dd').format(selectedDateRange!.end)}',
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
 
-            // Order List
-            Expanded(
-              child: TabBarView(
+              SizedBox(height: screenHeight * 0.02), // Responsive spacing
+
+              // TabBar for different order statuses
+              TabBar(
                 controller: _tabController,
-                children: [
-                  _buildOrderList(),
-                  _buildOrderList(),
-                  _buildOrderList(),
+                labelColor: Color(0xFF353E55),
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: Color(0xFF353E55),
+                tabs: [
+                  Tab(text: 'All'),
+                  Tab(text: 'To Process'),
+                  Tab(text: 'Processed'),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: screenHeight * 0.02), // Responsive spacing
+
+              // Order List
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _buildOrderList(screenWidth, screenHeight),
+                    _buildOrderList(screenWidth, screenHeight),
+                    _buildOrderList(screenWidth, screenHeight),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
+        bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 1),
       ),
-      bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 1),
     );
   }
 
-  // Function to display order list based on tab
-  Widget _buildOrderList() {
+  Widget _buildOrderList(double screenWidth, double screenHeight) {
     // Dummy order data (replace with your actual data logic)
     List<Map<String, String>> orders = [
       {
         'product': 'Medium Egg Tray',
+        'size': 'Medium',
         'quantity': '1',
-        'price': '160',
+        'price': '₱160',
         'status': 'To Deliver',
-        'user': '"Name of the Consumer"',
+        'user': 'User1',
         'productImage': 'assets/browse store/medium_eggs.jpg',
       },
     ];
@@ -160,111 +200,104 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
       itemCount: orders.length,
       itemBuilder: (context, index) {
         return Card(
-          margin: EdgeInsets.symmetric(vertical: 10),
+          margin: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(color: Colors.amberAccent, width: 1.5),
           ),
+          color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(screenHeight * 0.015),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // User name with blank profile icon
+                // User row with profile picture and name
                 Row(
                   children: [
+                    // Placeholder for profile picture
                     CircleAvatar(
-                      backgroundColor: Colors
-                          .grey[300], // Light grey for a placeholder color
-                      radius: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      orders[index]['user']!,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                      radius: screenWidth * 0.04, // Responsive size
+                      backgroundColor: Colors.grey[300], // Placeholder color
+                      child: Icon(
+                        Icons.person,
+                        size: screenWidth * 0.03, // Responsive icon size
+                        color: Colors.grey[600], // Icon color
                       ),
                     ),
-                    Spacer(),
-                    Icon(Icons.message_outlined), // Chat icon
+                    SizedBox(width: screenWidth * 0.03),
+
+                    // User name and label
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          orders[index]['user']!,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: screenWidth * 0.04,
+                            color: AppColors.BLUE,
+                          ),
+                        ),
+                        SizedBox(width: screenWidth * 0.01),
+                        IconButton(
+                          icon: Icon(AntDesign.message_outline),
+                          color: AppColors.BLUE,
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoutes.CHATFARMER);
+                          },
+                        )
+                      ],
+                    ),
                   ],
                 ),
-
-                SizedBox(height: 10),
-
-                // Column labels: Product(s), Total Price, Actions
-                Container(
-                  color: Colors.grey[200],
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: Text(
-                          'Product(s)',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          'Total Price',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          'Actions',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
+                SizedBox(height: screenHeight * 0.02),
+                Divider(
+                  color: AppColors.YELLOW,
                 ),
-
-                // Product row details
+                // Product row details (as shown in the image)
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Product image
                     Image.asset(
                       orders[index]['productImage']!,
-                      width: 50,
-                      height: 50,
+                      width: screenWidth * 0.15, // Adjusted width
+                      height: screenHeight * 0.08, // Adjusted height
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: screenWidth * 0.03),
 
                     // Product info
                     Expanded(
-                      flex: 4,
+                      flex: 6,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            children: [
+                              Text(
+                                orders[index]['product']!,
+                                style: TextStyle(
+                                  color: AppColors.BLUE,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: screenWidth * 0.03,
+                                ),
+                              ),
+                              SizedBox(width: screenWidth * 0.01),
+                              Text(
+                                '${orders[index]['quantity']}x',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: screenWidth * 0.03,
+                                ),
+                              ),
+                            ],
+                          ),
                           Text(
-                            orders[index]['product']!,
+                            "Size: " + orders[index]['size']!,
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              color: Colors.grey,
+                              fontSize: screenWidth * 0.03,
                             ),
-                          ),
-                          Text(
-                            "Size : Medium",
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          Text(
-                            "x${orders[index]['quantity']}",
-                            style: TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
@@ -272,12 +305,13 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
 
                     // Price info
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: Text(
                         orders[index]['price']!,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          color: AppColors.BLUE,
+                          fontSize: screenWidth * 0.03,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -285,14 +319,14 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
 
                     // Status (Actions)
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: Text(
                         orders[index]['status']!,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.green,
                         ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],

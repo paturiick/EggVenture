@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay/menu.dart';
-import 'package:eggventure/widgets/navigation_bar.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -56,7 +56,7 @@ class ProfileScreen extends StatelessWidget {
                     );
                   },
                   icon: Image.asset(
-                    "assets/icons/start_selling.jpg",
+                    "assets/icons/start_selling.png",
                     height: screenHeight * 0.03,
                   ),
                   label: Text(

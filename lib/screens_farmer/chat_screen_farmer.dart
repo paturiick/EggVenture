@@ -1,38 +1,52 @@
-
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
-import 'package:eggventure/widgets/navigation_bar_farmer.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class ChatScreenFarmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
-      backgroundColor: Color(0xFFF9B514),
-      title: Text(
-        'CHATS',
-        style: TextStyle(
-          fontFamily: 'AvenirNextCyr',
-          fontWeight: FontWeight.bold,
-          fontSize: 30,
-          color: Color(0xFF353E55),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.YELLOW,
+          title: Text(
+            'CHATS',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: AppColors.BLUE,
+            ),
+          ),
+          centerTitle: true,
         ),
-      ),
-      centerTitle: true,
-    ),
-    body: Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search',
-          prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
+        body: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: GestureDetector(
+            onTap: (){
+              //search here for people 
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.BLUE),
+              ),
+              child: Row(
+                children: [
+                  Icon(AntDesign.search_outline, color: AppColors.BLUE),
+                  SizedBox(width: 10),
+                  Text("Search",style: TextStyle(
+                    color: AppColors.BLUE
+                  ),)
+                ],
+              ),
+            ),
           )
-        ),
+          ),
+        bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 3),
       ),
-    ),
-    bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 3),
     );
   }
-}   
-  
+}

@@ -1,4 +1,5 @@
-import 'package:eggventure/widgets/navigation_bar_farmer.dart';
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
 
 class AddProductScreenFarmer extends StatefulWidget {
@@ -78,7 +79,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                 color: Color(0xFF353E55),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: AppColors.BLUE.withOpacity(0.2),
                     spreadRadius: screenWidth * 0.01,
                     blurRadius: screenWidth * 0.02,
                     offset: Offset(0, screenHeight * 0.005),
@@ -99,7 +100,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
             children: <Widget>[
               Text(
                 'Basic Information',
-                style: TextStyle(fontSize: screenWidth * 0.06, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: screenWidth * 0.06, fontWeight: FontWeight.bold, color: AppColors.BLUE),
               ),
               _buildTextField('Product Name', _productNameController, screenWidth),
               _buildTextField('Product Description', _productDescriptionController, screenWidth),
@@ -108,7 +109,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
               SizedBox(height: screenHeight * 0.03),
               Text(
                 'Media Management',
-                style: TextStyle(fontSize: screenWidth * 0.06, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: screenWidth * 0.06, fontWeight: FontWeight.bold, color: AppColors.BLUE),
               ),
               GridView.count(
                 crossAxisCount: 3,
@@ -138,8 +139,8 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                           minimumSize: Size(screenWidth * 0.4, screenHeight * 0.07),
                           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.015),
                           backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(color: Colors.orange),
+                          foregroundColor: AppColors.BLUE,
+                          side: BorderSide(color: AppColors.YELLOW),
                         ),
                         child: Text('Cancel'),
                       ),
@@ -151,8 +152,8 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                           minimumSize: Size(screenWidth * 0.4, screenHeight * 0.07),
                           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.015),
                           backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
-                          side: BorderSide(color: Colors.orange),
+                          foregroundColor: AppColors.BLUE,
+                          side: BorderSide(color: AppColors.YELLOW),
                         ),
                         child: Text('Save and Delist'),
                       ),
@@ -166,8 +167,8 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(screenWidth * 0.4, screenHeight * 0.07),
                       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.015),
-                      backgroundColor: Colors.orange,
-                      foregroundColor: Colors.black,
+                      backgroundColor: AppColors.YELLOW,
+                      foregroundColor: AppColors.BLUE,
                     ),
                     child: Text('Save and Publish'),
                   ),

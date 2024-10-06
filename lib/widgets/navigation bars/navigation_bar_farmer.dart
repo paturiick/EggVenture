@@ -51,6 +51,7 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarWidgetFarmer> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(
@@ -70,7 +71,7 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarWidgetFarmer> {
           icon: Icon(
             Icons.add_box_rounded,
             color: _selectedIndex == 2 ? Color(0xFFF9B514) : Color(0xFF353E55),
-            
+            size: 50,
           ),
           label: '',  
         ),

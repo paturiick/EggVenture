@@ -1,8 +1,9 @@
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay/menu.dart';
-import 'package:eggventure/widgets/navigation_bar_farmer.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 
 class ProfileScreenFarmer extends StatelessWidget {
   @override
@@ -39,12 +40,10 @@ class ProfileScreenFarmer extends StatelessWidget {
             right: screenWidth * 0.05,
             child: ElevatedButton.icon(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
-                );
+                Navigator.pushReplacementNamed(context, AppRoutes.PROFILESCREEN);
               },
-              icon: Icon(Icons.local_mall, size: screenWidth * 0.04, color: Color(0xFF353E55)),
+              icon: Icon(Icons.local_mall,
+                  size: screenWidth * 0.04, color: Color(0xFF353E55)),
               label: Text(
                 'Back to Buying',
                 style: TextStyle(
@@ -121,9 +120,11 @@ class ProfileScreenFarmer extends StatelessWidget {
                             SizedBox(height: screenHeight * 0.01),
                             Row(
                               children: [
-                                _buildStatusColumn('Followers', '0', screenWidth),
+                                _buildStatusColumn(
+                                    'Followers', '0', screenWidth),
                                 SizedBox(width: screenWidth * 0.1),
-                                _buildStatusColumn('Following', '0', screenWidth),
+                                _buildStatusColumn(
+                                    'Following', '0', screenWidth),
                               ],
                             ),
                           ],
@@ -136,7 +137,8 @@ class ProfileScreenFarmer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildProfileOption(context, 'Edit Profile', screenWidth),
-                      _buildProfileOption(context, 'Share Profile', screenWidth),
+                      _buildProfileOption(
+                          context, 'Share Profile', screenWidth),
                     ],
                   ),
                   SizedBox(height: screenHeight * 0.02),
@@ -145,9 +147,12 @@ class ProfileScreenFarmer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildIconOption(context, Icons.payment, 'To Pay', screenWidth),
-                      _buildIconOption(context, AntDesign.sync_outline, 'Processing', screenWidth),
-                      _buildIconOption(context, Icons.rate_review, 'Review', screenWidth),
+                      _buildIconOption(
+                          context, Icons.payment, 'To Pay', screenWidth),
+                      _buildIconOption(context, AntDesign.sync_outline,
+                          'Processing', screenWidth),
+                      _buildIconOption(
+                          context, Icons.rate_review, 'Review', screenWidth),
                     ],
                   ),
                   SizedBox(height: screenHeight * 0.02),
@@ -172,7 +177,8 @@ class ProfileScreenFarmer extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileOption(BuildContext context, String text, double screenWidth) {
+  Widget _buildProfileOption(
+      BuildContext context, String text, double screenWidth) {
     return ElevatedButton(
       onPressed: () {
         // Handle button press action here
@@ -199,7 +205,8 @@ class ProfileScreenFarmer extends StatelessWidget {
     );
   }
 
-  Widget _buildIconOption(BuildContext context, IconData icon, String text, double screenWidth) {
+  Widget _buildIconOption(
+      BuildContext context, IconData icon, String text, double screenWidth) {
     return ElevatedButton(
       onPressed: () {
         // Handle button press action here

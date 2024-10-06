@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -47,7 +48,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
         automaticallyImplyLeading: false,
         title: Text("Business Information",
             style: TextStyle(
-                color: Color(0xFF353E55), fontSize: screenWidth * 0.05)),
+                color: AppColors.BLUE, fontSize: screenWidth * 0.05)),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -58,7 +59,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
             },
             child: Text("Save",
                 style: TextStyle(
-                    color: Color(0xFFF9B514), fontSize: screenWidth * 0.04)),
+                    color: AppColors.YELLOW, fontSize: screenWidth * 0.04)),
           ),
         ],
       ),
@@ -88,13 +89,13 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                   Text(
                     'Shop Information',
                     style: TextStyle(
-                        fontSize: screenWidth * 0.03, color: Color(0xFF353E55)),
+                        fontSize: screenWidth * 0.03, color: AppColors.BLUE),
                   ),
                   SizedBox(width: screenWidth * 0.15),
                   Text(
                     'Business Information',
                     style: TextStyle(
-                        fontSize: screenWidth * 0.03, color: Color(0xFF353E55)),
+                        fontSize: screenWidth * 0.03, color: AppColors.BLUE),
                   ),
                 ],
               ),
@@ -110,7 +111,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                   labelStyle: TextStyle(
                     fontFamily: 'AvenirNextCyr',
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF353E55),
+                    color: AppColors.BLUE,
                   ),
                 ),
                 validator: (value) {
@@ -124,7 +125,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
               Text(
                 "BIR Certificate of Registration",
                 style: TextStyle(
-                    fontSize: screenWidth * 0.04, color: Color(0xFF353E55)),
+                    fontSize: screenWidth * 0.04, color: AppColors.BLUE),
               ),
               GestureDetector(
                 onTap: _pickFile,
@@ -148,7 +149,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                             ],
                           )
                         : Text(_fileName!,
-                            style: TextStyle(color: Color(0xFF353E55))),
+                            style: TextStyle(color: AppColors.BLUE)),
                   ),
                 ),
               ),
@@ -161,7 +162,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                   labelStyle: TextStyle(
                     fontFamily: 'AvenirNextCyr',
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF353E55),
+                    color: AppColors.BLUE,
                   ),
                 ),
                 validator: (value) {
@@ -186,7 +187,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      side: BorderSide(color: Color(0xFFF9B514)),
+                      side: BorderSide(color: AppColors.YELLOW),
                       padding:
                           EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
                     ),
@@ -223,7 +224,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                       // }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFF9B514),
+                      backgroundColor: AppColors.YELLOW,
                       padding:
                           EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
                     ),
@@ -246,7 +247,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
     return Container(
       padding: EdgeInsets.all(screenWidth * 0.03),
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFFF9B514)),
+        border: Border.all(color: AppColors.YELLOW),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -254,7 +255,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
           RadioListTile(
             title: Text("Sole Proprietorship",
                 style: TextStyle(
-                    color: Color(0xFF353E55), fontSize: screenWidth * 0.04)),
+                    color: AppColors.BLUE, fontSize: screenWidth * 0.04)),
             value: 'Sole Proprietorship',
             groupValue: _sellerType,
             onChanged: (String? value) {
@@ -266,7 +267,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
           RadioListTile(
             title: Text("Partnership / Corporation",
                 style: TextStyle(
-                    color: Color(0xFF353E55), fontSize: screenWidth * 0.04)),
+                    color: AppColors.BLUE, fontSize: screenWidth * 0.04)),
             value: 'Partnership / Corporation',
             groupValue: _sellerType,
             onChanged: (String? value) {
@@ -283,7 +284,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
   Widget _stepCircle(bool isActive, double screenWidth) {
     return CircleAvatar(
       radius: screenWidth * 0.03,
-      backgroundColor: isActive ? Color(0xFFF9B514) : Colors.grey[300],
+      backgroundColor: isActive ? AppColors.YELLOW : Colors.grey[300],
       child: Icon(Icons.check, color: Colors.white, size: screenWidth * 0.04),
     );
   }

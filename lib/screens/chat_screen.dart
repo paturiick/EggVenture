@@ -1,5 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/widgets/navigation_bar.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -22,23 +22,30 @@ class ChatScreen extends StatelessWidget {
           centerTitle: true,
         ),
         body: Padding(
-          padding: EdgeInsets.all(10.0),
-          child: TextField(
-            cursorColor: AppColors.YELLOW,
-            decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: Icon(AntDesign.search_outline),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+            padding: EdgeInsets.all(10.0),
+            child: GestureDetector(
+              onTap: () {
+                //search here for people
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.BLUE, width: 2),
                 ),
-                filled: true,
-                fillColor: Colors.white,
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color:AppColors.YELLOW))),
-            style: TextStyle(color: AppColors.BLUE),
-          ),
-        ),
+                child: Row(
+                  children: [
+                    Icon(AntDesign.search_outline, color: AppColors.BLUE),
+                    SizedBox(width: 10),
+                    Text(
+                      "Search",
+                      style: TextStyle(color: AppColors.BLUE),
+                    )
+                  ],
+                ),
+              ),
+            )),
         bottomNavigationBar: NavigationBarWidget(currentIndex: 2),
       ),
     );

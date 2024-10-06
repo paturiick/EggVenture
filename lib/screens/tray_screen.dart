@@ -1,5 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/widgets/navigation_bar.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -61,24 +61,37 @@ class _TrayScreenState extends State<TrayScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        prefixIcon: Icon(AntDesign.search_outline),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
+                    child: GestureDetector(
+                      onTap: (){
+                        //search product here 
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: AppColors.BLUE)
                         ),
-                        filled: true,
-                        fillColor: Color(0xFFF5F5F5),
+                        child: Row(
+                          children: [
+                            Icon(AntDesign.search_outline,
+                            color: AppColors.BLUE,),
+                            SizedBox(width: 10,),
+                            Text("Search",
+                            style: TextStyle(
+                              color: AppColors.BLUE,
+                              fontSize: 15
+                            ),)
+                          ],
+                        ),
                       ),
-                    ),
+                    )
                   ),
                   SizedBox(width: 10),
                   IconButton(
                     icon: Icon(
                       AntDesign.filter_outline,
-                      color: Colors.blueGrey,
+                      color: Colors.grey[600],
                     ),
                     onPressed: () {
                       // Filter functionality here

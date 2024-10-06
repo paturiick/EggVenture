@@ -1,5 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/widgets/navigation_bar.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class OrderScreen extends StatefulWidget {
