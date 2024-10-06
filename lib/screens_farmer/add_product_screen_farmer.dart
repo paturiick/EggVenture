@@ -21,9 +21,9 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
     super.dispose();
   }
 
-  Widget _buildTextField(String label, TextEditingController controller) {
+  Widget _buildTextField(String label, TextEditingController controller, double screenWidth) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.symmetric(vertical: screenWidth * 0.02),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
@@ -34,16 +34,16 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
     );
   }
 
-  Widget _buildImagePicker(String label) {
+  Widget _buildImagePicker(double screenWidth) {
     return Container(
-      width: 100,
-      height: 100,
+      width: screenWidth * 0.3,
+      height: screenWidth * 0.3,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
       ),
       child: Center(
         child: IconButton(
-          icon: Icon(Icons.add),
+          icon: Icon(Icons.add, size: screenWidth * 0.08),
           onPressed: () {
             // Logic to add an image
           },
@@ -54,6 +54,9 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -63,23 +66,22 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
               style: TextStyle(
                 fontFamily: 'AvenirNextCyr',
                 fontWeight: FontWeight.bold,
-                fontSize: 30,
-                height: 1.2,
+                fontSize: screenWidth * 0.06, // Responsive font size
                 color: Color(0xFF353E55),
               ),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: screenHeight * 0.01),
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: 1,
+              width: screenWidth,
+              height: screenHeight * 0.002,
               decoration: BoxDecoration(
                 color: Color(0xFF353E55),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 3, // Corrected typo here
-                    blurRadius: 5,
-                    offset: Offset(0, 2),
+                    spreadRadius: screenWidth * 0.01,
+                    blurRadius: screenWidth * 0.02,
+                    offset: Offset(0, screenHeight * 0.005),
                   ),
                 ],
               ),
@@ -90,39 +92,39 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
         backgroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(screenWidth * 0.04),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
                 'Basic Information',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: screenWidth * 0.06, fontWeight: FontWeight.bold),
               ),
-              _buildTextField('Product Name', _productNameController),
-              _buildTextField('Product Description', _productDescriptionController),
-              _buildTextField('Size', _sizeController),
-              _buildTextField('Egg Type', _eggTypeController),
-              SizedBox(height: 20),
+              _buildTextField('Product Name', _productNameController, screenWidth),
+              _buildTextField('Product Description', _productDescriptionController, screenWidth),
+              _buildTextField('Size', _sizeController, screenWidth),
+              _buildTextField('Egg Type', _eggTypeController, screenWidth),
+              SizedBox(height: screenHeight * 0.03),
               Text(
                 'Media Management',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: screenWidth * 0.06, fontWeight: FontWeight.bold),
               ),
               GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
+                mainAxisSpacing: screenHeight * 0.015,
+                crossAxisSpacing: screenWidth * 0.02,
                 children: <Widget>[
-                  _buildImagePicker('Cover Photo'),
-                  _buildImagePicker('Image 1'),
-                  _buildImagePicker('Image 2'),
-                  _buildImagePicker('Image 3'),
-                  _buildImagePicker('Image 4'),
-                  _buildImagePicker('Image 5'),
+                  _buildImagePicker(screenWidth),
+                  _buildImagePicker(screenWidth),
+                  _buildImagePicker(screenWidth),
+                  _buildImagePicker(screenWidth),
+                  _buildImagePicker(screenWidth),
+                  _buildImagePicker(screenWidth),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.03),
               Column(
                 children: [
                   Row(
@@ -133,8 +135,8 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                           // Logic for Cancel
                         },
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(150, 50), // Custom button size
-                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          minimumSize: Size(screenWidth * 0.4, screenHeight * 0.07),
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.015),
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           side: BorderSide(color: Colors.orange),
@@ -146,8 +148,8 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                           // Logic for Save and Delist
                         },
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(150, 50), // Custom button size
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          minimumSize: Size(screenWidth * 0.4, screenHeight * 0.07),
+                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.015),
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           side: BorderSide(color: Colors.orange),
@@ -156,14 +158,14 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: screenHeight * 0.02),
                   ElevatedButton(
                     onPressed: () {
                       // Logic for Save and Publish
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(150, 50), // Custom button size
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      minimumSize: Size(screenWidth * 0.4, screenHeight * 0.07),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.015),
                       backgroundColor: Colors.orange,
                       foregroundColor: Colors.black,
                     ),

@@ -1,5 +1,6 @@
 import 'package:eggventure/firebase_options.dart';
 import 'package:eggventure/routes/pages.dart';
+import 'package:eggventure/screens_farmer/add_product_screen_farmer.dart';
 import 'package:eggventure/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
