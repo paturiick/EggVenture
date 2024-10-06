@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,14 @@ class _OrderScreenState extends State<OrderScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Use MediaQuery to get the device's dimensions
+    final size = MediaQuery.of(context).size;
+    final bool isPortrait = size.height > size.width;
+
+    // Adjust font sizes and paddings based on screen width
+    double baseFontSize = size.width * 0.04; // Dynamic font size
+    double tabFontSize = size.width * 0.035;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -33,8 +42,8 @@ class _OrderScreenState extends State<OrderScreen>
             style: TextStyle(
               fontFamily: 'AvenirNextCyr',
               fontWeight: FontWeight.bold,
-              fontSize: 30,
-              color: Color(0xFF353E55),
+              fontSize: baseFontSize * 1.5, // Scales based on screen size
+              color: AppColors.BLUE,
             ),
           ),
           centerTitle: true,
@@ -45,7 +54,7 @@ class _OrderScreenState extends State<OrderScreen>
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: AppColors.BLUE.withOpacity(0.1),
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: Offset(0, 2),
@@ -58,36 +67,48 @@ class _OrderScreenState extends State<OrderScreen>
                   Expanded(
                     child: TabBar(
                       controller: _tabController,
-                      labelColor: Color(0xFFFFB612),
+                      labelColor: AppColors.YELLOW,
                       unselectedLabelColor: Colors.grey[600],
-                      indicatorColor: Color(0xFFFFB612),
+                      indicatorColor: AppColors.YELLOW,
                       indicatorWeight: 4,
                       labelPadding:
-                          EdgeInsetsDirectional.only(start: 20, end: 20.0),
+                          EdgeInsets.symmetric(horizontal: size.width * 0.03),
                       isScrollable: true,
                       tabs: [
                         Tab(
                           child: Padding(
                             padding: EdgeInsets.only(left: 0),
-                            child: Text("All"),
+                            child: Text(
+                              "All",
+                              style: TextStyle(fontSize: tabFontSize),
+                            ),
                           ),
                         ),
                         Tab(
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 1),
-                            child: Text("Received"),
+                            child: Text(
+                              "Received",
+                              style: TextStyle(fontSize: tabFontSize),
+                            ),
                           ),
                         ),
                         Tab(
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0.9),
-                            child: Text("Pending"),
+                            child: Text(
+                              "Pending",
+                              style: TextStyle(fontSize: tabFontSize),
+                            ),
                           ),
                         ),
                         Tab(
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 0.9),
-                            child: Text("Cancelled"),
+                            child: Text(
+                              "Cancelled",
+                              style: TextStyle(fontSize: tabFontSize),
+                            ),
                           ),
                         ),
                       ],
@@ -98,25 +119,31 @@ class _OrderScreenState extends State<OrderScreen>
             ),
           ),
         ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            _buildTabContent('No Transaction'),
-            _buildTabContent('No Order Received Yet'),
-            _buildTabContent('No Pending Orders'),
-            _buildTabContent('No Cancelled Orders'),
-          ],
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            // Adjust font size based on the available height
+            double contentFontSize = constraints.maxHeight * 0.02;
+            return TabBarView(
+              controller: _tabController,
+              children: [
+                _buildTabContent('No Transaction', contentFontSize),
+                _buildTabContent('No Order Received Yet', contentFontSize),
+                _buildTabContent('No Pending Orders', contentFontSize),
+                _buildTabContent('No Cancelled Orders', contentFontSize),
+              ],
+            );
+          },
         ),
         bottomNavigationBar: NavigationBarWidget(currentIndex: 1),
       ),
     );
   }
 
-  Widget _buildTabContent(String message) {
+  Widget _buildTabContent(String message, double fontSize) {
     return Center(
       child: Text(
         message,
-        style: TextStyle(fontSize: 14, color: Color(0xFF353E55)),
+        style: TextStyle(fontSize: fontSize, color: Color(0xFF353E55)),
       ),
     );
   }

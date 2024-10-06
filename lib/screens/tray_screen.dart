@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -24,7 +25,7 @@ class _TrayScreenState extends State<TrayScreen> {
             child: Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFFFFB612),
+                  color: AppColors.YELLOW,
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
                     BoxShadow(

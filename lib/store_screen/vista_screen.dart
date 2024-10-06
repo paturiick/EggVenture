@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
 import 'package:eggventure/screens/tray_screen.dart';
@@ -50,21 +51,21 @@ class _VistaScreenState extends State<VistaScreen> {
           backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Color(0xFF353E55)),
+            icon: Icon(Icons.arrow_back, color: AppColors.BLUE),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           actions: [
             IconButton(
-              icon: Icon(AntDesign.inbox_outline, color: Color(0xFF353E55)),
+              icon: Icon(AntDesign.inbox_outline, color: AppColors.BLUE),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => TrayScreen()));
               },
             ),
             IconButton(
-              icon: Icon(Icons.more_vert, color: Color(0xFF353E55)),
+              icon: Icon(Icons.more_vert, color: AppColors.BLUE),
               onPressed: () {
                 // Some action for the vertical dots
               },
@@ -106,14 +107,14 @@ class _VistaScreenState extends State<VistaScreen> {
                           padding:
                               EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.6),
+                            color: AppColors.BLUE.withOpacity(0.6),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             '${currentPageIndex + 1} / ${imagePaths.length}', // Image number indicator
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: screenWidth * 0.04,
+                              fontSize: screenWidth * 0.02,
                             ),
                           ),
                         ),
@@ -127,7 +128,7 @@ class _VistaScreenState extends State<VistaScreen> {
                 child: Text(
                   "4 Variations Available",
                   style: TextStyle(
-                    color: Color(0xFF353E55),
+                    color: AppColors.BLUE,
                     fontWeight: FontWeight.w500,
                     fontSize: screenWidth * 0.04,
                   ),
@@ -153,10 +154,9 @@ class _VistaScreenState extends State<VistaScreen> {
                 child: Text(
                   productDetails[imagePaths[currentPageIndex]]!["price"]!,
                   style: TextStyle(
-                    fontFamily: "AvernirNextCyr",
-                    fontSize: screenWidth * 0.06,
+                    fontSize: screenWidth * 0.04,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFFF9B514),
+                    color: AppColors.YELLOW,
                   ),
                 ),
               ),
@@ -168,10 +168,9 @@ class _VistaScreenState extends State<VistaScreen> {
                     Text(
                       productDetails[imagePaths[currentPageIndex]]!["name"]!,
                       style: TextStyle(
-                        fontFamily: "AvernirNextCyr",
-                        fontSize: screenWidth * 0.09,
+                        fontSize: screenWidth * 0.04,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF353E55),
+                        color: AppColors.BLUE,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -181,10 +180,9 @@ class _VistaScreenState extends State<VistaScreen> {
                       child: Text(
                         "Product Ratings",
                         style: TextStyle(
-                          fontFamily: 'AvenirNextCyr',
-                          fontSize: screenWidth * 0.045,
+                          fontSize: screenWidth * 0.03,
                           fontWeight: FontWeight.w400,
-                          color: Color(0xFF353E55),
+                          color: AppColors.BLUE,
                         ),
                       ),
                     ),
@@ -206,9 +204,7 @@ class _VistaScreenState extends State<VistaScreen> {
                       child: Text(
                         "5/5 (Total Reviews)",
                         style: TextStyle(
-                            fontFamily: 'AvenirNextCyr',
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF353E55)),
+                            fontWeight: FontWeight.bold, color: AppColors.BLUE),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -220,14 +216,12 @@ class _VistaScreenState extends State<VistaScreen> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: Row(
                   children: [
-                    Icon(Icons.timer_outlined, color: Color(0xFF353E55)),
+                    Icon(Icons.timer_outlined, color: AppColors.BLUE),
                     SizedBox(width: 5),
                     Text("25 - 40 MINS",
-                        style: TextStyle(
-                            color: Color(0xFF353E55),
-                            fontFamily: 'AvenirNextCyr')),
+                        style: TextStyle(color: AppColors.BLUE)),
                     SizedBox(width: 15),
-                    Icon(Icons.pedal_bike, color: Color(0xFF353E55)),
+                    Icon(Icons.pedal_bike, color: AppColors.BLUE),
                   ],
                 ),
               ),
@@ -238,12 +232,11 @@ class _VistaScreenState extends State<VistaScreen> {
                     backgroundImage: AssetImage("assets/stores/vista.jpg"),
                   ),
                   title: Text(
-                    "Vista Fresh Healthy Eggs",
+                    "Vista Fesh Healthy Eggs",
                     style: TextStyle(
-                      fontFamily: "AvenirNextCyr",
                       fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.05,
-                      color: Color(0xFF353E55),
+                      fontSize: screenWidth * 0.03,
+                      color: AppColors.BLUE,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -256,7 +249,7 @@ class _VistaScreenState extends State<VistaScreen> {
 
         // gi container lng nako sha instead of bottomAppBar kay naay padding daan ang bottomAppBar
         bottomNavigationBar: Container(
-          decoration: BoxDecoration(color: Color(0xFF353E55)),
+          decoration: BoxDecoration(color: AppColors.BLUE),
           height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -274,9 +267,7 @@ class _VistaScreenState extends State<VistaScreen> {
                         Flexible(
                           child: Text(
                             "Chat Now",
-                            style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
-                                color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
@@ -305,9 +296,7 @@ class _VistaScreenState extends State<VistaScreen> {
                         Flexible(
                           child: Text(
                             "Add to Tray",
-                            style: TextStyle(
-                                fontFamily: 'AvenirNextCyr',
-                                color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
@@ -318,7 +307,7 @@ class _VistaScreenState extends State<VistaScreen> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFFF9B514),
+                    color: AppColors.YELLOW,
                   ),
                   child: TextButton(
                     onPressed: () {
@@ -331,10 +320,9 @@ class _VistaScreenState extends State<VistaScreen> {
                           child: Text(
                             "Buy Now",
                             style: TextStyle(
-                              fontFamily: 'AvenirNextCyr',
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF353E55),
+                              color: AppColors.BLUE,
                             ),
                           ),
                         ),

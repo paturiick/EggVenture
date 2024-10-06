@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/signin_screen.dart';
@@ -82,7 +83,6 @@ class _SignupScreenState extends State<SignupScreen> {
     return true;
   }
 
- 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -125,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         vertical: size.height * 0.03),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Color(0xFFF9B514)),
+                      border: Border.all(color: AppColors.YELLOW),
                     ),
                     child: Form(
                       key: _formKey,
@@ -195,7 +195,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               child: Text(
                                 'You must agree to the terms and conditions.',
                                 style: TextStyle(
-                                  color: Colors.red,
+                                  color: AppColors.RED,
                                   fontSize: size.width * 0.03,
                                 ),
                               ),
@@ -227,48 +227,44 @@ class _SignupScreenState extends State<SignupScreen> {
           width: size.width * (isPortrait ? 0.25 : 0.2),
         ),
         SizedBox(width: 10),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'E',
-                style: TextStyle(
-                  fontFamily: 'AvenirNextCyr',
-                  fontWeight: FontWeight.w700,
-                  fontSize: size.width * 0.09,
-                  color: Color(0xFFF9B514),
-                ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'E',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: size.width * 0.09,
+                color: AppColors.YELLOW,
               ),
-              TextSpan(
-                text: 'GG',
-                style: TextStyle(
-                  fontFamily: 'AvenirNextCyr',
-                  fontWeight: FontWeight.w700,
-                  fontSize: size.width * 0.06,
-                  color: Color(0xFF353E55),
-                ),
+            ),
+            Text(
+              'GG',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: size.width * 0.06,
+                color: AppColors.BLUE,
               ),
-              TextSpan(
-                text: 'V',
-                style: TextStyle(
-                  fontFamily: 'AvenirNextCyr',
-                  fontWeight: FontWeight.w700,
-                  fontSize: size.width * 0.09,
-                  color: Color(0xFFF9B514),
-                ),
+            ),
+            Text(
+              'V',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: size.width * 0.09,
+                color: AppColors.YELLOW,
               ),
-              TextSpan(
-                text: 'ENTURE',
-                style: TextStyle(
-                  fontFamily: 'AvenirNextCyr',
-                  fontWeight: FontWeight.w700,
-                  fontSize: size.width * 0.06,
-                  color: Color(0xFF353E55),
-                ),
+            ),
+            Text(
+              'ENTURE',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: size.width * 0.06,
+                color: AppColors.BLUE,
               ),
-            ],
-          ),
-        ),
+            ),
+          ],
+        )
       ],
     );
   }
@@ -277,10 +273,9 @@ class _SignupScreenState extends State<SignupScreen> {
     return Text(
       'Create your account',
       style: TextStyle(
-        fontFamily: 'AvenirNextCyr',
         fontWeight: FontWeight.w700,
         fontSize: size.width * 0.05,
-        color: Color(0xFF353E55),
+        color: AppColors.BLUE,
       ),
     );
   }
@@ -299,21 +294,21 @@ class _SignupScreenState extends State<SignupScreen> {
       obscureText: obscureText,
       keyboardType: keyboardType,
       focusNode: focusNode,
-      cursorColor: Color(0xFFF9B514),
+      cursorColor: AppColors.YELLOW,
       decoration: InputDecoration(
         labelText: labelText,
         labelStyle: TextStyle(
-          color: Color(0xFF353E55),
+          color: AppColors.BLUE,
           fontSize: 12,
         ),
         border: OutlineInputBorder(),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFFF9B514)),
+          borderSide: BorderSide(color: AppColors.YELLOW),
         ),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
       ),
-      style: TextStyle(fontSize: 12, color: Color(0xFF353E55)),
+      style: TextStyle(fontSize: 12, color: AppColors.BLUE),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your $labelText';
@@ -331,7 +326,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ? Icons.visibility
                 : Icons.visibility_off)
             : (_passwordVisible ? Icons.visibility : Icons.visibility_off),
-        color: Color(0xFFF9B514),
+        color: AppColors.YELLOW,
       ),
       onPressed: () {
         setState(() {
@@ -350,7 +345,7 @@ class _SignupScreenState extends State<SignupScreen> {
       children: [
         Checkbox(
           value: _agreeToTerms,
-          activeColor: Color(0xFF353E55),
+          activeColor: AppColors.BLUE,
           onChanged: (bool? value) {
             setState(() {
               _agreeToTerms = value ?? false;
@@ -371,7 +366,7 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Text(
             'Terms and Conditions',
             style: TextStyle(
-              color: Color(0xFF353E55),
+              color: AppColors.BLUE,
               fontSize: 13,
               decoration: TextDecoration.underline,
             ),
@@ -408,12 +403,10 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Text(
           'Sign Up',
           style: TextStyle(
-              color: Color(0xFF353E55),
-              fontSize: 15,
-              fontWeight: FontWeight.bold),
+              color: AppColors.BLUE, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFFF9B514),
+          backgroundColor: AppColors.YELLOW,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -438,7 +431,7 @@ class _SignupScreenState extends State<SignupScreen> {
           },
           child: Text(
             'Sign in',
-            style: TextStyle(color: Color(0xFFF9B514), fontSize: 15),
+            style: TextStyle(color: AppColors.YELLOW, fontSize: 15),
           ),
         ),
       ],

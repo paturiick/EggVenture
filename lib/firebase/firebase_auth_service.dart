@@ -33,23 +33,22 @@ class FirebaseAuthService {
     }
   }
 
-  //google sign in
-  Future<dynamic> signInWithGoogle() async {
-    //proceeds to sign in
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
-    //if user cancels the sign in of google
-    if (gUser == null) return;
+  //google_signin
+  signInwithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    //auth details
-    final GoogleSignInAuthentication? gAuth = await gUser.authentication;
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-    //create new credential for user
-    final credential = GoogleAuthProvider.credential(
-      accessToken: gAuth?.accessToken,
-      idToken: gAuth?.idToken,
-    );
-    //sign in
-    return await _auth.signInWithCredential(credential);
+    AuthCredential credential = await GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    print(userCredential.user?.displayName);
   }
 }
