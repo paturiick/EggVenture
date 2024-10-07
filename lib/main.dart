@@ -1,5 +1,7 @@
+import 'package:eggventure/farmer%20interface/home_screen.dart';
 import 'package:eggventure/firebase/firebase_options.dart';
 import 'package:eggventure/routes/pages.dart';
+import 'package:eggventure/screens/signin_screen.dart';
 import 'package:eggventure/screens_farmer/home_screen_farmer.dart';
 import 'package:eggventure/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'AvenirNextCyr',
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: HomeScreenFarmer(), // Show splash screen on startup
+      home: SigninScreen(), // Show splash screen on startup
     );
   }
 }

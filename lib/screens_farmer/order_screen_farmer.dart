@@ -254,7 +254,35 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
                 Divider(
                   color: AppColors.YELLOW,
                 ),
+                
                 // Product row details (as shown in the image)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Text("Product(s)",
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.03,
+                        color: AppColors.BLUE
+                      ),
+                      ),
+                    ),
+                    SizedBox(width: screenWidth * 0.39),
+
+                    Text("Total Price",
+                    style: TextStyle(
+                      color: AppColors.BLUE,
+                      fontSize: screenWidth * 0.03
+                    ),),
+                    SizedBox(width: screenWidth * 0.04,),
+                    
+                    Text("Actions",
+                    style: TextStyle(
+                      color: AppColors.BLUE,
+                      fontSize: screenWidth * 0.03
+                    ),)
+                  ],
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

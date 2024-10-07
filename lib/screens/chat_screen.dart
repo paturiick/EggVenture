@@ -32,7 +32,7 @@ class ChatScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.BLUE, width: 2),
+                  border: Border.all(color: AppColors.BLUE),
                 ),
                 child: Row(
                   children: [

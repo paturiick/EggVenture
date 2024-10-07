@@ -219,7 +219,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     SizedBox(height: 20),
                     Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         border: Border.all(color: AppColors.YELLOW),
@@ -445,8 +445,17 @@ class _SigninScreenState extends State<SigninScreen> {
                             SizedBox(height: 20),
                             // Google Sign-In Button
                             GestureDetector(
-                              onTap: () =>
-                                  FirebaseAuthService().signInwithGoogle,
+                              onTap: () async {
+                                UserCredential? userCredential =
+                                    await _auth.signInwithGoogle();
+
+                                if (userCredential != null) {
+                                  print(
+                                      'Signed in as: ${userCredential.user?.displayName}');
+                                } else {
+                                  print('Sign in failed');
+                                }
+                              },
                               child: Container(
                                 width: size.width,
                                 height: size.height * 0.06,

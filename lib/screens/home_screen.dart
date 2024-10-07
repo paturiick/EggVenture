@@ -13,43 +13,41 @@ import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  // FocusNode and TextEditingController added for TextField
-  final FocusNode _searchFocusNode = FocusNode();
   final TextEditingController _searchController = TextEditingController();
 
   final List<Map<String, dynamic>> stores = [
     {
       'image': 'assets/stores/vista.jpg',
       'name': 'Vista',
-      'hours': '8am - 5pm',
+      'hours': '8AM - 5PM',
       'days': 'Mon - Sat',
       'screen': VistaScreen(),
     },
     {
       'image': 'assets/stores/pelonio.png',
       'name': 'Pelonio',
-      'hours': '8am - 5pm',
+      'hours': '8AM - 5PM',
       'days': 'Mon - Sat',
       'screen': PelonioScreen(),
     },
     {
       'image': 'assets/stores/daily_fresh.jpg',
       'name': 'Daily Fresh',
-      'hours': '8am - 5pm',
+      'hours': '8AM - 5PM',
       'days': 'Mon - Sat',
       'screen': DailyFreshScreen(),
     },
     {
       'image': 'assets/stores/sundo.png',
       'name': 'Sundo',
-      'hours': '8am - 5pm',
+      'hours': '8AM - 5PM',
       'days': 'Mon - Sat',
       'screen': SundoScreen(),
     },
     {
       'image': 'assets/stores/pabilona.jpg',
       'name': 'Pabilona',
-      'hours': '8am - 5pm',
+      'hours': '8AM - 5PM',
       'days': 'Mon - Sat',
       'screen': PabilonaScreen(),
     },
@@ -59,14 +57,14 @@ class HomeScreen extends StatelessWidget {
     {
       'image': 'assets/stores/white_feathers.jpg',
       'name': 'White Feathers Farm',
-      'hours': '8am - 5pm',
+      'hours': '8AM - 5PM',
       'days': 'Mon - Sat',
       'screen': WhiteFeathersScreen(),
     },
     {
       'image': 'assets/stores/pabilona_duck.jpg',
       'name': 'Pabilona Duck Farm',
-      'hours': '8am - 5pm',
+      'hours': '8AM - 5PM',
       'days': 'Mon - Sat',
       'screen': PabilonaScreen(),
     },
@@ -186,7 +184,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
                   child: Text(
                     'Popular',
                     style: TextStyle(
@@ -198,7 +196,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.01),
                 SizedBox(
-                  height: size.height * 0.25,
+                  height: size.height * 0.3,
                   child: GridView.builder(
                     padding: EdgeInsets.zero,
                     physics: NeverScrollableScrollPhysics(),
@@ -266,60 +264,105 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  @override
   Widget _buildStoreItem(BuildContext context, String imagePath, String title,
       String time, String days, Widget screen, Size size) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => screen,
-          ),
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.all(size.width * 0.02),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: size.width * 0.33,
-              height: size.height * 0.12,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: AppColors.YELLOW),
-                borderRadius: BorderRadius.circular(size.width * 0.03),
-                image: DecorationImage(
-                  image: AssetImage(imagePath),
-                  fit: BoxFit.cover,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => screen,
+            ),
+          );
+        },
+        child: ClipRect(
+          child: Container(
+            margin: EdgeInsets.all(size.width * 0.02),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: AppColors.YELLOW, width: size.width * 0.001),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color:Colors.grey,
+                  offset: Offset(0, 4),
+                  blurRadius: 5,
                 ),
+              ],
+            ),
+            height: size.height * 0.45, // Adjusted height
+            child: Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(10)),
+                    child: Image.asset(
+                      imagePath,
+                      width: double.infinity,
+                      height: size.height * 0.1, // Adjusted image height
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: size.width * 0.039,
+                        color: AppColors.BLUE,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2, // Allow title to span two lines if necessary
+                      overflow: TextOverflow.ellipsis, // Handle long titles
+                    ),
+                  ),
+                  SizedBox(height: size.width * 0.01,),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                        width: size.width * 0.05,
+                      ),
+                        Icon(
+                          Icons.timelapse_outlined,
+                          color: AppColors.YELLOW,
+                        ),
+                        SizedBox(width: size.width * 0.01),
+                        Text(
+                          time,
+                          style: TextStyle(
+                            color: AppColors.BLUE,
+                            fontSize: size.width * 0.025,
+                          ),
+                        ),
+                      ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(width: size.width * 0.05,),
+                      Icon(
+                        AntDesign.calendar_outline,
+                        color: AppColors.YELLOW,
+                      ),
+                      SizedBox(width: size.width * 0.01),
+                      Text(
+                        days,
+                        style: TextStyle(
+                          color: AppColors.BLUE,
+                          fontSize: size.width * 0.025,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.01), // Reduced size
+                ],
               ),
             ),
-            SizedBox(height: size.height * 0.01),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: size.width * 0.04,
-                color: AppColors.BLUE,
-              ),
-            ),
-            SizedBox(height: size.height * 0.005),
-            Text(
-              time,
-              style: TextStyle(
-                fontSize: size.width * 0.035,
-                color: Colors.grey[600],
-              ),
-            ),
-            Text(
-              days,
-              style: TextStyle(
-                fontSize: size.width * 0.035,
-                color: Colors.grey[600],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
