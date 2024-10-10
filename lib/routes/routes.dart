@@ -24,4 +24,5 @@ class AppRoutes {
   static const ORDERFARMER = '/order-farmer';
   static const PROFILEFARMER = '/profile-farmer';
   static const EDITADDRESS = '/edit-address';
+  static const WHITEFEATHERSCHATSCREEN = '/white-feathers-chat-screen';
 }

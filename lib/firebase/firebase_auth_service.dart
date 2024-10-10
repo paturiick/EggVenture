@@ -37,8 +37,8 @@ class FirebaseAuthService {
     await _auth.signOut();
   }
 
-  //google_signin
-  signInwithGoogle() async {
+  //[Google Authentication] - Google Signin
+  Future <UserCredential?> signInwithGoogle() async {
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
