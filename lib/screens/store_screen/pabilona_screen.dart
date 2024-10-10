@@ -1,16 +1,16 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
-import 'package:eggventure/screens/tray_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class VistaScreen extends StatefulWidget {
+class PabilonaScreen extends StatefulWidget {
   @override
-  _VistaScreenState createState() => _VistaScreenState();
+  _PabilonaScreenState createState() => _PabilonaScreenState();
 }
 
-class _VistaScreenState extends State<VistaScreen> {
+class _PabilonaScreenState extends State<PabilonaScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -229,10 +229,11 @@ class _VistaScreenState extends State<VistaScreen> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/stores/vista.jpg"),
+                    backgroundImage:
+                        AssetImage("assets/stores/pabilona_duck.jpg"),
                   ),
                   title: Text(
-                    "Vista Fesh Healthy Eggs",
+                    "Pabilona Duck Farm",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: screenWidth * 0.03,

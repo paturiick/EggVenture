@@ -1,5 +1,5 @@
-import 'package:eggventure/screens/profile_screen.dart';
-import 'package:eggventure/screens_farmer/start_selling_screens/business_information_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
+import 'package:eggventure/screens/farmer_screens/start_selling_farmer/business_information_screen.dart';
 import 'package:flutter/material.dart';
 
 class ShopInformationScreen extends StatefulWidget {

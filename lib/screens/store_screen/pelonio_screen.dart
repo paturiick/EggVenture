@@ -1,16 +1,16 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
-import 'package:eggventure/screens/tray_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class DailyFreshScreen extends StatefulWidget {
+class PelonioScreen extends StatefulWidget {
   @override
-  _DailyFreshScreenState createState() => _DailyFreshScreenState();
+  _PelonioScreenState createState() => _PelonioScreenState();
 }
 
-class _DailyFreshScreenState extends State<DailyFreshScreen> {
+class _PelonioScreenState extends State<PelonioScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -204,8 +204,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                       child: Text(
                         "5/5 (Total Reviews)",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.BLUE),
+                            fontWeight: FontWeight.bold, color: AppColors.BLUE),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -220,8 +219,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                     Icon(Icons.timer_outlined, color: AppColors.BLUE),
                     SizedBox(width: 5),
                     Text("25 - 40 MINS",
-                        style: TextStyle(
-                            color: AppColors.BLUE)),
+                        style: TextStyle(color: AppColors.BLUE)),
                     SizedBox(width: 15),
                     Icon(Icons.pedal_bike, color: AppColors.BLUE),
                   ],
@@ -232,10 +230,10 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                 child: ListTile(
                   leading: CircleAvatar(
                     backgroundImage:
-                        AssetImage("assets/stores/daily_fresh.jpg"),
+                        AssetImage("assets/stores/pelonio.png"),
                   ),
                   title: Text(
-                    "Daily Fresh Eggs",
+                    "Pelonio Egg Farm",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: screenWidth * 0.03,
@@ -270,8 +268,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                         Flexible(
                           child: Text(
                             "Chat Now",
-                            style: TextStyle(
-                                color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
@@ -300,8 +297,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                         Flexible(
                           child: Text(
                             "Add to Tray",
-                            style: TextStyle(
-                                color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],

@@ -1,4 +1,4 @@
-import 'package:eggventure/screens/checkout%20screens/address%20edit/edit_address_screen.dart';
+import 'package:eggventure/screens/consumer_screens/checkout_consumer/address%20edit/edit_address_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';

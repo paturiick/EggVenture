@@ -1,16 +1,16 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
-import 'package:eggventure/screens/tray_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class PabilonaScreen extends StatefulWidget {
+class SundoScreen extends StatefulWidget {
   @override
-  _PabilonaScreenState createState() => _PabilonaScreenState();
+  _SundoScreenState createState() => _SundoScreenState();
 }
 
-class _PabilonaScreenState extends State<PabilonaScreen> {
+class _SundoScreenState extends State<SundoScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -229,11 +229,10 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage:
-                        AssetImage("assets/stores/pabilona_duck.jpg"),
+                    backgroundImage: AssetImage("assets/stores/sundo.png"),
                   ),
                   title: Text(
-                    "Pabilona Duck Farm",
+                    "Sundo Farm",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: screenWidth * 0.03,
