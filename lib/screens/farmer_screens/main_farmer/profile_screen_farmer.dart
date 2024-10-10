@@ -1,5 +1,5 @@
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/screens/profile_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay/menu.dart';

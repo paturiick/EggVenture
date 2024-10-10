@@ -2,8 +2,8 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:eggventure/screens_farmer/start_selling_screens/shop_information_screen.dart';
-import 'package:eggventure/screens_farmer/profile_screen_farmer.dart';
+import 'package:eggventure/screens/farmer_screens/start_selling_farmer/shop_information_screen.dart';
+import 'package:eggventure/screens/farmer_screens/main_farmer/profile_screen_farmer.dart';
 
 class BusinessInformationScreen extends StatefulWidget {
   final String shopName, email, address;

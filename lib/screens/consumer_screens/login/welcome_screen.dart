@@ -1,6 +1,6 @@
 import 'dart:ui';
-import 'package:eggventure/screens/login%20screens/signin_screen.dart';
-import 'package:eggventure/screens/login%20screens/signup_screen.dart';
+import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
+import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {

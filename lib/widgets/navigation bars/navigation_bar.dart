@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:eggventure/screens/home_screen.dart';
-import 'package:eggventure/screens/order_screen.dart';
-import 'package:eggventure/screens/chat%20screens/chat_screen.dart';
-import 'package:eggventure/screens/tray_screen.dart';
-import 'package:eggventure/screens/profile_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/order_screen.dart';
+import 'package:eggventure/screens/consumer_screens/chat_consumer/chat_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
 
 class NavigationBarWidget extends StatefulWidget {
   final int currentIndex;

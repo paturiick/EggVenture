@@ -1,6 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
-import 'package:eggventure/screens/login%20screens/signin_screen.dart';
+import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
 import 'package:flutter/material.dart';
 
 class MenuScreen {

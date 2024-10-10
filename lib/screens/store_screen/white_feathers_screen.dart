@@ -1,16 +1,16 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
-import 'package:eggventure/screens/tray_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class PelonioScreen extends StatefulWidget {
+class WhiteFeathersScreen extends StatefulWidget {
   @override
-  _PelonioScreenState createState() => _PelonioScreenState();
+  _WhiteFeathersScreenState createState() => _WhiteFeathersScreenState();
 }
 
-class _PelonioScreenState extends State<PelonioScreen> {
+class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -229,11 +229,10 @@ class _PelonioScreenState extends State<PelonioScreen> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage:
-                        AssetImage("assets/stores/pelonio.png"),
+                    backgroundImage: AssetImage("assets/stores/white_feathers.jpg"),
                   ),
                   title: Text(
-                    "Pelonio Egg Farm",
+                    "White Feathers Farm",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: screenWidth * 0.03,

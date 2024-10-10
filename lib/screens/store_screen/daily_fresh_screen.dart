@@ -1,16 +1,16 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
-import 'package:eggventure/screens/tray_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class WhiteFeathersScreen extends StatefulWidget {
+class DailyFreshScreen extends StatefulWidget {
   @override
-  _WhiteFeathersScreenState createState() => _WhiteFeathersScreenState();
+  _DailyFreshScreenState createState() => _DailyFreshScreenState();
 }
 
-class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
+class _DailyFreshScreenState extends State<DailyFreshScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -204,7 +204,8 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                       child: Text(
                         "5/5 (Total Reviews)",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: AppColors.BLUE),
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.BLUE),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -219,7 +220,8 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                     Icon(Icons.timer_outlined, color: AppColors.BLUE),
                     SizedBox(width: 5),
                     Text("25 - 40 MINS",
-                        style: TextStyle(color: AppColors.BLUE)),
+                        style: TextStyle(
+                            color: AppColors.BLUE)),
                     SizedBox(width: 15),
                     Icon(Icons.pedal_bike, color: AppColors.BLUE),
                   ],
@@ -229,10 +231,11 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/stores/white_feathers.jpg"),
+                    backgroundImage:
+                        AssetImage("assets/stores/daily_fresh.jpg"),
                   ),
                   title: Text(
-                    "White Feathers Farm",
+                    "Daily Fresh Eggs",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: screenWidth * 0.03,
@@ -267,7 +270,8 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                         Flexible(
                           child: Text(
                             "Chat Now",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Colors.white),
                           ),
                         ),
                       ],
@@ -296,7 +300,8 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                         Flexible(
                           child: Text(
                             "Add to Tray",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Colors.white),
                           ),
                         ),
                       ],

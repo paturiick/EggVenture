@@ -1,4 +1,4 @@
-import 'package:eggventure/screens/login%20screens/welcome_screen.dart';
+import 'package:eggventure/screens/consumer_screens/login/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

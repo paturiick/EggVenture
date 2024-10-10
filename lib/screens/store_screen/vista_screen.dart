@@ -1,16 +1,16 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
-import 'package:eggventure/screens/tray_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class SundoScreen extends StatefulWidget {
+class VistaScreen extends StatefulWidget {
   @override
-  _SundoScreenState createState() => _SundoScreenState();
+  _VistaScreenState createState() => _VistaScreenState();
 }
 
-class _SundoScreenState extends State<SundoScreen> {
+class _VistaScreenState extends State<VistaScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -229,10 +229,10 @@ class _SundoScreenState extends State<SundoScreen> {
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/stores/sundo.png"),
+                    backgroundImage: AssetImage("assets/stores/vista.jpg"),
                   ),
                   title: Text(
-                    "Sundo Farm",
+                    "Vista Fesh Healthy Eggs",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: screenWidth * 0.03,
