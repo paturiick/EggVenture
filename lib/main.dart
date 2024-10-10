@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'AvenirNextCyr',
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: ChatScreen(), // Show splash screen on startup
+      home: HomeScreenFarmer(), // Show splash screen on startup
     );
   }
 }
