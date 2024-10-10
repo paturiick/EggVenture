@@ -1,8 +1,8 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/home_screen.dart';
-import 'package:eggventure/screens/signup_screen.dart';
-import 'package:eggventure/welcome_screen.dart';
+import 'package:eggventure/screens/login%20screens/signup_screen.dart';
+import 'package:eggventure/screens/login%20screens/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -355,7 +355,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                     Text(
                                       'Remember me',
                                       style: TextStyle(
-                                          fontFamily: 'AvenirNextCyr',
                                           fontSize: 11,
                                           color: AppColors.BLUE),
                                     ),

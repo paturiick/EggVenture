@@ -1,12 +1,13 @@
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/screens/chat_screen.dart';
+import 'package:eggventure/screens/chat%20screens/white_feathers_chat_screen.dart';
+import 'package:eggventure/screens/chat%20screens/chat_screen.dart';
 import 'package:eggventure/screens/checkout%20screens/address%20edit/edit_address_screen.dart';
 import 'package:eggventure/screens/checkout%20screens/delivery_checkout_screen.dart';
 import 'package:eggventure/screens/home_screen.dart';
 import 'package:eggventure/screens/order_screen.dart';
 import 'package:eggventure/screens/profile_screen.dart';
 import 'package:eggventure/screens/profile_screen_review.dart';
-import 'package:eggventure/screens/signup_screen.dart';
+import 'package:eggventure/screens/login%20screens/signup_screen.dart';
 import 'package:eggventure/screens/tray_screen.dart';
 import 'package:eggventure/screens/verification_screen.dart';
 import 'package:eggventure/screens_farmer/add_product_screen_farmer.dart';
@@ -51,6 +52,7 @@ class AppPages {
       AppRoutes.ORDERFARMER: (context) => OrderScreenFarmer(),
       AppRoutes.PROFILEFARMER: (context) => ProfileScreenFarmer(),
       AppRoutes.EDITADDRESS: (context) => EditAddressScreen(),
+      AppRoutes.WHITEFEATHERSCHATSCREEN: (context) => WhiteFeathersChatScreen(),
     };
   }
 }
