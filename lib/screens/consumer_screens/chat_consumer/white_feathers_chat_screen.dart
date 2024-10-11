@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:flutter/foundation.dart' as foundation;
 import 'package:eggventure/constants/colors.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:file_picker/file_picker.dart';
@@ -219,12 +219,12 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
+            // Chat Messages Section (Expanded to take all available space)
             Expanded(
               child: Chat(
                 messages: _messages,
@@ -235,56 +235,98 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
                 showUserAvatars: true,
                 showUserNames: true,
                 theme: DefaultChatTheme(
-                  inputBackgroundColor: Colors.white,
-                  inputTextColor: AppColors.BLUE,
-                  inputTextStyle: TextStyle(
-                    color: AppColors.BLUE,
-                  ),
-                  inputTextCursorColor: AppColors.YELLOW,
-                  primaryColor: AppColors.BLUE, //sent message bubble color
-                  secondaryColor:
-                      Colors.grey[300]!, //received message bubble color
-                  inputPadding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.02,
-                  ),
-                  inputBorderRadius: BorderRadius.circular(10),
-                  inputContainerDecoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColors.BLUE),
-                  ),
-                  sendButtonIcon: Icon(
-                    Icons.send,
-                    color: AppColors.BLUE,
-                  ),
-                  // You can further customize the text style inside chat bubbles
-                  sentMessageBodyBoldTextStyle: TextStyle(color: Colors.white),
-                  receivedMessageBodyBoldTextStyle:
-                      TextStyle(color: AppColors.BLUE),
+                  primaryColor: AppColors.BLUE,
+                  secondaryColor: Colors.grey[300]!,
                 ),
+                // Do not add the default input widget
+                customBottomWidget: SizedBox.shrink(),
               ),
             ),
+            // Custom Input Bar Section (Message input stays here)
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30.0),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
+              child: Row(
+                children: [
+                  // Attachment Button
+                  IconButton(
+                    onPressed: _handleAttachmentPressed,
+                    icon: Icon(
+                      Icons.add_circle_outline,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  // Text Input Field
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: TextField(
+                          controller: _textController,
+                          cursorColor: AppColors.YELLOW,
+                          textCapitalization: TextCapitalization.sentences,
+                          decoration: InputDecoration(
+                            hintText: "Type a message...",
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Emoji Button
+                  IconButton(
+                    onPressed: _toggleEmojiPicker,
+                    icon: Icon(
+                      Icons.emoji_emotions_outlined,
+                      color: AppColors.YELLOW,
+                    ),
+                  ),
+                  // Send Button
+                  IconButton(
+                    onPressed: () {
+                      if (_textController.text.isNotEmpty) {
+                        _handleSendPressed(
+                            types.PartialText(text: _textController.text));
+                      }
+                    },
+                    icon: Icon(
+                      Icons.send,
+                      color: AppColors.BLUE,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Emoji Picker
             Offstage(
               offstage: !_isEmojiVisible,
               child: SizedBox(
-                height: 256,
+                height: 250,
                 child: EmojiPicker(
                   textEditingController: _textController,
-                  scrollController: _scrollController,
                   config: Config(
                     height: 256,
                     checkPlatformCompatibility: true,
                     viewOrderConfig: const ViewOrderConfig(),
                     emojiViewConfig: EmojiViewConfig(
-                      emojiSizeMax: 28 * (Platform.isIOS ? 1.2 : 1.0),
+                      // Issue: https://github.com/flutter/flutter/issues/28894
+                      emojiSizeMax: 28 *
+                          (foundation.defaultTargetPlatform ==
+                                  TargetPlatform.android
+                              ? 1.2
+                              : 1.0),
                     ),
-                    skinToneConfig: const SkinToneConfig(),
-                    categoryViewConfig: const CategoryViewConfig(),
-                    bottomActionBarConfig: const BottomActionBarConfig(),
-                    searchViewConfig: const SearchViewConfig(),
-                  ),
                 ),
               ),
+            ),
             ),
           ],
         ),
@@ -306,7 +348,7 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
             children: [
               TextButton(
                 onPressed: () {
-                  // Navigate to user profile
+                  // Add navigation to user profile logic here
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
