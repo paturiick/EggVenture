@@ -379,13 +379,15 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget _buildSignUpButton(Size size) {
     final emailString = _emailController.text.trim();
     final passwordString = _passwordController.text.trim();
-    debugPrint('$emailString');
-    debugPrint('$passwordString');
+    final lastNameString = _lastNameController.text.trim();
+    final firstNameString = _firstNameController.text.trim();
+    final userPhoneNumberString = _phoneController.text.trim();
+  
     return Container(
       width: size.width,
       child: ElevatedButton(
         onPressed: () async {
-          User? user = await _auth.signupUser(emailString, passwordString);
+          User? user = await _auth.signupUser(lastNameString, firstNameString, int.parse(userPhoneNumberString), emailString, passwordString);
           debugPrint('signup clicked');
           user != null
               ? Navigator.pushAndRemoveUntil(

@@ -1,22 +1,50 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
+class ProfileScreen extends StatefulWidget {
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+class _ProfileScreenState extends State<ProfileScreen> {
+  final FirestoreService _service = FirestoreService();
+  String? userName;
 
-class ProfileScreen extends StatelessWidget {
+   @override
+    void initState() {
+      super.initState();
+      fetchUser();
+    }
+
+    Future<void> fetchUser() async{
+      try {
+        final userDetails = await _service.getUserName(); // Fetch user details as a map
+        final lastName = userDetails?['lastName'];
+        final firstName = userDetails?['firstName'];
+
+        if (firstName != null && lastName != null) {
+          setState(() {
+            userName = '$firstName $lastName'; // Set userName in setState to update the UI
+          });
+        }
+      } catch (e) {
+        print('Error fetching user name: $e');
+      }
+    }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
+    
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
     ));
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.white,
@@ -113,7 +141,7 @@ class ProfileScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '', // Empty string for name
+                                  userName ?? '', 
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: screenWidth * 0.05, // Responsive

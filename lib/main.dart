@@ -1,6 +1,9 @@
 import 'package:eggventure/firebase/firebase_options.dart';
 import 'package:eggventure/routes/pages.dart';
 import 'package:eggventure/screens/consumer_screens/chat_consumer/chat_screen.dart';
+import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
+import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
+import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'AvenirNextCyr',
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: ChatScreen(), // Show splash screen on startup
+      home: SigninScreen()
     );
   }
 }

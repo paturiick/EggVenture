@@ -6,4 +6,5 @@ class StringConstants {
   static const String SHOPNAME = 'shopName';
   static const String SHOPEMAIL = 'shopEmail';
   static const String ADDRESS = 'address';
+  static const String USEREMAIL = 'userEmail';
 }
