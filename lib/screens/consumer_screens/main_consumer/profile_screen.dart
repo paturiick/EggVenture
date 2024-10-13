@@ -17,22 +17,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
    @override
     void initState() {
       super.initState();
-      fetchUser();
+      getUserName();
     }
 
-    Future<void> fetchUser() async{
+   Future<void> getUserName() async {
       try {
-        final userDetails = await _service.getUserName(); // Fetch user details as a map
-        final lastName = userDetails?['lastName'];
-        final firstName = userDetails?['firstName'];
+        final uid = _service.getCurrentUserId();
+        final userDetails = await _service.getBasedOnId('userDetails', uid);
 
-        if (firstName != null && lastName != null) {
-          setState(() {
-            userName = '$firstName $lastName'; // Set userName in setState to update the UI
-          });
-        }
+        final firstName = userDetails['firstName'];
+        final lastName = userDetails['lastName'];
+
+        setState(() {
+          userName = '$firstName $lastName';
+        });
       } catch (e) {
-        print('Error fetching user name: $e');
+        print('$e');
+        return null;
       }
     }
 

@@ -1,3 +1,4 @@
+import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -5,12 +6,41 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 
-class ProfileScreenFarmer extends StatelessWidget {
+class ProfileScreenFarmer extends StatefulWidget {
+  @override
+  _ProfileScreenFarmerState createState() => _ProfileScreenFarmerState();
+}
+
+class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
+  final FirestoreService _service = FirestoreService();
+  String? shopName;
+
+  @override
+    void initState(){
+      super.initState();
+      getShopName();
+  }
+
+   Future<void> getShopName() async {
+    try {
+      final uid = _service.getCurrentUserId();
+      final shopDetails = await _service.getBasedOnId('businessDetails', uid);
+      
+      final shopNameDb = shopDetails['shopName'];
+      setState(() {
+        shopName = '$shopNameDb';
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFFB612),
@@ -99,7 +129,7 @@ class ProfileScreenFarmer extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '', // Empty string for name
+                              shopName ?? '',
                               style: TextStyle(
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.bold,

@@ -6,11 +6,15 @@ class FirestoreService {
   final dbFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<DocumentReference> _addToCollection(String collectionName, Map<String, dynamic> data) async{
-    return await dbFirestore.collection(collectionName).add(data);
+  Future<void> _addToCollection(String collectionName, String uid, Map<String, dynamic> data) async{
+    return await dbFirestore.collection(collectionName).doc(uid).set(data);
   }
 
-  Future<DocumentSnapshot> _get(String collectionName, String userId) async {
+  Future<QuerySnapshot> _get(String collectionName) async{
+    return await dbFirestore.collection(collectionName).get();
+  }
+
+  Future<DocumentSnapshot> getBasedOnId(String collectionName, String userId) async {
       return await dbFirestore.collection(collectionName).doc(userId).get();
   }
 
@@ -21,7 +25,9 @@ class FirestoreService {
     String shopAddress, 
     String shopPhoneNumber) async {
     try {
-      _addToCollection('businessDetails', {
+
+      final uid = getCurrentUserId();
+      _addToCollection('businessDetails', uid, {
         StringConstants.SHOPNAME: shopName,
         StringConstants.SHOPEMAIL: shopEmail,
         StringConstants.ADDRESS: shopAddress,
@@ -32,18 +38,6 @@ class FirestoreService {
       return null;
     }
   }
-
-  Future<Map<String, dynamic>?> getUserName() async {
-      try {
-        final uid = getCurrentUserId();
-        final userDetails = await _get('userDetails', uid);
-
-        return userDetails.data() as Map<String, dynamic>;
-      } catch (e) {
-        print('$e');
-        return null;
-      }
-    }
 
   String getCurrentUserId(){
     User? user = _auth.currentUser;

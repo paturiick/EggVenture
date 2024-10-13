@@ -4,6 +4,7 @@ import 'package:eggventure/screens/consumer_screens/chat_consumer/chat_screen.da
 import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
+import 'package:eggventure/screens/farmer_screens/main_farmer/profile_screen_farmer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
