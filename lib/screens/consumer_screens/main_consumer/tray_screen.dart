@@ -1,7 +1,9 @@
+import 'package:eggventure/controller/add_to_tray_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class TrayScreen extends StatefulWidget {
   @override
@@ -9,11 +11,11 @@ class TrayScreen extends StatefulWidget {
 }
 
 class _TrayScreenState extends State<TrayScreen> {
-  // List to hold tray items (initially empty)
-  List<String> trayItems = [];
-
   @override
   Widget build(BuildContext context) {
+    // Access the tray provider
+    final trayProvider = Provider.of<AddToTrayProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -62,30 +64,33 @@ class _TrayScreenState extends State<TrayScreen> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
-                        //search product here 
+                      onTap: () {
+                        // search product here
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: AppColors.BLUE)
+                          border: Border.all(color: AppColors.BLUE),
                         ),
                         child: Row(
                           children: [
-                            Icon(AntDesign.search_outline,
-                            color: AppColors.BLUE,),
-                            SizedBox(width: 10,),
-                            Text("Search",
-                            style: TextStyle(
+                            Icon(
+                              AntDesign.search_outline,
                               color: AppColors.BLUE,
-                              fontSize: 15
-                            ),)
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              "Search",
+                              style: TextStyle(
+                                  color: AppColors.BLUE, fontSize: 15),
+                            ),
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ),
                   SizedBox(width: 10),
                   IconButton(
@@ -100,8 +105,8 @@ class _TrayScreenState extends State<TrayScreen> {
                 ],
               ),
               SizedBox(height: 20),
-              // Check if trayItems is empty
-              trayItems.isEmpty
+              // Display tray items using the provider
+              trayProvider.trayItems.isEmpty
                   ? Expanded(
                       child: Center(
                         child: Text(
@@ -115,10 +120,19 @@ class _TrayScreenState extends State<TrayScreen> {
                     )
                   : Expanded(
                       child: ListView.builder(
-                        itemCount: trayItems.length,
+                        itemCount: trayProvider.trayItems.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            title: Text(trayItems[index]),
+                            title: Text(trayProvider.trayItems[index]),
+                            trailing: IconButton(
+                              icon: Icon(Icons.remove_circle_outline,
+                                  color: AppColors.RED),
+                              onPressed: () {
+                                // Remove the item from the tray
+                                trayProvider
+                                    .removeFromTray(trayProvider.trayItems[index]);
+                              },
+                            ),
                           );
                         },
                       ),
