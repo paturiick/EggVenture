@@ -1,4 +1,5 @@
-import 'package:eggventure/controller/add_to_tray_provider.dart';
+import 'package:eggventure/models/tray_item.dart';
+import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -15,6 +16,7 @@ class _TrayScreenState extends State<TrayScreen> {
   Widget build(BuildContext context) {
     // Access the tray provider
     final trayProvider = Provider.of<AddToTrayProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Scaffold(
@@ -122,18 +124,35 @@ class _TrayScreenState extends State<TrayScreen> {
                       child: ListView.builder(
                         itemCount: trayProvider.trayItems.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(trayProvider.trayItems[index]),
-                            trailing: IconButton(
-                              icon: Icon(Icons.remove_circle_outline,
-                                  color: AppColors.RED),
-                              onPressed: () {
-                                // Remove the item from the tray
-                                trayProvider
-                                    .removeFromTray(trayProvider.trayItems[index]);
-                              },
-                            ),
+                          return Column(
+                            children: [
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("[Farm Name]"),
+                                      const Spacer(),
+                                      IconButton(
+                                          onPressed: (){
+                                            //funtcion of delete item
+                                          }, icon: Icon(Icons.delete))
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
                           );
+                          // return ListTile(
+                          //   title: Text(trayProvider.trayItems[index].name),
+                          //   trailing: IconButton(
+                          //     icon: Icon(Icons.remove_circle_outline,
+                          //         color: AppColors.RED),
+                          //     onPressed: () {
+                          //       // Remove the item from the tray
+                          //       trayProvider.removeFromTray(trayProvider.trayItems[index]);
+                          //     },
+                          //   ),
+                          // );
                         },
                       ),
                     ),
