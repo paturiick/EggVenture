@@ -1,15 +1,17 @@
+import 'package:eggventure/models/tray_item.dart';
 import 'package:flutter/material.dart';
 
 class AddToTrayProvider extends ChangeNotifier {
-  final List<String> _trayItems = [];
-  List<String> get trayItems => _trayItems;
+  final List<TrayItem> _trayItems = [];
+  List<TrayItem> get trayItems => _trayItems;
 
-  void addToTray(String item) {
+  void addToTray(TrayItem item) {
     _trayItems.add(item);
+    print(_trayItems);
     notifyListeners();
   }
 
-  void removeFromTray(String item) {
+  void removeFromTray(TrayItem item) {
     _trayItems.remove(item);
     notifyListeners();
   }
