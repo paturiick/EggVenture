@@ -19,10 +19,11 @@ class AppRoutes {
   static const VISTA = '/vista';
   static const WHITEFEATHERS = '/white-feathers';
   static const ADDPRODUCTFARMER = '/app-product-screen';
-  static const CHATFARMER = '/chat-farmer';
+  static const FARMERCHATMESSAGES = '/farmer-chat-messages';
+  static const USERCHAT = 'user-chat';
+  static const FARMERCHAT = 'farmer-chat';
   static const HOMEFARMER = '/home-farmer';
   static const ORDERFARMER = '/order-farmer';
   static const PROFILEFARMER = '/profile-farmer';
   static const EDITADDRESS = '/edit-address';
-  static const WHITEFEATHERSCHATSCREEN = '/white-feathers-chat-screen';
 }

@@ -243,7 +243,7 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
                           icon: Icon(AntDesign.message_outline),
                           color: AppColors.BLUE,
                           onPressed: () {
-                            Navigator.pushReplacementNamed(context, AppRoutes.CHATFARMER);
+                            Navigator.pushReplacementNamed(context, AppRoutes.FARMERCHATMESSAGES);
                           },
                         )
                       ],
