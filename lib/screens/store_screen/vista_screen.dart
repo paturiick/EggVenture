@@ -282,7 +282,7 @@ class _VistaScreenState extends State<VistaScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context);
+                      AddToTrayScreen.showAddToTrayScreen(context, 'Vista');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

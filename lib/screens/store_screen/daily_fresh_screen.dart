@@ -286,7 +286,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context);
+                      AddToTrayScreen.showAddToTrayScreen(context, 'Daily Fresh');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

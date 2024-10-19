@@ -124,35 +124,48 @@ class _TrayScreenState extends State<TrayScreen> {
                       child: ListView.builder(
                         itemCount: trayProvider.trayItems.length,
                         itemBuilder: (context, index) {
-                          return Column(
+                          return Row(
                             children: [
+                              Image.asset(
+                                trayProvider.trayItems[index].imagePath,
+                                width: 50,
+                              ),
+                              const SizedBox(width: 10),
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text("[Farm Name]"),
-                                      const Spacer(),
-                                      IconButton(
-                                          onPressed: (){
-                                            //funtcion of delete item
-                                          }, icon: Icon(Icons.delete))
-                                    ],
+                                    Text(
+                                  trayProvider.trayItems[index].name
+                                ),
+                                Text(
+                                  trayProvider.trayItems[index].screenId,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey
+                                  ),
                                   )
                                 ],
-                              )
+                              ),
+                              const Spacer(),
+                              Text(
+                                'Amount: ${trayProvider.trayItems[index].amount.toString()}'
+                              ),
+                              const SizedBox(width: 5),
+                              const Text('|'),
+                              const SizedBox(width: 5),
+                              Text(
+                                'P ${trayProvider.trayItems[index].price.toString()}'
+                              ),
+                              IconButton(
+                              icon: Icon(Icons.remove_circle_outline,
+                                  color: AppColors.RED),
+                              onPressed: () {
+                                // Remove the item from the tray
+                                trayProvider.removeFromTray(trayProvider.trayItems[index]);
+                              },
+                            ),
                             ],
                           );
-                          // return ListTile(
-                          //   title: Text(trayProvider.trayItems[index].name),
-                          //   trailing: IconButton(
-                          //     icon: Icon(Icons.remove_circle_outline,
-                          //         color: AppColors.RED),
-                          //     onPressed: () {
-                          //       // Remove the item from the tray
-                          //       trayProvider.removeFromTray(trayProvider.trayItems[index]);
-                          //     },
-                          //   ),
-                          // );
                         },
                       ),
                     ),

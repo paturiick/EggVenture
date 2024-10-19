@@ -282,7 +282,7 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context);
+                      AddToTrayScreen.showAddToTrayScreen(context, 'White Feathers');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

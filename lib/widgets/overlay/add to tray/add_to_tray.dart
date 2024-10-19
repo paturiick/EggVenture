@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddToTrayScreen {
-  static void showAddToTrayScreen(BuildContext context) {
+  static void showAddToTrayScreen(BuildContext context, String screenId) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -18,7 +18,7 @@ class AddToTrayScreen {
           maxChildSize: 0.6,
           minChildSize: 0.4,
           builder: (context, scrollController) {
-            return AddToTrayContent(scrollController: scrollController);
+            return AddToTrayContent(scrollController: scrollController, screenId: screenId);
           },
         );
       },
@@ -28,8 +28,9 @@ class AddToTrayScreen {
 
 class AddToTrayContent extends StatefulWidget {
   final ScrollController scrollController;
+  final String screenId;
 
-  const AddToTrayContent({Key? key, required this.scrollController})
+  const AddToTrayContent({Key? key, required this.scrollController, required this.screenId})
       : super(key: key);
 
   @override
@@ -40,28 +41,42 @@ class _AddToTrayContentState extends State<AddToTrayContent> {
   // Track the checkbox and counter states for each egg tray
   List<bool> _isChecked = List.filled(4, false);
   List<int> _counters = List.filled(4, 0);
-  List<TrayItem> trayItems = [
+  late List<TrayItem> trayItems;
+
+  @override
+  void initState(){
+    super.initState();
+    trayItems = [
     TrayItem(
         id: 0,
+        screenId: widget.screenId,
         name: "Small Egg Tray",
-        price: "P 140",
+        price: 140,
+        amount: 0,
         imagePath: "assets/browse store/small_eggs.jpg"),
     TrayItem(
         id: 1,
+        screenId: widget.screenId,
         name: "Medium Egg Tray",
-        price: "P 180",
+        price: 180,
+        amount: 0,
         imagePath: "assets/browse store/medium_eggs.jpg"),
     TrayItem(
         id: 2,
+        screenId: widget.screenId,
         name: "Large Egg Tray",
-        price: "P 220",
+        price: 220,
+        amount: 0,
         imagePath: "assets/browse store/large_eggs.jpeg"),
     TrayItem(
         id: 3,
+        screenId: widget.screenId,
         name: "XL Egg Tray",
-        price: "P 250",
+        price: 250,
+        amount: 0,
         imagePath: "assets/browse store/xl_eggs.jpg"),
   ];
+  }
   List<TrayItem> checkedItems = [];
 
   @override
@@ -126,15 +141,17 @@ class _AddToTrayContentState extends State<AddToTrayContent> {
                     bool isChecked = entry.value;
 
                     if (isChecked && _counters[index] > 0) {
+                      trayItems[index].price *= _counters[index];
+                      trayItems[index].amount = _counters[index];
                       checkedItems.add(trayItems[index]);
-                      checkedItems.forEach((item) {
-                        trayProvider.trayItems.add(item);
-                      });
-                      Navigator.of(context).pop();
                     } else {
                       ErrorToAddWidget();
                     }
                   }).toList();
+                  checkedItems.forEach((item) {
+                    trayProvider.trayItems.add(item);
+                  });
+                  Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFFFB612),
@@ -182,7 +199,7 @@ class _AddToTrayContentState extends State<AddToTrayContent> {
               ),
               SizedBox(height: 5),
               Text(
-                item.price,
+                'P ${item.price.toString()}',
                 style: TextStyle(
                   fontSize: 14,
                   color: Color(0xFFFFB612),
