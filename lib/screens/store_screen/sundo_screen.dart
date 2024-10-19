@@ -282,7 +282,7 @@ class _SundoScreenState extends State<SundoScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context);
+                      AddToTrayScreen.showAddToTrayScreen(context, 'Sundo');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

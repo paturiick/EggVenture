@@ -283,7 +283,7 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context);
+                      AddToTrayScreen.showAddToTrayScreen(context, 'Pabilona');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

@@ -283,7 +283,7 @@ class _PelonioScreenState extends State<PelonioScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context);
+                      AddToTrayScreen.showAddToTrayScreen(context, 'Pelonio');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

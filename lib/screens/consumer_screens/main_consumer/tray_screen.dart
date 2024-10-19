@@ -12,12 +12,12 @@ class TrayScreen extends StatefulWidget {
 }
 
 class _TrayScreenState extends State<TrayScreen> {
-
   @override
   Widget build(BuildContext context) {
     // Access the tray provider
     final trayProvider = Provider.of<AddToTrayProvider>(context);
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return SafeArea(
       child: Scaffold(
@@ -125,35 +125,89 @@ class _TrayScreenState extends State<TrayScreen> {
                       child: ListView.builder(
                         itemCount: trayProvider.trayItems.length,
                         itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Column(
-                                children: [
-                                  Row(
+                          return Padding(
+                              padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+                              child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: AppColors.YELLOW,
+                                width: 1.5),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  trayProvider.trayItems[index].imagePath,
+                                  width: screenWidth * 0.1,
+                                  height: screenHeight * 0.1,
+                                ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      trayProvider.trayItems[index].name,
+                                      style: TextStyle(
+                                          color: AppColors.BLUE,
+                                          fontSize: screenWidth * 0.04),
+                                    ),
+                                    Text(
+                                      trayProvider.trayItems[index].screenId,
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: screenWidth * 0.03),
+                                    ),
+                                    Text(
+                                      'Quantity: ${trayProvider.trayItems[index].amount.toString()}',
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: screenWidth * 0.03),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                IntrinsicHeight(
+                                  child: Row(
                                     children: [
-                                      Text("[Farm Name]"),
-                                      const Spacer(),
+                                      const VerticalDivider(
+                                        color: AppColors.BLUE,
+                                        thickness: 2,
+                                      ),
+                                      SizedBox(width: screenWidth * 0.01),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Total: ",
+                                            style: TextStyle(
+                                                fontSize: screenWidth * 0.04,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          Text(
+                                            'P ${trayProvider.trayItems[index].price.toString()}',
+                                            style: TextStyle(
+                                                color: AppColors.BLUE,
+                                                fontSize: screenWidth * 0.04),
+                                          ),
+                                        ],
+                                      ),
                                       IconButton(
-                                          onPressed: (){
-                                            //funtcion of delete item
-                                          }, icon: Icon(Icons.delete))
+                                        icon: Icon(
+                                          Icons.delete_outline_outlined,
+                                          color: AppColors.RED,
+                                          size: screenWidth * 0.06,
+                                        ),
+                                        onPressed: () {
+                                          // Remove the item from the tray
+                                          trayProvider.removeFromTray(
+                                              trayProvider.trayItems[index]);
+                                        },
+                                      ),
                                     ],
                                   ),
-                                ],
-                              )
-                            ],
-                          );
-                          // return ListTile(
-                          //   title: Text(trayProvider.trayItems[index].name),
-                          //   trailing: IconButton(
-                          //     icon: Icon(Icons.remove_circle_outline,
-                          //         color: AppColors.RED),
-                          //     onPressed: () {
-                          //       // Remove the item from the tray
-                          //       trayProvider.removeFromTray(trayProvider.trayItems[index]);
-                          //     },
-                          //   ),
-                          // );
+                                )
+                              ],
+                            ),
+                          ),);
                         },
                       ),
                     ),

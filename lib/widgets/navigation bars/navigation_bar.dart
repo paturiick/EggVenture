@@ -1,10 +1,14 @@
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/order_screen.dart';
 import 'package:eggventure/screens/consumer_screens/chat_consumer/chat_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
+import 'package:provider/provider.dart';
 
 class NavigationBarWidget extends StatefulWidget {
   final int currentIndex;
@@ -49,6 +53,9 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final trayProvider = Provider.of<AddToTrayProvider>(context);
+    final trayItemCount = trayProvider.trayItems.length;
+
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed, // Ensure labels are always visible
       backgroundColor: Colors.white,
@@ -75,11 +82,18 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
           label: 'Chats', // This ensures the label is always displayed
         ),
         BottomNavigationBarItem(
-          icon: Icon(
-            AntDesign.inbox_outline,
-            color: _selectedIndex == 3 ? Color(0xFFF9B514) : Color(0xFF353E55),
+          icon: badges.Badge(
+            badgeStyle: badges.BadgeStyle(badgeColor: AppColors.YELLOW),
+            badgeContent: Text('$trayItemCount',
+                style: TextStyle(
+                    color: AppColors.BLUE)), // Correct usage of badgeContent
+            child: Icon(
+              AntDesign.inbox_outline,
+              color:
+                  _selectedIndex == 3 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            ),
           ),
-          label: 'Tray', // This ensures the label is always displayed
+          label: 'Tray', // Ensures the label is always displayed
         ),
         BottomNavigationBarItem(
           icon: Icon(

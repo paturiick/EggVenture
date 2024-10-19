@@ -5,16 +5,19 @@ class ErrorToAddWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    
 
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.all(8),
+      margin:
+          EdgeInsets.only(top: 5), // Adjusted margin to give space below button
+      padding:
+          EdgeInsets.symmetric(vertical: 8, horizontal: screenWidth * 0.02),
       color: Colors.transparent,
       child: Text(
         "No Item(s) to Add",
         style: TextStyle(
           color: AppColors.RED,
-          fontSize: screenWidth * 0.03,
+          fontSize: screenWidth * 0.03, // Responsive text size
           decoration: TextDecoration.none,
         ),
       ),
@@ -37,11 +40,15 @@ void showErrorOverlay(BuildContext context) {
     builder: (context) => Stack(
       children: [
         Positioned(
-          // Position the error message slightly above the button
-          bottom: 53, // Button's bottom position
-          left: MediaQuery.of(context).size.width * 0.50,
-          right: MediaQuery.of(context).size.width * 0.1,
-          child: ErrorToAddWidget(), // Show the error widget without animation
+          // Position the error message below the "Add to Tray" button
+          bottom: MediaQuery.of(context).size.height * 0.09, // Below the button
+          left: MediaQuery.of(context).size.width * 0.4, // Left padding
+          right: MediaQuery.of(context).size.width * 0.03, // Right padding
+          child: Center(
+            // Centers the error widget horizontally
+            child:
+                ErrorToAddWidget(), // Show the error widget without animation
+          ),
         ),
       ],
     ),
