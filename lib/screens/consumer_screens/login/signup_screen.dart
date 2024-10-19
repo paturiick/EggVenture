@@ -421,7 +421,10 @@ class _SignupScreenState extends State<SignupScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text('Already have an account?'),
+        Text('Already have an account?',
+        style: TextStyle(
+          color: AppColors.BLUE
+        ),),
         TextButton(
           onPressed: () {
             Navigator.push(

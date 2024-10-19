@@ -1,10 +1,10 @@
-import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/controller/add_to_tray_controller.dart';
-import 'package:eggventure/providers/add_to_tray_provider.dart';
-import 'package:eggventure/models/tray_item.dart';
-import 'package:eggventure/widgets/overlay/add%20to%20tray/error_to_add_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/controller/add_to_tray_controller.dart';
+import 'package:eggventure/models/tray_item.dart';
+import 'package:eggventure/providers/add_to_tray_provider.dart';
+import 'package:eggventure/widgets/overlay/add%20to%20tray/error_to_add_widget.dart';
 
 class AddToTrayScreen {
   static void showAddToTrayScreen(BuildContext context) {
@@ -121,20 +121,27 @@ class _AddToTrayContentState extends State<AddToTrayContent> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  _isChecked.asMap().entries.map((entry) {
+                  bool hasValidSelection = false;
+
+                  _isChecked.asMap().entries.forEach((entry) {
                     int index = entry.key;
                     bool isChecked = entry.value;
 
                     if (isChecked && _counters[index] > 0) {
                       checkedItems.add(trayItems[index]);
-                      checkedItems.forEach((item) {
-                        trayProvider.trayItems.add(item);
-                      });
-                      Navigator.of(context).pop();
-                    } else {
-                      ErrorToAddWidget();
+                      hasValidSelection = true;
                     }
-                  }).toList();
+                  });
+
+                  if (hasValidSelection) {
+                    checkedItems.forEach((item) {
+                      trayProvider.trayItems.add(item);
+                    });
+                    Navigator.of(context).pop();
+                  } else {
+                    // Show error if no valid selection
+                    showErrorOverlay(context);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFFFB612),

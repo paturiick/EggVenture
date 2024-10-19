@@ -12,6 +12,7 @@ class TrayScreen extends StatefulWidget {
 }
 
 class _TrayScreenState extends State<TrayScreen> {
+
   @override
   Widget build(BuildContext context) {
     // Access the tray provider
@@ -137,7 +138,7 @@ class _TrayScreenState extends State<TrayScreen> {
                                             //funtcion of delete item
                                           }, icon: Icon(Icons.delete))
                                     ],
-                                  )
+                                  ),
                                 ],
                               )
                             ],

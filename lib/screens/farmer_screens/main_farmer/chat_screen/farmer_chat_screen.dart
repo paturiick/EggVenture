@@ -14,13 +14,13 @@ import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:uuid/uuid.dart';
 
-class WhiteFeathersChatScreen extends StatefulWidget {
+class FarmerChatScreen extends StatefulWidget {
   @override
-  _WhiteFeathersChatScreenState createState() =>
-      _WhiteFeathersChatScreenState();
+  _FarmerChatScreenState createState() =>
+      _FarmerChatScreenState();
 }
 
-class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
+class _FarmerChatScreenState extends State<FarmerChatScreen> {
   List<types.Message> _messages = [];
   final _user = const types.User(
     id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
@@ -49,8 +49,7 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
         child: Container(
           padding: EdgeInsets.all(10.0),
           height: 200,
-          color:
-              Colors.white,
+          color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,8 +70,7 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
                         width: 10), // Add some space between the icon and text
                     Text(
                       'Photo',
-                      style: TextStyle(color: AppColors.BLUE,
-                      fontSize: 20),
+                      style: TextStyle(color: AppColors.BLUE, fontSize: 20),
                     ),
                   ],
                 ),
@@ -92,8 +90,7 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
                     SizedBox(width: 10),
                     Text(
                       'File',
-                      style: TextStyle(color: AppColors.BLUE,
-                      fontSize: 20),
+                      style: TextStyle(color: AppColors.BLUE, fontSize: 20),
                     ),
                   ],
                 ),
@@ -110,8 +107,7 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
                     SizedBox(width: 10),
                     Text(
                       'Cancel',
-                      style: TextStyle(color: AppColors.RED,
-                      fontSize: 20),
+                      style: TextStyle(color: AppColors.RED, fontSize: 20),
                     ),
                   ],
                 ),
@@ -318,15 +314,15 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
                     viewOrderConfig: const ViewOrderConfig(),
                     emojiViewConfig: EmojiViewConfig(
                       // Issue: https://github.com/flutter/flutter/issues/28894
-                      emojiSizeMax: 28 *
+                      emojiSizeMax: 15 *
                           (foundation.defaultTargetPlatform ==
                                   TargetPlatform.android
                               ? 1.2
                               : 1.0),
                     ),
+                  ),
                 ),
               ),
-            ),
             ),
           ],
         ),
@@ -355,12 +351,10 @@ class _WhiteFeathersChatScreenState extends State<WhiteFeathersChatScreen> {
                   children: [
                     CircleAvatar(
                       radius: screenWidth * 0.05,
-                      backgroundImage:
-                          AssetImage('assets/stores/white_feathers.jpg'),
                     ),
                     SizedBox(width: screenWidth * 0.02),
                     Text(
-                      "White Feathers Farm",
+                      "Consumer User #1",
                       style: TextStyle(
                         color: AppColors.BLUE,
                         fontSize: screenWidth * 0.048,

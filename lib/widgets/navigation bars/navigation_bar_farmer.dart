@@ -1,8 +1,9 @@
+import 'package:eggventure/screens/farmer_screens/main_farmer/chat_screen/farmer_chat_messages_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/home_screen_farmer.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/order_screen_farmer.dart';
-import 'package:eggventure/screens/farmer_screens/main_farmer/chat_screen_farmer.dart';
+import 'package:eggventure/screens/farmer_screens/main_farmer/chat_screen/farmer_chat_screen.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/add_product_screen_farmer.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/profile_screen_farmer.dart';
 
@@ -37,7 +38,7 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarWidgetFarmer> {
       HomeScreenFarmer(),
       OrderScreenFarmer(),
       AddProductScreenFarmer(),
-      ChatScreenFarmer(),
+      FarmerChatMessagesScreen(),
       ProfileScreenFarmer(),
     ];
 
