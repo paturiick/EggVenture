@@ -1,4 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/error%20widgets/error_to_add_widget.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/checkbox_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -188,7 +189,7 @@ class _AddToTrayContentState extends State<AddToTrayContent> {
                     checkedItems.forEach((item) {
                       trayProvider.trayItems.add(item);
                     });
-                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, AppRoutes.HOMESCREEN);
                   } else {
                     // Show error if no valid selection
                     showErrorOverlay(context);
