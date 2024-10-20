@@ -54,7 +54,6 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   @override
   Widget build(BuildContext context) {
     final trayProvider = Provider.of<AddToTrayProvider>(context);
-    final trayItemCount = trayProvider.trayItems.length;
 
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed, // Ensure labels are always visible
@@ -84,7 +83,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
         BottomNavigationBarItem(
           icon: badges.Badge(
             badgeStyle: badges.BadgeStyle(badgeColor: AppColors.YELLOW),
-            badgeContent: Text('$trayItemCount',
+            badgeContent: Text('${trayProvider.trayItems.length}',
                 style: TextStyle(
                     color: AppColors.BLUE)), // Correct usage of badgeContent
             child: Icon(

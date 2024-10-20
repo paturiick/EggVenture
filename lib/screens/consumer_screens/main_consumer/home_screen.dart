@@ -1,4 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:flutter/services.dart'; // Import this for SystemUiOverlayStyle
 import 'package:eggventure/screens/store_screen/daily_fresh_screen.dart';
 import 'package:eggventure/screens/store_screen/pabilona_screen.dart';
@@ -9,6 +10,7 @@ import 'package:eggventure/screens/store_screen/white_feathers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
