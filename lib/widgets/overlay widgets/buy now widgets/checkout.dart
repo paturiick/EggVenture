@@ -1,86 +1,96 @@
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/pickup_delivery.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CheckoutScreen {
   static void showCheckOutScreen(BuildContext context) {
+    final buynowProvider = Provider.of<BuyNowProvider>(context, listen: false);
+    int quantity = buynowProvider.buyItems
+        .fold<int>(0, (totalQuantity, item) => totalQuantity + item.amount);
+    double subtotal = buynowProvider.subtotal;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return DraggableScrollableSheet(
-          expand: false,
-          maxChildSize: 0.5,
-          minChildSize: 0.3,
-          builder: (context, scrollController) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            // Use StateSetter here for setState
+            final screenWidth = MediaQuery.of(context).size.width;
+            final screenHeight = MediaQuery.of(context).size.height;
+
             return Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20),
+                  top: Radius.circular(screenWidth * 0.05),
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(screenWidth * 0.05),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Center(
                       child: Container(
-                        height: 3,
-                        width: 50,
+                        height: screenHeight * 0.005,
+                        width: screenWidth * 0.1,
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius:
+                              BorderRadius.circular(screenWidth * 0.05),
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: screenHeight * 0.03),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Quantity:",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: screenWidth * 0.045,
                             color: Colors.grey[600],
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          "1",
+                          '$quantity',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: screenWidth * 0.045,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF353E55),
+                            color: AppColors.BLUE,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: screenHeight * 0.03),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Subtotal:",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: screenWidth * 0.045,
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[600],
                           ),
                         ),
                         Text(
-                          "P 180.00",
+                          'P ${subtotal.toStringAsFixed(2)}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Color(0xFF353E55),
+                            fontSize: screenWidth * 0.045,
+                            color: AppColors.BLUE,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: screenHeight * 0.03),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -88,21 +98,21 @@ class CheckoutScreen {
                           "Shipping Fee:",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: screenWidth * 0.045,
                             color: Colors.grey[600],
                           ),
                         ),
                         Text(
                           "P 10.00",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: screenWidth * 0.045,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF353E55),
+                            color: AppColors.BLUE,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: screenHeight * 0.03),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -110,48 +120,73 @@ class CheckoutScreen {
                           "Total Price:",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Color(0xFF353E55),
+                            fontSize: screenWidth * 0.045,
+                            color: AppColors.BLUE,
                           ),
                         ),
                         Text(
-                          "Total Price Here",
+                          'P ${(subtotal + 10.0).toStringAsFixed(2)}', // Updating total price dynamically
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: screenWidth * 0.045,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF353E55),
+                            color: AppColors.BLUE,
                           ),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 50,
+                      height: screenHeight * 0.05,
                     ),
                     Center(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
-                            width: 150,
-                            child: ElevatedButton(
+                          ElevatedButton(
                               onPressed: () {
-                                PickupDeliveryScreen.showPickupDeliveryScreen(
-                                    context);
+                                setState(() {
+                                  quantity = 0;
+                                  subtotal = 0.0;
+                                });
+                                Navigator.pop(context);
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF353E55),
+                                foregroundColor: AppColors.RED,
+                                side: BorderSide(color: AppColors.RED),
+                                backgroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 15),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 16),
                               ),
                               child: Text(
-                                "Checkout",
+                                "Cancel",
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: Color(0xFFFFB612),
-                                ),
+                                    fontSize: screenWidth * 0.045,
+                                    color: AppColors.RED),
+                              )),
+                          Spacer(),
+                          ElevatedButton(
+                            onPressed: () {
+                              PickupDeliveryScreen.showPickupDeliveryScreen(
+                                  context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: AppColors.BLUE,
+                              side: BorderSide(color: AppColors.BLUE),
+                              backgroundColor: AppColors.BLUE,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            child: Text(
+                              "Checkout",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: screenWidth * 0.045,
+                                color: AppColors.YELLOW,
                               ),
                             ),
                           ),

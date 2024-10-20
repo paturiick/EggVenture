@@ -178,18 +178,16 @@ class _AddToTrayContentState extends State<AddToTrayContent> {
                     bool isChecked = entry.value;
 
                     if (isChecked && _counters[index] > 0) {
-                      trayItems[index].price *= _counters[index];
                       trayItems[index].amount = _counters[index];
                       checkedItems.add(trayItems[index]);
                       hasValidSelection = true;
                     }
                   });
-
                   if (hasValidSelection) {
                     checkedItems.forEach((item) {
                       trayProvider.trayItems.add(item);
                     });
-                    Navigator.pushNamed(context, AppRoutes.HOMESCREEN);
+                    Navigator.pushNamed(context, AppRoutes.TRAYSCREEN);
                   } else {
                     // Show error if no valid selection
                     showErrorOverlay(context);

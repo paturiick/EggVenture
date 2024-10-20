@@ -67,7 +67,7 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                 badgeStyle:
                     const badges.BadgeStyle(badgeColor: AppColors.YELLOW),
                 badgeContent: Text(
-                  '${trayProvider.trayItems.length}',
+                  '${trayProvider.trayItems.fold<int>(0, (totalQuantity, item) => totalQuantity + item.amount)}',
                   style: TextStyle(color: AppColors.BLUE),
                 ),
                 position: badges.BadgePosition.topEnd(top: 0, end: -2),
@@ -242,7 +242,11 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                child: ListTile(
+                child: GestureDetector(
+                  onTap: (){
+                    //Navigate to farmer's profile screen
+                  },
+                  child: ListTile(
                   leading: CircleAvatar(
                     backgroundImage:
                         AssetImage("assets/stores/white_feathers.jpg"),
@@ -257,6 +261,7 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                )
               ),
               SizedBox(height: 10), // Add extra spacing at the bottom
             ],
@@ -328,7 +333,7 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      BuyNowScreen.showBuyNowScreen(context);
+                      BuyNowScreen.showBuyNowScreen(context, 'White Feathers');
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

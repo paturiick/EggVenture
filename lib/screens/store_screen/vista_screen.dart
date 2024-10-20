@@ -1,9 +1,12 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/providers/add_to_tray_provider.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 
 class VistaScreen extends StatefulWidget {
   @override
@@ -44,6 +47,7 @@ class _VistaScreenState extends State<VistaScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    final trayProvider = Provider.of<AddToTrayProvider>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -57,12 +61,23 @@ class _VistaScreenState extends State<VistaScreen> {
             },
           ),
           actions: [
-            IconButton(
-              icon: Icon(AntDesign.inbox_outline, color: AppColors.BLUE),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TrayScreen()));
-              },
+            Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: badges.Badge(
+                badgeStyle:
+                    const badges.BadgeStyle(badgeColor: AppColors.YELLOW),
+                badgeContent: Text(
+                  '${trayProvider.trayItems.fold<int>(0, (totalQuantity, item) => totalQuantity + item.amount)}',
+                  style: TextStyle(color: AppColors.BLUE),
+                ),
+                position: badges.BadgePosition.topEnd(top: 0, end: -2),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, AppRoutes.TRAYSCREEN);
+                    },
+                    icon: Icon(AntDesign.inbox_outline)),
+              ),
             ),
             IconButton(
               icon: Icon(Icons.more_vert, color: AppColors.BLUE),
@@ -226,22 +241,26 @@ class _VistaScreenState extends State<VistaScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/stores/vista.jpg"),
-                  ),
-                  title: Text(
-                    "Vista Fesh Healthy Eggs",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.03,
-                      color: AppColors.BLUE,
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                  child: GestureDetector(
+                    onTap: () {
+                      //Navigate to farmer's profile screen
+                    },
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage("assets/stores/vista.jpg"),
+                      ),
+                      title: Text(
+                        "Vista Fesh Healthy Eggs",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenWidth * 0.03,
+                          color: AppColors.BLUE,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
+                  )),
               SizedBox(height: 10), // Add extra spacing at the bottom
             ],
           ),
@@ -311,7 +330,7 @@ class _VistaScreenState extends State<VistaScreen> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      BuyNowScreen.showBuyNowScreen(context);
+                      BuyNowScreen.showBuyNowScreen(context, "Vista");
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
