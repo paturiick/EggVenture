@@ -219,7 +219,7 @@ class _TrayScreenState extends State<TrayScreen> {
                                         Row(
                                           children: [
                                             Text(
-                                              'P ${(trayProvider.trayItems[index].price * trayProvider.trayItems[index].amount).toStringAsFixed(2)}',
+                                              'P ${(trayProvider.calculateTotalPrice(trayProvider.trayItems[index]))}',
                                               style: TextStyle(
                                                 color: Colors.grey[600],
                                                 fontSize: screenWidth * 0.03,
@@ -248,9 +248,14 @@ class _TrayScreenState extends State<TrayScreen> {
                                                 setState(() {});
                                               },
                                               onDecrement: (int index) {
-                                                trayProvider
-                                                    .decrementAmount(index);
-                                                setState(() {});
+                                                if (trayProvider
+                                                        .trayItems[index]
+                                                        .amount >
+                                                    1) {
+                                                  trayProvider
+                                                      .decrementAmount(index);
+                                                      setState(() {});
+                                                }
                                               })
                                         ],
                                       ),
