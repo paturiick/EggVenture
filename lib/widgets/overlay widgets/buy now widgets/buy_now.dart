@@ -1,4 +1,4 @@
-import 'package:eggventure/widgets/overlay/buy%20now/checkout.dart';
+import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/checkout.dart';
 import 'package:flutter/material.dart';
 
 class BuyNowScreen {

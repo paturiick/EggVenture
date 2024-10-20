@@ -26,4 +26,5 @@ class AppRoutes {
   static const ORDERFARMER = '/order-farmer';
   static const PROFILEFARMER = '/profile-farmer';
   static const EDITADDRESS = '/edit-address';
+  static const CLEARTRAYITEMS = '/clear-tray-items';
 }

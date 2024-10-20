@@ -24,6 +24,7 @@ import 'package:eggventure/screens/store_screen/pelonio_screen.dart';
 import 'package:eggventure/screens/store_screen/sundo_screen.dart';
 import 'package:eggventure/screens/store_screen/vista_screen.dart';
 import 'package:eggventure/screens/store_screen/white_feathers_screen.dart';
+import 'package:eggventure/widgets/add%20to%20tray%20widgets/clear_tray_items.dart';
 import 'package:flutter/material.dart';
 
 class AppPages {

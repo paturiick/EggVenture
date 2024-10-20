@@ -9,6 +9,4 @@ class TrayItem {
       required this.price,
       required this.screenId,
       required this.amount});
-
-    
 }

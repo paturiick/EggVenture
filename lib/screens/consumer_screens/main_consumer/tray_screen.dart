@@ -1,5 +1,8 @@
 import 'package:eggventure/models/tray_item.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
+import 'package:eggventure/widgets/add%20to%20tray%20widgets/counter_widget.dart';
+import 'package:eggventure/widgets/add%20to%20tray%20widgets/clear_tray_items.dart';
+import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/pickup_delivery.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -63,6 +66,7 @@ class _TrayScreenState extends State<TrayScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              // Search bar and filter row
               Row(
                 children: [
                   Expanded(
@@ -107,110 +111,217 @@ class _TrayScreenState extends State<TrayScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              // Display tray items using the provider
-              trayProvider.trayItems.isEmpty
-                  ? Expanded(
-                      child: Center(
-                        child: Text(
-                          'No items were added to the tray.',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey[600],
+              SizedBox(height: screenHeight * 0.02),
+              trayProvider.trayItems.isNotEmpty
+                  ? Row(
+                      children: [
+                        Expanded(
+                          flex:
+                              3, // Adjust flex value to match product column width
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Product',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Expanded(
+                          flex:
+                              1, // Adjust flex value to match price column width
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Quantity',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE,
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            ClearTrayItemsDialog.showClearTrayDialog(context)
+                                .then((_) {
+                              setState(() {});
+                            });
+                          },
+                          icon: Icon(Icons.delete_forever),
+                        ),
+                      ],
                     )
-                  : Expanded(
-                      child: ListView.builder(
+                  : Container(),
+              Expanded(
+                child: trayProvider.trayItems.isNotEmpty
+                    ? ListView.builder(
                         itemCount: trayProvider.trayItems.length,
                         itemBuilder: (context, index) {
+                          TrayItem item = trayProvider.trayItems[index];
+                          bool _isChecked =
+                              trayProvider.selectedItems.contains(item);
+
                           return Padding(
-                              padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
-                              child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: AppColors.YELLOW,
-                                width: 1.5),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Row(
-                              children: [
-                                Image.asset(
-                                  trayProvider.trayItems[index].imagePath,
-                                  width: screenWidth * 0.1,
-                                  height: screenHeight * 0.1,
-                                ),
-                                const SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      trayProvider.trayItems[index].name,
-                                      style: TextStyle(
-                                          color: AppColors.BLUE,
-                                          fontSize: screenWidth * 0.04),
+                            padding: EdgeInsets.all(10),
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: AppColors.YELLOW, width: 1.5),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: _isChecked,
+                                    onChanged: (value) {
+                                      trayProvider.toggleSelection(item);
+                                      setState(() {});
+                                    },
+                                    activeColor: AppColors.YELLOW,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      trayProvider.trayItems[index].imagePath,
+                                      width: screenWidth * 0.1,
+                                      height: screenHeight * 0.1,
                                     ),
-                                    Text(
-                                      trayProvider.trayItems[index].screenId,
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: screenWidth * 0.03),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    flex:
+                                        3, // Adjust flex value to match product column width
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          trayProvider.trayItems[index].name,
+                                          style: TextStyle(
+                                            color: AppColors.BLUE,
+                                            fontSize: screenWidth * 0.04,
+                                          ),
+                                        ),
+                                        Text(
+                                          trayProvider
+                                              .trayItems[index].screenId,
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: screenWidth * 0.03,
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'P ${(trayProvider.trayItems[index].price * trayProvider.trayItems[index].amount).toStringAsFixed(2)}',
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: screenWidth * 0.03,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                      'Quantity: ${trayProvider.trayItems[index].amount.toString()}',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: screenWidth * 0.03),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                IntrinsicHeight(
-                                  child: Row(
-                                    children: [
-                                      const VerticalDivider(
-                                        color: AppColors.BLUE,
-                                        thickness: 2,
-                                      ),
-                                      SizedBox(width: screenWidth * 0.01),
-                                      Column(
+                                  ),
+                                  IntrinsicHeight(
+                                    child: Expanded(
+                                      flex:
+                                          1, // Adjust flex value to match price column width
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            "Total: ",
-                                            style: TextStyle(
-                                                fontSize: screenWidth * 0.04,
-                                                color: Colors.grey[600]),
-                                          ),
-                                          Text(
-                                            'P ${trayProvider.trayItems[index].price.toString()}',
-                                            style: TextStyle(
-                                                color: AppColors.BLUE,
-                                                fontSize: screenWidth * 0.04),
-                                          ),
+                                          CounterWidget(
+                                              index: index,
+                                              counter: trayProvider
+                                                  .trayItems[index].amount,
+                                              onIncrement: (int index) {
+                                                trayProvider
+                                                    .incrementAmount(index);
+                                                setState(() {});
+                                              },
+                                              onDecrement: (int index) {
+                                                trayProvider
+                                                    .decrementAmount(index);
+                                                setState(() {});
+                                              })
                                         ],
                                       ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.delete_outline_outlined,
-                                          color: AppColors.RED,
-                                          size: screenWidth * 0.06,
-                                        ),
-                                        onPressed: () {
-                                          // Remove the item from the tray
-                                          trayProvider.removeFromTray(
-                                              trayProvider.trayItems[index]);
-                                        },
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                )
-                              ],
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.remove_circle_outline_outlined,
+                                      color: AppColors.RED,
+                                      size: screenWidth * 0.05,
+                                    ),
+                                    onPressed: () {
+                                      trayProvider.removeFromTray(
+                                          trayProvider.trayItems[index]);
+                                      setState(() {});
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),);
+                          );
                         },
+                      )
+                    : Center(
+                        child: Text(
+                          'No Added Items in the Tray',
+                          style: TextStyle(
+                              fontSize: screenWidth * 0.035,
+                              color: Colors.grey[600]),
+                        ),
                       ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              if (trayProvider.trayItems.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Container(
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: Row(
+                      children: [
+                        Spacer(), // This pushes the button to the right
+                        SizedBox(
+                          width:
+                              screenWidth * 0.4, // Adjust the width as needed
+                          height: screenHeight * 0.05,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.YELLOW,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                            ),
+                            onPressed: () {
+                              PickupDeliveryScreen.showPickupDeliveryScreen(
+                                  context);
+                            },
+                            child: Text(
+                              "Confirm Order",
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                ),
             ],
           ),
         ),

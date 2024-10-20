@@ -1,6 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
-import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
+import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
+import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';

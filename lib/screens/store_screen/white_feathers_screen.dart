@@ -1,8 +1,8 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/widgets/overlay/add%20to%20tray/add_to_tray.dart';
-import 'package:eggventure/widgets/overlay/buy%20now/buy_now.dart';
+import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
+import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -48,7 +48,6 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     final trayProvider = Provider.of<AddToTrayProvider>(context);
-    final trayItemCount = trayProvider.trayItems.length;
 
     return SafeArea(
       child: Scaffold(
@@ -68,7 +67,7 @@ class _WhiteFeathersScreenState extends State<WhiteFeathersScreen> {
                 badgeStyle:
                     const badges.BadgeStyle(badgeColor: AppColors.YELLOW),
                 badgeContent: Text(
-                  '$trayItemCount',
+                  '${trayProvider.trayItems.length}',
                   style: TextStyle(color: AppColors.BLUE),
                 ),
                 position: badges.BadgePosition.topEnd(top: 0, end: -2),
