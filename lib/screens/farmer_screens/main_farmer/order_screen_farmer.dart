@@ -138,7 +138,7 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
                               : '${DateFormat('yyyy/MM/dd').format(selectedDateRange!.start)} - ${DateFormat('yyyy/MM/dd').format(selectedDateRange!.end)}',
                           style: TextStyle(
                             color: Colors.grey[800],
-                            fontSize: 16,
+                            fontSize: screenWidth * 0.035,
                           ),
                         ),
                       ],
@@ -152,13 +152,35 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
               // TabBar for different order statuses
               TabBar(
                 controller: _tabController,
-                labelColor: Color(0xFF353E55),
+                labelColor: AppColors.BLUE,
                 unselectedLabelColor: Colors.grey,
-                indicatorColor: Color(0xFF353E55),
+                indicatorColor: AppColors.BLUE,
                 tabs: [
-                  Tab(text: 'All'),
-                  Tab(text: 'To Process'),
-                  Tab(text: 'Processed'),
+                  Tab(
+                    child: Text(
+                      "All",
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.035,
+                        color: AppColors.BLUE
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "To Process",
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.035,
+                        color: AppColors.BLUE
+                      ),
+                    ),),
+                  Tab(
+                    child: Text(
+                      "Processed",
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.035,
+                        color: AppColors.BLUE
+                      ),
+                    ),),
                 ],
               ),
               SizedBox(height: screenHeight * 0.02), // Responsive spacing
@@ -207,7 +229,7 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
           ),
           color: Colors.white,
           child: Padding(
-            padding: EdgeInsets.all(screenHeight * 0.015),
+            padding: EdgeInsets.all(screenHeight * 0.01),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -225,8 +247,6 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
                       ),
                     ),
                     SizedBox(width: screenWidth * 0.03),
-
-                    // User name and label
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -250,12 +270,10 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
                     ),
                   ],
                 ),
-                SizedBox(height: screenHeight * 0.02),
+                SizedBox(height: screenHeight * 0.01),
                 Divider(
                   color: AppColors.YELLOW,
                 ),
-                
-                // Product row details (as shown in the image)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -267,8 +285,7 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
                       ),
                       ),
                     ),
-                    SizedBox(width: screenWidth * 0.39),
-
+                    Spacer(),
                     Text("Total Price",
                     style: TextStyle(
                       color: AppColors.BLUE,
@@ -352,6 +369,7 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
                         orders[index]['status']!,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
+                          fontSize: screenWidth * 0.03,
                           color: Colors.green,
                         ),
                         textAlign: TextAlign.end,

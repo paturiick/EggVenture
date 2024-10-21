@@ -166,14 +166,14 @@ class _HomeScreenFarmerState extends State<HomeScreenFarmer>
           Text(
             rating,
             style:
-                TextStyle(fontSize: size.width * 0.04), // Responsive font size
+                TextStyle(fontSize: size.width * 0.035), // Responsive font size
           ),
           SizedBox(
               width: size.width * 0.01), // Small space between number and star
           Icon(
             Icons.star,
             color: AppColors.YELLOW,
-            size: size.width * 0.04, // Responsive icon size
+            size: size.width * 0.033, // Responsive icon size
           ),
         ],
       ),

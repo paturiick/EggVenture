@@ -36,7 +36,7 @@ class BuyNowProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-     int calculateTotalPrice(TrayItem item) {
+    int calculateTotalPrice(TrayItem item) {
     return item.price * item.amount;
   }
 

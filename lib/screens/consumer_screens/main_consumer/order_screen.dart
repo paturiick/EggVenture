@@ -27,7 +27,6 @@ class _OrderScreenState extends State<OrderScreen>
   Widget build(BuildContext context) {
     // Use MediaQuery to get the device's dimensions
     final size = MediaQuery.of(context).size;
-    final bool isPortrait = size.height > size.width;
 
     // Adjust font sizes and paddings based on screen width
     double baseFontSize = size.width * 0.04; // Dynamic font size

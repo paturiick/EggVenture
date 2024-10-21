@@ -167,9 +167,9 @@ class _TrayScreenState extends State<TrayScreen> {
                               trayProvider.selectedItems.contains(item);
 
                           return Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(2),
                             child: Container(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                     color: AppColors.YELLOW, width: 1.5),
@@ -186,17 +186,17 @@ class _TrayScreenState extends State<TrayScreen> {
                                     activeColor: AppColors.YELLOW,
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.all(8.0),
+                                    padding: EdgeInsets.all(4.0),
                                     child: Image.asset(
                                       trayProvider.trayItems[index].imagePath,
                                       width: screenWidth * 0.1,
                                       height: screenHeight * 0.1,
                                     ),
                                   ),
-                                  SizedBox(width: 10),
+                                  SizedBox(width: 5),
                                   Expanded(
                                     flex:
-                                        3, // Adjust flex value to match product column width
+                                        2, // Adjust flex value to match product column width
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -205,7 +205,7 @@ class _TrayScreenState extends State<TrayScreen> {
                                           trayProvider.trayItems[index].name,
                                           style: TextStyle(
                                             color: AppColors.BLUE,
-                                            fontSize: screenWidth * 0.04,
+                                            fontSize: screenWidth * 0.035,
                                           ),
                                         ),
                                         Text(
@@ -238,7 +238,11 @@ class _TrayScreenState extends State<TrayScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          CounterWidget(
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: screenWidth * 0.01
+                                            ),
+                                            child: CounterWidget(
                                               index: index,
                                               counter: trayProvider
                                                   .trayItems[index].amount,
@@ -256,7 +260,7 @@ class _TrayScreenState extends State<TrayScreen> {
                                                       .decrementAmount(index);
                                                       setState(() {});
                                                 }
-                                              })
+                                              }),)
                                         ],
                                       ),
                                     ),
@@ -299,11 +303,7 @@ class _TrayScreenState extends State<TrayScreen> {
                     child: Row(
                       children: [
                         Spacer(), // This pushes the button to the right
-                        SizedBox(
-                          width:
-                              screenWidth * 0.4, // Adjust the width as needed
-                          height: screenHeight * 0.05,
-                          child: ElevatedButton(
+                        ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.YELLOW,
                               shape: RoundedRectangleBorder(
@@ -322,7 +322,6 @@ class _TrayScreenState extends State<TrayScreen> {
                               ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ),

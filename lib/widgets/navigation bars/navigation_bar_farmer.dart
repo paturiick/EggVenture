@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/chat_screen/farmer_chat_messages_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -57,21 +58,21 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarWidgetFarmer> {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.home,
-            color: _selectedIndex == 0 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 0 ? AppColors.YELLOW : AppColors.BLUE,
           ),
           label: 'Home',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             AntDesign.calendar_outline,
-            color: _selectedIndex == 1 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 1 ? AppColors.YELLOW  : AppColors.BLUE,
           ),
           label: 'Order',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.add_box_rounded,
-            color: _selectedIndex == 2 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 2 ? AppColors.YELLOW  : AppColors.BLUE,
             size: 50,
           ),
           label: '',  
@@ -79,21 +80,21 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarWidgetFarmer> {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.message_outlined, 
-            color: _selectedIndex == 3 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 3 ? AppColors.YELLOW : AppColors.BLUE,
           ),
           label: 'Chats',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.person_rounded,  
-            color: _selectedIndex == 4 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 4 ? AppColors.YELLOW  : AppColors.BLUE,
           ),
           label: 'Profile',
         ),
       ],
       currentIndex: _selectedIndex,  
-      selectedItemColor: Color(0xFFF9B514),
-      unselectedItemColor: Color(0xFF353E55),
+      selectedItemColor: AppColors.YELLOW,
+      unselectedItemColor: AppColors.BLUE,
       onTap: _onItemTapped,
     );
   }

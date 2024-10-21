@@ -88,7 +88,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 Text(
                   // fix the price 
-                  'P ${buynowProvider.subtotal.toStringAsFixed(2)}',
+                  'P ${buynowProvider.subtotal}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: screenWidth * 0.045,

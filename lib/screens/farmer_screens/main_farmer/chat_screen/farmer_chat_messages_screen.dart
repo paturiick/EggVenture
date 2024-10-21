@@ -122,7 +122,7 @@ class FarmerChatMessagesScreen extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 2),
+        bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 3),
       ),
     );
   }
