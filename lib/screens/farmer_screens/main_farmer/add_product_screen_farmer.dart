@@ -1,6 +1,8 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/controller/add_product_controller.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AddProductScreenFarmer extends StatefulWidget {
   @override
@@ -8,17 +10,11 @@ class AddProductScreenFarmer extends StatefulWidget {
 }
 
 class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
-  final _productNameController = TextEditingController();
-  final _productDescriptionController = TextEditingController();
-  final _sizeController = TextEditingController();
-  final _eggTypeController = TextEditingController();
+  final AddProductControllers _controllers = AddProductControllers();
 
   @override
   void dispose() {
-    _productNameController.dispose();
-    _productDescriptionController.dispose();
-    _sizeController.dispose();
-    _eggTypeController.dispose();
+    _controllers.dispose(); // Dispose the controllers here
     super.dispose();
   }
 
@@ -57,6 +53,12 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark
+      )
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +70,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                 fontFamily: 'AvenirNextCyr',
                 fontWeight: FontWeight.bold,
                 fontSize: screenWidth * 0.06, // Responsive font size
-                color: Color(0xFF353E55),
+                color: AppColors.BLUE,
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
@@ -76,7 +78,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
               width: screenWidth,
               height: screenHeight * 0.002,
               decoration: BoxDecoration(
-                color: Color(0xFF353E55),
+                color: AppColors.BLUE,
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.BLUE.withOpacity(0.2),
@@ -102,10 +104,10 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                 'Basic Information',
                 style: TextStyle(fontSize: screenWidth * 0.06, fontWeight: FontWeight.bold, color: AppColors.BLUE),
               ),
-              _buildTextField('Product Name', _productNameController, screenWidth),
-              _buildTextField('Product Description', _productDescriptionController, screenWidth),
-              _buildTextField('Size', _sizeController, screenWidth),
-              _buildTextField('Egg Type', _eggTypeController, screenWidth),
+              _buildTextField('Product Name', _controllers.productNameController, screenWidth),
+              _buildTextField('Product Description', _controllers.productDescriptionController, screenWidth),
+              _buildTextField('Size', _controllers.sizeController, screenWidth),
+              _buildTextField('Egg Type', _controllers.eggTypeController, screenWidth),
               SizedBox(height: screenHeight * 0.03),
               Text(
                 'Media Management',

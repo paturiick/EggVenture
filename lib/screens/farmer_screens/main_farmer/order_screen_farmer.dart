@@ -2,6 +2,7 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
+import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
 
@@ -19,6 +20,12 @@ class _OrderScreenFarmerState extends State<OrderScreenFarmer>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark
+      )
+    );
   }
 
   @override

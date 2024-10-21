@@ -1,6 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/chat_screen/farmer_chat_messages_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/home_screen_farmer.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/order_screen_farmer.dart';
@@ -27,7 +28,7 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarWidgetFarmer> {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = widget.currentIndex;  
+    _selectedIndex = widget.currentIndex;
   }
 
   void _onItemTapped(int index) {
