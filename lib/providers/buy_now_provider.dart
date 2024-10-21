@@ -2,8 +2,7 @@ import 'package:eggventure/models/tray_item.dart';
 import 'package:flutter/material.dart';
 
 class BuyNowProvider extends ChangeNotifier {
-  final List<TrayItem> _buyItems = [];
-  List<TrayItem> get buyItems => _buyItems;
+  final List<TrayItem> buyItems = [];
   List<TrayItem> selectedItems = [];
 
   void toggleSelection(TrayItem item) {
@@ -16,12 +15,12 @@ class BuyNowProvider extends ChangeNotifier {
   }
 
   void removeFromTray(TrayItem item) {
-    _buyItems.remove(item);
+    buyItems.remove(item);
     notifyListeners();
   }
 
   void clearTray() {
-    _buyItems.clear();
+    buyItems.clear();
     notifyListeners();
   }
 
@@ -44,7 +43,7 @@ class BuyNowProvider extends ChangeNotifier {
   // Calculate the subtotal of all items
   double get subtotal {
     double sum = 0.0;
-    for (var item in _buyItems) {
+    for (var item in buyItems) {
       sum += calculateTotalPrice(item);
     }
     return sum;

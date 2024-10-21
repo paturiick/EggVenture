@@ -92,6 +92,12 @@ class _BuyNowState extends State<BuyNowContent> {
   }
 
   @override
+  void dispose(){
+    checkedItems.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final buynowProvider = Provider.of<BuyNowProvider>(context);
     final screenWidth = MediaQuery.of(context).size.width;
