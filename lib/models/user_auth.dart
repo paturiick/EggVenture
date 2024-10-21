@@ -6,10 +6,11 @@ class UserAuthModel {
   UserAuthModel({
     required this.lastName, 
     required this.firstName, 
-    required this.userPhoneNumber
+    required this.userPhoneNumber,
+    required this.userEmail
   });
 
-  final String lastName, firstName;
+  final String lastName, firstName, userEmail;
   final int userPhoneNumber;
 
   factory UserAuthModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -18,12 +19,16 @@ class UserAuthModel {
     return UserAuthModel(
         lastName: data[StringConstants.LASTNAME],
         firstName: data[StringConstants.FIRSTNAME],
-        userPhoneNumber: data[StringConstants.USERPHONENUMBER]
+        userPhoneNumber: data[StringConstants.USERPHONENUMBER],
+        userEmail: data[StringConstants.USEREMAIL]
     );
   }
 
   Map<String, dynamic> toMap() => {
-    // e add ang appstrings parehas sa ubos
+    StringConstants.FIRSTNAME: firstName,
+    StringConstants.LASTNAME: lastName,
+    StringConstants.USERPHONENUMBER: userPhoneNumber,
+    StringConstants.USEREMAIL: userEmail
   };
 
   @override
