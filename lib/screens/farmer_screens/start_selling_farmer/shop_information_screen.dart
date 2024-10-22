@@ -1,6 +1,8 @@
+import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
 import 'package:eggventure/screens/farmer_screens/start_selling_farmer/business_information_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ShopInformationScreen extends StatefulWidget {
   @override
@@ -13,6 +15,16 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   final _pickupAddressController = TextEditingController();
   final _contactNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  final ImagePickerController _imagePickerController = ImagePickerController();
+  XFile? imageFile;
+
+  void imageSelection(ImageSource source) async{
+    final XFile? pickedFile = await _imagePickerController.pickImage(source);
+    setState(() {
+      imageFile = pickedFile;
+    });
+  }
 
   @override
   void dispose() {
@@ -60,9 +72,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
       child: Center(
         child: IconButton(
           icon: Icon(Icons.add, color: Color(0xFF353E55)),
-          onPressed: () {
-            // Logic to add a profile picture
-          },
+          onPressed: () => imageSelection(ImageSource.gallery),
         ),
       ),
     );
