@@ -1,8 +1,10 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/add_product_controller.dart';
+import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddProductScreenFarmer extends StatefulWidget {
   @override
@@ -11,6 +13,16 @@ class AddProductScreenFarmer extends StatefulWidget {
 
 class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
   final AddProductControllers _controllers = AddProductControllers();
+
+  final ImagePickerController _imagePickerController = ImagePickerController();
+  XFile? imageFile;
+
+  void imageSelection(ImageSource source) async{
+    final XFile? pickedFile = await _imagePickerController.pickImage(source);
+    setState(() {
+      imageFile = pickedFile;
+    });
+  }
 
   @override
   void dispose() {
@@ -41,9 +53,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
       child: Center(
         child: IconButton(
           icon: Icon(Icons.add, size: screenWidth * 0.08),
-          onPressed: () {
-            // Logic to add an image
-          },
+          onPressed: () => imageSelection(ImageSource.gallery),
         ),
       ),
     );

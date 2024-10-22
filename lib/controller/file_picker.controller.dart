@@ -1,5 +1,4 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:mime/mime.dart';
 
 class FilePicker {
   static var platform;
