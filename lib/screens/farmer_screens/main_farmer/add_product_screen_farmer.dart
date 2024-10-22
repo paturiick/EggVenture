@@ -1,6 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/add_product_controller.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
+import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,7 +54,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
       child: Center(
         child: IconButton(
           icon: Icon(Icons.add, size: screenWidth * 0.08),
-          onPressed: () => imageSelection(ImageSource.gallery),
+          onPressed: () => ImagePickerWidget.showMenu(context),
         ),
       ),
     );
@@ -91,7 +92,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                 color: AppColors.BLUE,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.BLUE.withOpacity(0.2),
+                    color: AppColors.BLUE,
                     spreadRadius: screenWidth * 0.01,
                     blurRadius: screenWidth * 0.02,
                     offset: Offset(0, screenHeight * 0.005),
@@ -145,7 +146,7 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          // Logic for Cancel
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(screenWidth * 0.4, screenHeight * 0.07),

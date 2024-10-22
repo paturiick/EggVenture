@@ -2,6 +2,7 @@ import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
+import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
@@ -120,7 +121,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () => imageSelection(ImageSource.gallery),
+                        onPressed: () => ImagePickerWidget.showMenu(context),
                         style: ElevatedButton.styleFrom(
                           shape: CircleBorder(),
                           backgroundColor: Colors.grey[200],

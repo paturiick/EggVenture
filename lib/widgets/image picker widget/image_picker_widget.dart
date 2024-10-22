@@ -43,7 +43,8 @@ class ImagePickerWidget {
                         width: 10), // Add some space between the icon and text
                     Text(
                       'Take a Photo',
-                      style: TextStyle(color: AppColors.BLUE, fontSize: 20),
+                      style: TextStyle(color: AppColors.BLUE, 
+                      fontSize: screenWidth * 0.02),
                     ),
                   ],
                 ),
@@ -60,7 +61,8 @@ class ImagePickerWidget {
                     SizedBox(width: 10),
                     Text(
                       'Upload an Image',
-                      style: TextStyle(color: AppColors.BLUE, fontSize: 20),
+                      style: TextStyle(color: AppColors.BLUE, 
+                      fontSize: screenWidth * 0.02),
                     ),
                   ],
                 ),
