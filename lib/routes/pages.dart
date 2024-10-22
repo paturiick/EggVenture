@@ -3,6 +3,7 @@ import 'package:eggventure/screens/consumer_screens/chat_consumer/user_chat_scre
 import 'package:eggventure/screens/consumer_screens/chat_consumer/chat_screen.dart';
 import 'package:eggventure/screens/consumer_screens/checkout_consumer/address%20edit/edit_address_screen.dart';
 import 'package:eggventure/screens/consumer_screens/checkout_consumer/delivery_checkout_screen.dart';
+import 'package:eggventure/screens/consumer_screens/checkout_consumer/pickup_checkout_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/order_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
@@ -42,6 +43,7 @@ class AppPages {
       AppRoutes.BUSINESSINFO: (context) => BusinessInformationScreen(address: "address", email: "email", phoneNumber: 69, shopName: "shopName"),
       AppRoutes.SHOPINFO: (context) => ShopInformationScreen(),
       AppRoutes.DELIVERYCHECKOUT: (context) => DeliveryCheckoutScreen(),
+      AppRoutes.PICKUPCHECKOUT: (context) => PickupCheckoutScreen(),
       AppRoutes.PROFILESCREENREVIEW: (context) => ProfileScreenReview(),
       AppRoutes.DAILYFRESH: (context) => DailyFreshScreen(),
       AppRoutes.PABILONA: (context) => PabilonaScreen(),

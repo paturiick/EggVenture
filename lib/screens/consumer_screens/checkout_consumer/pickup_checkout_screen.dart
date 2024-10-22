@@ -1,3 +1,5 @@
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/consumer_screens/checkout_consumer/address%20edit/edit_address_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +29,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
   @override
   void initState() {
     super.initState();
-    _addressController.text = "Macabalan, Cagayan de Oro City, Philippines";
+    _addressController.text = "Input Address Here...";
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white,
@@ -58,7 +60,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
                 backgroundColor: Colors.transparent,
                 elevation: 0, // No built-in elevation
                 leading: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Color(0xFF353E55)),
+                  icon: Icon(Icons.arrow_back, color: AppColors.BLUE),
                   onPressed: () {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context);
@@ -70,7 +72,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
-                    color: Color(0xFF353E55),
+                    color: AppColors.BLUE,
                   ),
                 ),
                 centerTitle: true,
@@ -113,17 +115,14 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
     return Text(
       title,
       style: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF353E55)),
+          fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.BLUE),
     );
   }
 
   Widget _buildAddressInput(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EditAddressScreen()),
-        );
+        Navigator.pushNamed(context, AppRoutes.EDITADDRESS);
       },
       child: AbsorbPointer(
         child: TextField(
@@ -139,7 +138,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
             ),
             hintText: 'Enter your address',
           ),
-          style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
+          style: TextStyle(fontSize: 16, color: AppColors.BLUE),
         ),
       ),
     );
@@ -173,7 +172,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
               _selectedDate == null
                   ? "Today, ${DateFormat.yMMMMd().format(DateTime.now())}"
                   : DateFormat.yMMMMd().format(_selectedDate!),
-              style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
+              style: TextStyle(fontSize: 16, color: AppColors.BLUE),
             ),
             Icon(Icons.arrow_drop_down, color: Colors.grey),
           ],

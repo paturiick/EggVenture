@@ -107,6 +107,7 @@ flutter:
     - assets/icons/start_selling.png
     - assets/icons/gcash.png
     - assets/icons/paymaya.png
+    - assets/icons/successfully_added.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

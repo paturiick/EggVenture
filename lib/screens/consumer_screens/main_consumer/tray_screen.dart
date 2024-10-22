@@ -297,7 +297,7 @@ class _TrayScreenState extends State<TrayScreen> {
               ),
               if (trayProvider.trayItems.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.all(20),
                   child: Container(
                     decoration: BoxDecoration(color: Colors.white),
                     child: Row(

@@ -1,5 +1,4 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
-import 'package:image_picker/image_picker.dart';
+
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();

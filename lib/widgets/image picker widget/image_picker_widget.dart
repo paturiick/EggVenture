@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 class ImagePickerWidget {
   static void showMenu(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     final ImagePickerController _imagePickerController =
         ImagePickerController();
     XFile? imageFile;
@@ -23,7 +25,7 @@ class ImagePickerWidget {
       context: context,
       builder: (BuildContext context) => SafeArea(
         child: Container(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(5.0),
           height: 200,
           color: Colors.white,
           child: Column(
@@ -36,31 +38,35 @@ class ImagePickerWidget {
                   children: [
                     Icon(
                       FontAwesome.camera_solid,
-                      color: AppColors.BLUE,
+                      color: AppColors.YELLOW,
                       size: 25,
                     ),
                     SizedBox(
                         width: 10), // Add some space between the icon and text
                     Text(
                       'Take a Photo',
-                      style: TextStyle(color: AppColors.BLUE, fontSize: 20),
+                      style: TextStyle(
+                        color: AppColors.BLUE, 
+                      fontSize: screenWidth * 0.05),
                     ),
                   ],
                 ),
               ),
+              SizedBox(height: screenHeight * 0.02,),
               TextButton(
                 onPressed: () => imageSelection(ImageSource.gallery),
                 child: Row(
                   children: [
                     Icon(
                       FontAwesome.image,
-                      color: AppColors.BLUE,
+                      color: AppColors.YELLOW,
                       size: 25,
                     ),
                     SizedBox(width: 10),
                     Text(
                       'Upload an Image',
-                      style: TextStyle(color: AppColors.BLUE, fontSize: 20),
+                      style: TextStyle(color: AppColors.BLUE, 
+                      fontSize: screenWidth * 0.05),
                     ),
                   ],
                 ),
