@@ -1,10 +1,13 @@
+import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
+import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreenFarmer extends StatefulWidget {
   @override
@@ -14,6 +17,15 @@ class ProfileScreenFarmer extends StatefulWidget {
 class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
   final FirestoreService _service = FirestoreService();
   String? shopName;
+  final ImagePickerController _imagePickerController = ImagePickerController();
+  XFile? imageFile;
+
+  void imageSelection(ImageSource source) async{
+    final XFile? pickedFile = await _imagePickerController.pickImage(source);
+    setState(() {
+      imageFile = pickedFile;
+    });
+  }
 
   @override
     void initState(){
@@ -109,9 +121,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
-                          // Handle add new picture action here
-                        },
+                        onPressed: () => ImagePickerWidget.showMenu(context),
                         style: ElevatedButton.styleFrom(
                           shape: CircleBorder(),
                           backgroundColor: Colors.grey[200],
