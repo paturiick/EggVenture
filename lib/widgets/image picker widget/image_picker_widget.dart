@@ -13,6 +13,9 @@ class ImagePickerWidget {
 
     void imageSelection(ImageSource source) async {
       final XFile? pickedFile = await _imagePickerController.pickImage(source);
+      setState(){
+        imageFile = pickedFile;
+      }
       
     }
 
@@ -46,9 +49,7 @@ class ImagePickerWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  //Handle image selection
-                },
+                onPressed: () => imageSelection(ImageSource.gallery),
                 child: Row(
                   children: [
                     Icon(
