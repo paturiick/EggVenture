@@ -73,37 +73,26 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          children: [
-            Text(
-              'Add Product',
-              style: TextStyle(
-                fontFamily: 'AvenirNextCyr',
-                fontWeight: FontWeight.bold,
-                fontSize: screenWidth * 0.06, // Responsive font size
-                color: AppColors.BLUE,
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.01),
-            Container(
-              width: screenWidth,
-              height: screenHeight * 0.002,
-              decoration: BoxDecoration(
-                color: AppColors.BLUE,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.BLUE,
-                    spreadRadius: screenWidth * 0.01,
-                    blurRadius: screenWidth * 0.02,
-                    offset: Offset(0, screenHeight * 0.005),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        centerTitle: true,
         backgroundColor: Colors.white,
+        elevation: 0, // Remove shadow
+        centerTitle: true,
+        //leading: IconButton(onPressed: (onPressed), icon: icon),
+        title: Text(
+          'Add Product',
+          style: TextStyle(
+            fontFamily: 'AvenirNextCyr',
+            fontWeight: FontWeight.bold,
+            fontSize: screenWidth * 0.07, // Responsive font size
+            color: Color(0xFF353E55),
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1), // Height of the bottom border
+          child: Container(
+            color: Colors.grey[300], // Bottom border color
+            height: 1, // Border thickness
+          ),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(screenWidth * 0.04),
@@ -113,7 +102,9 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
             children: <Widget>[
               Text(
                 'Basic Information',
-                style: TextStyle(fontSize: screenWidth * 0.06, fontWeight: FontWeight.bold, color: AppColors.BLUE),
+                style: TextStyle(fontSize: screenWidth * 0.05, 
+                fontWeight: FontWeight.bold, 
+                color: AppColors.BLUE),
               ),
               _buildTextField('Product Name', _controllers.productNameController, screenWidth),
               _buildTextField('Product Description', _controllers.productDescriptionController, screenWidth),

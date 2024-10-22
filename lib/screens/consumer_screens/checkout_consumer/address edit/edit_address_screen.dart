@@ -1,3 +1,4 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class EditAddressScreen extends StatelessWidget {
@@ -21,7 +22,7 @@ class EditAddressScreen extends StatelessWidget {
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Color(0xFF353E55),
+                  color: AppColors.BLUE,
                 ),
                 onPressed: () {
                   Navigator.pop(context);
@@ -32,7 +33,7 @@ class EditAddressScreen extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF353E55)),
+                    color: AppColors.BLUE),
               ),
               centerTitle: true,
             ),
