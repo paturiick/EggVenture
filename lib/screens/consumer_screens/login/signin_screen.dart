@@ -1,8 +1,10 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
+import 'package:eggventure/google/google_auth_service.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/welcome_screen.dart';
+import 'package:eggventure/widgets/error%20widgets/signin_failed_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -138,6 +140,7 @@ class _SigninScreenState extends State<SigninScreen> {
   Widget build(BuildContext context) {
     final emailString = _emailController.text.trim();
     final passwordString = _passwordController.text.trim();
+    final GoogleAuthService _googleAuthService = GoogleAuthService();
 
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -355,8 +358,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                     Text(
                                       'Remember me',
                                       style: TextStyle(
-                                          fontSize: 11,
-                                          color: AppColors.BLUE),
+                                          fontSize: 11, color: AppColors.BLUE),
                                     ),
                                   ],
                                 ),
@@ -385,13 +387,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                             builder: (context) => HomeScreen()),
                                         (Route<dynamic> route) => false,
                                       )
-                                    : ScaffoldMessenger.of(context)
-                                        .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'Sign In failed. Please check your credentials.'),
-                                        ),
-                                      );
+                                    : showSignInFailedOverlay(context);
                               },
                               child: Container(
                                 width: size.width,
@@ -446,7 +442,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             GestureDetector(
                               onTap: () async {
                                 UserCredential? userCredential =
-                                    await _auth.signInwithGoogle();
+                                    await _googleAuthService.signInwithGoogle();
 
                                 if (userCredential != null) {
                                   print(

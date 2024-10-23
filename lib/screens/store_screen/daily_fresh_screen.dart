@@ -77,7 +77,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.TRAYSCREEN);
                     },
-                    icon: Icon(AntDesign.inbox_outline)), 
+                    icon: Icon(AntDesign.inbox_outline)),
               ),
             ),
             IconButton(
@@ -220,8 +220,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                       child: Text(
                         "5/5 (Total Reviews)",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.BLUE),
+                            fontWeight: FontWeight.bold, color: AppColors.BLUE),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -236,36 +235,34 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                     Icon(Icons.timer_outlined, color: AppColors.BLUE),
                     SizedBox(width: 5),
                     Text("25 - 40 MINS",
-                        style: TextStyle(
-                            color: AppColors.BLUE)),
+                        style: TextStyle(color: AppColors.BLUE)),
                     SizedBox(width: 15),
                     Icon(Icons.pedal_bike, color: AppColors.BLUE),
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                child: GestureDetector(
-                  onTap: (){
-                    //Navigate to farmer's pfp
-                  },
-                  child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage:
-                        AssetImage("assets/stores/daily_fresh.jpg"),
-                  ),
-                  title: Text(
-                    "Daily Fresh Eggs",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.03,
-                      color: AppColors.BLUE,
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                  child: GestureDetector(
+                    onTap: () {
+                      //Navigate to farmer's pfp
+                    },
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage("assets/stores/daily_fresh.jpg"),
+                      ),
+                      title: Text(
+                        "Daily Fresh Eggs",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenWidth * 0.03,
+                          color: AppColors.BLUE,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                )
-              ),
+                  )),
               SizedBox(height: 10), // Add extra spacing at the bottom
             ],
           ),
@@ -281,7 +278,9 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
               Expanded(
                 child: Container(
                   child: TextButton(
-                    onPressed: null,
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutes.CHATSCREEN);
+                    },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -291,8 +290,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                         Flexible(
                           child: Text(
                             "Chat Now",
-                            style: TextStyle(
-                                color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],
@@ -307,7 +305,8 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context, 'Daily Fresh');
+                      AddToTrayScreen.showAddToTrayScreen(
+                          context, 'Daily Fresh');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -321,8 +320,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                         Flexible(
                           child: Text(
                             "Add to Tray",
-                            style: TextStyle(
-                                color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ],

@@ -276,7 +276,9 @@ class _VistaScreenState extends State<VistaScreen> {
               Expanded(
                 child: Container(
                   child: TextButton(
-                    onPressed: null,
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutes.CHATSCREEN);
+                    },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [

@@ -1,9 +1,11 @@
 // chat_functions.dart
 import 'dart:convert';
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:file_picker/file_picker.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import 'package:mime/mime.dart';
@@ -28,23 +30,75 @@ class ChatController {
     });
   }
 
-  static void handleAttachmentPressed(BuildContext context,
-      Function handleImageSelection, Function handleFileSelection) {
-        
+  static void handleAttachmentPressed(
+      BuildContext context,
+      Function setState, // pass the correct setState function here
+      Function handleImageSelection,
+      Function handleFileSelection) {
+    final ImagePickerController _imagePickerController =
+        ImagePickerController();
+    XFile? imageFile;
+
+    void imageSelection(ImageSource source) async {
+      final XFile? pickedFile = await _imagePickerController.pickImage(source);
+
+      if (pickedFile != null) {
+        imageFile = pickedFile;
+
+        // Create the image message
+        final bytes = await pickedFile.readAsBytes();
+        final image = await decodeImageFromList(bytes);
+        final message = types.ImageMessage(
+          author: user,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          height: image.height.toDouble(),
+          id: const Uuid().v4(),
+          name: pickedFile.name,
+          size: bytes.length,
+          uri: pickedFile.path,
+          width: image.width.toDouble(),
+        );
+
+        // Update the state with the new message
+        setState(() {
+          addMessage(message, setState);
+        });
+      }
+    }
+
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) => SafeArea(
         child: Container(
           padding: EdgeInsets.all(10.0),
-          height: 200,
+          height: 250,
           color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  imageSelection(ImageSource.camera);
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesome.camera_solid,
+                      color: AppColors.YELLOW,
+                      size: screenWidth * 0.05,
+                    ),
+                    SizedBox(width: screenWidth * 0.02),
+                    Text('Take a Photo',
+                        style: TextStyle(
+                            color: AppColors.BLUE,
+                            fontSize: screenWidth * 0.05)),
+                  ],
+                ),
+              ),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -58,15 +112,13 @@ class ChatController {
                       size: screenWidth * 0.05,
                     ),
                     SizedBox(width: screenWidth * 0.02),
-                    Text('Photo',
-                        style: 
-                        TextStyle(
-                          color: AppColors.BLUE, 
-                          fontSize: screenWidth * 0.05)),
+                    Text('Upload an Image',
+                        style: TextStyle(
+                            color: AppColors.BLUE,
+                            fontSize: screenWidth * 0.05)),
                   ],
                 ),
               ),
-              SizedBox(height: screenHeight * 0.02,),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -80,14 +132,13 @@ class ChatController {
                       size: 25,
                     ),
                     SizedBox(width: screenWidth * 0.02),
-                    Text('File',
+                    Text('Upload a File',
                         style: TextStyle(
-                          color: AppColors.BLUE, 
-                          fontSize: screenWidth * 0.05)),
+                            color: AppColors.BLUE,
+                            fontSize: screenWidth * 0.05)),
                   ],
                 ),
               ),
-              SizedBox(height: screenHeight * 0.02,),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Row(
@@ -100,8 +151,8 @@ class ChatController {
                     SizedBox(width: screenWidth * 0.02),
                     Text('Cancel',
                         style: TextStyle(
-                          color: AppColors.RED, 
-                          fontSize: screenWidth * 0.05)),
+                            color: AppColors.RED,
+                            fontSize: screenWidth * 0.05)),
                   ],
                 ),
               ),
@@ -111,6 +162,7 @@ class ChatController {
       ),
     );
   }
+
 
   static Future<void> handleFileSelection(Function setState) async {
     final result = await FilePicker.platform.pickFiles(type: FileType.any);

@@ -35,6 +35,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
                 onAttachmentPressed: () =>
                     ChatController.handleAttachmentPressed(
                         context,
+                        setState,
                         () => ChatController.handleImageSelection(setState),
                         () => ChatController.handleFileSelection(setState)),
                 showUserAvatars: true,
@@ -56,10 +57,17 @@ class _UserChatScreenState extends State<UserChatScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () => ChatController.handleAttachmentPressed(
-                        context,
+                    onPressed: () {
+                      setState(() {
+                        ChatController.isEmojiVisible = false;
+                      });
+                      ChatController.handleAttachmentPressed(
+                        context, 
+                        setState,
                         () => ChatController.handleImageSelection(setState),
-                        () => ChatController.handleFileSelection(setState)),
+                        () => ChatController.handleFileSelection(setState),
+                      );
+                    },
                     icon: Icon(Icons.add_circle_outline, color: Colors.grey),
                   ),
                   Expanded(
@@ -74,6 +82,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
                           controller: ChatController.textController,
                           cursorColor: AppColors.YELLOW,
                           textCapitalization: TextCapitalization.sentences,
+                          style: TextStyle(color: AppColors.BLUE),
                           decoration: InputDecoration(
                             hintText: "Type a message...",
                             border: InputBorder.none,

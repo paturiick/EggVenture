@@ -35,6 +35,7 @@ class _FarmerChatScreenState extends State<FarmerChatScreen> {
                 onAttachmentPressed: () =>
                     ChatController.handleAttachmentPressed(
                         context,
+                        setState,
                         () => ChatController.handleImageSelection(setState),
                         () => ChatController.handleFileSelection(setState)),
                 showUserAvatars: true,
@@ -58,6 +59,7 @@ class _FarmerChatScreenState extends State<FarmerChatScreen> {
                   IconButton(
                     onPressed: () => ChatController.handleAttachmentPressed(
                         context,
+                        setState,
                         () => ChatController.handleImageSelection(setState),
                         () => ChatController.handleFileSelection(setState)),
                     icon: Icon(Icons.add_circle_outline, color: Colors.grey),
