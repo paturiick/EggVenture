@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:eggventure/constants/colors.dart';
 
-class ErrorToAddWidget extends StatefulWidget {
+class ErrorToBuyWidget extends StatefulWidget {
   @override
-  _ErrorToAddWidgetState createState() => _ErrorToAddWidgetState();
+  _ErrorToBuyWidgetState createState() => _ErrorToBuyWidgetState();
 }
 
-class _ErrorToAddWidgetState extends State<ErrorToAddWidget>
+class _ErrorToBuyWidgetState extends State<ErrorToBuyWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
@@ -61,7 +61,7 @@ class _ErrorToAddWidgetState extends State<ErrorToAddWidget>
             ),
             SizedBox(width: screenWidth * 0.02),
             Text(
-              "No Item(s) to Add",
+              "No Item(s) to Buy",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: screenWidth * 0.04,
@@ -77,7 +77,7 @@ class _ErrorToAddWidgetState extends State<ErrorToAddWidget>
 
 OverlayEntry? _currentErrorOverlay;
 
-void showErrorOverlay(BuildContext context) {
+void showErrortoBuyOverlay(BuildContext context) {
   if (_currentErrorOverlay != null) {
     return; // If an overlay is already being shown, do nothing
   }
@@ -91,7 +91,7 @@ void showErrorOverlay(BuildContext context) {
           left: MediaQuery.of(context).size.width * 0.05,
           right: MediaQuery.of(context).size.width * 0.05,
           child: Center(
-            child: ErrorToAddWidget(),
+            child: ErrorToBuyWidget(),
           ),
         ),
       ],

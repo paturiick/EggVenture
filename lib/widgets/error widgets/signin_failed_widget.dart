@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:eggventure/constants/colors.dart';
 
-class ErrorToAddWidget extends StatefulWidget {
+class SigninFailedWidget extends StatefulWidget {
   @override
-  _ErrorToAddWidgetState createState() => _ErrorToAddWidgetState();
+  _SigninFailedWidgetState createState() => _SigninFailedWidgetState();
 }
 
-class _ErrorToAddWidgetState extends State<ErrorToAddWidget>
+class _SigninFailedWidgetState extends State<SigninFailedWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
@@ -46,7 +46,7 @@ class _ErrorToAddWidgetState extends State<ErrorToAddWidget>
       child: Container(
         margin: EdgeInsets.only(top: 5),
         padding:
-            EdgeInsets.symmetric(vertical: 8, horizontal: screenWidth * 0.02),
+            EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           color: AppColors.RED,
           borderRadius: BorderRadius.circular(8),
@@ -56,15 +56,15 @@ class _ErrorToAddWidgetState extends State<ErrorToAddWidget>
           children: [
             Icon(
               Icons.error_outline_outlined,
-              size: screenWidth * 0.06,
+              size: screenWidth * 0.05,
               color: Colors.white,
             ),
-            SizedBox(width: screenWidth * 0.02),
+            SizedBox(width: screenWidth * 0.01),
             Text(
-              "No Item(s) to Add",
+              "Sign-in Failed. Please check your credentials.",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: screenWidth * 0.04,
+                fontSize: screenWidth * 0.03,
                 decoration: TextDecoration.none,
               ),
             )
@@ -75,15 +75,15 @@ class _ErrorToAddWidgetState extends State<ErrorToAddWidget>
   }
 }
 
-OverlayEntry? _currentErrorOverlay;
+OverlayEntry? _currentSignInFailedOverlay;
 
-void showErrorOverlay(BuildContext context) {
-  if (_currentErrorOverlay != null) {
+void showSignInFailedOverlay(BuildContext context) {
+  if (_currentSignInFailedOverlay != null) {
     return; // If an overlay is already being shown, do nothing
   }
 
-  OverlayState overlayState = Overlay.of(context);
-  _currentErrorOverlay = OverlayEntry(
+  OverlayState overlayState = Overlay.of(context)!;
+  _currentSignInFailedOverlay = OverlayEntry(
     builder: (context) => Stack(
       children: [
         Positioned(
@@ -91,7 +91,7 @@ void showErrorOverlay(BuildContext context) {
           left: MediaQuery.of(context).size.width * 0.05,
           right: MediaQuery.of(context).size.width * 0.05,
           child: Center(
-            child: ErrorToAddWidget(),
+            child: SigninFailedWidget(),
           ),
         ),
       ],
@@ -99,10 +99,10 @@ void showErrorOverlay(BuildContext context) {
   );
 
   // Insert the overlay entry
-  overlayState.insert(_currentErrorOverlay!);
+  overlayState.insert(_currentSignInFailedOverlay!);
 
   Future.delayed(Duration(milliseconds: 900), () {
-    _currentErrorOverlay?.remove();
-    _currentErrorOverlay = null;
+    _currentSignInFailedOverlay?.remove();
+    _currentSignInFailedOverlay = null;
   });
 }

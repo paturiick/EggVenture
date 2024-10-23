@@ -5,6 +5,7 @@ import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignupScreen extends StatefulWidget {
   SignupScreen({super.key});
@@ -67,7 +68,6 @@ class _SignupScreenState extends State<SignupScreen> {
     _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    ;
 
     _lastNameFocusNode.dispose();
     _firstNameFocusNode.dispose();
@@ -158,13 +158,51 @@ class _SignupScreenState extends State<SignupScreen> {
                             prefixIcon: Icon(Icons.email),
                           ),
                           SizedBox(height: 20),
-                          _buildTextField(
-                            'Phone Number',
-                            _phoneController,
-                            false,
-                            TextInputType.phone,
-                            _phoneFocusNode,
-                            prefixIcon: Icon(Icons.phone),
+                          IntlPhoneField(
+                            controller: _phoneController,
+                            focusNode: _phoneFocusNode,
+                            cursorColor: AppColors.YELLOW,
+                              decoration: InputDecoration(
+                                  labelText: 'Phone Number',
+                                  labelStyle: TextStyle(
+                                    color: AppColors.BLUE,
+                                    fontSize: 12
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.YELLOW,
+                                    )
+                                  )
+                              ),
+                              initialCountryCode: 'PH',
+                              onChanged: (phone) {
+                                  print(phone.completeNumber);  
+                              },
+                              onCountryChanged: (country) {
+                              print('Country changed to: ${country.name}');
+                            },
+                            validator: (value) {
+                              if (value == null ||
+                                  value.completeNumber.isEmpty) {
+                                return 'Please enter a valid phone number';
+                              }
+                              return null;
+                            },
+                            dropdownTextStyle: TextStyle(
+                              color: AppColors.BLUE,
+                              fontSize: 12
+                            ),
+                            dropdownIcon: Icon(
+                              Icons.arrow_drop_down,
+                              color: AppColors.BLUE,
+                            ),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.BLUE
+                            ),
                           ),
                           SizedBox(height: 20),
                           _buildTextField(
@@ -186,6 +224,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon:
                                 _toggleVisibilityButton(isConfirm: true),
+                            isConfirmPassword:
+                                true, // Custom validation for confirm password
                           ),
                           SizedBox(height: 20),
                           _buildTermsCheckbox(),
@@ -288,33 +328,48 @@ class _SignupScreenState extends State<SignupScreen> {
     FocusNode focusNode, {
     Widget? prefixIcon,
     Widget? suffixIcon,
+    bool isConfirmPassword = false, // Flag for confirm password validation
   }) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      focusNode: focusNode,
-      cursorColor: AppColors.YELLOW,
-      decoration: InputDecoration(
-        labelText: labelText,
-        labelStyle: TextStyle(
-          color: AppColors.BLUE,
-          fontSize: 12,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: controller,
+          obscureText: obscureText,
+          keyboardType: keyboardType,
+          focusNode: focusNode,
+          cursorColor: AppColors.YELLOW,
+          decoration: InputDecoration(
+            labelText: labelText,
+            labelStyle: TextStyle(
+              color: AppColors.BLUE,
+              fontSize: 12,
+            ),
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.YELLOW),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.RED),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.RED),
+            ),
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+          ),
+          style: TextStyle(fontSize: 12, color: AppColors.BLUE),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your $labelText';
+            }
+            if (isConfirmPassword && value != _passwordController.text) {
+              return 'Passwords do not match';
+            }
+            return null;
+          },
         ),
-        border: OutlineInputBorder(),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.YELLOW),
-        ),
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
-      ),
-      style: TextStyle(fontSize: 12, color: AppColors.BLUE),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your $labelText';
-        }
-        return null;
-      },
+      ],
     );
   }
 
@@ -326,7 +381,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ? Icons.visibility
                 : Icons.visibility_off)
             : (_passwordVisible ? Icons.visibility : Icons.visibility_off),
-        color: AppColors.YELLOW,
+        color: AppColors.BLUE,
       ),
       onPressed: () {
         setState(() {
@@ -345,30 +400,19 @@ class _SignupScreenState extends State<SignupScreen> {
       children: [
         Checkbox(
           value: _agreeToTerms,
-          activeColor: AppColors.BLUE,
-          onChanged: (bool? value) {
+          activeColor: AppColors.YELLOW,
+          onChanged: (value) {
             setState(() {
               _agreeToTerms = value ?? false;
             });
           },
         ),
-        Text(
-          'I agree with',
-          style: TextStyle(fontSize: 13, color: Colors.grey[600]),
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        GestureDetector(
-          onTap: () {
-            // Handle terms and conditions
-          },
+        Flexible(
           child: Text(
-            'Terms and Conditions',
+            'I agree to the Terms and Conditions',
             style: TextStyle(
+              fontSize: 12,
               color: AppColors.BLUE,
-              fontSize: 13,
-              decoration: TextDecoration.underline,
             ),
           ),
         ),
@@ -377,30 +421,40 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _buildSignUpButton(Size size) {
-    final emailString = _emailController.text.trim();
-    final passwordString = _passwordController.text.trim();
-    final lastNameString = _lastNameController.text.trim();
-    final firstNameString = _firstNameController.text.trim();
-    final userPhoneNumberString = _phoneController.text.trim();
-  
     return Container(
       width: size.width,
       child: ElevatedButton(
         onPressed: () async {
-          User? user = await _auth.signupUser(lastNameString, firstNameString, int.parse(userPhoneNumberString), emailString, passwordString);
-          debugPrint('signup clicked');
-          user != null
-              ? Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                  (Route<dynamic> route) => false,
-                )
-              : ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content:
-                        Text('Sign up failed. Please check your credentials.'),
-                  ),
-                );
+          setState(() {
+            _attemptedSignUp = true;
+          });
+          if (_formKey.currentState!.validate()) {
+            final emailString = _emailController.text.trim();
+            final passwordString = _passwordController.text.trim();
+            final lastNameString = _lastNameController.text.trim();
+            final firstNameString = _firstNameController.text.trim();
+            final userPhoneNumberString = _phoneController.text.trim();
+
+            User? user = await _auth.signupUser(lastNameString, firstNameString,
+                int.parse(userPhoneNumberString), emailString, passwordString);
+
+            debugPrint('signup clicked');
+
+            if (user != null) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => SigninScreen()),
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content:
+                      Text('Sign up failed. Please check your credentials.'),
+                ),
+              );
+            }
+          }
         },
         child: Text(
           'Sign Up',
@@ -418,13 +472,16 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _buildSignInPrompt() {
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('Already have an account?',
-        style: TextStyle(
-          color: AppColors.BLUE
-        ),),
+      children: [
+        Text(
+          "Already have an account?",
+          style: TextStyle(
+            fontSize: 12,
+            color: AppColors.BLUE,
+          ),
+        ),
         TextButton(
           onPressed: () {
             Navigator.push(
@@ -435,8 +492,12 @@ class _SignupScreenState extends State<SignupScreen> {
             );
           },
           child: Text(
-            'Sign in',
-            style: TextStyle(color: AppColors.YELLOW, fontSize: 15),
+            'Sign In',
+            style: TextStyle(
+              fontSize: 12,
+              color: AppColors.YELLOW,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

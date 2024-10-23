@@ -3,6 +3,7 @@ import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/error%20widgets/error_to_add_widget.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/checkbox_item_widget.dart';
+import 'package:eggventure/widgets/error%20widgets/error_to_buy_widget.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -92,7 +93,7 @@ class _BuyNowState extends State<BuyNowContent> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     checkedItems.clear();
     super.dispose();
   }
@@ -202,7 +203,7 @@ class _BuyNowState extends State<BuyNowContent> {
                     });
                   } else {
                     // Show error if no valid selection
-                    showErrorOverlay(context);
+                    showErrortoBuyOverlay(context);
                   }
                 },
                 style: ElevatedButton.styleFrom(

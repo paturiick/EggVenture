@@ -11,6 +11,7 @@ class SuccessfullyAddedTray {
     required VoidCallback onViewTray,
   }) {
     final trayProvider = Provider.of<AddToTrayProvider>(context, listen: false);
+    final screenWidth = MediaQuery.of(context).size.width;
 
     // Call the custom transition dialog
     showCustomTransitionDialog(
@@ -37,7 +38,7 @@ class SuccessfullyAddedTray {
               Text(
                 "Successfully Added!",
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: screenWidth * 0.05,
                   fontWeight: FontWeight.bold,
                   color: AppColors.BLUE,
                 ),
@@ -63,7 +64,7 @@ class SuccessfullyAddedTray {
                   "Continue Browsing",
                   style: TextStyle(
                     color: AppColors.BLUE,
-                    fontSize: 16.0,
+                    fontSize: screenWidth * 0.03,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -91,7 +92,7 @@ class SuccessfullyAddedTray {
                   "View Tray",
                   style: TextStyle(
                     color: AppColors.YELLOW,
-                    fontSize: 16.0,
+                    fontSize: screenWidth * 0.03,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
