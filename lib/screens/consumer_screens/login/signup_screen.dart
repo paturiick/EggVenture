@@ -159,6 +159,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           SizedBox(height: 20),
                           IntlPhoneField(
+                            
                             controller: _phoneController,
                             focusNode: _phoneFocusNode,
                             cursorColor: AppColors.YELLOW,
@@ -363,6 +364,9 @@ class _SignupScreenState extends State<SignupScreen> {
             if (value == null || value.isEmpty) {
               return 'Please enter your $labelText';
             }
+            if (labelText == 'Password' && value.length < 8) {
+              return 'Password must be at least 8 characters long';
+            }
             if (isConfirmPassword && value != _passwordController.text) {
               return 'Passwords do not match';
             }
@@ -472,13 +476,13 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _buildSignInPrompt() {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "Already have an account?",
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 15,
             color: AppColors.BLUE,
           ),
         ),
@@ -494,7 +498,7 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Text(
             'Sign In',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 15,
               color: AppColors.YELLOW,
               fontWeight: FontWeight.bold,
             ),
