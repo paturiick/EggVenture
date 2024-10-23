@@ -1,6 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
+import 'package:eggventure/widgets/confirmation/logout_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
@@ -105,13 +106,7 @@ class MenuScreen {
             ),
           ),
           onPressed: () {
-            FirebaseAuthService().signOut();
-            FacebookAuth.instance.logOut();
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SigninScreen()),
-                //ensure no back navigation
-                (Route<dynamic> route) => false);
+            LogoutConfirmation.showLogOutConfirmation(context);
           },
           icon: Icon(
             Icons.logout, // Using the logout icon
