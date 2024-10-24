@@ -2,49 +2,63 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
+
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirestoreService _service = FirestoreService();
 
   String? userName;
 
-   @override
-    void initState() {
-      super.initState();
-      getUserName();
+  @override
+  void initState() {
+    super.initState();
+    getUserName();
+  }
+
+  Future<void> getUserName() async {
+    try {
+      final uid = _service.getCurrentUserId();
+      final userDetails = await _service.getBasedOnId('userDetails', uid);
+
+      final firstName = userDetails['firstName'];
+      final lastName = userDetails['lastName'];
+
+      setState(() {
+        userName = '$firstName $lastName';
+      });
+    } catch (e) {
+      print('$e');
+      return null;
     }
+  }
 
-   Future<void> getUserName() async {
-      try {
-        final uid = _service.getCurrentUserId();
-        final userDetails = await _service.getBasedOnId('userDetails', uid);
+  Future<void> onProfileTapped() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image == null) return;
 
-        final firstName = userDetails['firstName'];
-        final lastName = userDetails['lastName'];
-
-        setState(() {
-          userName = '$firstName $lastName';
-        });
-      } catch (e) {
-        print('$e');
-        return null;
-      }
-    }
+    final storageRef = FirebaseStorage.instance.ref();
+    final imageRef = storageRef.child('user_1.jpg');
+    final imageBytes = await image.readAsBytes();
+    await imageRef.putData(imageBytes);
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
@@ -83,9 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 right: screenWidth * 0.05,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.pushNamed(
-                      context, AppRoutes.SHOPINFO
-                    );
+                    Navigator.pushNamed(context, AppRoutes.SHOPINFO);
                   },
                   icon: Image.asset(
                     "assets/icons/start_selling.png",
@@ -126,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              ImagePickerWidget.showMenu(context);
+                              onProfileTapped();
                             },
                             style: ElevatedButton.styleFrom(
                               shape: CircleBorder(),
@@ -145,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  userName ?? '', 
+                                  userName ?? '',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: screenWidth * 0.05, // Responsive
@@ -199,11 +211,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           _buildIconOption(context, AntDesign.sync_outline,
                               'Processing', screenWidth),
                           _buildIconOption(
-                              context,
-                              Icons.rate_review,
-                              'Review',
-                              screenWidth, () {
-                            Navigator.pushNamed(context, AppRoutes.PROFILESCREENREVIEW);
+                              context, Icons.rate_review, 'Review', screenWidth,
+                              () {
+                            Navigator.pushNamed(
+                                context, AppRoutes.PROFILESCREENREVIEW);
                           }),
                         ],
                       ),
@@ -258,8 +269,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildIconOption(BuildContext context, IconData icon, String text,
-      double screenWidth, [VoidCallback? onPressed]) {
+  Widget _buildIconOption(
+      BuildContext context, IconData icon, String text, double screenWidth,
+      [VoidCallback? onPressed]) {
     return ElevatedButton(
       onPressed: onPressed ??
           () {
@@ -317,3 +329,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
+

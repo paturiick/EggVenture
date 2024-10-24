@@ -62,4 +62,6 @@ class FirebaseAuthService {
     User? user = _auth.currentUser;
     return user?.uid ?? '';
   }
+
+  registerWithEmailAndPassword(String text, String text2) {}
 }

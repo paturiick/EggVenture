@@ -114,7 +114,31 @@ class _AddToTrayContentState extends State<AddToTrayContent> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Item(s)",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.03,
+                  color: AppColors.BLUE
+                ),
+              ),
+              SizedBox(
+                width: screenWidth * 0.5,
+              ),
+              Text(
+                "Quantity",
+                style: TextStyle(
+                    fontSize: screenWidth * 0.03, 
+                    color: AppColors.BLUE),
+              )
+            ],
+          ),
           Expanded(
             child: ListView(
               controller: widget.scrollController,

@@ -13,8 +13,8 @@ import 'package:provider/provider.dart';
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
+      
   WidgetsFlutterBinding.ensureInitialized();
-
   try {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'AvenirNextCyr',
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: SplashScreen()
+      home: HomeScreen()
     );
   }
 }
