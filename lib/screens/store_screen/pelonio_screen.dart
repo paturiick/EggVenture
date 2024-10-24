@@ -68,7 +68,7 @@ class _PelonioScreenState extends State<PelonioScreen> {
                 badgeStyle:
                     const badges.BadgeStyle(badgeColor: AppColors.YELLOW),
                 badgeContent: Text(
-                  '${trayProvider.trayItems.fold<int>(0, (totalQuantity, item) => totalQuantity + item.amount)}',
+                  '${trayProvider.trayItems.length}',
                   style: TextStyle(color: AppColors.BLUE),
                 ),
                 position: badges.BadgePosition.topEnd(top: 0, end: -2),

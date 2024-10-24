@@ -20,14 +20,18 @@ class ImagePickerWidget {
       }
       
     }
+    
 
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) => SafeArea(
         child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.white
+          ),
           padding: EdgeInsets.all(5.0),
-          height: 200,
-          color: Colors.white,
+          height: 200,  
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

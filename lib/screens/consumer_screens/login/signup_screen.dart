@@ -158,43 +158,36 @@ class _SignupScreenState extends State<SignupScreen> {
                             prefixIcon: Icon(Icons.email),
                           ),
                           SizedBox(height: 20),
+                          // Modify the phone field without the validator
                           IntlPhoneField(
-                            
                             controller: _phoneController,
                             focusNode: _phoneFocusNode,
                             cursorColor: AppColors.YELLOW,
-                              decoration: InputDecoration(
-                                  labelText: 'Phone Number',
-                                  labelStyle: TextStyle(
-                                    color: AppColors.BLUE,
-                                    fontSize: 12
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: AppColors.YELLOW,
-                                    )
-                                  )
+                            decoration: InputDecoration(
+                              labelText: 'Phone Number',
+                              labelStyle: TextStyle(
+                                color: AppColors.BLUE,
+                                fontSize: 12,
                               ),
-                              initialCountryCode: 'PH',
-                              onChanged: (phone) {
-                                  print(phone.completeNumber);  
-                              },
-                              onCountryChanged: (country) {
-                              print('Country changed to: ${country.name}');
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.YELLOW,
+                                ),
+                              ),
+                            ),
+                            initialCountryCode: 'PH',
+                            onChanged: (phone) {
+                              print(phone.completeNumber);
                             },
-                            validator: (value) {
-                              if (value == null ||
-                                  value.completeNumber.isEmpty) {
-                                return 'Please enter a valid phone number';
-                              }
-                              return null;
+                            onCountryChanged: (country) {
+                              print('Country changed to: ${country.name}');
                             },
                             dropdownTextStyle: TextStyle(
                               color: AppColors.BLUE,
-                              fontSize: 12
+                              fontSize: 12,
                             ),
                             dropdownIcon: Icon(
                               Icons.arrow_drop_down,
@@ -202,7 +195,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                             style: TextStyle(
                               fontSize: 12,
-                              color: AppColors.BLUE
+                              color: AppColors.BLUE,
                             ),
                           ),
                           SizedBox(height: 20),
@@ -364,9 +357,20 @@ class _SignupScreenState extends State<SignupScreen> {
             if (value == null || value.isEmpty) {
               return 'Please enter your $labelText';
             }
+            // Email validation logic
+            if (labelText == 'Email Address') {
+              String pattern =
+                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+              RegExp regex = RegExp(pattern);
+              if (!regex.hasMatch(value)) {
+                return 'Please enter a valid email address';
+              }
+            }
+            // Password validation logic
             if (labelText == 'Password' && value.length < 8) {
               return 'Password must be at least 8 characters long';
             }
+            // Confirm password logic
             if (isConfirmPassword && value != _passwordController.text) {
               return 'Passwords do not match';
             }

@@ -84,7 +84,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
           icon: badges.Badge(
             badgeStyle: badges.BadgeStyle(badgeColor: AppColors.YELLOW),
             badgeContent: Text(
-                '${trayProvider.trayItems.fold<int>(0, (totalQuantity, item) => totalQuantity + item.amount)}',
+                '${trayProvider.trayItems.length}',
                 style: TextStyle(
                     color: AppColors.BLUE)), // Correct usage of badgeContent
             child: Icon(

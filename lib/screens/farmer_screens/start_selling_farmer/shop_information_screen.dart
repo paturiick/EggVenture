@@ -1,8 +1,10 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
 import 'package:eggventure/screens/farmer_screens/start_selling_farmer/business_information_screen.dart';
+import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class ShopInformationScreen extends StatefulWidget {
   @override
@@ -13,13 +15,15 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   final _shopNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _pickupAddressController = TextEditingController();
-  final _contactNumberController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  String? _phoneNumber;
+  String? _phoneError; // Variable to store phone number validation error
 
   final ImagePickerController _imagePickerController = ImagePickerController();
   XFile? imageFile;
 
-  void imageSelection(ImageSource source) async{
+  void imageSelection(ImageSource source) async {
     final XFile? pickedFile = await _imagePickerController.pickImage(source);
     setState(() {
       imageFile = pickedFile;
@@ -31,39 +35,65 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
     _shopNameController.dispose();
     _emailController.dispose();
     _pickupAddressController.dispose();
-    _contactNumberController.dispose();
     super.dispose();
   }
 
-  Widget _buildTextField(String label, TextEditingController controller) {
+  String? _validateEmail(String? value) {
+    final emailRegex =
+        RegExp(r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
+    if (value == null || value.isEmpty) {
+      return 'Please enter an email';
+    } else if (!emailRegex.hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller,
+      {TextInputType? keyboardType, String? Function(String?)? validator}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
+        cursorColor: AppColors.YELLOW,
         controller: controller,
+        keyboardType: keyboardType ?? TextInputType.text,
+        autovalidateMode: AutovalidateMode.disabled, // Disable auto-validation
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: label,
           labelStyle: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red), // Error border color
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: AppColors.YELLOW), // Focused border color
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: AppColors.BLUE), // Default border color
           ),
         ),
         style: TextStyle(
-          color: Color(0xFF353E55),
+          color: AppColors.BLUE,
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter $label';
-          }
-          return null;
-        },
+        validator: validator ??
+            (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter $label';
+              }
+              return null;
+            },
       ),
     );
   }
 
   Widget _buildProfilePicturePicker() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.4, 
+      width: MediaQuery.of(context).size.width * 0.4,
       height: MediaQuery.of(context).size.width * 0.4,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -71,9 +101,10 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
       ),
       child: Center(
         child: IconButton(
-          icon: Icon(Icons.add, color: Color(0xFF353E55)),
-          onPressed: () => imageSelection(ImageSource.gallery),
-        ),
+            icon: Icon(Icons.add, color: AppColors.BLUE),
+            onPressed: () {
+              ImagePickerWidget.showMenu(context);
+            }),
       ),
     );
   }
@@ -81,22 +112,22 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   Widget _stepCircle(bool isActive) {
     return CircleAvatar(
       radius: MediaQuery.of(context).size.width * 0.03,
-      backgroundColor: isActive ? Color(0xFFF9B514) : Colors.grey[300],
-      child: Icon(Icons.circle, color: Colors.white, size: MediaQuery.of(context).size.width * 0.04),
+      backgroundColor: isActive ? AppColors.YELLOW : Colors.grey[300],
+      child: Icon(Icons.circle,
+          color: Colors.white, size: MediaQuery.of(context).size.width * 0.04),
     );
   }
 
   Widget _stepLine() {
     return Container(
       height: 2,
-      width: MediaQuery.of(context).size.width * 0.1, // Adjust width dynamically
+      width: MediaQuery.of(context).size.width * 0.1,
       color: Colors.grey,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Using MediaQuery to get the screen height and width
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -106,13 +137,13 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
         title: Text(
           'Shop Information',
           style: TextStyle(
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
             fontWeight: FontWeight.bold,
             fontSize: screenWidth * 0.05,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           Padding(
@@ -126,7 +157,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
               child: Text(
                 'Save',
                 style: TextStyle(
-                  color: Color(0xFFF9B514),
+                  color: AppColors.YELLOW,
                   fontWeight: FontWeight.bold,
                   fontSize: screenWidth * 0.045,
                 ),
@@ -134,16 +165,16 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
             ),
           ),
         ],
-        iconTheme: IconThemeData(color: Color(0xFF353E55)),
+        iconTheme: IconThemeData(color: AppColors.BLUE),
       ),
-      body: SingleChildScrollView( // To avoid overflow issues on small screens
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.05, // 5% of screen width
-            vertical: screenHeight * 0.02,  // 2% of screen height
+            horizontal: screenWidth * 0.05,
+            vertical: screenHeight * 0.02,
           ),
           child: Form(
-            key: _formKey, // Added formKey
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -166,17 +197,17 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     Text(
                       'Shop Information',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.03, // Responsive text size
-                        color: Color(0xFF353E55),
+                        fontSize: screenWidth * 0.03,
+                        color: AppColors.BLUE,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: screenWidth * 0.15), // Adjust spacing dynamically
+                    SizedBox(width: screenWidth * 0.15),
                     Text(
                       'Business Information',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.03, // Responsive text size
-                        color: Color(0xFF353E55),
+                        fontSize: screenWidth * 0.03,
+                        color: AppColors.BLUE,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -186,13 +217,45 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
 
                 // Shop Information Input Fields
                 _buildTextField('Shop Name', _shopNameController),
-                _buildTextField('Email', _emailController),
+                _buildTextField('Email', _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: _validateEmail),
                 _buildTextField('Pickup Address', _pickupAddressController),
-                _buildTextField('Contact Number', _contactNumberController),
+
+                // Phone Number Field with Error Handling
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: IntlPhoneField(
+                    cursorColor: AppColors.YELLOW,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Contact Number',
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.BLUE,
+                      ),
+                      errorText: _phoneError, // Display error if exists
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.RED),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.YELLOW),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.BLUE),
+                      ),
+                    ),
+                    initialCountryCode: 'PH',
+                    onChanged: (phone) {
+                      _phoneNumber = phone.completeNumber;
+                    },
+                    onSaved: (phone) {
+                      _phoneNumber = phone?.completeNumber;
+                    },
+                  ),
+                ),
 
                 SizedBox(height: screenHeight * 0.02),
-
-                // Profile Picture Picker
                 Center(
                   child: Column(
                     children: [
@@ -203,7 +266,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                         style: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.035, // Responsive text size
+                          fontSize: screenWidth * 0.035,
                         ),
                       ),
                     ],
@@ -220,41 +283,53 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
-                        side: BorderSide(color: Color(0xFFF9B514)),
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
+                        side: BorderSide(color: AppColors.YELLOW),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.15),
                       ),
                       child: Text(
                         'Back',
                         style: TextStyle(
-                          color: Color(0xFF353E55),
+                          color: AppColors.BLUE,
                           fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.04, // Responsive text size
+                          fontSize: screenWidth * 0.04,
                         ),
                       ),
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                             String shopName = _shopNameController.text.trim();
-                            String email = _emailController.text.trim();
-                            String address = _pickupAddressController.text.trim();
-                            int phoneNumber = int.parse(_contactNumberController.text.trim()); 
+                        setState(() {
+                          if (_phoneNumber == null || _phoneNumber!.isEmpty) {
+                            _phoneError = 'Please enter contact number';
+                          } else {
+                            _phoneError = null;
+                          }
+                        });
+
+                        if (_formKey.currentState!.validate() &&
+                            _phoneError == null) {
+                          String shopName = _shopNameController.text.trim();
+                          String email = _emailController.text.trim();
+                          String address = _pickupAddressController.text.trim();
+                          String phoneNumber = _phoneNumber ?? '';
 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => BusinessInformationScreen(
-                                address: address, 
-                                email: email, 
-                                phoneNumber: phoneNumber, 
-                                shopName: shopName), // Navigate to BusinessInformationScreen
+                                address: address,
+                                email: email,
+                                phoneNumber: int.tryParse(phoneNumber) ?? 0,
+                                shopName: shopName,
+                              ),
                             ),
                           );
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFF9B514),
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.15), // Adjust button padding
+                        backgroundColor: AppColors.YELLOW,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.15),
                       ),
                       child: Text(
                         'Next',
@@ -262,7 +337,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                           color: Colors.white,
                           fontFamily: 'AvenirNextCyr',
                           fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.04, // Responsive text size
+                          fontSize: screenWidth * 0.04,
                         ),
                       ),
                     ),
