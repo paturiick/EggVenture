@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -72,5 +74,23 @@ Future<void> onProfileTapped() async {
         'File uploaded successfully (Bytes). Download URL: $downloadUrlBytes');
   } else {
     debugPrint('Failed to upload image (Bytes).');
+  }
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Assuming the user ID can be fetched from some authentication method
+  String getCurrentUserId() {
+    // Example function to get the current user's ID
+    return FirebaseAuth.instance.currentUser!.uid;
+  }
+
+  Future<void> updateUserProfile(
+      String userId, Map<String, dynamic> data) async {
+    try {
+      await _firestore.collection('userDetails').doc(userId).update(data);
+      print("Profile updated successfully.");
+    } catch (e) {
+      print("Error updating profile: $e");
+    }
   }
 }

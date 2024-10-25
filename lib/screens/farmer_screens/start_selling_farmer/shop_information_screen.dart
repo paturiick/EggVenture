@@ -1,5 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/farmer_screens/start_selling_farmer/business_information_screen.dart';
 import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
         cursorColor: AppColors.YELLOW,
         controller: controller,
         keyboardType: keyboardType ?? TextInputType.text,
-        autovalidateMode: AutovalidateMode.disabled, // Disable auto-validation
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: label,
@@ -66,15 +67,13 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
             color: AppColors.BLUE,
           ),
           errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red), // Error border color
+            borderSide: BorderSide(color: AppColors.RED),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: AppColors.YELLOW), // Focused border color
+            borderSide: BorderSide(color: AppColors.YELLOW),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: AppColors.BLUE), // Default border color
+            borderSide: BorderSide(color: AppColors.BLUE),
           ),
         ),
         style: TextStyle(
@@ -87,6 +86,11 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
               }
               return null;
             },
+        onChanged: (value) {
+          setState(() {
+            // Trigger UI update on every change to clear the error message
+          });
+        },
       ),
     );
   }
@@ -223,6 +227,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                 _buildTextField('Pickup Address', _pickupAddressController),
 
                 // Phone Number Field with Error Handling
+                // Phone Number Field with Error Handling
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: IntlPhoneField(
@@ -247,7 +252,11 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     ),
                     initialCountryCode: 'PH',
                     onChanged: (phone) {
-                      _phoneNumber = phone.completeNumber;
+                      setState(() {
+                        _phoneNumber = phone.completeNumber;
+                        _phoneError =
+                            null; // Clear error when valid input is provided
+                      });
                     },
                     onSaved: (phone) {
                       _phoneNumber = phone?.completeNumber;
@@ -279,7 +288,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pushNamed(context, AppRoutes.PROFILESCREEN);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
