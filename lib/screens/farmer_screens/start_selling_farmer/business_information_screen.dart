@@ -105,34 +105,33 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
               // Updated TextFormField for Registered Name
               TextFormField(
                 controller: _registeredNameController,
+                cursorColor: AppColors.YELLOW,
                 decoration: InputDecoration(
                   labelText: 'Registered Name',
-                  hintText: 'Last Name, First Name (e.g. Sabuero, Joel)',
+                  hintText: 'Last Name, First Name',
                   border: OutlineInputBorder(),
                   labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.BLUE, // Default label color
+                    color: AppColors.BLUE,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: AppColors.YELLOW, // Focused border color
+                      color: AppColors.YELLOW,
                       width: 2.0,
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: AppColors.BLUE, // Default border color
+                      color: AppColors.BLUE,
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   floatingLabelStyle: TextStyle(
-                    color: AppColors.YELLOW, // Focused label color
-                    fontWeight: FontWeight.bold,
+                    color: AppColors.BLUE,
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.red, // Error border color
+                      color: AppColors.RED,
                       width: 2.0,
                     ),
                   ),
@@ -177,8 +176,8 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.03),
-              // Updated TextFormField for Business Name
               TextFormField(
+                cursorColor: AppColors.YELLOW,
                 controller: _businessNameController,
                 decoration: InputDecoration(
                   labelText: 'Business Name',
@@ -201,12 +200,11 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   floatingLabelStyle: TextStyle(
-                    color: AppColors.YELLOW,
-                    fontWeight: FontWeight.bold,
+                    color: AppColors.BLUE,
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.red,
+                      color: AppColors.RED,
                       width: 2.0,
                     ),
                   ),
@@ -235,8 +233,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     child: Text(
                       'Back',
                       style: TextStyle(
-                          color: AppColors.BLUE,
-                          fontSize: screenWidth * 0.04),
+                          color: AppColors.BLUE, fontSize: screenWidth * 0.04),
                     ),
                   ),
                   ElevatedButton(
@@ -245,12 +242,8 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                         await _service.submitBusiness(widget.shopName,
                             widget.email, widget.address, widget.shopName);
                         debugPrint('Button clicked');
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfileScreenFarmer(),
-                          ),
-                        );
+                        await Navigator.pushNamed(
+                            context, AppRoutes.PROFILEFARMER);
                       } catch (e) {
                         // Handle any errors here
                         ScaffoldMessenger.of(context).showSnackBar(

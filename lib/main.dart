@@ -2,6 +2,7 @@ import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/firebase/firebase_options.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/routes/pages.dart';
+import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/splash_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/home_screen_farmer.dart';

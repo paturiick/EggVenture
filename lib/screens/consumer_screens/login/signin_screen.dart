@@ -140,7 +140,6 @@ class _SigninScreenState extends State<SigninScreen> {
   Widget build(BuildContext context) {
     final emailString = _emailController.text.trim();
     final passwordString = _passwordController.text.trim();
-    final GoogleAuthService _googleAuthService = GoogleAuthService();
 
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -239,7 +238,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24,
-                                color: Color(0xFF353E55),
+                                color: AppColors.BLUE,
                               ),
                             ),
                             SizedBox(height: 5),
@@ -247,7 +246,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               'Log-In to your account',
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Color(0xFF353E55),
+                                color: AppColors.BLUE,
                               ),
                             ),
                             SizedBox(height: 20),
@@ -256,33 +255,21 @@ class _SigninScreenState extends State<SigninScreen> {
                               child: TextFormField(
                                 cursorColor: AppColors.YELLOW,
                                 controller: _emailController,
-                                focusNode: _emailFocusNode,
                                 decoration: InputDecoration(
-                                  labelText: 'Email Address or Phone Number',
+                                  labelText: 'Email Address',
                                   labelStyle: TextStyle(
                                       fontSize: 10, color: AppColors.BLUE),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: _isEmailFocused
-                                          ? AppColors.YELLOW
-                                          : Colors.grey,
-                                    ),
+                                      focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: AppColors.YELLOW)
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: AppColors.YELLOW,
-                                      width: 2.0,
-                                    ),
-                                  ),
+                                  border: OutlineInputBorder(),
                                   prefixIcon: Icon(Icons.email),
                                 ),
                                 style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF353E55),
-                                    fontWeight: FontWeight.normal),
+                                    fontSize: 12, color: AppColors.BLUE),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your email or number';
+                                    return 'Please enter your email';
                                   }
                                   return null;
                                 },
@@ -294,24 +281,14 @@ class _SigninScreenState extends State<SigninScreen> {
                               child: TextFormField(
                                 cursorColor: AppColors.YELLOW,
                                 controller: _passwordController,
-                                focusNode: _passwordFocusNode,
                                 obscureText: !_isPasswordVisible,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
                                   labelStyle: TextStyle(
                                       fontSize: 10, color: AppColors.BLUE),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: _isPasswordFocused
-                                          ? AppColors.YELLOW
-                                          : Colors.grey,
-                                    ),
-                                  ),
+                                  border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: AppColors.YELLOW,
-                                      width: 2.0,
-                                    ),
+                                    borderSide: BorderSide(color: AppColors.YELLOW)
                                   ),
                                   prefixIcon: Icon(Icons.lock),
                                   suffixIcon: GestureDetector(
@@ -329,9 +306,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                   ),
                                 ),
                                 style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF353E55),
-                                    fontWeight: FontWeight.normal),
+                                    fontSize: 12, color: AppColors.BLUE),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter your password';
@@ -340,54 +315,24 @@ class _SigninScreenState extends State<SigninScreen> {
                                 },
                               ),
                             ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Checkbox(
-                                      value: _isChecked,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _isChecked = value!;
-                                        });
-                                      },
-                                      activeColor: AppColors.YELLOW,
-                                    ),
-                                    Text(
-                                      'Remember me',
-                                      style: TextStyle(
-                                          fontSize: 11, color: AppColors.BLUE),
-                                    ),
-                                  ],
-                                ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Text(
-                                    'Forgot Password?',
-                                    style: TextStyle(
-                                        fontFamily: 'AvenirNextCyr',
-                                        fontSize: 11,
-                                        color: AppColors.BLUE),
-                                  ),
-                                ),
-                              ],
-                            ),
                             SizedBox(height: 30),
                             GestureDetector(
                               onTap: () async {
-                                User? user = await _auth.signIn(
-                                    emailString, passwordString);
-                                debugPrint('signup clicked');
-                                user != null
-                                    ? Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomeScreen()),
-                                        (Route<dynamic> route) => false,
-                                      )
-                                    : showSignInFailedOverlay(context);
+                                if (_formKey.currentState!.validate()) {
+                                  User? user = await _auth.signIn(
+                                      _emailController.text,
+                                      _passwordController.text);
+                                  if (user != null) {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomeScreen()),
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  } else {
+                                    showSignInFailedOverlay(context);
+                                  }
+                                }
                               },
                               child: Container(
                                 width: size.width,
@@ -400,10 +345,8 @@ class _SigninScreenState extends State<SigninScreen> {
                                   child: Text(
                                     'Sign In',
                                     style: TextStyle(
-                                      fontFamily: 'AvenirNextCyr',
-                                      fontWeight: FontWeight.bold,
                                       fontSize: 16,
-                                      color: Color(0xFF353E55),
+                                      color: AppColors.BLUE,
                                     ),
                                   ),
                                 ),
@@ -423,7 +366,6 @@ class _SigninScreenState extends State<SigninScreen> {
                                 Text(
                                   "or",
                                   style: TextStyle(
-                                    fontFamily: 'AvenirNextCyr',
                                     fontSize: 16,
                                     color: Colors.grey.shade600,
                                   ),
@@ -442,7 +384,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             GestureDetector(
                               onTap: () async {
                                 UserCredential? userCredential =
-                                    await _googleAuthService.signInwithGoogle();
+                                    await signInwithGoogle(context);
 
                                 if (userCredential != null) {
                                   print(

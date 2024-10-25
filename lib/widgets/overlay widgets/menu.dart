@@ -66,7 +66,7 @@ class MenuScreen {
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(vertical: 15),
-          backgroundColor: Color(0xFF353E55),
+          backgroundColor: AppColors.BLUE,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -84,6 +84,9 @@ class MenuScreen {
   }
 
   static Widget _buildLogoutButton(BuildContext context, String title) {
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Container(
@@ -92,7 +95,7 @@ class MenuScreen {
           gradient: LinearGradient(
             colors: [
               AppColors.RED,
-              Color(0xFFD73833),
+              AppColors.RED
             ],
           ),
         ),
@@ -116,8 +119,7 @@ class MenuScreen {
             title,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontSize: screenWidth * 0.05,
             ),
           ),
         ),

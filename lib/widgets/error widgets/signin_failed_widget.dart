@@ -61,7 +61,7 @@ class _SigninFailedWidgetState extends State<SigninFailedWidget>
             ),
             SizedBox(width: screenWidth * 0.01),
             Text(
-              "Sign-in Failed. Please check your credentials.",
+              "Sign-in Failed. Please try again.",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: screenWidth * 0.03,

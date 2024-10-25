@@ -35,10 +35,22 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: screenWidth * 0.02),
       child: TextField(
+        cursorColor: AppColors.YELLOW,
         controller: controller,
         decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.YELLOW)
+          ),
           border: OutlineInputBorder(),
           labelText: label,
+          labelStyle: TextStyle(
+            color: AppColors.BLUE
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: AppColors.BLUE
+            )
+          )
         ),
       ),
     );
@@ -80,10 +92,9 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
         title: Text(
           'Add Product',
           style: TextStyle(
-            fontFamily: 'AvenirNextCyr',
             fontWeight: FontWeight.bold,
             fontSize: screenWidth * 0.07, // Responsive font size
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
         ),
         bottom: PreferredSize(
