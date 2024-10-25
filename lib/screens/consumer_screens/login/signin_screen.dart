@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
+import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/google/google_auth_service.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
@@ -26,8 +29,11 @@ class _SigninScreenState extends State<SigninScreen> {
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
   bool _autoValidate = false;
+  int loginAttempts = 3;
+  bool isLockedOut = false;
 
   final FirebaseAuthService _auth = FirebaseAuthService();
+  final FirestoreService _firestoreService = FirestoreService();
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -50,6 +56,14 @@ class _SigninScreenState extends State<SigninScreen> {
       _isPasswordFocused = _passwordFocusNode.hasFocus;
     });
   }
+
+  // Future<void> getAllUsers() async {
+  //   try {
+  //     final users = 
+  //   } catch (e) {
+      
+  //   }
+  // }
 
   void _toggleFocus(FocusNode focusNode) {
     if (focusNode.hasFocus) {
@@ -136,11 +150,26 @@ class _SigninScreenState extends State<SigninScreen> {
     });
   }
 
+  void startLockoutTimer() {
+    isLockedOut = true;
+    loginAttempts = 3;
+
+    Timer(const Duration(minutes: 1), () {
+      isLockedOut = false;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'You can now Log in again.',
+            style: TextStyle(color: AppColors.BLUE),
+          ),
+          backgroundColor: AppColors.YELLOW,
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final emailString = _emailController.text.trim();
-    final passwordString = _passwordController.text.trim();
-
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: _onWillPop,
@@ -259,9 +288,9 @@ class _SigninScreenState extends State<SigninScreen> {
                                   labelText: 'Email Address',
                                   labelStyle: TextStyle(
                                       fontSize: 10, color: AppColors.BLUE),
-                                      focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.YELLOW)
-                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: AppColors.YELLOW)),
                                   border: OutlineInputBorder(),
                                   prefixIcon: Icon(Icons.email),
                                 ),
@@ -288,8 +317,8 @@ class _SigninScreenState extends State<SigninScreen> {
                                       fontSize: 10, color: AppColors.BLUE),
                                   border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: AppColors.YELLOW)
-                                  ),
+                                      borderSide:
+                                          BorderSide(color: AppColors.YELLOW)),
                                   prefixIcon: Icon(Icons.lock),
                                   suffixIcon: GestureDetector(
                                     onTap: () {
@@ -330,7 +359,37 @@ class _SigninScreenState extends State<SigninScreen> {
                                       (Route<dynamic> route) => false,
                                     );
                                   } else {
-                                    showSignInFailedOverlay(context);
+                                    if (isLockedOut) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Locked out, please wait for 1 minute',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          backgroundColor: AppColors.RED,
+                                        ),
+                                      );
+                                      return;
+                                    }
+                                    if (loginAttempts == 1) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Login attempts expired, please wait 1 minute to attempt again',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          backgroundColor: AppColors.RED,
+                                        ),
+                                      );
+                                      startLockoutTimer();
+                                    } else {
+                                      --loginAttempts;
+                                      showSignInFailedOverlay(context);
+                                    }
                                   }
                                 }
                               },
