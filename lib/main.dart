@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'AvenirNextCyr',
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: HomeScreen()
+      home: SplashScreen()
     );
   }
 }

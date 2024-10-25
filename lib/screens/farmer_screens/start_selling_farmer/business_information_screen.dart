@@ -1,8 +1,8 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:eggventure/screens/farmer_screens/start_selling_farmer/shop_information_screen.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/profile_screen_farmer.dart';
 
 class BusinessInformationScreen extends StatefulWidget {
@@ -47,8 +47,8 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text("Business Information",
-            style: TextStyle(
-                color: AppColors.BLUE, fontSize: screenWidth * 0.05)),
+            style:
+                TextStyle(color: AppColors.BLUE, fontSize: screenWidth * 0.05)),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -102,6 +102,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
               SizedBox(height: screenHeight * 0.03),
               _buildSellerTypeOptions(screenWidth),
               SizedBox(height: screenHeight * 0.03),
+              // Updated TextFormField for Registered Name
               TextFormField(
                 controller: _registeredNameController,
                 decoration: InputDecoration(
@@ -109,9 +110,31 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                   hintText: 'Last Name, First Name (e.g. Sabuero, Joel)',
                   border: OutlineInputBorder(),
                   labelStyle: TextStyle(
-                    fontFamily: 'AvenirNextCyr',
                     fontWeight: FontWeight.bold,
-                    color: AppColors.BLUE,
+                    color: AppColors.BLUE, // Default label color
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.YELLOW, // Focused border color
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.BLUE, // Default border color
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  floatingLabelStyle: TextStyle(
+                    color: AppColors.YELLOW, // Focused label color
+                    fontWeight: FontWeight.bold,
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red, // Error border color
+                      width: 2.0,
+                    ),
                   ),
                 ),
                 validator: (value) {
@@ -154,15 +177,38 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.03),
+              // Updated TextFormField for Business Name
               TextFormField(
                 controller: _businessNameController,
                 decoration: InputDecoration(
                   labelText: 'Business Name',
                   border: OutlineInputBorder(),
                   labelStyle: TextStyle(
-                    fontFamily: 'AvenirNextCyr',
                     fontWeight: FontWeight.bold,
                     color: AppColors.BLUE,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.YELLOW,
+                      width: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.BLUE,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  floatingLabelStyle: TextStyle(
+                    color: AppColors.YELLOW,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                      width: 2.0,
+                    ),
                   ),
                 ),
                 validator: (value) {
@@ -178,12 +224,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ShopInformationScreen(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, AppRoutes.SHOPINFO);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -194,34 +235,29 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                     child: Text(
                       'Back',
                       style: TextStyle(
-                          color: Color(0xFF353E55),
+                          color: AppColors.BLUE,
                           fontSize: screenWidth * 0.04),
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () async {
                       try {
-                          // Submit business data to Firestore
-                          await _service.submitBusiness(widget.shopName,
-                              widget.email, widget.address, widget.shopName);
-                          debugPrint('Button clicked');
-                          // Navigate to the ProfileScreenFarmer
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProfileScreenFarmer(),
-                            ),
-                          );
-                        } catch (e) {
-                          // Handle any errors here
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Failed to submit business: $e')),
-                          );
-                        }
-                      // if (_formKey.currentState!.validate()) {
-                        
-                      // }
+                        await _service.submitBusiness(widget.shopName,
+                            widget.email, widget.address, widget.shopName);
+                        debugPrint('Button clicked');
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreenFarmer(),
+                          ),
+                        );
+                      } catch (e) {
+                        // Handle any errors here
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text('Failed to submit business: $e')),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.YELLOW,
@@ -252,25 +288,24 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
       ),
       child: Column(
         children: [
-          RadioListTile(
-            title: Text("Sole Proprietorship",
-                style: TextStyle(
-                    color: AppColors.BLUE, fontSize: screenWidth * 0.04)),
+          RadioListTile<String>(
+            activeColor: AppColors.YELLOW,
+            title: Text('Sole Proprietorship',
+                style: TextStyle(color: AppColors.BLUE)),
             value: 'Sole Proprietorship',
             groupValue: _sellerType,
-            onChanged: (String? value) {
+            onChanged: (value) {
               setState(() {
                 _sellerType = value!;
               });
             },
           ),
-          RadioListTile(
-            title: Text("Partnership / Corporation",
-                style: TextStyle(
-                    color: AppColors.BLUE, fontSize: screenWidth * 0.04)),
-            value: 'Partnership / Corporation',
+          RadioListTile<String>(
+            activeColor: AppColors.YELLOW,
+            title: Text('Corporation', style: TextStyle(color: AppColors.BLUE)),
+            value: 'Corporation',
             groupValue: _sellerType,
-            onChanged: (String? value) {
+            onChanged: (value) {
               setState(() {
                 _sellerType = value!;
               });
@@ -283,17 +318,19 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
 
   Widget _stepCircle(bool isActive, double screenWidth) {
     return CircleAvatar(
-      radius: screenWidth * 0.03,
-      backgroundColor: isActive ? AppColors.YELLOW : Colors.grey[300],
-      child: Icon(Icons.check, color: Colors.white, size: screenWidth * 0.04),
+      backgroundColor: isActive ? AppColors.YELLOW : Colors.white,
+      radius: screenWidth * 0.04,
+      child: isActive
+          ? Icon(Icons.check, color: Colors.white)
+          : Icon(Icons.circle, color: AppColors.YELLOW),
     );
   }
 
   Widget _stepLine(double screenWidth) {
     return Container(
-      height: 2,
-      width: screenWidth * 0.12,
-      color: Colors.grey,
+      height: 1.5,
+      width: screenWidth * 0.08,
+      color: AppColors.YELLOW,
     );
   }
 }

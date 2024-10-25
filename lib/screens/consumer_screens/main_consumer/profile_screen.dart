@@ -1,14 +1,12 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/controller/change_profile_picture.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -17,6 +15,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirestoreService _service = FirestoreService();
+  final ChangeProfilePicture _changeProfilePicture = ChangeProfilePicture();
+  String? _uploadedImageUrl;
 
   String? userName;
 
@@ -41,17 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print('$e');
       return null;
     }
-  }
-
-  Future<void> onProfileTapped() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-
-    final storageRef = FirebaseStorage.instance.ref();
-    final imageRef = storageRef.child('user_1.jpg');
-    final imageBytes = await image.readAsBytes();
-    await imageRef.putData(imageBytes);
   }
 
   @override
@@ -136,21 +125,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              onProfileTapped();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: CircleBorder(),
-                              backgroundColor: Colors.grey[200],
-                              padding: EdgeInsets.all(screenWidth * 0.1),
-                            ),
-                            child: Icon(
-                              Icons.add_a_photo,
-                              color: AppColors.BLUE,
-                              size: screenWidth * 0.1,
-                            ),
-                          ),
+                           _uploadedImageUrl == null
+                              ? ElevatedButton(
+                                  onPressed: () async {
+                                    // Call the method to change the profile picture
+                                    await _changeProfilePicture
+                                        .changeProfilePicture(context);
+                                    // Update the state with the uploaded image URL
+                                    setState(() {
+                                      _uploadedImageUrl = _changeProfilePicture
+                                          .uploadedImageUrl;
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder(),
+                                    backgroundColor: Colors.grey[200],
+                                    padding: EdgeInsets.all(screenWidth * 0.1),
+                                  ),
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: AppColors.BLUE,
+                                    size: screenWidth * 0.1,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: screenWidth *
+                                      0.15, // Adjust size as needed
+                                  backgroundImage:
+                                      NetworkImage(_uploadedImageUrl!),
+                                ),
                           SizedBox(width: screenWidth * 0.05),
                           Expanded(
                             child: Column(
@@ -329,4 +332,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-
