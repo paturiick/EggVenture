@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/models/user_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -64,4 +63,6 @@ class FirebaseAuthService {
   }
 
   registerWithEmailAndPassword(String text, String text2) {}
+
+  
 }
