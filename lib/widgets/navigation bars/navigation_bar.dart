@@ -62,21 +62,21 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.home,
-            color: _selectedIndex == 0 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 0 ? AppColors.YELLOW : AppColors.BLUE,
           ),
           label: 'Home', // This ensures the label is always displayed
         ),
         BottomNavigationBarItem(
           icon: Icon(
             AntDesign.calendar_outline,
-            color: _selectedIndex == 1 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 1 ? AppColors.YELLOW : AppColors.BLUE,
           ),
           label: 'Order', // This ensures the label is always displayed
         ),
         BottomNavigationBarItem(
           icon: Icon(
             AntDesign.message_outline,
-            color: _selectedIndex == 2 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 2 ? AppColors.YELLOW : AppColors.BLUE,
           ),
           label: 'Chats', // This ensures the label is always displayed
         ),
@@ -90,7 +90,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
             child: Icon(
               AntDesign.inbox_outline,
               color:
-                  _selectedIndex == 3 ? Color(0xFFF9B514) : Color(0xFF353E55),
+                  _selectedIndex == 3 ? AppColors.YELLOW : AppColors.BLUE,
             ),
           ),
           label: 'Tray', // Ensures the label is always displayed
@@ -98,14 +98,14 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
         BottomNavigationBarItem(
           icon: Icon(
             Icons.person_rounded,
-            color: _selectedIndex == 4 ? Color(0xFFF9B514) : Color(0xFF353E55),
+            color: _selectedIndex == 4 ? AppColors.YELLOW : AppColors.BLUE,
           ),
           label: 'Profile', // This ensures the label is always displayed
         ),
       ],
       currentIndex: _selectedIndex, // Set the current index
-      selectedItemColor: Color(0xFFF9B514),
-      unselectedItemColor: Color(0xFF353E55),
+      selectedItemColor: AppColors.YELLOW,
+      unselectedItemColor: AppColors.BLUE,
       onTap: _onItemTapped, // Handle item taps
     );
   }

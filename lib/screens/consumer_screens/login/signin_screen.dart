@@ -7,6 +7,7 @@ import 'package:eggventure/google/google_auth_service.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/welcome_screen.dart';
+import 'package:eggventure/widgets/error%20widgets/lockout_timer.dart';
 import 'package:eggventure/widgets/error%20widgets/signin_failed_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +30,8 @@ class _SigninScreenState extends State<SigninScreen> {
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
   bool _autoValidate = false;
-  int loginAttempts = 3;
   bool isLockedOut = false;
+  int loginAttempts = 7;
 
   final FirebaseAuthService _auth = FirebaseAuthService();
   final FirestoreService _firestoreService = FirestoreService();
@@ -56,14 +57,6 @@ class _SigninScreenState extends State<SigninScreen> {
       _isPasswordFocused = _passwordFocusNode.hasFocus;
     });
   }
-
-  // Future<void> getAllUsers() async {
-  //   try {
-  //     final users = 
-  //   } catch (e) {
-      
-  //   }
-  // }
 
   void _toggleFocus(FocusNode focusNode) {
     if (focusNode.hasFocus) {
@@ -91,24 +84,6 @@ class _SigninScreenState extends State<SigninScreen> {
     _passwordController.dispose();
     super.dispose();
   }
-
-  // void _signIn() {
-  //  setState(() {
-//      _autoValidate = true;
-  // });
-//
-//    if (_formKey.currentState!.validate()) {
-  // Proceed with the sign-in process
-  //     Navigator.pushReplacement(
-  //       context,
-//MaterialPageRoute(
-  ///        builder: (context) => HomeScreen(),
-  //     ),
-////);
-  //   } else {
-  //     print("Form is not valid. Display error messages.");
-//}
-  // }
 
   // Check if the user is logged in via Facebook
   Future<void> _checkIfIsLoggedIn() async {
@@ -147,24 +122,6 @@ class _SigninScreenState extends State<SigninScreen> {
     setState(() {
       _accessToken = null;
       _userData = null;
-    });
-  }
-
-  void startLockoutTimer() {
-    isLockedOut = true;
-    loginAttempts = 3;
-
-    Timer(const Duration(minutes: 1), () {
-      isLockedOut = false;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'You can now Log in again.',
-            style: TextStyle(color: AppColors.BLUE),
-          ),
-          backgroundColor: AppColors.YELLOW,
-        ),
-      );
     });
   }
 
@@ -287,7 +244,10 @@ class _SigninScreenState extends State<SigninScreen> {
                                 decoration: InputDecoration(
                                   labelText: 'Email Address',
                                   labelStyle: TextStyle(
-                                      fontSize: 10, color: AppColors.BLUE),
+                                    fontSize: 10,
+                                    color: AppColors.BLUE,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                   focusedBorder: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: AppColors.YELLOW)),
@@ -314,7 +274,10 @@ class _SigninScreenState extends State<SigninScreen> {
                                 decoration: InputDecoration(
                                   labelText: 'Password',
                                   labelStyle: TextStyle(
-                                      fontSize: 10, color: AppColors.BLUE),
+                                    fontSize: 10,
+                                    color: AppColors.BLUE,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                   border: OutlineInputBorder(),
                                   focusedBorder: OutlineInputBorder(
                                       borderSide:
@@ -349,8 +312,10 @@ class _SigninScreenState extends State<SigninScreen> {
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
                                   User? user = await _auth.signIn(
+                                      context,
                                       _emailController.text,
-                                      _passwordController.text);
+                                      _passwordController.text,
+                                      );
                                   if (user != null) {
                                     Navigator.pushAndRemoveUntil(
                                       context,
@@ -360,35 +325,23 @@ class _SigninScreenState extends State<SigninScreen> {
                                     );
                                   } else {
                                     if (isLockedOut) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Locked out, please wait for 1 minute',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                          backgroundColor: AppColors.RED,
-                                        ),
-                                      );
+                                      showLockoutOverlay(context,
+                                          'Locked out, please wait for 1 minute');
                                       return;
                                     }
                                     if (loginAttempts == 1) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Login attempts expired, please wait 1 minute to attempt again',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                          backgroundColor: AppColors.RED,
-                                        ),
-                                      );
-                                      startLockoutTimer();
+                                      showLockoutOverlay(context,
+                                          'Login attempts expired, please wait 1 minute');
+                                      startLockoutTimer(context, () {
+                                        setState(() {
+                                          isLockedOut = false;
+                                          loginAttempts = 7;
+                                        });
+                                      });
                                     } else {
-                                      --loginAttempts;
-                                      showSignInFailedOverlay(context);
+                                      loginAttempts--;
+                                      showSignInFailedOverlay(context,
+                                          'Invalid login credentials. Please try again.');
                                     }
                                   }
                                 }
@@ -404,6 +357,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                   child: Text(
                                     'Sign In',
                                     style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                       color: AppColors.BLUE,
                                     ),
@@ -578,18 +532,4 @@ class _SigninScreenState extends State<SigninScreen> {
           ),
         ));
   }
-
-  // void _login() async {
-  //   String email = _emailController.text.trim();
-  //   String password = _passwordController.text.trim();
-
-  //   User? user = await _auth.signIn(email, password);
-
-  //   if (user != null) {
-  //     print("User is successfully created");
-  //     Navigator.pushNamed(context, "_signUp");
-  //   } else {
-  //     print("Error!");
-  //   }
-  // }
 }

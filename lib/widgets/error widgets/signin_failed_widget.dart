@@ -76,7 +76,7 @@ class _SigninFailedWidgetState extends State<SigninFailedWidget> with SingleTick
 
 OverlayEntry? _currentSignInFailedOverlay;
 
-void showSignInFailedOverlay(BuildContext context) {
+void showSignInFailedOverlay(BuildContext context, String s) {
   if (_currentSignInFailedOverlay != null) {
     return; // If an overlay is already being shown, do nothing
   }

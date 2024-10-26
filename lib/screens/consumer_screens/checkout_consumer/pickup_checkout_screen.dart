@@ -1,6 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/screens/consumer_screens/checkout_consumer/address%20edit/edit_address_screen.dart';
+import 'package:eggventure/screens/consumer_screens/checkout_consumer/address%20edit/pickup_edit_address_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -122,7 +122,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
   Widget _buildAddressInput(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.EDITADDRESS);
+        Navigator.pushNamed(context, AppRoutes.PICKUPEDITADDRESS);
       },
       child: AbsorbPointer(
         child: TextField(
@@ -205,7 +205,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
                             time,
                             style: TextStyle(
                               fontSize: 20.0,
-                              color: Color(0xFF353E55),
+                              color: AppColors.BLUE,
                             ),
                           ),
                         );
@@ -226,14 +226,14 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
                       child: Text(
                         'Done',
                         style: TextStyle(
-                          color: Color(0xFF353E55),
+                          color: AppColors.BLUE,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFF9B514),
+                      backgroundColor: AppColors.YELLOW, 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -263,7 +263,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
           children: [
             Text(
               _selectedTime ?? "Select a time",
-              style: TextStyle(fontSize: 16, color: Color(0xFF353E55)),
+              style: TextStyle(fontSize: 16, color: AppColors.BLUE),
             ),
             Icon(Icons.arrow_drop_down, color: Colors.grey),
           ],
@@ -276,7 +276,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
       decoration: BoxDecoration(
-        color: Color(0xFF353E55),
+        color: AppColors.BLUE,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
@@ -289,14 +289,14 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFFF9B514)),
+                    color: AppColors.YELLOW),
               ),
               Text(
                 "Price Here",
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFFF9B514)),
+                    color: AppColors.YELLOW),
               ),
             ],
           ),
@@ -322,7 +322,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF353E55),
+                color: AppColors.BLUE,
               ),
             ),
           ),
@@ -343,14 +343,14 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
           child: Text(
             'Confirm',
             style: TextStyle(
-              color: Color(0xFF353E55),
+              color: AppColors.BLUE,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFFF9B514),
+          backgroundColor: AppColors.YELLOW,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

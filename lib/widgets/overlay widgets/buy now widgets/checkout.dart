@@ -112,7 +112,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Text(
                   "P 10.00",
                   style: TextStyle(
-                    fontSize: screenWidth * 0.045,
+                    fontSize: screenWidth * 0.045,  
                     fontWeight: FontWeight.bold,
                     color: AppColors.BLUE,
                   ),
