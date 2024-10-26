@@ -1,5 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/controller/change_profile_picture.dart';
+import 'package:eggventure/firebase/firebase_profile_picture.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         userName = '$firstName $lastName';
       });
-    } catch (e) {
+    } catch (e) { 
       print('$e');
       return null;
     }

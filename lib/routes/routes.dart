@@ -1,4 +1,5 @@
 class AppRoutes {
+  static const WELCOME = '/welcome';
   static const SIGNIN = '/signin';
   static const SIGNUP = '/sigup';
   static const VERIFICATIONSCREEN = '/verification-screen';
@@ -25,6 +26,7 @@ class AppRoutes {
   static const HOMEFARMER = '/home-farmer';
   static const ORDERFARMER = '/order-farmer';
   static const PROFILEFARMER = '/profile-farmer';
-  static const EDITADDRESS = '/edit-address';
+  static const PICKUPEDITADDRESS = '/pickup-edit-address';
   static const CLEARTRAYITEMS = '/clear-tray-items';
+  static const DELIVERYEDITADDRESS = 'delivery-edit-address';
 }
