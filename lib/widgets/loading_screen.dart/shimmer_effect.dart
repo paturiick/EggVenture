@@ -6,7 +6,7 @@ class ShimmerEffect {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: screenWidth * 0.05,
-        vertical: screenHeight * 0.02,
+        vertical: screenHeight * 0.13,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,10 +64,10 @@ class ShimmerEffect {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       buildShimmerStatus(
-                          screenWidth * 0.1, screenHeight * 0.02, 'Followers'),
+                          screenWidth * 0.1, screenHeight * 0.02),
                       SizedBox(width: screenWidth * 0.1),
                       buildShimmerStatus(
-                          screenWidth * 0.1, screenHeight * 0.02, 'Following'),
+                          screenWidth * 0.1, screenHeight * 0.02),
                     ],
                   ),
                 ],
@@ -102,11 +102,6 @@ class ShimmerEffect {
                       backgroundColor: Colors.white,
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.01),
-                  Text(
-                    ['To Pay', 'Processing', 'Review'][index],
-                    style: TextStyle(color: Colors.grey[600]),
-                  ),
                 ],
               );
             }),
@@ -116,7 +111,7 @@ class ShimmerEffect {
     );
   }
 
-  Widget buildShimmerStatus(double width, double height, String label) {
+  Widget buildShimmerStatus(double width, double height) {
     return Column(
       children: [
         Shimmer.fromColors(
@@ -128,8 +123,6 @@ class ShimmerEffect {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 4),
-        Text(label, style: TextStyle(color: Colors.grey[600])),
       ],
     );
   }
