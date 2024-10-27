@@ -1,6 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
-import 'package:eggventure/firebase/firebase_shopinfo_profile.dart';
+import 'package:eggventure/firebase/firebase%20storage/firebase_shopinfo_profile.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/farmer_screens/start_selling_farmer/business_information_screen.dart';
 import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';

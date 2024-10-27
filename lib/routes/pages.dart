@@ -1,10 +1,10 @@
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/consumer_screens/chat_consumer/user_chat_screen.dart';
 import 'package:eggventure/screens/consumer_screens/chat_consumer/chat_screen.dart';
-import 'package:eggventure/screens/consumer_screens/checkout_consumer/address%20edit/delivery_edit_address_screen.dart';
-import 'package:eggventure/screens/consumer_screens/checkout_consumer/address%20edit/pickup_edit_address_screen.dart';
-import 'package:eggventure/screens/consumer_screens/checkout_consumer/delivery_checkout_screen.dart';
-import 'package:eggventure/screens/consumer_screens/checkout_consumer/pickup_checkout_screen.dart';
+import 'package:eggventure/screens/address%20edit/delivery_edit_address_screen.dart';
+import 'package:eggventure/screens/address%20edit/pickup_edit_address_screen.dart';
+import 'package:eggventure/screens/checkout_consumer/delivery_checkout_screen.dart';
+import 'package:eggventure/screens/checkout_consumer/pickup_checkout_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/welcome_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/order_screen.dart';
