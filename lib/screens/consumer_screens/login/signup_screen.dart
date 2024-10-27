@@ -4,6 +4,7 @@ import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/welcome_screen.dart';
+import 'package:eggventure/widgets/terms%20&%20conditions/terms_conditions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -382,13 +383,17 @@ class _SignupScreenState extends State<SignupScreen> {
           },
         ),
         Flexible(
-          child: Text(
+          child: GestureDetector(
+            onTap: (){
+              TermsConditions.showTermsConditionsDialog(context);
+            },
+            child: Text(
             'I agree to the Terms and Conditions',
             style: TextStyle(
               fontSize: 12,
               color: AppColors.BLUE,
             ),
-          ),
+          ),)
         ),
       ],
     );

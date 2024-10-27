@@ -1,5 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class DeliveryEditAddressScreen extends StatelessWidget {
                   color: AppColors.BLUE,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, AppRoutes.DELIVERYCHECKOUT);
                 },
               ),
               title: Text(

@@ -47,7 +47,7 @@ void showLockoutOverlay(BuildContext context, String message,
   _isOverlayVisible = true;
 
   // Remove overlay after a delay
-  Future.delayed(const Duration(seconds: 3), () {
+  Future.delayed(const Duration(seconds: 2), () {
     _currentLockoutOverlay?.remove();
     _currentLockoutOverlay = null;
     _isOverlayVisible = false;
@@ -101,6 +101,7 @@ class _SlideTransitionOverlayState extends State<SlideTransitionOverlay>
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return SlideTransition(
       position: _offsetAnimation,
@@ -110,13 +111,29 @@ class _SlideTransitionOverlayState extends State<SlideTransitionOverlay>
           color: AppColors.RED,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline_outlined,
-              color: Colors.white,
-              size: screenWidth * 0.03,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.error_outline_outlined,
+                  color: Colors.white,
+                  size: screenWidth * 0.03,
+                ),
+                SizedBox(width: screenWidth * 0.02,),
+                Text(
+                  "Timed Out",
+                  style: TextStyle(
+                      fontSize: screenWidth * 0.02,
+                      color: Colors.white,
+                      decoration: TextDecoration.none),
+                )
+              ],
+            ),
+            SizedBox(
+              height: screenHeight * 0.01,
             ),
             Text(
               widget.message,
