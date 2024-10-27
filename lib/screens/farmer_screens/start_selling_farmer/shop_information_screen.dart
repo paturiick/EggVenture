@@ -1,5 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
+import 'package:eggventure/firebase/firebase_shopinfo_profile.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/farmer_screens/start_selling_farmer/business_information_screen.dart';
 import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
@@ -17,9 +18,12 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   final _emailController = TextEditingController();
   final _pickupAddressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final FirebaseShopinfoProfile _firebaseShopinfoProfile =
+      FirebaseShopinfoProfile();
 
   String? _phoneNumber;
   String? _phoneError; // Variable to store phone number validation error
+  String? _uploadImageUrl;
 
   final ImagePickerController _imagePickerController = ImagePickerController();
   XFile? imageFile;
@@ -102,16 +106,29 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(12),
+        image: _uploadImageUrl != null && _uploadImageUrl!.isNotEmpty
+            ? DecorationImage(
+                image: NetworkImage(_uploadImageUrl!),
+                fit: BoxFit.cover,
+              )
+            : null,
       ),
-      child: Center(
-        child: IconButton(
-            icon: Icon(Icons.add, color: AppColors.BLUE),
-            onPressed: () {
-              ImagePickerWidget.showMenu(context);
-            }),
-      ),
+      child: _uploadImageUrl == null || _uploadImageUrl!.isEmpty
+          ? Center(
+              child: IconButton(
+                icon: Icon(Icons.add, color: AppColors.BLUE),
+                onPressed: () async {
+                  await _firebaseShopinfoProfile.changeProfilePicture(context);
+                  setState(() {
+                    _uploadImageUrl = _firebaseShopinfoProfile.uploadedImageUrl;
+                  });
+                },
+              ),
+            )
+          : null,
     );
   }
+
 
   Widget _stepCircle(bool isActive) {
     return CircleAvatar(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/models/user_auth.dart';
+import 'package:eggventure/widgets/error%20widgets/signin_failed_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -41,25 +42,30 @@ class FirebaseAuthService {
 
   Future<User?> signIn(
       BuildContext context, String email, String password) async {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: AppColors.YELLOW,
-            ),
-          );
-        });
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      Navigator.pop(context);
-      
+      // Show progress indicator only on successful sign-in
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: AppColors.YELLOW,
+              ),
+            );
+          });
+
+      Navigator.pop(context); // Dismiss the CircularProgressIndicator
       return userCredential.user;
     } catch (e) {
+      // Handle error without showing the progress indicator
+      String errorMessage = handleAuthError(e);
+      showSignInFailedOverlay(context, errorMessage);
       print("Sign in failed: $e");
       return null;
     }
@@ -74,5 +80,27 @@ class FirebaseAuthService {
     return user?.uid ?? '';
   }
 
+  // Helper function to handle Firebase Auth errors
+  String handleAuthError(dynamic error) {
+    if (error is FirebaseAuthException) {
+      switch (error.code) {
+        case 'user-not-found':
+          return 'No user found for that email.';
+        case 'wrong-password':
+          return 'Incorrect password provided.';
+        case 'invalid-email':
+          return 'The email address is not valid.';
+        case 'user-disabled':
+          return 'This user account has been disabled.';
+        case 'too-many-requests':
+          return 'Too many attempts. Please try again later.';
+        default:
+          return 'An unknown error occurred. Please try again.';
+      }
+    }
+    return 'An error occurred. Please check your credentials and try again.';
+  }
+
   registerWithEmailAndPassword(String text, String text2) {}
 }
+

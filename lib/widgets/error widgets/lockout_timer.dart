@@ -116,14 +116,14 @@ class _SlideTransitionOverlayState extends State<SlideTransitionOverlay>
             Icon(
               Icons.error_outline_outlined,
               color: Colors.white,
-              size: screenWidth * 0.04,
+              size: screenWidth * 0.03,
             ),
             Text(
               widget.message,
               style: widget.textStyle ??
                   TextStyle(
                     color: Colors.white,
-                    fontSize: screenWidth * 0.03,
+                    fontSize: screenWidth * 0.025,
                     decoration: TextDecoration.none,
                   ),
             ),

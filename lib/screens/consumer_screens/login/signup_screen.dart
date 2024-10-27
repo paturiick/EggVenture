@@ -1,4 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/controller/signup_controller.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
@@ -17,41 +18,18 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   bool _agreeToTerms = false;
   bool _attemptedSignUp = false;
-
-  final FirebaseAuthService _auth = FirebaseAuthService();
-
-  final _lastNameController = TextEditingController();
-  final _firstNameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-
-  final _lastNameFocusNode = FocusNode();
-  final _firstNameFocusNode = FocusNode();
-  final _emailFocusNode = FocusNode();
-  final _phoneFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
-  final _confirmPasswordFocusNode = FocusNode();
-
-  final _formKey = GlobalKey<FormState>();
-
   bool _passwordVisible = false;
   bool _confirmPasswordVisible = false;
+
+  final SignupController _signupController = SignupController();
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  final _formKey = GlobalKey<FormState>();
+
 
   @override
   void initState() {
     super.initState();
-    _addClearErrorListener(_lastNameController);
-    _addClearErrorListener(_firstNameController);
-    _addClearErrorListener(_emailController);
-    _addClearErrorListener(_phoneController);
-    _addClearErrorListener(_passwordController);
-    _addClearErrorListener(_confirmPasswordController);
-  }
-
-  void _addClearErrorListener(TextEditingController controller) {
-    controller.addListener(() {
+    _signupController.addClearErrorListeners(() {
       if (_attemptedSignUp) {
         setState(() {
           _formKey.currentState?.validate();
@@ -62,20 +40,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void dispose() {
-    _lastNameController.dispose();
-    _firstNameController.dispose();
-    _emailController.dispose();
-    _phoneController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-
-    _lastNameFocusNode.dispose();
-    _firstNameFocusNode.dispose();
-    _emailFocusNode.dispose();
-    _phoneFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    _confirmPasswordFocusNode.dispose();
-
+    _signupController.dispose();
     super.dispose();
   }
 
@@ -135,33 +100,33 @@ class _SignupScreenState extends State<SignupScreen> {
                           SizedBox(height: 20),
                           _buildTextField(
                             'Last Name',
-                            _lastNameController,
+                            _signupController.lastNameController,
                             false,
                             TextInputType.name,
-                            _lastNameFocusNode,
+                            _signupController.lastNameFocusNode,
                           ),
                           SizedBox(height: 20),
                           _buildTextField(
                             'First Name',
-                            _firstNameController,
+                            _signupController.firstNameController,
                             false,
                             TextInputType.name,
-                            _firstNameFocusNode,
+                            _signupController.firstNameFocusNode,
                           ),
                           SizedBox(height: 20),
                           _buildTextField(
                             'Email Address',
-                            _emailController,
+                            _signupController.emailController,
                             false,
                             TextInputType.emailAddress,
-                            _emailFocusNode,
+                            _signupController.emailFocusNode,
                             prefixIcon: Icon(Icons.email),
                           ),
                           SizedBox(height: 20),
                           // Modify the phone field without the validator
                           IntlPhoneField(
-                            controller: _phoneController,
-                            focusNode: _phoneFocusNode,
+                            controller: _signupController.phoneController,
+                            focusNode: _signupController.phoneFocusNode,
                             cursorColor: AppColors.YELLOW,
                             decoration: InputDecoration(
                               labelText: 'Phone Number',
@@ -201,20 +166,20 @@ class _SignupScreenState extends State<SignupScreen> {
                           SizedBox(height: 20),
                           _buildTextField(
                             'Password',
-                            _passwordController,
+                            _signupController.passwordController,
                             !_passwordVisible,
                             TextInputType.text,
-                            _passwordFocusNode,
+                            _signupController.passwordFocusNode,
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon: _toggleVisibilityButton(),
                           ),
                           SizedBox(height: 20),
                           _buildTextField(
                             'Confirm Password',
-                            _confirmPasswordController,
+                            _signupController.confirmPasswordController,
                             !_confirmPasswordVisible,
                             TextInputType.text,
-                            _confirmPasswordFocusNode,
+                            _signupController.confirmPasswordFocusNode,
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon:
                                 _toggleVisibilityButton(isConfirm: true),
@@ -371,7 +336,8 @@ class _SignupScreenState extends State<SignupScreen> {
               return 'Password must be at least 8 characters long';
             }
             // Confirm password logic
-            if (isConfirmPassword && value != _passwordController.text) {
+            if (isConfirmPassword &&
+                value != _signupController.passwordController.text) {
               return 'Passwords do not match';
             }
             return null;
@@ -437,11 +403,15 @@ class _SignupScreenState extends State<SignupScreen> {
             _attemptedSignUp = true;
           });
           if (_formKey.currentState!.validate()) {
-            final emailString = _emailController.text.trim();
-            final passwordString = _passwordController.text.trim();
-            final lastNameString = _lastNameController.text.trim();
-            final firstNameString = _firstNameController.text.trim();
-            final userPhoneNumberString = _phoneController.text.trim();
+            final emailString = _signupController.emailController.text.trim();
+            final passwordString =
+                _signupController.passwordController.text.trim();
+            final lastNameString =
+                _signupController.lastNameController.text.trim();
+            final firstNameString =
+                _signupController.firstNameController.text.trim();
+            final userPhoneNumberString =
+                _signupController.phoneController.text.trim();
 
             User? user = await _auth.signupUser(lastNameString, firstNameString,
                 int.parse(userPhoneNumberString), emailString, passwordString);

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
@@ -7,13 +6,12 @@ import 'package:eggventure/google/google_auth_service.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/welcome_screen.dart';
-import 'package:eggventure/widgets/error%20widgets/lockout_timer.dart';
-import 'package:eggventure/widgets/error%20widgets/signin_failed_widget.dart';
+import 'package:eggventure/widgets/error%20widgets/lockout_timer.dart' as lockout; 
+import 'package:eggventure/widgets/error%20widgets/signin_failed_widget.dart' as signin;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -25,8 +23,6 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   bool _isChecked = false;
   bool _isPasswordVisible = false;
-  FocusNode _emailFocusNode = FocusNode();
-  FocusNode _passwordFocusNode = FocusNode();
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
   bool _autoValidate = false;
@@ -35,10 +31,12 @@ class _SigninScreenState extends State<SigninScreen> {
 
   final FirebaseAuthService _auth = FirebaseAuthService();
   final FirestoreService _firestoreService = FirestoreService();
-
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  FocusNode _emailFocusNode = FocusNode();
+  FocusNode _passwordFocusNode = FocusNode();
 
   Map<String, dynamic>? _userData; // Store user data from Facebook login
   AccessToken? _accessToken;
@@ -312,10 +310,10 @@ class _SigninScreenState extends State<SigninScreen> {
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
                                   User? user = await _auth.signIn(
-                                      context,
-                                      _emailController.text,
-                                      _passwordController.text,
-                                      );
+                                    context,
+                                    _emailController.text,
+                                    _passwordController.text,
+                                  );
                                   if (user != null) {
                                     Navigator.pushAndRemoveUntil(
                                       context,
@@ -325,14 +323,14 @@ class _SigninScreenState extends State<SigninScreen> {
                                     );
                                   } else {
                                     if (isLockedOut) {
-                                      showLockoutOverlay(context,
+                                      lockout.showLockoutOverlay(context,
                                           'Locked out, please wait for 1 minute');
                                       return;
                                     }
                                     if (loginAttempts == 1) {
-                                      showLockoutOverlay(context,
+                                      lockout.showLockoutOverlay(context,
                                           'Login attempts expired, please wait 1 minute');
-                                      startLockoutTimer(context, () {
+                                      lockout.startLockoutTimer(context, () {
                                         setState(() {
                                           isLockedOut = false;
                                           loginAttempts = 7;
@@ -340,12 +338,12 @@ class _SigninScreenState extends State<SigninScreen> {
                                       });
                                     } else {
                                       loginAttempts--;
-                                      showSignInFailedOverlay(context,
+                                      signin.showSignInFailedOverlay(context,
                                           'Invalid login credentials. Please try again.');
                                     }
                                   }
                                 }
-                              },
+                              },  
                               child: Container(
                                 width: size.width,
                                 height: size.height * 0.06,
