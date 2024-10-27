@@ -12,7 +12,7 @@ import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen
 import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen_review.dart';
 import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/verification_screen.dart';
+import 'package:eggventure/screens/consumer_screens/login/verification_screen.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/add_product_screen_farmer.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/chat_screen/farmer_chat_messages_screen.dart';
 import 'package:eggventure/screens/farmer_screens/main_farmer/chat_screen/farmer_chat_screen.dart';
@@ -28,6 +28,7 @@ import 'package:eggventure/screens/store_screen/sundo_screen.dart';
 import 'package:eggventure/screens/store_screen/vista_screen.dart';
 import 'package:eggventure/screens/store_screen/white_feathers_screen.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/clear_tray_items.dart';
+import 'package:eggventure/widgets/terms%20&%20conditions/terms_conditions.dart';
 import 'package:flutter/material.dart';
 
 class AppPages {

@@ -63,9 +63,6 @@ class FirebaseAuthService {
       Navigator.pop(context); // Dismiss the CircularProgressIndicator
       return userCredential.user;
     } catch (e) {
-      // Handle error without showing the progress indicator
-      String errorMessage = handleAuthError(e);
-      showSignInFailedOverlay(context, errorMessage);
       print("Sign in failed: $e");
       return null;
     }
