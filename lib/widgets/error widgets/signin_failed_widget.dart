@@ -60,7 +60,7 @@ class _SigninFailedWidgetState extends State<SigninFailedWidget> with SingleTick
             ),
             SizedBox(width: screenWidth * 0.01),
             Text(
-              "Invalid login credentials. Please try again.",
+              "Sign-In Failed. Please try again.",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: screenWidth * 0.03,
