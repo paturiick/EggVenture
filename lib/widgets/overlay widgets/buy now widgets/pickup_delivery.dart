@@ -1,7 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/screens/consumer_screens/checkout_consumer/delivery_checkout_screen.dart';
-import 'package:eggventure/screens/consumer_screens/checkout_consumer/pickup_checkout_screen.dart';
+import 'package:eggventure/screens/checkout_consumer/delivery_checkout_screen.dart';
+import 'package:eggventure/screens/checkout_consumer/pickup_checkout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,7 +1,8 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/firebase/firebase_profile_picture.dart';
+import 'package:eggventure/firebase/firebase%20storage/firebase_profile_picture.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/widgets/loading_screen.dart/shimmer_effect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -16,30 +17,35 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirestoreService _service = FirestoreService();
   final ChangeProfilePicture _changeProfilePicture = ChangeProfilePicture();
-  String? _uploadedImageUrl;
+  final ShimmerEffect _shimmerEffect = ShimmerEffect();
 
+  bool _isLoading = true;
+  bool _hasFetchedData = false;
   String? userName;
+  String? _uploadedImageUrl;
 
   @override
   void initState() {
     super.initState();
-    getUserName();
+    if(!_hasFetchedData){
+      getUserName();
+    }
   }
 
   Future<void> getUserName() async {
     try {
       final uid = _service.getCurrentUserId();
       final userDetails = await _service.getBasedOnId('userDetails', uid);
-
       final firstName = userDetails['firstName'];
       final lastName = userDetails['lastName'];
 
       setState(() {
         userName = '$firstName $lastName';
+        _isLoading = false;
+        _hasFetchedData = true;
       });
-    } catch (e) { 
+    } catch (e) {
       print('$e');
-      return null;
     }
   }
 
@@ -52,6 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
     ));
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.white,
@@ -79,169 +86,174 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
-          body: Stack(
-            children: [
-              Positioned(
-                top: screenHeight * 0.01,
-                right: screenWidth * 0.05,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.SHOPINFO);
-                  },
-                  icon: Image.asset(
-                    "assets/icons/start_selling.png",
-                    height: screenHeight * 0.03,
-                  ),
-                  label: Text(
-                    'Start Selling',
-                    style: TextStyle(
-                      fontSize: screenWidth * 0.03,
-                      color: AppColors.BLUE,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.02,
-                      vertical: screenHeight * 0.005,
-                    ),
-                    side: BorderSide(color: Colors.black),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned.fill(
-                top: screenHeight * 0.1,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.05,
-                    vertical: screenHeight * 0.02,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                           _uploadedImageUrl == null
-                              ? ElevatedButton(
-                                  onPressed: () async {
-                                    // Call the method to change the profile picture
-                                    await _changeProfilePicture
-                                        .changeProfilePicture(context);
-                                    // Update the state with the uploaded image URL
-                                    setState(() {
-                                      _uploadedImageUrl = _changeProfilePicture
-                                          .uploadedImageUrl;
-                                    });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder(),
-                                    backgroundColor: Colors.grey[200],
-                                    padding: EdgeInsets.all(screenWidth * 0.1),
-                                  ),
-                                  child: Icon(
-                                    Icons.add_a_photo,
-                                    color: AppColors.BLUE,
-                                    size: screenWidth * 0.1,
-                                  ),
-                                )
-                              : CircleAvatar(
-                                  radius: screenWidth *
-                                      0.15, // Adjust size as needed
-                                  backgroundImage:
-                                      NetworkImage(_uploadedImageUrl!),
-                                ),
-                          SizedBox(width: screenWidth * 0.05),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  userName ?? '',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: screenWidth * 0.05, // Responsive
-                                    color: AppColors.BLUE,
-                                  ),
-                                ),
-                                SizedBox(height: screenHeight * 0.01),
-                                Row(
-                                  children: List.generate(5, (index) {
-                                    return Icon(
-                                      Icons.star_border,
-                                      color: Colors.grey,
-                                      size:
-                                          screenWidth * 0.06, // Responsive size
-                                    );
-                                  }),
-                                ),
-                                SizedBox(height: screenHeight * 0.01),
-                                Row(
-                                  children: [
-                                    _buildStatusColumn(
-                                        'Followers', '0', screenWidth),
-                                    SizedBox(width: screenWidth * 0.1),
-                                    _buildStatusColumn(
-                                        'Following', '0', screenWidth),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildProfileOption(
-                              context, 'Edit Profile', screenWidth),
-                          _buildProfileOption(
-                              context, 'Share Profile', screenWidth),
-                        ],
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      Divider(color: Colors.grey, thickness: 1),
-                      SizedBox(height: screenHeight * 0.02),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildIconOption(
-                              context, Icons.payment, 'To Pay', screenWidth),
-                          _buildIconOption(context, AntDesign.sync_outline,
-                              'Processing', screenWidth),
-                          _buildIconOption(
-                              context, Icons.rate_review, 'Review', screenWidth,
-                              () {
-                            Navigator.pushNamed(
-                                context, AppRoutes.PROFILESCREENREVIEW);
-                          }),
-                        ],
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      Divider(color: Colors.grey, thickness: 1),
-                      SizedBox(height: screenHeight * 0.02),
-                      Container(
-                        height: screenHeight * 0.5,
-                        child: ListView.builder(
-                          itemCount: 0,
-                          itemBuilder: (context, index) {
-                            return SizedBox.shrink();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          body: _isLoading
+              ? _shimmerEffect.buildShimmerEffect(screenWidth,
+                  screenHeight) // Display shimmer effect if loading
+              : _buildProfileContent(screenWidth,
+                  screenHeight), // Display profile content once loaded
           bottomNavigationBar: NavigationBarWidget(currentIndex: 4),
         ),
       ),
+    );
+  }
+
+  Widget _buildProfileContent(double screenWidth, double screenHeight) {
+    return Stack(
+      children: [
+        Positioned(
+          top: screenHeight * 0.01,
+          right: screenWidth * 0.05,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.SHOPINFO);
+            },
+            icon: Image.asset(
+              "assets/icons/start_selling.png",
+              height: screenHeight * 0.03,
+            ),
+            label: Text(
+              'Start Selling',
+              style: TextStyle(
+                fontSize: screenWidth * 0.03,
+                color: AppColors.BLUE,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.02,
+                vertical: screenHeight * 0.005,
+              ),
+              side: BorderSide(color: AppColors.BLUE),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          top: screenHeight * 0.1,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.05,
+              vertical: screenHeight * 0.02,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _uploadedImageUrl == null
+                        ? ElevatedButton(
+                            onPressed: () async {
+                              // Call the method to change the profile picture
+                              await _changeProfilePicture
+                                  .changeProfilePicture(context);
+                              // Update the state with the uploaded image URL
+                              setState(() {
+                                _uploadedImageUrl =
+                                    _changeProfilePicture.uploadedImageUrl;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(),
+                              backgroundColor: Colors.grey[200],
+                              padding: EdgeInsets.all(screenWidth * 0.1),
+                            ),
+                            child: Icon(
+                              Icons.add_a_photo,
+                              color: AppColors.BLUE,
+                              size: screenWidth * 0.1,
+                            ),
+                          )
+                        : CircleAvatar(
+                            radius: screenWidth * 0.15, // Adjust size as needed
+                            backgroundImage: NetworkImage(_uploadedImageUrl!),
+                          ),
+                    SizedBox(width: screenWidth * 0.05),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            userName ?? '',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: screenWidth * 0.05, // Responsive
+                              color: AppColors.BLUE,
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.01),
+                          Row(
+                            children: List.generate(5, (index) {
+                              return Icon(
+                                Icons.star_border,
+                                color: Colors.grey,
+                                size: screenWidth * 0.06, // Responsive size
+                              );
+                            }),
+                          ),
+                          SizedBox(height: screenHeight * 0.01),
+                          Row(
+                            children: [
+                              _buildStatusColumn('Followers', '0', screenWidth),
+                              SizedBox(width: screenWidth * 0.1),
+                              _buildStatusColumn('Following', '0', screenWidth),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildProfileOption(context, 'Edit Profile', screenWidth),
+                    _buildProfileOption(context, 'Share Profile', screenWidth),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Divider(color: Colors.grey, thickness: 1),
+                SizedBox(height: screenHeight * 0.02),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildIconOption(
+                        context, Icons.payment, 'To Pay', screenWidth),
+                    _buildIconOption(context, AntDesign.sync_outline,
+                        'Processing', screenWidth),
+                    _buildIconOption(
+                      context,
+                      Icons.rate_review,
+                      'Review',
+                      screenWidth,
+                      () {
+                        Navigator.pushNamed(
+                            context, AppRoutes.PROFILESCREENREVIEW);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.02),
+                Divider(color: Colors.grey, thickness: 1),
+                SizedBox(height: screenHeight * 0.02),
+                Container(
+                  height: screenHeight * 0.5,
+                  child: ListView.builder(
+                    itemCount: 0,
+                    itemBuilder: (context, index) {
+                      return SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -266,7 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         text,
         style: TextStyle(
           fontSize: screenWidth * 0.04,
-          color: Color(0xFF353E55),
+          color: AppColors.BLUE,
         ),
       ),
     );
