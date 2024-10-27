@@ -2,6 +2,7 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
 
       setState(() {
         userName = '$firstName $lastName';
-        isLoading = false; // Stop loading after data is fetched  
+        isLoading = false; // Stop loading after data is fetched
       });
     } catch (e) {
       print('Error fetching user name: $e');
@@ -86,14 +87,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                     leading: IconButton(
                       icon: Icon(Icons.arrow_back, color: AppColors.BLUE),
                       onPressed: () {
-                        SystemChrome.setSystemUIOverlayStyle(
-                            SystemUiOverlayStyle(
-                          statusBarColor: Colors.white,
-                          statusBarIconBrightness: Brightness.dark,
-                        ));
-                        if (Navigator.canPop(context)) {
-                          Navigator.pop(context);
-                        }
+                        Navigator.pushNamed(context, AppRoutes.HOMESCREEN);
                       },
                     ),
                   ),

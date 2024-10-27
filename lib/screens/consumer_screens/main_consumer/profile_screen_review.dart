@@ -33,7 +33,7 @@ class _ProfileScreenReviewState extends State<ProfileScreenReview>
             fontFamily: 'AvenirNextCyr',
             fontWeight: FontWeight.bold,
             fontSize: 20,
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
         ),
         leading: IconButton(
