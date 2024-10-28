@@ -1,0 +1,33 @@
+class DropdownListDeliveryCheckout {
+  final List<String> province = [
+    'Agusan del Norte',
+    'Agusan del Sur',
+    'Basilan',
+    'Bukidnon',
+    'Camiguin',
+    'Cotabato',
+    'Davao de Oro',
+    'Davao del Norte',
+    'Davao del Sur',
+    'Davao Occidental',
+    'Davao Oriental',
+    'Dinagat Islands',
+    'Lanao del Norte',
+    'Lanao del Sur',
+    'Maguindanao del Norte',
+    'Maguindanao del Sur',
+    'Misamis Occidental',
+    'Misamis Oriental',
+    'Sarangani',
+    'South Cotabato',
+    'Sultan Kudarat',
+    'Sulu',
+    'Surigao del Norte',
+    'Surigao del Sur',
+    'Tawi-Tawi',
+    'Zamboanga del Norte',
+    'Zamboanga del Sur',
+    'Zamboanga Sibugay',
+  ];
+
+}

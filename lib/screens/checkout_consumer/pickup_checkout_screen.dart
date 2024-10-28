@@ -122,7 +122,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
   Widget _buildAddressInput(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.PICKUPEDITADDRESS);
+        Navigator.pushNamed(context, AppRoutes.PICKUPEDITINFO);
       },
       child: AbsorbPointer(
         child: TextField(
