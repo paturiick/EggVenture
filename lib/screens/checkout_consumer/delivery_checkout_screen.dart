@@ -118,8 +118,8 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                           subtitle: Text("Address:"),
                           trailing: TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context, AppRoutes.DELIVERYEDITADDRESS);
+                              Navigator.pushReplacementNamed(
+                                  context, AppRoutes.DELIVERYEDITINFO);
                             },
                             child: Text(
                               "Change",

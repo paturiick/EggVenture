@@ -73,6 +73,8 @@ class _FarmerChatScreenState extends State<FarmerChatScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: TextField(
+                          minLines: 1,
+                          maxLines: null,
                           controller: ChatController.textController,
                           cursorColor: AppColors.YELLOW,
                           textCapitalization: TextCapitalization.sentences,

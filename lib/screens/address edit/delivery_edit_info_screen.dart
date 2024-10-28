@@ -5,12 +5,12 @@ import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PickupEditInfoScreen extends StatefulWidget {
+class DeliveryEditInfoScreen extends StatefulWidget {
   @override
-  _PickupEditInfoScreenState createState() => _PickupEditInfoScreenState();
+  _DeliveryEditInfoScreenState createState() => _DeliveryEditInfoScreenState();
 }
 
-class _PickupEditInfoScreenState extends State<PickupEditInfoScreen> {
+class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
   final _form = GlobalKey<FormState>();
   final DropdownListDeliveryCheckout _province = DropdownListDeliveryCheckout();
   String? _selectedProvince;
@@ -262,10 +262,11 @@ class _PickupEditInfoScreenState extends State<PickupEditInfoScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 24.0),
-                        child: Text("Cancel",
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.04,
-                                color: AppColors.RED)),
+                        child: Text(
+                          "Cancel", 
+                          style: TextStyle(
+                            fontSize: screenWidth * 0.04,
+                            color: AppColors.RED)),
                       ),
                     ),
                     ElevatedButton(
@@ -283,10 +284,12 @@ class _PickupEditInfoScreenState extends State<PickupEditInfoScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 24.0),
-                        child: Text("Save",
-                            style: TextStyle(
-                                fontSize: screenWidth * 0.04,
-                                color: AppColors.BLUE)),
+                        child: Text(
+                          "Save",
+                            style:
+                                TextStyle(
+                                  fontSize: screenWidth * 0.04, 
+                                  color: AppColors.BLUE)),
                       ),
                     ),
                   ],

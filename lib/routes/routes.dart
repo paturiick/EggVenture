@@ -26,7 +26,7 @@ class AppRoutes {
   static const HOMEFARMER = '/home-farmer';
   static const ORDERFARMER = '/order-farmer';
   static const PROFILEFARMER = '/profile-farmer';
-  static const PICKUPEDITADDRESS = '/pickup-edit-address';
+  static const PICKUPEDITINFO = '/pickup-edit-info';
   static const CLEARTRAYITEMS = '/clear-tray-items';
-  static const DELIVERYEDITADDRESS = 'delivery-edit-address';
+  static const DELIVERYEDITINFO = 'delivery-edit-info';
 }
