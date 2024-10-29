@@ -59,61 +59,6 @@ class _PickupEditInfoScreenState extends State<PickupEditInfoScreen> {
                   key: _form,
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              keyboardType: TextInputType.name,
-                              maxLength: 30,
-                              cursorColor: AppColors.YELLOW,
-                              style: TextStyle(
-                                color: AppColors.BLUE,
-                                fontSize: screenWidth * 0.025,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: "First Name",
-                                labelStyle: TextStyle(
-                                  color: AppColors.BLUE,
-                                  fontSize: screenWidth * 0.03,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.YELLOW),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: screenWidth * 0.01),
-                          Expanded(
-                            child: TextFormField(
-                              keyboardType: TextInputType.name,
-                              maxLength: 30,
-                              cursorColor: AppColors.YELLOW,
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.025,
-                                color: AppColors.BLUE,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: "Last Name",
-                                labelStyle: TextStyle(
-                                  color: AppColors.BLUE,
-                                  fontSize: screenWidth * 0.03,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.YELLOW),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
                         keyboardType: TextInputType.streetAddress,
@@ -251,7 +196,7 @@ class _PickupEditInfoScreenState extends State<PickupEditInfoScreen> {
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(
-                            context, AppRoutes.DELIVERYCHECKOUT);
+                            context, AppRoutes.PICKUPCHECKOUT);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,

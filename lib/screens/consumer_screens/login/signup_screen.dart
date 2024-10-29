@@ -21,11 +21,11 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _attemptedSignUp = false;
   bool _passwordVisible = false;
   bool _confirmPasswordVisible = false;
+  bool _isLoading = false;
 
   final SignupController _signupController = SignupController();
   final FirebaseAuthService _auth = FirebaseAuthService();
   final _formKey = GlobalKey<FormState>();
-
 
   @override
   void initState() {
@@ -47,6 +47,23 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<bool> _onWillPop() async {
     return true;
+  }
+
+  Future<void> _showLoadingScreen() async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.YELLOW),
+            ),
+          );
+        });
+  }
+
+  Future<void> _hideLoadingScreen() async {
+    Navigator.pop(context);
   }
 
   @override
@@ -383,18 +400,18 @@ class _SignupScreenState extends State<SignupScreen> {
           },
         ),
         Flexible(
-          child: GestureDetector(
-            onTap: (){
-              TermsConditions.showTermsConditionsDialog(context);
-            },
-            child: Text(
+            child: GestureDetector(
+          onTap: () {
+            TermsConditions.showTermsConditionsDialog(context);
+          },
+          child: Text(
             'I agree to the Terms and Conditions',
             style: TextStyle(
               fontSize: 12,
               color: AppColors.BLUE,
             ),
-          ),)
-        ),
+          ),
+        )),
       ],
     );
   }
@@ -406,46 +423,80 @@ class _SignupScreenState extends State<SignupScreen> {
         onPressed: () async {
           setState(() {
             _attemptedSignUp = true;
+            _isLoading = true; // Start loading indicator
           });
+
           if (_formKey.currentState!.validate()) {
-            final emailString = _signupController.emailController.text.trim();
-            final passwordString =
-                _signupController.passwordController.text.trim();
-            final lastNameString =
-                _signupController.lastNameController.text.trim();
-            final firstNameString =
-                _signupController.firstNameController.text.trim();
-            final userPhoneNumberString =
-                _signupController.phoneController.text.trim();
+            try {
+              final emailString = _signupController.emailController.text.trim();
+              final passwordString =
+                  _signupController.passwordController.text.trim();
+              final lastNameString =
+                  _signupController.lastNameController.text.trim();
+              final firstNameString =
+                  _signupController.firstNameController.text.trim();
+              final userPhoneNumberString =
+                  _signupController.phoneController.text.trim();
 
-            User? user = await _auth.signupUser(lastNameString, firstNameString,
-                int.parse(userPhoneNumberString), emailString, passwordString);
-
-            debugPrint('signup clicked');
-
-            if (user != null) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SigninScreen()),
-                (Route<dynamic> route) => false,
+              User? user = await _auth.signupUser(
+                lastNameString,
+                firstNameString,
+                int.parse(userPhoneNumberString),
+                emailString,
+                passwordString,
               );
-            } else {
+
+              debugPrint('Signup clicked');
+
+              if (user != null) {
+                setState(() => _isLoading = false); // Stop loading on success
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => SigninScreen()),
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                setState(() => _isLoading = false); // Stop loading on error
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content:
+                        Text('Sign up failed. Please check your credentials.'),
+                  ),
+                );
+              }
+            } catch (e) {
+              setState(() => _isLoading = false); // Stop loading on exception
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content:
-                      Text('Sign up failed. Please check your credentials.'),
+                  content: Text('An error occurred. Please try again.'),
                 ),
               );
             }
+          } else {
+            setState(
+                () => _isLoading = false); // Stop loading if validation fails
           }
         },
-        child: Text(
-          'Sign Up',
-          style: TextStyle(
-              color: AppColors.BLUE, fontSize: 15, fontWeight: FontWeight.bold),
-        ),
+        child: _isLoading
+            ? SizedBox(
+                height: 15,
+                width: 15,
+                child: CircularProgressIndicator(
+                  color: AppColors.BLUE,
+                  strokeWidth: 3.0,
+                ),
+              )
+            : Text(
+                'Sign Up',
+                style: TextStyle(
+                  color: AppColors.BLUE,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.YELLOW,
+          minimumSize: Size(150, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
