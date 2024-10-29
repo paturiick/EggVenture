@@ -1,6 +1,8 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/constants/dropdown_list_delivery_checkout.dart';
+import 'package:eggventure/models/user_info.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
+import 'package:eggventure/providers/user_info_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +16,13 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
   final _form = GlobalKey<FormState>();
   final DropdownListDeliveryCheckout _province = DropdownListDeliveryCheckout();
   String? _selectedProvince;
+  String _firstName = '';
+  String _lastName = '';
+  String _streetAddress = '';
+  String _barangayAddress = '';
+  String _cityAddress = '';
+  String _provinceAddress = '';
+  String _additionalInfo = '';
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +72,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              onSaved: (value) => _firstName = value ?? '',
                               keyboardType: TextInputType.name,
                               maxLength: 30,
                               cursorColor: AppColors.YELLOW,
@@ -89,6 +99,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                           SizedBox(width: screenWidth * 0.01),
                           Expanded(
                             child: TextFormField(
+                              onSaved: (value) => _lastName = value ?? '',
                               keyboardType: TextInputType.name,
                               maxLength: 30,
                               cursorColor: AppColors.YELLOW,
@@ -116,6 +127,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
+                        onSaved: (value) => _streetAddress = value ?? '',
                         keyboardType: TextInputType.streetAddress,
                         maxLines: null,
                         minLines: 1,
@@ -139,7 +151,8 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        keyboardType: TextInputType.streetAddress,
+                        onSaved: (value) => _barangayAddress = value?? '',
+                        keyboardType: TextInputType.text,
                         maxLength: 40,
                         style: TextStyle(
                           fontSize: screenWidth * 0.025,
@@ -161,7 +174,8 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        keyboardType: TextInputType.streetAddress,
+                        onSaved: (value) => _cityAddress = value?? '',
+                        keyboardType: TextInputType.text,
                         maxLength: 40,
                         style: TextStyle(
                           fontSize: screenWidth * 0.03,
@@ -183,6 +197,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       DropdownButtonFormField<String>(
+                        onSaved: (value) => _provinceAddress = value?? '', 
                         dropdownColor: Colors.white,
                         value: _selectedProvince,
                         icon:
@@ -217,6 +232,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
+                        onSaved: (value) => _additionalInfo = value?? '',
                         keyboardType: TextInputType.text,
                         minLines: 1,
                         maxLines: null,
@@ -262,17 +278,26 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 24.0),
-                        child: Text(
-                          "Cancel", 
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.04,
-                            color: AppColors.RED)),
+                        child: Text("Back",
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE)),
                       ),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         if (_form.currentState!.validate()) {
-                          // Save button action
+                          _form.currentState!.save();
+                          final newUserInfo = UserInfo(
+                              firstName: _firstName,
+                              lastName: _lastName,
+                              streetAddress: _streetAddress,
+                              barangayAddress: _barangayAddress,
+                              cityAddress: _cityAddress,
+                              provinceAddress: _provinceAddress,
+                              additionalInfo: _additionalInfo);
+                          Provider.of<UserInfoProvider>(context, listen: false)
+                              .updateUserInfo(newUserInfo);
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -284,12 +309,10 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 24.0),
-                        child: Text(
-                          "Save",
-                            style:
-                                TextStyle(
-                                  fontSize: screenWidth * 0.04, 
-                                  color: AppColors.BLUE)),
+                        child: Text("Save",
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE)),
                       ),
                     ),
                   ],

@@ -1,8 +1,9 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
+import 'package:eggventure/models/user_info.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
+import 'package:eggventure/providers/user_info_provider.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
   String? userName;
   final FirestoreService _service = FirestoreService();
   String selectedPaymentMethod = "GCash";
-  bool isLoading = true; // Add loading state
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -36,6 +37,9 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
       final firstName = userDetails['firstName'];
       final lastName = userDetails['lastName'];
 
+      Provider.of<UserInfoProvider>(context, listen: false)
+          .updateNameInfo(firstName: firstName, lastName: lastName);
+
       setState(() {
         userName = '$firstName $lastName';
         isLoading = false; // Stop loading after data is fetched
@@ -51,6 +55,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    final userInfoProvider = Provider.of<UserInfoProvider>(context).userInfo;
 
     return Scaffold(
       body: isLoading // Display loading indicator until name is fetched
@@ -111,11 +116,42 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                         SizedBox(height: 10),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          title: Text(
-                            "Name: ${userName ?? 'Loading...'}",
-                            style: TextStyle(color: AppColors.BLUE),
+                          title: Consumer<UserInfoProvider>(
+                            builder: (context, provider, _) {
+                              final userInfo = provider.userInfo;
+
+                              String displayName = userInfo
+                                          .firstName.isNotEmpty &&
+                                      userInfo.lastName.isNotEmpty
+                                  ? "${userInfo.firstName} ${userInfo.lastName}"
+                                  : userName ?? "Loading...";
+
+                              return Text(
+                                "Name: ${displayName}",
+                                style: TextStyle(color: AppColors.BLUE),
+                              );
+                            },
                           ),
-                          subtitle: Text("Address:"),
+                          subtitle: Consumer<UserInfoProvider>(
+                            builder: (context, provider, _) {
+                              final userInfo = provider.userInfo;
+
+                              String displayAddress = [
+                                userInfo.streetAddress,
+                                userInfo.barangayAddress,
+                                userInfo.cityAddress,
+                                userInfo.provinceAddress,
+                                userInfo.additionalInfo
+                              ]
+                                  .where((element) => element.isNotEmpty)
+                                  .join(' , ');
+
+                             return Text("Address: ${displayAddress}",
+                             style: TextStyle(
+                              color: AppColors.BLUE
+                             ),); 
+                            },
+                          ),
                           trailing: TextButton(
                             onPressed: () {
                               Navigator.pushReplacementNamed(

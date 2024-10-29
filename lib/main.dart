@@ -2,6 +2,7 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/firebase/firebase_options.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
+import 'package:eggventure/providers/user_info_provider.dart';
 import 'package:eggventure/routes/pages.dart';
 import 'package:eggventure/screens/checkout_consumer/delivery_checkout_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
@@ -30,7 +31,8 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AddToTrayProvider()),
-        ChangeNotifierProvider(create: (_) => BuyNowProvider())
+        ChangeNotifierProvider(create: (_) => BuyNowProvider()),
+        ChangeNotifierProvider(create: (_) => UserInfoProvider())
       ],
       child: MyApp(),));
 }
