@@ -39,7 +39,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: AppColors.BLUE.withOpacity(0.2),
                       offset: Offset(0, 2),
                       blurRadius: 5,
                       spreadRadius: 5,
@@ -155,7 +155,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                         keyboardType: TextInputType.text,
                         maxLength: 40,
                         style: TextStyle(
-                          fontSize: screenWidth * 0.025,
+                          fontSize: screenWidth * 0.03,
                           color: AppColors.BLUE,
                         ),
                         decoration: InputDecoration(

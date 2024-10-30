@@ -28,5 +28,6 @@ class AppRoutes {
   static const PROFILEFARMER = '/profile-farmer';
   static const PICKUPEDITINFO = '/pickup-edit-info';
   static const CLEARTRAYITEMS = '/clear-tray-items';
-  static const DELIVERYEDITINFO = 'delivery-edit-info';
+  static const DELIVERYEDITINFO = '/delivery-edit-info';
+  static const FORGOTPASSWORD = '/forgot_password';
 }

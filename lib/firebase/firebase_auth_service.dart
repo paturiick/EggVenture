@@ -54,6 +54,22 @@ class FirebaseAuthService {
     }
   }
 
+  Future<void> sendEmailVerificationLink() async {
+    try {
+      await _auth.currentUser?.sendEmailVerification();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> sendPasswordResetLink(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<User?> signIn(
       BuildContext context, String email, String password) async {
     try {
@@ -66,7 +82,7 @@ class FirebaseAuthService {
 
       Navigator.pop(context); // Dismiss the loading indicator on success
       return userCredential.user;
-    } catch (e) { 
+    } catch (e) {
       Navigator.pop(context); // Dismiss the loading indicator on error
       print(e);
       return null;
