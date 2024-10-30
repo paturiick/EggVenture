@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           selectionHandleColor: AppColors.YELLOW
         )
       ),
-      home: SigninScreen()
+      home: DeliveryCheckoutScreen()
     );
   }
 }

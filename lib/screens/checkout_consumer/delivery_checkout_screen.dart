@@ -146,10 +146,10 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                                   .where((element) => element.isNotEmpty)
                                   .join(' , ');
 
-                             return Text("Address: ${displayAddress}",
-                             style: TextStyle(
-                              color: AppColors.BLUE
-                             ),); 
+                              return Text(
+                                "Address: ${displayAddress}",
+                                style: TextStyle(color: AppColors.BLUE),
+                              );
                             },
                           ),
                           trailing: TextButton(
@@ -346,6 +346,10 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
   }
 
   Widget _buildBottomNavigationBar(double screenWidth) {
+    final userInfoProvider =
+        Provider.of<UserInfoProvider>(context, listen: false).userInfo;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
@@ -366,7 +370,53 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
           elevation: 0,
         ),
         onPressed: () {
-          // Handle place order action
+          if (userInfoProvider.streetAddress.isEmpty ||
+              userInfoProvider.barangayAddress.isEmpty ||
+              userInfoProvider.cityAddress.isEmpty ||
+              userInfoProvider.provinceAddress.isEmpty) {
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.white,
+                    title: Center(
+                      child: Text(
+                        "Missing Address",
+                        style: TextStyle(
+                            color: AppColors.RED, fontSize: screenWidth * 0.03),
+                      ),
+                    ),
+                    content: SingleChildScrollView(
+                        child: ListBody(
+                      children: <Widget>[
+                        Center(
+                          child: Text(
+                            "Please fill out your address information before placing your order.",
+                            style: TextStyle(
+                                color: AppColors.BLUE,
+                                fontSize: screenWidth * 0.04),
+                          ),
+                        )
+                      ],
+                    )),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "OK",
+                            style: TextStyle(
+                                color: AppColors.YELLOW,
+                                fontSize: screenWidth * 0.04),
+                          ))
+                    ],
+                  );
+                });
+          } else {
+            //For google maps navigation here
+          }
         },
         child: SizedBox(
           width: screenWidth,
