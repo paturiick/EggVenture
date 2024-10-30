@@ -30,7 +30,7 @@ class _PickupEditInfoScreenState extends State<PickupEditInfoScreen> {
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: AppColors.BLUE.withOpacity(0.2),
                       offset: Offset(0, 2),
                       blurRadius: 5,
                       spreadRadius: 5,

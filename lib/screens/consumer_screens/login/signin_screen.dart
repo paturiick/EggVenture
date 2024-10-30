@@ -3,11 +3,14 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/firebase/firebase_auth_service.dart';
 import 'package:eggventure/firebase/firestore_service.dart';
 import 'package:eggventure/google/google_auth_service.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/signup_screen.dart';
 import 'package:eggventure/screens/consumer_screens/login/welcome_screen.dart';
-import 'package:eggventure/widgets/error%20widgets/lockout_timer.dart' as lockout; 
-import 'package:eggventure/widgets/error%20widgets/signin_failed_widget.dart' as signin;
+import 'package:eggventure/widgets/error%20widgets/lockout_timer.dart'
+    as lockout;
+import 'package:eggventure/widgets/error%20widgets/signin_failed_widget.dart'
+    as signin;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -125,6 +128,9 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
         onWillPop: _onWillPop,
@@ -305,64 +311,105 @@ class _SigninScreenState extends State<SigninScreen> {
                                 },
                               ),
                             ),
-                            SizedBox(height: 30),
+                            SizedBox(height: 10),
                             GestureDetector(
-                              onTap: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  User? user = await _auth.signIn(
-                                    context,
-                                    _emailController.text,
-                                    _passwordController.text,
-                                  );
-                                  if (user != null) {
-                                    Navigator.pushAndRemoveUntil(
+                                onTap: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    User? user = await _auth.signIn(
                                       context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeScreen()),
-                                      (Route<dynamic> route) => false,
+                                      _emailController.text,
+                                      _passwordController.text,
                                     );
-                                  } else {
-                                    if (isLockedOut) {
-                                      lockout.showLockoutOverlay(context,
-                                          'Locked out, please wait for 1 minute');
-                                      return;
-                                    }
-                                    if (loginAttempts == 1) {
-                                      lockout.showLockoutOverlay(context,
-                                          'Login attempts expired, please wait 1 minute');
-                                      lockout.startLockoutTimer(context, () {
-                                        setState(() {
-                                          isLockedOut = false;
-                                          loginAttempts = 7;
-                                        });
-                                      });
+                                    if (user != null) {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomeScreen()),
+                                        (Route<dynamic> route) => false,
+                                      );
                                     } else {
-                                      loginAttempts--;
-                                      signin.showSignInFailedOverlay(context,
-                                          'Invalid login credentials. Please try again.');
+                                      if (isLockedOut) {
+                                        lockout.showLockoutOverlay(context,
+                                            'Locked out, please wait for 1 minute');
+                                        return;
+                                      }
+                                      if (loginAttempts == 1) {
+                                        lockout.showLockoutOverlay(context,
+                                            'Login attempts expired, please wait 1 minute');
+                                        lockout.startLockoutTimer(context, () {
+                                          setState(() {
+                                            isLockedOut = false;
+                                            loginAttempts = 7;
+                                          });
+                                        });
+                                      } else {
+                                        loginAttempts--;
+                                        signin.showSignInFailedOverlay(context,
+                                            'Invalid login credentials. Please try again.');
+                                      }
                                     }
                                   }
-                                }
-                              },  
-                              child: Container(
-                                width: size.width,
-                                height: size.height * 0.06,
-                                decoration: BoxDecoration(
-                                  color: AppColors.YELLOW,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Sign In',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: AppColors.BLUE,
+                                },
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Checkbox(
+                                          value: _isChecked,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              _isChecked = value ?? false;
+                                            });
+                                          },
+                                          activeColor: AppColors.YELLOW,
+                                          checkColor: AppColors.BLUE,
+                                        ),
+                                        Text(
+                                          "Remember me",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: AppColors.BLUE),
+                                        ),
+                                        Spacer(),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(context,
+                                                AppRoutes.FORGOTPASSWORD);
+                                          },
+                                          child: Text(
+                                            "Forgot Password?",
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: AppColors.BLUE),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                                    SizedBox(
+                                      height: screenHeight * 0.02,
+                                    ),
+                                    Container(
+                                      width: size.width,
+                                      height: size.height * 0.06,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.YELLOW,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Sign In',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: AppColors.BLUE,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
 // OR Line Separator
                             SizedBox(height: 20),
                             Row(
