@@ -10,6 +10,20 @@ class FirebaseAuthService {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColors.YELLOW,
+          ),
+        );
+      },
+    );
+  }
+
   Future<dynamic> signupUser(String lastName, String firstName,
       int userPhoneNumber, String userEmail, String password) async {
     try {
@@ -43,27 +57,18 @@ class FirebaseAuthService {
   Future<User?> signIn(
       BuildContext context, String email, String password) async {
     try {
+      _showLoadingDialog(context); // Show loading indicator
+
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Show progress indicator only on successful sign-in
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: AppColors.YELLOW,
-              ),
-            );
-          });
-
-      Navigator.pop(context); // Dismiss the CircularProgressIndicator
+      Navigator.pop(context); // Dismiss the loading indicator on success
       return userCredential.user;
     } catch (e) {
-      print("Sign in failed: $e");
+      Navigator.pop(context); // Dismiss the loading indicator on error
+      print(e);
       return null;
     }
   }
@@ -100,4 +105,3 @@ class FirebaseAuthService {
 
   registerWithEmailAndPassword(String text, String text2) {}
 }
-
