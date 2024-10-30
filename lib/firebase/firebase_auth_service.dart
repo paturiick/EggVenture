@@ -66,7 +66,7 @@ class FirebaseAuthService {
 
       Navigator.pop(context); // Dismiss the loading indicator on success
       return userCredential.user;
-    } catch (e) {
+    } catch (e) { 
       Navigator.pop(context); // Dismiss the loading indicator on error
       print(e);
       return null;

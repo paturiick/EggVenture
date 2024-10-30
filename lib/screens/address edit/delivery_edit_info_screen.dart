@@ -151,7 +151,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        onSaved: (value) => _barangayAddress = value?? '',
+                        onSaved: (value) => _barangayAddress = value ?? '',
                         keyboardType: TextInputType.text,
                         maxLength: 40,
                         style: TextStyle(
@@ -174,7 +174,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        onSaved: (value) => _cityAddress = value?? '',
+                        onSaved: (value) => _cityAddress = value ?? '',
                         keyboardType: TextInputType.text,
                         maxLength: 40,
                         style: TextStyle(
@@ -197,7 +197,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       DropdownButtonFormField<String>(
-                        onSaved: (value) => _provinceAddress = value?? '', 
+                        onSaved: (value) => _provinceAddress = value ?? '',
                         dropdownColor: Colors.white,
                         value: _selectedProvince,
                         icon:
@@ -232,7 +232,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        onSaved: (value) => _additionalInfo = value?? '',
+                        onSaved: (value) => _additionalInfo = value ?? '',
                         keyboardType: TextInputType.text,
                         minLines: 1,
                         maxLines: null,
@@ -298,6 +298,8 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                               additionalInfo: _additionalInfo);
                           Provider.of<UserInfoProvider>(context, listen: false)
                               .updateUserInfo(newUserInfo);
+                          Navigator.pushNamed(
+                              context, AppRoutes.DELIVERYCHECKOUT);
                         }
                       },
                       style: ElevatedButton.styleFrom(
