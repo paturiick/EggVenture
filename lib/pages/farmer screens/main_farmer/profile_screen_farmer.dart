@@ -1,9 +1,11 @@
+import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile_screen.dart';
 import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
@@ -49,26 +51,32 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
   
   @override
   Widget build(BuildContext context) {
+
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     
-    return Scaffold(
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark,),
+      child: Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFFFB612),
+        backgroundColor: AppColors.YELLOW,
+        automaticallyImplyLeading: false,
         title: Text(
           'MANAGE PROFILE',
           style: TextStyle(
             fontFamily: 'AvenirNextCyr',
             fontWeight: FontWeight.bold,
             fontSize: screenWidth * 0.06, // Responsive font size
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.menu, color: Color(0xFF353E55)),
+            icon: Icon(Icons.menu, color: AppColors.BLUE), 
             onPressed: () {
               MenuScreen.showMenu(context);
             },
@@ -85,13 +93,13 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
                 Navigator.pushReplacementNamed(context, AppRoutes.PROFILESCREEN);
               },
               icon: Icon(Icons.local_mall,
-                  size: screenWidth * 0.04, color: Color(0xFF353E55)),
+                  size: screenWidth * 0.04, color: AppColors.BLUE),
               label: Text(
                 'Back to Buying',
                 style: TextStyle(
                   fontFamily: 'AvenirNextCyr',
                   fontSize: screenWidth * 0.03,
-                  color: Color(0xFF353E55),
+                  color: AppColors.BLUE,
                 ),
               ),
               style: ElevatedButton.styleFrom(
@@ -129,7 +137,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
                         ),
                         child: Icon(
                           Icons.add_a_photo,
-                          color: Color(0xFF353E55),
+                          color: AppColors.BLUE,
                           size: screenWidth * 0.1,
                         ),
                       ),
@@ -144,7 +152,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
                                 fontFamily: 'AvenirNextCyr',
                                 fontWeight: FontWeight.bold,
                                 fontSize: screenWidth * 0.05, // Responsive size
-                                color: Color(0xFF353E55),
+                                color: AppColors.BLUE,
                               ),
                             ),
                             SizedBox(height: screenHeight * 0.01),
@@ -214,6 +222,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
         ],
       ),
       bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 4),
+    ),
     );
   }
 
@@ -224,8 +233,8 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
         // Handle button press action here
       },
       style: ElevatedButton.styleFrom(
-        foregroundColor: Color(0xFF353E55),
-        backgroundColor: Color(0xFFFFB612),
+        foregroundColor: AppColors.BLUE,
+        backgroundColor: AppColors.YELLOW,
         padding: EdgeInsets.symmetric(
           horizontal: screenWidth * 0.07,
           vertical: screenWidth * 0.03,
@@ -239,7 +248,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
         style: TextStyle(
           fontFamily: 'AvenirNextCyr',
           fontSize: screenWidth * 0.04,
-          color: Color(0xFF353E55),
+          color: AppColors.BLUE,
         ),
       ),
     );
@@ -252,7 +261,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
         // Handle button press action here
       },
       style: ElevatedButton.styleFrom(
-        foregroundColor: Color(0xFF353E55),
+        foregroundColor: AppColors.BLUE,
         backgroundColor: Colors.white,
         elevation: 0,
         padding: EdgeInsets.symmetric(
@@ -265,7 +274,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
           Icon(
             icon,
             size: screenWidth * 0.1,
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
           SizedBox(height: screenWidth * 0.02),
           Text(
@@ -273,7 +282,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
             style: TextStyle(
               fontFamily: 'AvenirNextCyr',
               fontSize: screenWidth * 0.035,
-              color: Color(0xFF353E55),
+              color: AppColors.BLUE,
             ),
           ),
         ],
@@ -290,7 +299,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
             fontFamily: 'AvenirNextCyr',
             fontWeight: FontWeight.bold,
             fontSize: screenWidth * 0.05,
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
         ),
         SizedBox(height: screenWidth * 0.01),
@@ -299,7 +308,7 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
           style: TextStyle(
             fontFamily: 'AvenirNextCyr',
             fontSize: screenWidth * 0.035,
-            color: Color(0xFF353E55),
+            color: AppColors.BLUE,
           ),
         ),
       ],

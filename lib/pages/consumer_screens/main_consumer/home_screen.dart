@@ -1,5 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/services.dart'; // Import this for SystemUiOverlayStyle
 import 'package:eggventure/pages/store%20screens/daily_fresh_screen.dart';
 import 'package:eggventure/pages/store%20screens/pabilona_screen.dart';
@@ -153,7 +154,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      // Define the action to be taken on tap, e.g., navigate to search screen
+                      Navigator.pushNamed(context, AppRoutes.HOMESEARCH);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -283,11 +284,12 @@ class HomeScreen extends StatelessWidget {
             margin: EdgeInsets.all(size.width * 0.02),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: AppColors.YELLOW, width: size.width * 0.001),
+              border: Border.all(
+                  color: AppColors.YELLOW, width: size.width * 0.001),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color:Colors.grey,
+                  color: Colors.grey,
                   offset: Offset(0, 4),
                   blurRadius: 5,
                 ),
@@ -321,31 +323,35 @@ class HomeScreen extends StatelessWidget {
                       overflow: TextOverflow.ellipsis, // Handle long titles
                     ),
                   ),
-                  SizedBox(height: size.width * 0.01,),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                        width: size.width * 0.05,
-                      ),
-                        Icon(
-                          Icons.timelapse_outlined,
-                          color: AppColors.YELLOW,
-                        ),
-                        SizedBox(width: size.width * 0.01),
-                        Text(
-                          time,
-                          style: TextStyle(
-                            color: AppColors.BLUE,
-                            fontSize: size.width * 0.025,
-                          ),
-                        ),
-                      ],
+                  SizedBox(
+                    height: size.width * 0.01,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(width: size.width * 0.05,),
+                      SizedBox(
+                        width: size.width * 0.05,
+                      ),
+                      Icon(
+                        Icons.timelapse_outlined,
+                        color: AppColors.YELLOW,
+                      ),
+                      SizedBox(width: size.width * 0.01),
+                      Text(
+                        time,
+                        style: TextStyle(
+                          color: AppColors.BLUE,
+                          fontSize: size.width * 0.025,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.05,
+                      ),
                       Icon(
                         AntDesign.calendar_outline,
                         color: AppColors.YELLOW,

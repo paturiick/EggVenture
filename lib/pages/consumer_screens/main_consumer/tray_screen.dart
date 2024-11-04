@@ -1,5 +1,6 @@
 import 'package:eggventure/models/tray_item.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/counter_widget.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/clear_tray_items.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/pickup_delivery.dart';
@@ -72,7 +73,7 @@ class _TrayScreenState extends State<TrayScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        // search product here
+                        Navigator.pushNamed(context, AppRoutes.TRAYSEARCH);
                       },
                       child: Container(
                         padding:
@@ -240,27 +241,27 @@ class _TrayScreenState extends State<TrayScreen> {
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(
-                                              left: screenWidth * 0.01
-                                            ),
+                                                left: screenWidth * 0.01),
                                             child: CounterWidget(
-                                              index: index,
-                                              counter: trayProvider
-                                                  .trayItems[index].amount,
-                                              onIncrement: (int index) {
-                                                trayProvider
-                                                    .incrementAmount(index);
-                                                setState(() {});
-                                              },
-                                              onDecrement: (int index) {
-                                                if (trayProvider
-                                                        .trayItems[index]
-                                                        .amount >
-                                                    1) {
+                                                index: index,
+                                                counter: trayProvider
+                                                    .trayItems[index].amount,
+                                                onIncrement: (int index) {
                                                   trayProvider
-                                                      .decrementAmount(index);
-                                                      setState(() {});
-                                                }
-                                              }),)
+                                                      .incrementAmount(index);
+                                                  setState(() {});
+                                                },
+                                                onDecrement: (int index) {
+                                                  if (trayProvider
+                                                          .trayItems[index]
+                                                          .amount >
+                                                      1) {
+                                                    trayProvider
+                                                        .decrementAmount(index);
+                                                    setState(() {});
+                                                  }
+                                                }),
+                                          )
                                         ],
                                       ),
                                     ),
@@ -304,24 +305,24 @@ class _TrayScreenState extends State<TrayScreen> {
                       children: [
                         Spacer(), // This pushes the button to the right
                         ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.YELLOW,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                            ),
-                            onPressed: () {
-                              PickupDeliveryScreen.showPickupDeliveryScreen(
-                                  context);
-                            },
-                            child: Text(
-                              "Confirm Order",
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.04,
-                                color: AppColors.BLUE,
-                              ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.YELLOW,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.0),
                             ),
                           ),
+                          onPressed: () {
+                            PickupDeliveryScreen.showPickupDeliveryScreen(
+                                context);
+                          },
+                          child: Text(
+                            "Confirm Order",
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.04,
+                              color: AppColors.BLUE,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

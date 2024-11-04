@@ -91,38 +91,6 @@ class _HomeScreenFarmerState extends State<HomeScreenFarmer>
               horizontal: size.width * 0.05,
               vertical: size.height * 0.02,
             ),
-            child: GestureDetector(
-              onTap: () {
-                // Define the action to be taken on tap
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: AppColors.YELLOW,
-                    width: 1.0,
-                  ),
-                ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.04,
-                  vertical: size.height * 0.015,
-                ),
-                child: Row(
-                  children: [
-                    Icon(AntDesign.search_outline, color: AppColors.BLUE),
-                    SizedBox(width: size.width * 0.03),
-                    Text(
-                      'Search',
-                      style: TextStyle(
-                        color: AppColors.BLUE,
-                        fontSize: size.width * 0.04,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ),
           TabBar(
             controller: _tabController,

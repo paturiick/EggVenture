@@ -1,3 +1,5 @@
+import 'package:eggventure/pages/search%20screens/home_search_screen.dart';
+import 'package:eggventure/pages/search%20screens/tray_search_screen.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/pages/consumer_screens/chat_consumer/user_chat_screen.dart';
 import 'package:eggventure/pages/consumer_screens/chat_consumer/chat_screen.dart';
@@ -64,7 +66,9 @@ class AppPages {
       AppRoutes.FARMERCHAT: (context) => FarmerChatScreen(),
       AppRoutes.WELCOME: (context) => WelcomeScreen(),
       AppRoutes.DELIVERYEDITINFO: (context) => DeliveryEditInfoScreen(),
-      AppRoutes.FORGOTPASSWORD: (context) => ForgotPasswordScreen()
+      AppRoutes.FORGOTPASSWORD: (context) => ForgotPasswordScreen(),
+      AppRoutes.HOMESEARCH: (context) => HomeSearchScreen(),
+      AppRoutes.TRAYSEARCH: (context) => TraySearchScreen(),
     };
   }
 }

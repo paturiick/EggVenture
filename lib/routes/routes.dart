@@ -22,7 +22,7 @@ class AppRoutes {
   static const ADDPRODUCTFARMER = '/app-product-screen';
   static const FARMERCHATMESSAGES = '/farmer-chat-messages';
   static const USERCHAT = 'user-chat';
-  static const FARMERCHAT = 'farmer-chat';
+  static const FARMERCHAT = '/farmer-chat';
   static const HOMEFARMER = '/home-farmer';
   static const ORDERFARMER = '/order-farmer';
   static const PROFILEFARMER = '/profile-farmer';
@@ -30,4 +30,6 @@ class AppRoutes {
   static const CLEARTRAYITEMS = '/clear-tray-items';
   static const DELIVERYEDITINFO = '/delivery-edit-info';
   static const FORGOTPASSWORD = '/forgot_password';
+  static const HOMESEARCH = '/home-search';
+  static const TRAYSEARCH = '/tray-search';
 }
