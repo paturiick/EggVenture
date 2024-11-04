@@ -1,12 +1,12 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:flutter/services.dart'; // Import this for SystemUiOverlayStyle
-import 'package:eggventure/screens/store_screen/daily_fresh_screen.dart';
-import 'package:eggventure/screens/store_screen/pabilona_screen.dart';
-import 'package:eggventure/screens/store_screen/pelonio_screen.dart';
-import 'package:eggventure/screens/store_screen/sundo_screen.dart';
-import 'package:eggventure/screens/store_screen/vista_screen.dart';
-import 'package:eggventure/screens/store_screen/white_feathers_screen.dart';
+import 'package:eggventure/pages/store%20screens/daily_fresh_screen.dart';
+import 'package:eggventure/pages/store%20screens/pabilona_screen.dart';
+import 'package:eggventure/pages/store%20screens/pelonio_screen.dart';
+import 'package:eggventure/pages/store%20screens/sundo_screen.dart';
+import 'package:eggventure/pages/store%20screens/vista_screen.dart';
+import 'package:eggventure/pages/store%20screens/white_feathers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';

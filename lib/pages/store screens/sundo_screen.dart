@@ -1,20 +1,21 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
-class DailyFreshScreen extends StatefulWidget {
+import '../../providers/add_to_tray_provider.dart';
+
+class SundoScreen extends StatefulWidget {
   @override
-  _DailyFreshScreenState createState() => _DailyFreshScreenState();
+  _SundoScreenState createState() => _SundoScreenState();
 }
 
-class _DailyFreshScreenState extends State<DailyFreshScreen> {
+class _SundoScreenState extends State<SundoScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -242,27 +243,27 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                  child: GestureDetector(
-                    onTap: () {
-                      //Navigate to farmer's pfp
-                    },
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage:
-                            AssetImage("assets/stores/daily_fresh.jpg"),
-                      ),
-                      title: Text(
-                        "Daily Fresh Eggs",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.03,
-                          color: AppColors.BLUE,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                child: GestureDetector(
+                  onTap: (){
+                    //Navigate to farmer's pfp
+                  },
+                  child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage("assets/stores/sundo.png"),
+                  ),
+                  title: Text(
+                    "Sundo Farm",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: screenWidth * 0.03,
+                      color: AppColors.BLUE,
                     ),
-                  )),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                )
+              ),
               SizedBox(height: 10), // Add extra spacing at the bottom
             ],
           ),
@@ -305,8 +306,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(
-                          context, 'Daily Fresh');
+                      AddToTrayScreen.showAddToTrayScreen(context, 'Sundo');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -335,7 +335,7 @@ class _DailyFreshScreenState extends State<DailyFreshScreen> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      BuyNowScreen.showBuyNowScreen(context, 'Daily Fresh');
+                      BuyNowScreen.showBuyNowScreen(context, 'Sundo');
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

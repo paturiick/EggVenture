@@ -3,11 +3,11 @@ import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:eggventure/screens/consumer_screens/main_consumer/home_screen.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/order_screen.dart';
-import 'package:eggventure/screens/consumer_screens/chat_consumer/chat_screen.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/profile_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/home_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/order_screen.dart';
+import 'package:eggventure/pages/consumer_screens/chat_consumer/chat_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/tray_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class NavigationBarWidget extends StatefulWidget {

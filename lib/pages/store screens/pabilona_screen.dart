@@ -1,21 +1,20 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/add_to_tray_provider.dart';
-
-class SundoScreen extends StatefulWidget {
+class PabilonaScreen extends StatefulWidget {
   @override
-  _SundoScreenState createState() => _SundoScreenState();
+  _PabilonaScreenState createState() => _PabilonaScreenState();
 }
 
-class _SundoScreenState extends State<SundoScreen> {
+class _PabilonaScreenState extends State<PabilonaScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -250,10 +249,11 @@ class _SundoScreenState extends State<SundoScreen> {
                   },
                   child: ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage("assets/stores/sundo.png"),
+                    backgroundImage:
+                        AssetImage("assets/stores/pabilona_duck.jpg"),
                   ),
                   title: Text(
-                    "Sundo Farm",
+                    "Pabilona Duck Farm",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: screenWidth * 0.03,
@@ -306,7 +306,7 @@ class _SundoScreenState extends State<SundoScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context, 'Sundo');
+                      AddToTrayScreen.showAddToTrayScreen(context, 'Pabilona');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -335,7 +335,7 @@ class _SundoScreenState extends State<SundoScreen> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      BuyNowScreen.showBuyNowScreen(context, 'Sundo');
+                      BuyNowScreen.showBuyNowScreen(context, 'Pabilona');
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

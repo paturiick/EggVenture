@@ -3,18 +3,18 @@ import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
-import 'package:eggventure/screens/consumer_screens/main_consumer/tray_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
-class PabilonaScreen extends StatefulWidget {
+class DailyFreshScreen extends StatefulWidget {
   @override
-  _PabilonaScreenState createState() => _PabilonaScreenState();
+  _DailyFreshScreenState createState() => _DailyFreshScreenState();
 }
 
-class _PabilonaScreenState extends State<PabilonaScreen> {
+class _DailyFreshScreenState extends State<DailyFreshScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
 
@@ -242,28 +242,27 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                child: GestureDetector(
-                  onTap: (){
-                    //Navigate to farmer's pfp
-                  },
-                  child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage:
-                        AssetImage("assets/stores/pabilona_duck.jpg"),
-                  ),
-                  title: Text(
-                    "Pabilona Duck Farm",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: screenWidth * 0.03,
-                      color: AppColors.BLUE,
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                  child: GestureDetector(
+                    onTap: () {
+                      //Navigate to farmer's pfp
+                    },
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage("assets/stores/daily_fresh.jpg"),
+                      ),
+                      title: Text(
+                        "Daily Fresh Eggs",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenWidth * 0.03,
+                          color: AppColors.BLUE,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                )
-              ),
+                  )),
               SizedBox(height: 10), // Add extra spacing at the bottom
             ],
           ),
@@ -306,7 +305,8 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
                           left: BorderSide(width: 1, color: Colors.white))),
                   child: TextButton(
                     onPressed: () {
-                      AddToTrayScreen.showAddToTrayScreen(context, 'Pabilona');
+                      AddToTrayScreen.showAddToTrayScreen(
+                          context, 'Daily Fresh');
                     },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -335,7 +335,7 @@ class _PabilonaScreenState extends State<PabilonaScreen> {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      BuyNowScreen.showBuyNowScreen(context, 'Pabilona');
+                      BuyNowScreen.showBuyNowScreen(context, 'Daily Fresh');
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

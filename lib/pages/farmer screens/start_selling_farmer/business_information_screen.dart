@@ -1,9 +1,9 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/firebase/firestore_service.dart';
+import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:eggventure/screens/farmer_screens/main_farmer/profile_screen_farmer.dart';
+import 'package:eggventure/pages/farmer%20screens/main_farmer/profile_screen_farmer.dart';
 
 class BusinessInformationScreen extends StatefulWidget {
   final String shopName, email, address;
