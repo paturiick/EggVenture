@@ -1,4 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/pages/farmer%20screens/main_farmer/profile_screen_farmer.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firebase_options.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
           selectionHandleColor: AppColors.YELLOW
         )
       ),
-      home: SigninScreen()
+      home: HomeScreen()
     );
   }
 }
