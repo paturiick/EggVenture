@@ -1,6 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/firebase/firebase%20storage/firebase_profile_picture.dart';
-import 'package:eggventure/firebase/firestore_service.dart';
+import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
+import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/loading_screen.dart/shimmer_effect.dart';
 import 'package:flutter/material.dart';

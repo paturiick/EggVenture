@@ -1,5 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/screens/consumer_screens/login/signin_screen.dart';
+import 'package:eggventure/pages/consumer_screens/login/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
