@@ -3,6 +3,7 @@ import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/loading_screen.dart/shimmer_effect.dart';
+import 'package:eggventure/widgets/profile%20widget/share_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -18,6 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final FirestoreService _service = FirestoreService();
   final ChangeProfilePicture _changeProfilePicture = ChangeProfilePicture();
   final ShimmerEffect _shimmerEffect = ShimmerEffect();
+  final ShareProfile shareProfile = ShareProfile();
 
   bool _isLoading = true;
   bool _hasFetchedData = false;
@@ -27,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    if(!_hasFetchedData){
+    if (!_hasFetchedData) {
       getUserName();
     }
   }
@@ -67,6 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: AppColors.YELLOW,
             title: Text(
               'MANAGE PROFILE',
@@ -211,8 +214,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildProfileOption(context, 'Edit Profile', screenWidth),
-                    _buildProfileOption(context, 'Share Profile', screenWidth),
+                    _buildProfileOption(context, 'Edit Profile', screenWidth,
+                        () {
+                      //
+                    }),
+                    _buildProfileOption(context, 'Share Profile', screenWidth,
+                        () {
+                      shareProfile.showShareProfileDialog(
+                          context, 'https://www.exampledomain.com/${userName}', getUserName);
+                    }),
                   ],
                 ),
                 SizedBox(height: screenHeight * 0.02),
@@ -257,12 +267,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildProfileOption(
-      BuildContext context, String text, double screenWidth) {
+  Widget _buildProfileOption(BuildContext context, String text,
+      double screenWidth, VoidCallback onPressed) {
     return ElevatedButton(
-      onPressed: () {
-        // Handle button press action here
-      },
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         foregroundColor: AppColors.BLUE,
         backgroundColor: AppColors.YELLOW,
