@@ -7,7 +7,7 @@ import 'package:eggventure/pages/consumer_screens/main_consumer/home_screen.dart
 import 'package:eggventure/pages/consumer_screens/main_consumer/order_screen.dart';
 import 'package:eggventure/pages/consumer_screens/chat_consumer/chat_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/tray_screen.dart';
-import 'package:eggventure/pages/consumer_screens/main_consumer/profile_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class NavigationBarWidget extends StatefulWidget {
