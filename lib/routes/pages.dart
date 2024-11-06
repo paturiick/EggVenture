@@ -1,3 +1,4 @@
+import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/edit_profile_screen.dart';
 import 'package:eggventure/pages/search%20screens/home_search_screen.dart';
 import 'package:eggventure/pages/search%20screens/tray_search_screen.dart';
 import 'package:eggventure/routes/routes.dart';
@@ -70,6 +71,7 @@ class AppPages {
       AppRoutes.FORGOTPASSWORD: (context) => ForgotPasswordScreen(),
       AppRoutes.HOMESEARCH: (context) => HomeSearchScreen(),
       AppRoutes.TRAYSEARCH: (context) => TraySearchScreen(),
+      AppRoutes.EDITPROFILE: (context) => EditProfileScreen(),
     };
   }
 }

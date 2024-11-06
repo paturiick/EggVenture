@@ -32,4 +32,5 @@ class AppRoutes {
   static const FORGOTPASSWORD = '/forgot_password';
   static const HOMESEARCH = '/home-search';
   static const TRAYSEARCH = '/tray-search';
+  static const EDITPROFILE = '/edit-profile';
 }

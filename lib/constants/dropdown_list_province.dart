@@ -1,4 +1,4 @@
-class DropdownListDeliveryCheckout {
+class DropdownListProvince {
   final List<String> province = [
     'Agusan del Norte',
     'Agusan del Sur',

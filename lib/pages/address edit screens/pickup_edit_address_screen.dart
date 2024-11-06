@@ -1,5 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/constants/dropdown_list_delivery_checkout.dart';
+import 'package:eggventure/constants/dropdown_list_province.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class PickupEditInfoScreen extends StatefulWidget {
 
 class _PickupEditInfoScreenState extends State<PickupEditInfoScreen> {
   final _form = GlobalKey<FormState>();
-  final DropdownListDeliveryCheckout _province = DropdownListDeliveryCheckout();
+  final DropdownListProvince _province = DropdownListProvince();
   String? _selectedProvince;
 
   @override

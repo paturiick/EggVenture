@@ -1,5 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/constants/dropdown_list_delivery_checkout.dart';
+import 'package:eggventure/constants/dropdown_list_province.dart';
 import 'package:eggventure/models/user_info.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/providers/user_info_provider.dart';
@@ -14,7 +14,7 @@ class DeliveryEditInfoScreen extends StatefulWidget {
 
 class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
   final _form = GlobalKey<FormState>();
-  final DropdownListDeliveryCheckout _province = DropdownListDeliveryCheckout();
+  final DropdownListProvince _province = DropdownListProvince();
   String? _selectedProvince;
   String _firstName = '';
   String _lastName = '';
