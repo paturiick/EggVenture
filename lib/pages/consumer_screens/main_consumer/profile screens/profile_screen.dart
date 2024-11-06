@@ -216,12 +216,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     _buildProfileOption(context, 'Edit Profile', screenWidth,
                         () {
-                      //
+                      Navigator.pushNamed(context, AppRoutes.EDITPROFILE);
                     }),
                     _buildProfileOption(context, 'Share Profile', screenWidth,
                         () {
                       shareProfile.showShareProfileDialog(
-                          context, 'https://www.exampledomain.com/${userName}', getUserName);
+                          context,
+                          'https://www.exampledomain.com/${userName}',
+                          getUserName);
                     }),
                   ],
                 ),

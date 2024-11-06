@@ -28,7 +28,7 @@ class ShareProfile {
                   style: TextStyle(
                     fontSize: screenWidth * 0.05,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.BLUE
+                    color: AppColors.BLUE,
                   ),
                 ),
                 SizedBox(height: 20),
