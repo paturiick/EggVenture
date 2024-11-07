@@ -39,11 +39,12 @@ class ChangeProfilePicture {
       if (user == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('No user is signed in',
-            style: TextStyle(
-              color: AppColors.BLUE
-            ),),
-            backgroundColor: AppColors.YELLOW,),
+            content: Text(
+              'No user is signed in',
+              style: TextStyle(color: AppColors.BLUE),
+            ),
+            backgroundColor: AppColors.YELLOW,
+          ),
         );
         return;
       }
@@ -94,11 +95,12 @@ class ChangeProfilePicture {
       // Show a success message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Profile picture updated successfully',
-          style: TextStyle(
-            color: AppColors.BLUE
-          ),),
-          backgroundColor: AppColors.YELLOW,),
+          content: Text(
+            'Profile picture updated successfully',
+            style: TextStyle(color: AppColors.BLUE),
+          ),
+          backgroundColor: AppColors.YELLOW,
+        ),
       );
     } catch (e) {
       // Close the loading dialog if there is an error

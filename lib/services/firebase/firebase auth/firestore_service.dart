@@ -51,4 +51,20 @@ class FirestoreService {
     User? user = _auth.currentUser;
     return user?.uid ?? '';
   }
+
+  Future<void> updateUserField(
+      String userId, String fieldName, dynamic value) async {
+    try {
+      await dbFirestore
+          .collection('userDetails')
+          .doc(userId)
+          .update({fieldName: value});
+    } catch (e) {
+      print('Error updating user field: $e');
+    }
+  }
+
+  Stream<DocumentSnapshot> getUserProfileStream(String userId) {
+    return dbFirestore.collection('userDetails').doc(userId).snapshots();
+  }
 }

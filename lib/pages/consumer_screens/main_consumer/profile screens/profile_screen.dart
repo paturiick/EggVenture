@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -30,8 +31,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     if (!_hasFetchedData) {
-      getUserName();
+      _fetchUserProfile();
     }
+  }
+
+  Future<void> _fetchUserProfile() async {
+    await getUserName();
+    await loadProfilePictureUrl();
+    setState(() {
+      _isLoading = false;
+      _hasFetchedData = true;
+    });
   }
 
   Future<void> getUserName() async {
@@ -40,16 +50,114 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final userDetails = await _service.getBasedOnId('userDetails', uid);
       final firstName = userDetails['firstName'];
       final lastName = userDetails['lastName'];
-
-      setState(() {
-        userName = '$firstName $lastName';
-        _isLoading = false;
-        _hasFetchedData = true;
-      });
+      userName = '$firstName $lastName';
     } catch (e) {
       print('$e');
     }
   }
+
+  Future<void> saveProfilePictureUrl(String imageUrl) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('profileImageUrl', imageUrl);
+  }
+
+  Future<void> loadProfilePictureUrl() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      _uploadedImageUrl = preferences.getString('profileImageUrl');
+    });
+  }
+
+  Future<void> _updateProfilePicture() async {
+    await _changeProfilePicture.changeProfilePicture(context);
+    final newImageUrl = _changeProfilePicture.uploadedImageUrl;
+
+    if (newImageUrl != null) {
+      await saveProfilePictureUrl(newImageUrl); // Save new image URL in storage
+
+      // Update the UI with the new image
+      setState(() {
+        _uploadedImageUrl = newImageUrl;
+      });
+    } else {
+      // Display an error message if the profile picture fails to load
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.YELLOW,
+          content: Text(
+            "Failed to retrieve the new Profile Picture",
+            style: TextStyle(color: AppColors.BLUE),
+          ),
+        ),
+      );
+    }
+  }
+  Widget buildProfilePicture(double screenWidth) {
+    return Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        // Display the profile picture or a default icon
+        CircleAvatar(
+          radius: screenWidth * 0.15,
+          backgroundImage: _uploadedImageUrl != null
+              ? NetworkImage(
+                  _uploadedImageUrl!) // Show uploaded image if available
+              : null,
+          backgroundColor: Colors.grey[200],
+          child: _uploadedImageUrl == null
+              ? Icon(
+                  Icons.person,
+                  color: AppColors.BLUE,
+                  size: screenWidth * 0.1,
+                )
+              : null,
+        ),
+
+        // Edit icon to trigger profile picture update
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: GestureDetector(
+            onTap: () async {
+              await _changeProfilePicture.changeProfilePicture(context);
+              final newImageUrl = _changeProfilePicture.uploadedImageUrl;
+
+              // Update the profile picture if a new image is selected
+              if (newImageUrl != null) {
+                await saveProfilePictureUrl(newImageUrl);
+                setState(() {
+                  _uploadedImageUrl =
+                      newImageUrl; // Refresh UI with the new image URL
+                });
+              } else {
+                // Show error message if image upload fails
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: AppColors.YELLOW,
+                    content: Text(
+                      "Failed to retrieve the new Profile Picture",
+                      style: TextStyle(color: AppColors.BLUE),
+                    ),
+                  ),
+                );
+              }
+            },
+            child: CircleAvatar(
+              backgroundColor: AppColors.YELLOW,
+              radius: screenWidth * 0.05,
+              child: Icon(
+                Icons.edit,
+                color: AppColors.BLUE,
+                size: screenWidth * 0.04,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               'MANAGE PROFILE',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: screenWidth * 0.06, // Responsive font size
+                fontSize: screenWidth * 0.06,
                 color: AppColors.BLUE,
               ),
             ),
@@ -90,10 +198,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
           body: _isLoading
-              ? _shimmerEffect.buildShimmerEffect(screenWidth,
-                  screenHeight) // Display shimmer effect if loading
-              : _buildProfileContent(screenWidth,
-                  screenHeight), // Display profile content once loaded
+              ? _shimmerEffect.buildShimmerEffect(screenWidth, screenHeight)
+              : _buildProfileContent(screenWidth, screenHeight),
           bottomNavigationBar: NavigationBarWidget(currentIndex: 4),
         ),
       ),
@@ -147,33 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _uploadedImageUrl == null
-                        ? ElevatedButton(
-                            onPressed: () async {
-                              // Call the method to change the profile picture
-                              await _changeProfilePicture
-                                  .changeProfilePicture(context);
-                              // Update the state with the uploaded image URL
-                              setState(() {
-                                _uploadedImageUrl =
-                                    _changeProfilePicture.uploadedImageUrl;
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: CircleBorder(),
-                              backgroundColor: Colors.grey[200],
-                              padding: EdgeInsets.all(screenWidth * 0.1),
-                            ),
-                            child: Icon(
-                              Icons.add_a_photo,
-                              color: AppColors.BLUE,
-                              size: screenWidth * 0.1,
-                            ),
-                          )
-                        : CircleAvatar(
-                            radius: screenWidth * 0.15, // Adjust size as needed
-                            backgroundImage: NetworkImage(_uploadedImageUrl!),
-                          ),
+                    buildProfilePicture(screenWidth),
                     SizedBox(width: screenWidth * 0.05),
                     Expanded(
                       child: Column(
@@ -183,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             userName ?? '',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: screenWidth * 0.05, // Responsive
+                              fontSize: screenWidth * 0.05,
                               color: AppColors.BLUE,
                             ),
                           ),
@@ -193,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               return Icon(
                                 Icons.star_border,
                                 color: Colors.grey,
-                                size: screenWidth * 0.06, // Responsive size
+                                size: screenWidth * 0.06,
                               );
                             }),
                           ),
@@ -298,10 +378,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       BuildContext context, IconData icon, String text, double screenWidth,
       [VoidCallback? onPressed]) {
     return ElevatedButton(
-      onPressed: onPressed ??
-          () {
-            // Default action if no onPressed is provided
-          },
+      onPressed: onPressed ?? () {},
       style: ElevatedButton.styleFrom(
         foregroundColor: AppColors.BLUE,
         backgroundColor: Colors.white,
