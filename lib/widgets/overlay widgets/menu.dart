@@ -101,11 +101,11 @@ class MenuScreen {
         ),
         child: ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 100),
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 100.0),
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
           onPressed: () {

@@ -7,4 +7,5 @@ class StringConstants {
   static const String SHOPEMAIL = 'shopEmail';
   static const String ADDRESS = 'address';
   static const String USEREMAIL = 'userEmail';
+  static const String PROFILEIMAGEURL = 'profileImage';
 }

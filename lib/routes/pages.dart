@@ -49,7 +49,8 @@ class AppPages {
       AppRoutes.TRAYSCREEN: (context) => TrayScreen(),
       AppRoutes.PROFILESCREEN: (context) => ProfileScreen(),
       AppRoutes.BUSINESSINFO: (context) => BusinessInformationScreen(address: "address", email: "email", phoneNumber: 69, shopName: "shopName"),
-      AppRoutes.SHOPINFO: (context) => ShopInformationScreen(),
+      AppRoutes.SHOPINFO: (context) => ShopInformationScreen(
+            shopInformationId: 'shopInformationId',),
       AppRoutes.DELIVERYCHECKOUT: (context) => DeliveryCheckoutScreen(),
       AppRoutes.PICKUPCHECKOUT: (context) => PickupCheckoutScreen(),
       AppRoutes.PROFILESCREENREVIEW: (context) => ProfileScreenReview(),

@@ -1,6 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/widgets/button%20widgets/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:eggventure/pages/farmer%20screens/main_farmer/profile_screen_farmer.dart';
@@ -53,14 +54,10 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
         elevation: 0,
         centerTitle: true,
         actions: [
-          TextButton(
-            onPressed: () {
-              // Handle Save action
-            },
-            child: Text("Save",
-                style: TextStyle(
-                    color: AppColors.YELLOW, fontSize: screenWidth * 0.04)),
-          ),
+          SaveButton(
+            onPressed: (){
+              //
+            })
         ],
       ),
       body: SingleChildScrollView(
@@ -164,10 +161,10 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.upload_file,
-                                  size: screenWidth * 0.1, color: Colors.grey),
+                                  size: screenWidth * 0.1, color: Colors.grey[600]),
                               SizedBox(height: screenHeight * 0.01),
-                              Text("+Upload (0/1)",
-                                  style: TextStyle(color: Colors.grey)),
+                              Text("+ Upload (0/1)",
+                                  style: TextStyle(color: Colors.grey[600])),
                             ],
                           )
                         : Text(_fileName!,

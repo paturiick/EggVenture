@@ -1,14 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
+import 'package:eggventure/controller/save_info.dart';
+import 'package:eggventure/models/shop_info.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_shopinfo_profile.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/pages/farmer%20screens/start_selling_farmer/business_information_screen.dart';
-import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
+import 'package:eggventure/widgets/button%20widgets/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class ShopInformationScreen extends StatefulWidget {
+  final String shopInformationId;
+
+  ShopInformationScreen({required this.shopInformationId, Key? key})
+      : super(key: key);
+
   @override
   _ShopInformationScreenState createState() => _ShopInformationScreenState();
 }
@@ -20,12 +28,12 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   final _formKey = GlobalKey<FormState>();
   final FirebaseShopinfoProfile _firebaseShopinfoProfile =
       FirebaseShopinfoProfile();
+  final ImagePickerController _imagePickerController = ImagePickerController();
+  final SaveInfo _saveInfo = SaveInfo();
 
   String? _phoneNumber;
   String? _phoneError; // Variable to store phone number validation error
   String? _uploadImageUrl;
-
-  final ImagePickerController _imagePickerController = ImagePickerController();
   XFile? imageFile;
 
   void imageSelection(ImageSource source) async {
@@ -33,6 +41,12 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
     setState(() {
       imageFile = pickedFile;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadShopInfo();
   }
 
   @override
@@ -52,6 +66,45 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
       return 'Please enter a valid email address';
     }
     return null;
+  }
+
+  Future<void> _loadShopInfo() async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('shopInfo')
+          .doc(widget.shopInformationId)
+          .get();
+
+      if (snapshot.exists) {
+        final data = snapshot.data() as Map<String, dynamic>;
+        setState(() {
+          _shopNameController.text = data['shopName'] ?? '';
+          _emailController.text = data['shopEmail'] ?? '';
+          _pickupAddressController.text = data['address'] ?? '';
+          _phoneNumber = data['shopPhoneNumber']?.toString();
+          _uploadImageUrl = data['profileImageUrl'];
+        });
+      }
+    } catch (e) {
+      print("Failed to load Shop Info: ${e}");
+    }
+  }
+
+  void _saveShopInfo() async {
+    if (_formKey.currentState!.validate() && _phoneError == null) {
+      final shopInfo = ShopInfo(
+        shopName: _shopNameController.text.trim(),
+        shopEmail: _emailController.text.trim(),
+        address: _pickupAddressController.text.trim(),
+        shopPhoneNumber: int.tryParse(_phoneNumber ?? '') ?? 0,
+        profileImageUrl: _uploadImageUrl,
+      );
+
+      await _saveInfo.saveShopInfo(shopInfo, widget.shopInformationId, context);
+      setState(() {
+        _uploadImageUrl = shopInfo.profileImageUrl;
+      });
+    }
   }
 
   Widget _buildTextField(String label, TextEditingController controller,
@@ -129,7 +182,6 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
     );
   }
 
-
   Widget _stepCircle(bool isActive) {
     return CircleAvatar(
       radius: MediaQuery.of(context).size.width * 0.03,
@@ -168,23 +220,11 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
         elevation: 0,
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  // Logic for saving
-                }
-              },
-              child: Text(
-                'Save',
-                style: TextStyle(
-                  color: AppColors.YELLOW,
-                  fontWeight: FontWeight.bold,
-                  fontSize: screenWidth * 0.045,
-                ),
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: SaveButton(onPressed: () {
+                _saveShopInfo();
+                Navigator.pop(context);
+              })),
         ],
         iconTheme: IconThemeData(color: AppColors.BLUE),
       ),
