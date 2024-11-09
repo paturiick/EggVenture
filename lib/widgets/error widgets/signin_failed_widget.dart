@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:eggventure/constants/colors.dart';
 
 class SigninFailedWidget extends StatefulWidget {
+  final String errorMessage; // Error message as a parameter
+
+  // Constructor to accept the error message
+  const SigninFailedWidget({Key? key, required this.errorMessage}) : super(key: key);
+
   @override
   _SigninFailedWidgetState createState() => _SigninFailedWidgetState();
 }
@@ -60,7 +65,7 @@ class _SigninFailedWidgetState extends State<SigninFailedWidget> with SingleTick
             ),
             SizedBox(width: screenWidth * 0.01),
             Text(
-              "Sign-In Failed. Please try again.",
+              widget.errorMessage,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: screenWidth * 0.03,
@@ -90,7 +95,7 @@ void showSignInFailedOverlay(BuildContext context, String s) {
           left: MediaQuery.of(context).size.width * 0.05,
           right: MediaQuery.of(context).size.width * 0.05,
           child: Center(
-            child: SigninFailedWidget(),
+            child: SigninFailedWidget(errorMessage: s),
           ),
         ),
       ],

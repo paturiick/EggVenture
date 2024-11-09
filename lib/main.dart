@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
           selectionHandleColor: AppColors.YELLOW
         )
       ),
-      home: HomeScreen()
+      home: SigninScreen()
     );
   }
 }
