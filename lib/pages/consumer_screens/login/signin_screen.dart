@@ -344,8 +344,8 @@ class _SigninScreenState extends State<SigninScreen> {
                                         });
                                       } else {
                                         loginAttempts--;
-                                        signin.showSignInFailedOverlay(context,
-                                            'Invalid login credentials. Please try again.');
+                                        String errorMessage = _auth.errorMessage;
+                                        signin.showSignInFailedOverlay(context, errorMessage);
                                       }
                                     }
                                   }

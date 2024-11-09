@@ -9,6 +9,8 @@ import 'package:path/path.dart';
 class FirebaseAuthService {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late String errorMessage;
+
 
   void _showLoadingDialog(BuildContext context) {
     showDialog(
@@ -70,23 +72,42 @@ class FirebaseAuthService {
     }
   }
 
-  Future<User?> signIn(
-      BuildContext context, String email, String password) async {
-    try {
-      _showLoadingDialog(context); // Show loading indicator
+ Future<User?> signIn(BuildContext context, String email, String password) async {
+  try {
+    _showLoadingDialog(context); // Show loading indicator
 
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
 
-      Navigator.pop(context); // Dismiss the loading indicator on success
-      return userCredential.user;
-    } catch (e) {
-      Navigator.pop(context); // Dismiss the loading indicator on error
-      print(e);
-      return null;
+    Navigator.pop(context); // Dismiss the loading indicator on success
+    return userCredential.user;
+  } on FirebaseAuthException catch (e) {
+    Navigator.pop(context); // Dismiss the loading indicator on error
+
+
+    print('Email: $email, Password: $password');
+
+    if (e.code == 'wrong-password') {
+      errorMessage = 'The password you entered is incorrect. Please try again.';
+    } else if (e.code == 'invalid-email') {
+      errorMessage = 'Email address format is invalid.';
+    } else if (e.code == 'user-disabled') {
+      errorMessage = 'This account has been disabled';
+    } else if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
+      errorMessage = 'User does not exist with these credentials.';
+    } else if (e.code == 'operation-not-allowed') {
+      errorMessage = 'This type of sign-in is not enabled.';
+    } else {
+      errorMessage = 'An unexpected error occurred. Please try again or contact support if the issue persists.';
     }
+
+    return null; 
+  } catch (e) {
+    Navigator.pop(context); 
+    return null; 
+  }
   }
 
   Future<void> signOut() async {
