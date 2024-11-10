@@ -36,8 +36,8 @@ class ShareProfile {
                 GridView.count(
                   shrinkWrap: true,
                   crossAxisCount: 4,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
                   children: [
                     _buildPlatformIcon(Icons.facebook, "Facebook", Colors.blue,
                         context, profileLink),
@@ -57,23 +57,28 @@ class ShareProfile {
                   ),
                 ),
                 SizedBox(height: 10),
-                Row(
+                Column(
                   children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: Colors.grey),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            child: Text(
+                              profileLink,
+                              style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: screenWidth * 0.025),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ),
-                        child: Text(
-                          profileLink,
-                          style: TextStyle(color: Colors.grey[700]),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                      ],
                     ),
-                    SizedBox(width: 10),
                     TextButton(
                       onPressed: () {
                         Clipboard.setData(ClipboardData(text: profileLink));
@@ -84,10 +89,10 @@ class ShareProfile {
                           ),
                         );
                       },
-                      child: Text("Copy",
-                      style: TextStyle(
-                        color: AppColors.BLUE
-                      ),),
+                      child: Text(
+                        "Copy Link",
+                        style: TextStyle(color: AppColors.BLUE),
+                      ),
                     ),
                   ],
                 ),
@@ -127,13 +132,14 @@ class ShareProfile {
         children: [
           CircleAvatar(
             backgroundColor: color,
-            radius: 24,
+            radius: 15,
             child: Icon(icon, color: Colors.white, size: 24),
           ),
           SizedBox(height: 5),
           Text(
             platformName,
-            style: TextStyle(fontSize: 10),
+            style: TextStyle(fontSize: 10,
+            color: AppColors.BLUE),
             textAlign: TextAlign.center,
           ),
         ],
