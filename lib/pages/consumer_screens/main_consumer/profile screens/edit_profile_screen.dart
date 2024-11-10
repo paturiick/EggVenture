@@ -350,6 +350,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: screenHeight * 0.02,
                           ),
                           TextFormField(
+                            maxLength: 40,
                             style: TextStyle(
                               fontSize: screenWidth * 0.025,
                               color: AppColors.BLUE,
@@ -380,6 +381,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: screenHeight * 0.02,
                           ),
                           TextFormField(
+                            maxLength: 40,
                             style: TextStyle(
                               fontSize: screenWidth * 0.025,
                               color: AppColors.BLUE,

@@ -1,4 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/services/facebook/facebook_auth_service.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
@@ -6,6 +7,7 @@ import 'package:eggventure/widgets/loading_screen.dart/shimmer_effect.dart';
 import 'package:eggventure/widgets/profile%20widget/share_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
@@ -21,9 +23,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ChangeProfilePicture _changeProfilePicture = ChangeProfilePicture();
   final ShimmerEffect _shimmerEffect = ShimmerEffect();
   final ShareProfile shareProfile = ShareProfile();
+  final FacebookAuthService _facebookAuthService = FacebookAuthService();
 
   bool _isLoading = true;
   bool _hasFetchedData = false;
+  bool _isFacebookLogin = false;
+
   String? userName;
   String? _uploadedImageUrl;
 
@@ -36,11 +41,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _fetchUserProfile() async {
-    await getUserName();
-    await loadProfilePictureUrl();
+    if (_hasFetchedData) {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
+    final isFacebookLogin = await _facebookAuthService.isFacebookLoggedIn();
+
+    // Facebook login handling with `_isFacebookLogin` check
+    if (isFacebookLogin && !_isFacebookLogin) {
+      final facebookData =
+          await _facebookAuthService.loginWithFacebook(context);
+
+      if (facebookData != null) {
+        setState(() {
+          _isFacebookLogin = true;
+          userName = facebookData['name'];
+          _uploadedImageUrl = facebookData['picture']['data']['url'];
+        });
+      }
+    } else {
+      await getUserName();
+      await loadProfilePictureUrl();
+    }
+
     setState(() {
-      _isLoading = false;
-      _hasFetchedData = true;
+      _isLoading = false; // Stop loading screen
+      _hasFetchedData = true; // Set only after the fetch is complete
     });
   }
 
@@ -73,14 +102,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final newImageUrl = _changeProfilePicture.uploadedImageUrl;
 
     if (newImageUrl != null) {
-      await saveProfilePictureUrl(newImageUrl); // Save new image URL in storage
-
-      // Update the UI with the new image
+      await saveProfilePictureUrl(newImageUrl);
       setState(() {
         _uploadedImageUrl = newImageUrl;
       });
     } else {
-      // Display an error message if the profile picture fails to load
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.YELLOW,
@@ -92,6 +118,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
   }
+  
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+    ));
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: AppColors.YELLOW,
+            title: Text(
+              'MANAGE PROFILE',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: screenWidth * 0.06,
+                color: AppColors.BLUE,
+              ),
+            ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: Icon(Icons.menu, color: AppColors.BLUE),
+                onPressed: () {
+                  MenuScreen.showMenu(context);
+                },
+              ),
+            ],
+          ),
+          body: _isLoading
+              ? _shimmerEffect.buildShimmerEffect(screenWidth, screenHeight)
+              : _buildProfileContent(screenWidth, screenHeight),
+          bottomNavigationBar: NavigationBarWidget(currentIndex: 4),
+        ),
+      ),
+    );
+  }
+
   Widget buildProfilePicture(double screenWidth) {
     return Stack(
       alignment: Alignment.bottomRight,
@@ -154,55 +228,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ],
-    );
-  }
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,
-    ));
-
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
-      ),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: AppColors.YELLOW,
-            title: Text(
-              'MANAGE PROFILE',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: screenWidth * 0.06,
-                color: AppColors.BLUE,
-              ),
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.menu, color: AppColors.BLUE),
-                onPressed: () {
-                  MenuScreen.showMenu(context);
-                },
-              ),
-            ],
-          ),
-          body: _isLoading
-              ? _shimmerEffect.buildShimmerEffect(screenWidth, screenHeight)
-              : _buildProfileContent(screenWidth, screenHeight),
-          bottomNavigationBar: NavigationBarWidget(currentIndex: 4),
-        ),
-      ),
     );
   }
 
