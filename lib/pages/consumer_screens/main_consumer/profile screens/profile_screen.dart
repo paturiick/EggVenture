@@ -1,4 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/providers/edit_profile_provider.dart';
 import 'package:eggventure/services/facebook/facebook_auth_service.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -49,8 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     final isFacebookLogin = await _facebookAuthService.isFacebookLoggedIn();
-
-    // Facebook login handling with `_isFacebookLogin` check
     if (isFacebookLogin && !_isFacebookLogin) {
       final facebookData =
           await _facebookAuthService.loginWithFacebook(context);
@@ -85,6 +85,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> saveUserImageUrl(String imageUrl) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userImageUrl', imageUrl);
+  }
+
+  Future<String?> loadUserImageUrl() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userImageUrl');
+  }
+
   Future<void> saveProfilePictureUrl(String imageUrl) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('profileImageUrl', imageUrl);
@@ -101,12 +111,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await _changeProfilePicture.changeProfilePicture(context);
     final newImageUrl = _changeProfilePicture.uploadedImageUrl;
 
+    // Save and display the new profile picture if a new image is selected
     if (newImageUrl != null) {
-      await saveProfilePictureUrl(newImageUrl);
+      await saveUserImageUrl(newImageUrl); // Store the URL in SharedPreferences
       setState(() {
-        _uploadedImageUrl = newImageUrl;
+        _uploadedImageUrl =
+            newImageUrl; // Update the UI to reflect the new image
       });
     } else {
+      // Show error message if image upload fails
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.YELLOW,
@@ -118,6 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
   }
+
   
   @override
   Widget build(BuildContext context) {
@@ -167,69 +181,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildProfilePicture(double screenWidth) {
-    return Stack(
-      alignment: Alignment.bottomRight,
-      children: [
-        // Display the profile picture or a default icon
-        CircleAvatar(
-          radius: screenWidth * 0.15,
-          backgroundImage: _uploadedImageUrl != null
-              ? NetworkImage(
-                  _uploadedImageUrl!) // Show uploaded image if available
-              : null,
-          backgroundColor: Colors.grey[200],
-          child: _uploadedImageUrl == null
-              ? Icon(
-                  Icons.person,
-                  color: AppColors.BLUE,
-                  size: screenWidth * 0.1,
-                )
-              : null,
-        ),
+    return Consumer<EditProfileProvider>(
+      builder: (context, userImageProvider, child) {
+        return Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            // Display the profile picture from the provider or a default icon
+            CircleAvatar(
+              radius: screenWidth * 0.15,
+              backgroundImage: userImageProvider.imageUrl.isNotEmpty
+                  ? NetworkImage(userImageProvider.imageUrl)
+                  : null,
+              backgroundColor: Colors.grey[200],
+              child: userImageProvider.imageUrl.isEmpty
+                  ? Icon(
+                      Icons.person,
+                      color: AppColors.BLUE,
+                      size: screenWidth * 0.1,
+                    )
+                  : null,
+            ),
 
-        // Edit icon to trigger profile picture update
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: GestureDetector(
-            onTap: () async {
-              await _changeProfilePicture.changeProfilePicture(context);
-              final newImageUrl = _changeProfilePicture.uploadedImageUrl;
+            // Edit icon to trigger profile picture update
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: () async {
+                  await _changeProfilePicture.changeProfilePicture(context);
+                  final newImageUrl = _changeProfilePicture.uploadedImageUrl;
 
-              // Update the profile picture if a new image is selected
-              if (newImageUrl != null) {
-                await saveProfilePictureUrl(newImageUrl);
-                setState(() {
-                  _uploadedImageUrl =
-                      newImageUrl; // Refresh UI with the new image URL
-                });
-              } else {
-                // Show error message if image upload fails
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: AppColors.YELLOW,
-                    content: Text(
-                      "Failed to retrieve the new Profile Picture",
-                      style: TextStyle(color: AppColors.BLUE),
-                    ),
+                  // Update both the provider and UI with the new image URL
+                  if (newImageUrl != null) {
+                    await saveProfilePictureUrl(newImageUrl);
+                    userImageProvider
+                        .updateImageUrl(newImageUrl); // Update provider
+                    setState(() {
+                      _uploadedImageUrl = newImageUrl;
+                    });
+                  } else {
+                    // Show error message if image upload fails
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: AppColors.YELLOW,
+                        content: Text(
+                          "Failed to retrieve the new Profile Picture",
+                          style: TextStyle(color: AppColors.BLUE),
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: CircleAvatar(
+                  backgroundColor: AppColors.YELLOW,
+                  radius: screenWidth * 0.05,
+                  child: Icon(
+                    Icons.edit,
+                    color: AppColors.BLUE,
+                    size: screenWidth * 0.04,
                   ),
-                );
-              }
-            },
-            child: CircleAvatar(
-              backgroundColor: AppColors.YELLOW,
-              radius: screenWidth * 0.05,
-              child: Icon(
-                Icons.edit,
-                color: AppColors.BLUE,
-                size: screenWidth * 0.04,
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
+
 
   Widget _buildProfileContent(double screenWidth, double screenHeight) {
     return Stack(

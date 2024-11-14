@@ -4,6 +4,7 @@ import 'package:eggventure/models/user_info.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/providers/user_info_provider.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/widgets/confirmation/save_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,25 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
   String _cityAddress = '';
   String _provinceAddress = '';
   String _additionalInfo = '';
+
+  @override
+  void initState() {
+    super.initState();
+    final userProvider = Provider.of<UserInfoProvider>(context, listen: false);
+
+    final storedUserInfo = userProvider.getUserInfo();
+
+    setState(() {
+      _firstName = storedUserInfo.firstName;
+      _lastName = storedUserInfo.lastName;
+      _streetAddress = storedUserInfo.streetAddress;
+      _barangayAddress = storedUserInfo.barangayAddress;
+      _cityAddress = storedUserInfo.cityAddress;
+      _provinceAddress = storedUserInfo.provinceAddress;
+      _additionalInfo = storedUserInfo.additionalInfo;
+      _selectedProvince = _provinceAddress.isNotEmpty ? _provinceAddress : null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -298,6 +318,9 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                               additionalInfo: _additionalInfo);
                           Provider.of<UserInfoProvider>(context, listen: false)
                               .updateUserInfo(newUserInfo);
+
+                          showSaveConfirmation(context);
+
                           Navigator.pushNamed(
                               context, AppRoutes.DELIVERYCHECKOUT);
                         }

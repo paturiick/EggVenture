@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/constants/dropdown_list_province.dart';
+import 'package:eggventure/providers/edit_profile_provider.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
 import 'package:eggventure/widgets/loading_screen.dart/shimmer_effect.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   @override
@@ -89,6 +91,71 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  
+  Widget buildProfilePicture(double screenWidth) {
+    return Consumer<EditProfileProvider>(
+      builder: (context, userImageProvider, child) {
+        return Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            CircleAvatar(
+              radius: screenWidth * 0.15,
+              backgroundImage: userImageProvider.imageUrl.isNotEmpty
+                  ? NetworkImage(userImageProvider.imageUrl)
+                  : null,
+              backgroundColor: Colors.grey[200],
+              child: userImageProvider.imageUrl.isEmpty
+                  ? Icon(
+                      Icons.person,
+                      color: AppColors.BLUE,
+                      size: screenWidth * 0.1,
+                    )
+                  : null,
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: () async {
+                  await changeProfilePicture.changeProfilePicture(context);
+                  final newImageUrl = changeProfilePicture.uploadedImageUrl;
+
+                  if (newImageUrl != null) {
+                    await saveProfilePicture(newImageUrl);
+                    userImageProvider
+                        .updateImageUrl(newImageUrl); // Update provider
+                    setState(() {
+                      // Update UI
+                    });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: AppColors.YELLOW,
+                        content: Text(
+                          "Failed to retrieve the new Profile Picture",
+                          style: TextStyle(color: AppColors.BLUE),
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: screenWidth * 0.05,
+                  child: Icon(
+                    Icons.edit,
+                    color: AppColors.BLUE,
+                    size: screenWidth * 0.04,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -157,89 +224,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.05),
-                    // Profile Picture
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              uploadImageUrl == null
-                                  ? ElevatedButton(
-                                      onPressed: () async {
-                                        await changeProfilePicture.changeProfilePicture(context);
-                                        final newImageUrl = changeProfilePicture.uploadedImageUrl;
-                                        if (newImageUrl != null) {
-                                          await saveProfilePicture(newImageUrl);
-                                          setState(() {
-                                            uploadImageUrl = newImageUrl;
-                                          });
-                                        } else {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              backgroundColor: AppColors.YELLOW,
-                                              content: Text(
-                                                "Failed to retrieve the new Profile Picture",
-                                                style: TextStyle(color: AppColors.BLUE),
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        shape: CircleBorder(),
-                                        backgroundColor: Colors.grey[200],
-                                        padding: EdgeInsets.all(screenWidth * 0.1),
-                                      ),
-                                      child: Icon(
-                                        Icons.person,
-                                        color: AppColors.BLUE,
-                                        size: screenWidth * 0.1,
-                                      ),
-                                    )
-                                  : CircleAvatar(
-                                      radius: screenWidth * 0.15,
-                                      backgroundImage: NetworkImage(uploadImageUrl),
-                                    ),
-                              if (uploadImageUrl != null)
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      await changeProfilePicture.changeProfilePicture(context);
-                                      final newImageUrl = changeProfilePicture.uploadedImageUrl;
-                                      if (newImageUrl != null) {
-                                        await saveProfilePicture(newImageUrl);
-                                      }
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(0.15),
-                                            blurRadius: 5,
-                                          ),
-                                        ],
-                                      ),
-                                      padding: EdgeInsets.all(screenWidth * 0.02),
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: AppColors.BLUE,
-                                        size: screenWidth * 0.05,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    buildProfilePicture(screenWidth),
                     SizedBox(
                       height: screenHeight * 0.02,
                     ),
@@ -456,3 +441,4 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
+
