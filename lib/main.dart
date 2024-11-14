@@ -1,6 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/pages/farmer%20screens/main_farmer/profile_screen_farmer.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
+import 'package:eggventure/providers/edit_profile_provider.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firebase_options.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/providers/user_info_provider.dart';
@@ -33,7 +34,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => AddToTrayProvider()),
         ChangeNotifierProvider(create: (_) => BuyNowProvider()),
-        ChangeNotifierProvider(create: (_) => UserInfoProvider())
+        ChangeNotifierProvider(create: (_) => UserInfoProvider()),
+        ChangeNotifierProvider(create: (_) => EditProfileProvider())
       ],
       child: MyApp(),));
 }

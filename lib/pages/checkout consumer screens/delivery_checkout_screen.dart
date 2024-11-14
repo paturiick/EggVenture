@@ -154,7 +154,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                           ),
                           trailing: TextButton(
                             onPressed: () {
-                              Navigator.pushReplacementNamed(
+                              Navigator.pushNamed(
                                   context, AppRoutes.DELIVERYEDITINFO);
                             },
                             child: Text(
