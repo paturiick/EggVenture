@@ -1,6 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/chat_controller.dart';
-import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;

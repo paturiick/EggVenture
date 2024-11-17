@@ -8,7 +8,6 @@ import 'package:eggventure/widgets/loading_screen.dart/shimmer_effect.dart';
 import 'package:eggventure/widgets/profile%20widget/share_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';

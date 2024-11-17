@@ -3,7 +3,6 @@ import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
-import 'package:eggventure/pages/consumer_screens/main_consumer/tray_screen.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';

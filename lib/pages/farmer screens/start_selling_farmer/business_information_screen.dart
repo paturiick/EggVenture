@@ -4,7 +4,6 @@ import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/button%20widgets/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:eggventure/pages/farmer%20screens/main_farmer/profile_screen_farmer.dart';
 
 class BusinessInformationScreen extends StatefulWidget {
   final String shopName, email, address;

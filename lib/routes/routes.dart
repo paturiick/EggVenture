@@ -33,4 +33,7 @@ class AppRoutes {
   static const HOMESEARCH = '/home-search';
   static const TRAYSEARCH = '/tray-search';
   static const EDITPROFILE = '/edit-profile';
+  static const PROCESSING = '/to-process';
+  static const REVIEW = '/to-review';
+  static const PAYMENT = '/to-pay';
 }

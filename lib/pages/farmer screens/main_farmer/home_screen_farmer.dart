@@ -1,7 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class HomeScreenFarmer extends StatefulWidget {
   const HomeScreenFarmer({Key? key}) : super(key: key);

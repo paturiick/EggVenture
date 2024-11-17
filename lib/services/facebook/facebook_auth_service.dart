@@ -34,6 +34,7 @@ class FacebookAuthService {
             style: TextStyle(color: AppColors.BLUE),
           )));
     }
+    return null;
   }
 
   Future<Map<String, dynamic>?> fetchUserFacebook(BuildContext context) async {

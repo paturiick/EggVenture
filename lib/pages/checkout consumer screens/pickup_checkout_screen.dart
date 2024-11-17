@@ -1,6 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/pages/address%20edit%20screens/pickup_edit_address_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';

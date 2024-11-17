@@ -1,9 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/constants/dropdown_list_province.dart';
-import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PickupEditInfoScreen extends StatefulWidget {
   @override

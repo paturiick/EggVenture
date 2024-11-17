@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:eggventure/constants/colors.dart';
 
 class SigninFailedWidget extends StatefulWidget {
-  final String errorMessage; // Error message as a parameter
+  final String message;
+  final Duration duration;
 
-  // Constructor to accept the error message
-  const SigninFailedWidget({Key? key, required this.errorMessage}) : super(key: key);
+  const SigninFailedWidget({
+    Key? key,
+    required this.message,
+    this.duration = const Duration(seconds: 3),
+  }) : super(key: key);
 
   @override
   _SigninFailedWidgetState createState() => _SigninFailedWidgetState();
 }
 
-class _SigninFailedWidgetState extends State<SigninFailedWidget> with SingleTickerProviderStateMixin {
+class _SigninFailedWidgetState extends State<SigninFailedWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
 
@@ -19,20 +24,26 @@ class _SigninFailedWidgetState extends State<SigninFailedWidget> with SingleTick
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 100),
       vsync: this,
     );
 
     _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, -1.0),
+      begin: const Offset(0.0, 1.0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     ));
 
-    // Start the animation
+    // Start the slide-in animation
     _controller.forward();
+
+    // Auto-dismiss after the specified duration
+    Future.delayed(widget.duration, () {
+      if (mounted)
+        _controller.reverse().then((_) => Navigator.of(context).pop());
+    });
   }
 
   @override
@@ -46,32 +57,42 @@ class _SigninFailedWidgetState extends State<SigninFailedWidget> with SingleTick
     final screenWidth = MediaQuery.of(context).size.width;
 
     return SlideTransition(
-      position: _offsetAnimation, // Slide animation
+      position: _offsetAnimation,
       child: Container(
-        margin: EdgeInsets.only(top: 5),
-        padding:
-            EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
           color: AppColors.RED,
           borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 6,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.error_outline_outlined,
               size: screenWidth * 0.05,
               color: Colors.white,
             ),
-            SizedBox(width: screenWidth * 0.01),
-            Text(
-              widget.errorMessage,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: screenWidth * 0.03,
-                decoration: TextDecoration.none,
+            SizedBox(width: screenWidth * 0.02),
+            Expanded(
+              child: Text(
+                widget.message,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: screenWidth * 0.035,
+                  decoration: TextDecoration.none,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -79,34 +100,18 @@ class _SigninFailedWidgetState extends State<SigninFailedWidget> with SingleTick
   }
 }
 
-OverlayEntry? _currentSignInFailedOverlay;
-
-void showSignInFailedOverlay(BuildContext context, String s) {
-  if (_currentSignInFailedOverlay != null) {
-    return; // If an overlay is already being shown, do nothing
-  }
-
-  OverlayState overlayState = Overlay.of(context)!;
-  _currentSignInFailedOverlay = OverlayEntry(
-    builder: (context) => Stack(
-      children: [
-        Positioned(
-          top: MediaQuery.of(context).size.height * 0.05,
-          left: MediaQuery.of(context).size.width * 0.05,
-          right: MediaQuery.of(context).size.width * 0.05,
-          child: Center(
-            child: SigninFailedWidget(errorMessage: s),
-          ),
+// Function to show the FloatingSnackbar
+void showFloatingSnackbar(BuildContext context, String message) {
+  Navigator.of(context).push(
+    PageRouteBuilder(
+      opaque: false,
+      pageBuilder: (context, animation, secondaryAnimation) => Material(
+        color: Colors.transparent,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: SigninFailedWidget(message: message),
         ),
-      ],
+      ),
     ),
   );
-
-  // Insert the overlay entry
-  overlayState.insert(_currentSignInFailedOverlay!);
-
-  Future.delayed(Duration(milliseconds: 900), () {
-    _currentSignInFailedOverlay?.remove();
-    _currentSignInFailedOverlay = null;
-  });
 }

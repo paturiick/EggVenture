@@ -1,4 +1,6 @@
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/edit_profile_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/processing_screen.dart';
+import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/to_pay_screen.dart';
 import 'package:eggventure/pages/search%20screens/home_search_screen.dart';
 import 'package:eggventure/pages/search%20screens/tray_search_screen.dart';
 import 'package:eggventure/routes/routes.dart';
@@ -31,9 +33,6 @@ import 'package:eggventure/pages/store%20screens/pelonio_screen.dart';
 import 'package:eggventure/pages/store%20screens/sundo_screen.dart';
 import 'package:eggventure/pages/store%20screens/vista_screen.dart';
 import 'package:eggventure/pages/store%20screens/white_feathers_screen.dart';
-import 'package:eggventure/widgets/add%20to%20tray%20widgets/clear_tray_items.dart';
-import 'package:eggventure/widgets/profile%20widget/share_profile.dart';
-import 'package:eggventure/widgets/terms%20&%20conditions/terms_conditions.dart';
 import 'package:flutter/material.dart';
 
 class AppPages {
@@ -73,6 +72,9 @@ class AppPages {
       AppRoutes.HOMESEARCH: (context) => HomeSearchScreen(),
       AppRoutes.TRAYSEARCH: (context) => TraySearchScreen(),
       AppRoutes.EDITPROFILE: (context) => EditProfileScreen(),
+      AppRoutes.PROCESSING: (context) => ProcessingScreen(),
+      AppRoutes.PAYMENT: (context) => ToPayScreen(),
+      AppRoutes.REVIEW: (context) => ProfileScreenReview(),
     };
   }
 }

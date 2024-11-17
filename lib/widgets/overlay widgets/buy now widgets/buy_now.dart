@@ -1,14 +1,11 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
-import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/widgets/error%20widgets/error_to_add_widget.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/checkbox_item_widget.dart';
 import 'package:eggventure/widgets/error%20widgets/error_to_buy_widget.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:eggventure/models/tray_item.dart';
-import 'package:eggventure/providers/add_to_tray_provider.dart';
 
 class BuyNowScreen {
   static void showBuyNowScreen(BuildContext context, String screenId) {

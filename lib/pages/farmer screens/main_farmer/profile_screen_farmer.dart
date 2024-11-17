@@ -2,7 +2,6 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/profile_screen.dart';
 import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:eggventure/widgets/profile%20widget/share_profile.dart';
 import 'package:flutter/material.dart';

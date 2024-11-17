@@ -28,18 +28,20 @@ void startLockoutTimer(BuildContext context, [VoidCallback? onTimerEnd]) {
 
 void showLockoutOverlay(BuildContext context, String message,
     {TextStyle? textStyle}) {
-  if (_isOverlayVisible)
-    return; // If an overlay is already being shown, do nothing
+  if (_isOverlayVisible) return; // Prevent multiple overlays
 
   final overlayState = Overlay.of(context);
-  if (overlayState == null) return;
 
   _currentLockoutOverlay = OverlayEntry(
-    builder: (context) => Positioned(
-      top: MediaQuery.of(context).size.height * 0.05,
-      left: MediaQuery.of(context).size.width * 0.05,
-      right: MediaQuery.of(context).size.width * 0.05,
-      child: SlideTransitionOverlay(message: message, textStyle: textStyle),
+    builder: (context) => Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        child: SlideTransitionOverlay(
+          message: message,
+          textStyle: textStyle,
+        ),
+      ),
     ),
   );
 
@@ -47,7 +49,7 @@ void showLockoutOverlay(BuildContext context, String message,
   _isOverlayVisible = true;
 
   // Remove overlay after a delay
-  Future.delayed(const Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 3), () {
     _currentLockoutOverlay?.remove();
     _currentLockoutOverlay = null;
     _isOverlayVisible = false;
@@ -82,7 +84,7 @@ class _SlideTransitionOverlayState extends State<SlideTransitionOverlay>
     );
 
     _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, -1.0),
+      begin: const Offset(0.0, 1.0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _controller,
@@ -101,50 +103,48 @@ class _SlideTransitionOverlayState extends State<SlideTransitionOverlay>
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return SlideTransition(
       position: _offsetAnimation,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.RED,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline_outlined,
-                  color: Colors.white,
-                  size: screenWidth * 0.03,
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: AppColors.RED,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 6,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.error_outline_outlined,
+                color: Colors.white,
+                size: screenWidth * 0.05,
+              ),
+              SizedBox(width: screenWidth * 0.03),
+              Expanded(
+                child: Text(
+                  widget.message,
+                  style: widget.textStyle ??
+                      TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.035,
+                        decoration: TextDecoration.none,
+                      ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
-                SizedBox(width: screenWidth * 0.02,),
-                Text(
-                  "Timed Out",
-                  style: TextStyle(
-                      fontSize: screenWidth * 0.02,
-                      color: Colors.white,
-                      decoration: TextDecoration.none),
-                )
-              ],
-            ),
-            SizedBox(
-              height: screenHeight * 0.01,
-            ),
-            Text(
-              widget.message,
-              style: widget.textStyle ??
-                  TextStyle(
-                    color: Colors.white,
-                    fontSize: screenWidth * 0.025,
-                    decoration: TextDecoration.none,
-                  ),
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
