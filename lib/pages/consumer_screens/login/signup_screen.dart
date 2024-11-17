@@ -1,7 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/signup_controller.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firebase_auth_service.dart';
-import 'package:eggventure/pages/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/pages/consumer_screens/login/signin_screen.dart';
 import 'package:eggventure/pages/consumer_screens/login/welcome_screen.dart';
 import 'package:eggventure/widgets/terms%20&%20conditions/terms_conditions.dart';
@@ -425,7 +424,6 @@ class _SignupScreenState extends State<SignupScreen> {
             _attemptedSignUp = true;
             _isLoading = true; // Start loading indicator
           });
-
           if (_formKey.currentState!.validate()) {
             try {
               final emailString = _signupController.emailController.text.trim();

@@ -1,6 +1,4 @@
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/pages/consumer_screens/main_consumer/home_screen.dart';
-import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 class HomeSearchScreen extends StatelessWidget {

@@ -1,7 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/pages/checkout%20consumer%20screens/delivery_checkout_screen.dart';
-import 'package:eggventure/pages/checkout%20consumer%20screens/pickup_checkout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

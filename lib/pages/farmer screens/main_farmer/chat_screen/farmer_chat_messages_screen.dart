@@ -1,6 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

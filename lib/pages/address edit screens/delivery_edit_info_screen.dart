@@ -1,7 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/constants/dropdown_list_province.dart';
 import 'package:eggventure/models/user_info.dart';
-import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/providers/user_info_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/confirmation/save_confirmation.dart';

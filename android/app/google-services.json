@@ -12,7 +12,20 @@
           "package_name": "com.example.eggventure"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "192163738046-e8ovq51ineh3kc6b8r0nretbfknu0k62.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eggventure",
+            "certificate_hash": "5fc7aaed48ad61f46337cdc6f372218294b83080"
+          }
+        },
+        {
+          "client_id": "192163738046-9l3jkmh9p8kdnaca8ogodk3c9d3kf72q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBRqRMZj0eQwkG72Zzza3niQSFwvGG3y24"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192163738046-9l3jkmh9p8kdnaca8ogodk3c9d3kf72q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "192163738046-s9cvo6h4hcfhj3075oajc8qq0dj79tu1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eggventure"
+              }
+            }
+          ]
         }
       }
     }

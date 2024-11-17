@@ -1,6 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
-import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/pickup_delivery.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

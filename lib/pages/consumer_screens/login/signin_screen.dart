@@ -345,7 +345,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                       } else {
                                         loginAttempts--;
                                         String errorMessage = _auth.errorMessage;
-                                        signin.showSignInFailedOverlay(context, errorMessage);
+                                        signin.showFloatingSnackbar(context, errorMessage);
                                       }
                                     }
                                   }
