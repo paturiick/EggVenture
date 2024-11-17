@@ -37,7 +37,9 @@ class FirebaseAuthService {
           lastName: lastName,
           firstName: firstName,
           userPhoneNumber: userPhoneNumber,
-          userEmail: userEmail);
+          userEmail: userEmail,
+          isSeller: false
+      );
 
       final uid = getCurrentUserId();
 

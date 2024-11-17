@@ -8,4 +8,5 @@ class StringConstants {
   static const String ADDRESS = 'address';
   static const String USEREMAIL = 'userEmail';
   static const String PROFILEIMAGEURL = 'profileImage';
+  static const String ISSELLER = 'isSeller';
 }

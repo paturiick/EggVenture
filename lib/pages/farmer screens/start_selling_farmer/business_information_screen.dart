@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
@@ -235,6 +236,12 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                   ElevatedButton(
                     onPressed: () async {
                       try {
+                        final String uid = _service.getCurrentUserId();
+                        await FirebaseFirestore.instance
+                          .collection('userDetails')
+                          .doc(uid)
+                          .update({'isSeller': true});
+
                         await _service.submitBusiness(widget.shopName,
                             widget.email, widget.address, widget.shopName);
                         debugPrint('Button clicked');
