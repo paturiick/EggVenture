@@ -3,6 +3,7 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/constants/dropdown_list_province.dart';
 import 'package:eggventure/controller/edit_profile_name_controller.dart';
 import 'package:eggventure/providers/edit_profile_provider.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -120,7 +121,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
     }
   }
-
 
   Future<void> saveProfilePicture(String newImageUrl) async {
     final uid = _service.getCurrentUserId();
@@ -270,18 +270,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ],
                             ),
                             child: AppBar(
+                              automaticallyImplyLeading: false,
                               backgroundColor: Colors.white,
                               elevation: 0,
-                              leading: IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: Icon(
-                                  Icons.arrow_back,
-                                  color: AppColors.BLUE,
-                                  size: screenWidth * 0.05,
-                                ),
-                              ),
                               title: Text(
                                 "Edit Profile",
                                 style: TextStyle(
@@ -506,29 +497,56 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(height: screenHeight * 0.05,),
-                          Row(
-                            children: [
-                              Spacer(),
-                              ElevatedButton(
-                                onPressed: saveUserName,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.YELLOW,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                          SizedBox(
+                            height: screenHeight * 0.05,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, AppRoutes.PROFILESCREEN);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 24.0),
+                                    child: Text("Back",
+                                        style: TextStyle(
+                                            fontSize: screenWidth * 0.04,
+                                            color: AppColors.BLUE)),
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 12.0, horizontal: 24.0),
-                                  child: Text("Save",
-                                      style: TextStyle(
-                                          fontSize: screenWidth * 0.04,
-                                          color: AppColors.BLUE)),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    saveUserName();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.YELLOW,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 24.0),
+                                    child: Text("Save",
+                                        style: TextStyle(
+                                            fontSize: screenWidth * 0.04,
+                                            color: AppColors.BLUE)),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     );

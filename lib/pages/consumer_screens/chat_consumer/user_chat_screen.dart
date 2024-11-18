@@ -83,7 +83,6 @@ class _UserChatScreenState extends State<UserChatScreen> {
                           textCapitalization: TextCapitalization.sentences,
                           style: TextStyle(color: AppColors.BLUE),
                           minLines: 1,
-                          maxLines: null,
                           decoration: InputDecoration(
                             hintText: "Type a message...",
                             border: InputBorder.none,

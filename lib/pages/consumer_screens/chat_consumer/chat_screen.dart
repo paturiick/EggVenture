@@ -1,4 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/controller/chat_controller.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:icons_plus/icons_plus.dart';
 class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final latestMessage = ChatController.getLatestMessage();
+
     // Get screen dimensions
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -14,6 +17,7 @@ class ChatScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: AppColors.YELLOW,
           title: Text(
             'CHATS',
@@ -77,7 +81,8 @@ class ChatScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: screenWidth * 0.06,
-                      backgroundImage: AssetImage("assets/stores/white_feathers.jpg"),
+                      backgroundImage:
+                          AssetImage("assets/stores/white_feathers.jpg"),
                       backgroundColor: Colors.grey[200],
                     ),
                     SizedBox(
@@ -88,20 +93,18 @@ class ChatScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
-                              bottom: screenWidth * 0.02),
+                          padding: EdgeInsets.only(bottom: screenWidth * 0.02),
                           child: Text(
                             "White Feathers Farm",
                             style: TextStyle(
                               color: AppColors.BLUE,
-                              fontSize:
-                                  screenWidth * 0.05,
+                              fontSize: screenWidth * 0.05,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                         Text(
-                          "Last Message should pop up here",
+                          "You: ${ChatController.getLatestMessage()}",
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             color: Colors.grey[600],
