@@ -1,11 +1,15 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/add_product_controller.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
+import 'package:eggventure/models/product.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../services/firebase/firebase auth/firestore_service.dart';
 
 class AddProductScreenFarmer extends StatefulWidget {
   @override
@@ -17,6 +21,8 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
 
   final ImagePickerController _imagePickerController = ImagePickerController();
   XFile? imageFile;
+
+  final FirestoreService _firestoreService = FirestoreService();
 
   void imageSelection(ImageSource source) async{
     final XFile? pickedFile = await _imagePickerController.pickImage(source);
@@ -176,8 +182,22 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
                   ),
                   SizedBox(height: screenHeight * 0.02),
                   ElevatedButton(
-                    onPressed: () {
-                      // Logic for Save and Publish
+                    onPressed: () async {
+                      final productNameString = _controllers.productNameController.text.trim(); 
+                      final productDescriptionString = _controllers.productDescriptionController.text.trim();
+                      final sizeString = _controllers.sizeController.text.trim();
+                      final eggTypeString = _controllers.eggTypeController.text.trim();
+
+                      final product = Product(
+                        productName: productNameString,
+                        productDescription: productDescriptionString,
+                        size: sizeString,
+                        eggType: eggTypeString,
+                      );
+
+                      await _firestoreService.addProduct(product.toMap());
+
+                      Navigator.pushNamed(context, AppRoutes.HOMEFARMER);
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(screenWidth * 0.4, screenHeight * 0.07),
