@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/edit_profile_provider.dart';
 import 'package:eggventure/services/facebook/facebook_auth_service.dart';
+import 'package:eggventure/services/firebase/firebase%20auth/firebase_auth_service.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
@@ -256,8 +259,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           top: screenHeight * 0.01,
           right: screenWidth * 0.05,
           child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.SHOPINFO);
+            onPressed: () async {
+              debugPrint('button clicked');
+              final String uid = _service.getCurrentUserId();
+              final userDetails = await _service.getBasedOnId('userDetails', uid);
+
+              userDetails['isSeller'] ? Navigator.pushNamed(context, AppRoutes.HOMEFARMER) : Navigator.pushNamed(context, AppRoutes.SHOPINFO);
+              
             },
             icon: Image.asset(
               "assets/icons/start_selling.png",
