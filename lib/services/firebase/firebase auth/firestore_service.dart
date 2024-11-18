@@ -10,6 +10,14 @@ class FirestoreService {
     return await dbFirestore.collection(collectionName).doc(uid).set(data);
   }
 
+  Future<void> _create(String collectionPath, Map<String, dynamic> data) async {
+    await dbFirestore.collection(collectionPath).add(data);
+  }
+
+  Future<void> _createSubCollection(String collectionpath, String subCollectionPath, Map<String, dynamic> data, String uid) async {
+    await dbFirestore.collection(collectionpath).doc(uid).collection(subCollectionPath).add(data);
+  }
+
   Future<QuerySnapshot> _get(String collectionName) async{
     return await dbFirestore.collection(collectionName).get();
   }
@@ -17,6 +25,7 @@ class FirestoreService {
   Future<DocumentSnapshot> getBasedOnId(String collectionName, String userId) async {
       return await dbFirestore.collection(collectionName).doc(userId).get();
   }
+
 
   Future<void> fetchUsers() async {
     try {
@@ -66,5 +75,10 @@ class FirestoreService {
 
   Stream<DocumentSnapshot> getUserProfileStream(String userId) {
     return dbFirestore.collection('userDetails').doc(userId).snapshots();
+  }
+
+  Future<void> addProduct(Map<String, dynamic> data) async {
+    final uid = getCurrentUserId();
+    await _createSubCollection('businessDetails', 'products', data, uid);
   }
 }
