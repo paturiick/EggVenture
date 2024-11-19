@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
-import 'package:eggventure/controller/save_info.dart';
-import 'package:eggventure/models/shop_info.dart';
+import 'package:eggventure/models/shop_info_details.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_shopinfo_profile.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/pages/farmer%20screens/start_selling_farmer/business_information_screen.dart';
-import 'package:eggventure/widgets/button%20widgets/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -29,7 +26,6 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   final FirebaseShopinfoProfile _firebaseShopinfoProfile =
       FirebaseShopinfoProfile();
   final ImagePickerController _imagePickerController = ImagePickerController();
-  final SaveInfo _saveInfo = SaveInfo();
 
   String? _phoneNumber;
   String? _phoneError; // Variable to store phone number validation error
@@ -46,7 +42,7 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   @override
   void initState() {
     super.initState();
-    _loadShopInfo();
+    _loadSavedDetails();
   }
 
   @override
@@ -68,43 +64,17 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
     return null;
   }
 
-  Future<void> _loadShopInfo() async {
-    try {
-      DocumentSnapshot snapshot = await FirebaseFirestore.instance
-          .collection('shopInfo')
-          .doc(widget.shopInformationId)
-          .get();
-
-      if (snapshot.exists) {
-        final data = snapshot.data() as Map<String, dynamic>;
-        setState(() {
-          _shopNameController.text = data['shopName'] ?? '';
-          _emailController.text = data['shopEmail'] ?? '';
-          _pickupAddressController.text = data['address'] ?? '';
-          _phoneNumber = data['shopPhoneNumber']?.toString();
-          _uploadImageUrl = data['profileImageUrl'];
-        });
-      }
-    } catch (e) {
-      print("Failed to load Shop Info: ${e}");
-    }
+  void _loadSavedDetails() {
+    final details = ShopInfoDetails.getDetails();
+    _shopNameController.text = details['shopName'] ?? '';
+    _emailController.text = details['email'] ?? '';
+    _pickupAddressController.text = details['address'] ?? '';
+    _phoneNumber = details['phoneNumber'];
+    _uploadImageUrl = details['uploadImageUrl'];
   }
 
-  void _saveShopInfo() async {
-    if (_formKey.currentState!.validate() && _phoneError == null) {
-      final shopInfo = ShopInfo(
-        shopName: _shopNameController.text.trim(),
-        shopEmail: _emailController.text.trim(),
-        address: _pickupAddressController.text.trim(),
-        shopPhoneNumber: int.tryParse(_phoneNumber ?? '') ?? 0,
-        profileImageUrl: _uploadImageUrl,
-      );
-
-      await _saveInfo.saveShopInfo(shopInfo, widget.shopInformationId, context);
-      setState(() {
-        _uploadImageUrl = shopInfo.profileImageUrl;
-      });
-    }
+  void _clearDetails() {
+    ShopInfoDetails.clearDetails();
   }
 
   Widget _buildTextField(String label, TextEditingController controller,
@@ -218,14 +188,6 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        actions: [
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SaveButton(onPressed: () {
-                _saveShopInfo();
-                Navigator.pop(context);
-              })),
-        ],
         iconTheme: IconThemeData(color: AppColors.BLUE),
       ),
       body: SingleChildScrollView(
@@ -282,9 +244,6 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                     keyboardType: TextInputType.emailAddress,
                     validator: _validateEmail),
                 _buildTextField('Pickup Address', _pickupAddressController),
-
-                // Phone Number Field with Error Handling
-                // Phone Number Field with Error Handling
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: IntlPhoneField(
@@ -339,27 +298,29 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.03),
-
-                Row(
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        _clearDetails();
                         Navigator.pushNamed(context, AppRoutes.PROFILESCREEN);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
-                        side: BorderSide(color: AppColors.YELLOW),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.15),
-                      ),
-                      child: Text(
-                        'Back',
-                        style: TextStyle(
-                          color: AppColors.BLUE,
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.04,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 24.0),
+                        child: Text("Back",
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE)),
                       ),
                     ),
                     ElevatedButton(
@@ -374,19 +335,21 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
 
                         if (_formKey.currentState!.validate() &&
                             _phoneError == null) {
-                          String shopName = _shopNameController.text.trim();
-                          String email = _emailController.text.trim();
-                          String address = _pickupAddressController.text.trim();
-                          String phoneNumber = _phoneNumber ?? '';
+                          ShopInfoDetails.saveDetails(
+                            shopNameInput: _shopNameController.text.trim(),
+                            emailInput: _emailController.text.trim(),
+                            addressInput: _pickupAddressController.text.trim(),
+                            phoneNumberInput: _phoneNumber!,
+                          );
 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => BusinessInformationScreen(
-                                address: address,
-                                email: email,
-                                phoneNumber: int.tryParse(phoneNumber) ?? 0,
-                                shopName: shopName,
+                                address: _pickupAddressController.text.trim(),
+                                email: _emailController.text.trim(),
+                                phoneNumber: int.tryParse(_phoneNumber!) ?? 0,
+                                shopName: _shopNameController.text.trim(),
                               ),
                             ),
                           );
@@ -394,21 +357,21 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.YELLOW,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenWidth * 0.15),
-                      ),
-                      child: Text(
-                        'Next',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'AvenirNextCyr',
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * 0.04,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 24.0),
+                        child: Text("Next",
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE)),
                       ),
                     ),
                   ],
-                ),
+                ),)
               ],
             ),
           ),

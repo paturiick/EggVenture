@@ -263,9 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               debugPrint('button clicked');
               final String uid = _service.getCurrentUserId();
               final userDetails = await _service.getBasedOnId('userDetails', uid);
-
               userDetails['isSeller'] ? Navigator.pushNamed(context, AppRoutes.HOMEFARMER) : Navigator.pushNamed(context, AppRoutes.SHOPINFO);
-              
             },
             icon: Image.asset(
               "assets/icons/start_selling.png",

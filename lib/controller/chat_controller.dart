@@ -24,25 +24,27 @@ class ChatController {
   static bool isEmojiVisible = false;
   static TextEditingController textController = TextEditingController();
 
+  /// Get formatted date and time
   static String getFormattedDateTime(int timeStamp) {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp);
     return DateFormat('hh:mm a').format(dateTime);
   }
 
-  // Add a message to the chat list
+  /// Add a message to the chat list
   static void addMessage(types.Message message, Function setState) {
     setState(() {
-      _messages.insert(0, message);
-      _latestMessage = message;
+      _messages.insert(0, message); // Add message at the start of the list
+      _latestMessage = message; // Update the latest message
     });
   }
 
+  /// Get the latest message as a formatted string
   static String getLatestMessage() {
     if (_messages.isEmpty) {
       return "No messages yet";
     }
 
-    final latestMessage = _messages.first;
+    final latestMessage = _latestMessage;
 
     if (latestMessage is types.TextMessage) {
       return latestMessage.text;
@@ -55,7 +57,7 @@ class ChatController {
     }
   }
 
-  /// Handle attachment selection
+  /// Handle attachment selection (image or file)
   static void handleAttachmentPressed(
     BuildContext context,
     Function setState,
@@ -67,29 +69,31 @@ class ChatController {
     XFile? imageFile;
 
     void imageSelection(ImageSource source) async {
-      final XFile? pickedFile = await _imagePickerController.pickImage(source);
+      try {
+        final XFile? pickedFile =
+            await _imagePickerController.pickImage(source);
 
-      if (pickedFile != null) {
-        imageFile = pickedFile;
+        if (pickedFile != null) {
+          imageFile = pickedFile;
 
-        // Create the image message
-        final bytes = await pickedFile.readAsBytes();
-        final image = await decodeImageFromList(bytes);
-        final message = types.ImageMessage(
-          author: user,
-          createdAt: DateTime.now().millisecondsSinceEpoch,
-          height: image.height.toDouble(),
-          id: const Uuid().v4(),
-          name: pickedFile.name,
-          size: bytes.length,
-          uri: pickedFile.path,
-          width: image.width.toDouble(),
-        );
+          // Create the image message
+          final bytes = await pickedFile.readAsBytes();
+          final image = await decodeImageFromList(bytes);
+          final message = types.ImageMessage(
+            author: user,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+            height: image.height.toDouble(),
+            id: const Uuid().v4(),
+            name: pickedFile.name,
+            size: bytes.length,
+            uri: pickedFile.path,
+            width: image.width.toDouble(),
+          );
 
-        // Update the state with the new message
-        setState(() {
           addMessage(message, setState);
-        });
+        }
+      } catch (e) {
+        print("Error selecting image: $e");
       }
     }
 
@@ -192,39 +196,47 @@ class ChatController {
 
   /// Handle file selection
   static Future<void> handleFileSelection(Function setState) async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.any);
-    if (result != null && result.files.single.path != null) {
-      final message = types.FileMessage(
-        author: user,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: const Uuid().v4(),
-        mimeType: lookupMimeType(result.files.single.path!),
-        name: result.files.single.name,
-        size: result.files.single.size,
-        uri: result.files.single.path!,
-      );
-      addMessage(message, setState);
+    try {
+      final result = await FilePicker.platform.pickFiles(type: FileType.any);
+      if (result != null && result.files.single.path != null) {
+        final message = types.FileMessage(
+          author: user,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: const Uuid().v4(),
+          mimeType: lookupMimeType(result.files.single.path!),
+          name: result.files.single.name,
+          size: result.files.single.size,
+          uri: result.files.single.path!,
+        );
+        addMessage(message, setState);
+      }
+    } catch (e) {
+      print("Error selecting file: $e");
     }
   }
 
   /// Handle image selection
   static Future<void> handleImageSelection(Function setState) async {
-    final result = await ImagePicker().pickImage(
-        imageQuality: 70, maxWidth: 1440, source: ImageSource.gallery);
-    if (result != null) {
-      final bytes = await result.readAsBytes();
-      final image = await decodeImageFromList(bytes);
-      final message = types.ImageMessage(
-        author: user,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        height: image.height.toDouble(),
-        id: const Uuid().v4(),
-        name: result.name,
-        size: bytes.length,
-        uri: result.path,
-        width: image.width.toDouble(),
-      );
-      addMessage(message, setState);
+    try {
+      final result = await ImagePicker().pickImage(
+          imageQuality: 70, maxWidth: 1440, source: ImageSource.gallery);
+      if (result != null) {
+        final bytes = await result.readAsBytes();
+        final image = await decodeImageFromList(bytes);
+        final message = types.ImageMessage(
+          author: user,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          height: image.height.toDouble(),
+          id: const Uuid().v4(),
+          name: result.name,
+          size: bytes.length,
+          uri: result.path,
+          width: image.width.toDouble(),
+        );
+        addMessage(message, setState);
+      }
+    } catch (e) {
+      print("Error selecting image: $e");
     }
   }
 
