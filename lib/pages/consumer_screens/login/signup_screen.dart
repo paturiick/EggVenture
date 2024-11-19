@@ -212,7 +212,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 'You must agree to the terms and conditions.',
                                 style: TextStyle(
                                   color: AppColors.RED,
-                                  fontSize: size.width * 0.03,
+                                  fontSize: size.width * 0.025,
                                 ),
                               ),
                             ),
@@ -230,6 +230,12 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buidTermsConditions(Size size) {
+    return Padding(
+      padding: EdgeInsets.only(top: 10),
     );
   }
 
@@ -424,7 +430,7 @@ class _SignupScreenState extends State<SignupScreen> {
             _attemptedSignUp = true;
             _isLoading = true; // Start loading indicator
           });
-          if (_formKey.currentState!.validate()) {
+          if (_formKey.currentState!.validate() && _agreeToTerms) {
             try {
               final emailString = _signupController.emailController.text.trim();
               final passwordString =

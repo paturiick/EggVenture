@@ -104,7 +104,7 @@ class ChatScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "You: ${ChatController.getLatestMessage()}",
+                          "${ChatController.getLatestMessage()}",
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             color: Colors.grey[600],

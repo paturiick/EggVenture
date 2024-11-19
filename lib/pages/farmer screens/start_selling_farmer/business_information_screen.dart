@@ -53,12 +53,6 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        actions: [
-          SaveButton(
-            onPressed: (){
-              //
-            })
-        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
@@ -161,7 +155,8 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.upload_file,
-                                  size: screenWidth * 0.1, color: Colors.grey[600]),
+                                  size: screenWidth * 0.1,
+                                  color: Colors.grey[600]),
                               SizedBox(height: screenHeight * 0.01),
                               Text("+ Upload (0/1)",
                                   style: TextStyle(color: Colors.grey[600])),
@@ -214,60 +209,70 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                 },
               ),
               SizedBox(height: screenHeight * 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.SHOPINFO);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      side: BorderSide(color: AppColors.YELLOW),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.SHOPINFO);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 24.0),
+                        child: Text("Back",
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE)),
+                      ),
                     ),
-                    child: Text(
-                      'Back',
-                      style: TextStyle(
-                          color: AppColors.BLUE, fontSize: screenWidth * 0.04),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        final String uid = _service.getCurrentUserId();
-                        await FirebaseFirestore.instance
-                          .collection('userDetails')
-                          .doc(uid)
-                          .update({'isSeller': true});
+                    ElevatedButton(
+                      onPressed: () async {
+                        try {
+                          final String uid = _service.getCurrentUserId();
+                          await FirebaseFirestore.instance
+                              .collection('userDetails')
+                              .doc(uid)
+                              .update({'isSeller': true});
 
-                        await _service.submitBusiness(widget.shopName,
-                            widget.email, widget.address, widget.shopName);
-                        debugPrint('Button clicked');
-                        await Navigator.pushNamed(
-                            context, AppRoutes.PROFILEFARMER);
-                      } catch (e) {
-                        // Handle any errors here
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text('Failed to submit business: $e')),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.YELLOW,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: screenWidth * 0.15),
+                          await _service.submitBusiness(widget.shopName,
+                              widget.email, widget.address, widget.shopName);
+                          debugPrint('Button clicked');
+                          await Navigator.pushNamed(
+                              context, AppRoutes.PROFILEFARMER);
+                        } catch (e) {
+                          // Handle any errors here
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Failed to submit business: $e')),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.YELLOW,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 24.0),
+                        child: Text("Submit",
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                                color: AppColors.BLUE)),
+                      ),
                     ),
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                          color: Colors.white, fontSize: screenWidth * 0.04),
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
