@@ -1,7 +1,6 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:path/path.dart';
 
 class FacebookAuthService {
   AccessToken? _accessToken;

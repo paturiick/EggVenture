@@ -36,4 +36,5 @@ class AppRoutes {
   static const PROCESSING = '/to-process';
   static const REVIEW = '/to-review';
   static const PAYMENT = '/to-pay';
+  static const EDITFARMER = '/edit-farmer';
 }

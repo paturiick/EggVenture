@@ -24,7 +24,6 @@ import 'package:eggventure/pages/farmer%20screens/main_farmer/chat_screen/farmer
 import 'package:eggventure/pages/farmer%20screens/main_farmer/chat_screen/farmer_chat_screen.dart';
 import 'package:eggventure/pages/farmer%20screens/main_farmer/home_screen_farmer.dart';
 import 'package:eggventure/pages/farmer%20screens/main_farmer/order_screen_farmer.dart';
-import 'package:eggventure/pages/farmer%20screens/main_farmer/profile_screen_farmer.dart';
 import 'package:eggventure/pages/farmer%20screens/start_selling_farmer/business_information_screen.dart';
 import 'package:eggventure/pages/farmer%20screens/start_selling_farmer/shop_information_screen.dart';
 import 'package:eggventure/pages/store%20screens/daily_fresh_screen.dart';
@@ -34,6 +33,9 @@ import 'package:eggventure/pages/store%20screens/sundo_screen.dart';
 import 'package:eggventure/pages/store%20screens/vista_screen.dart';
 import 'package:eggventure/pages/store%20screens/white_feathers_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../pages/farmer screens/main_farmer/farmer profile/farmer_edit_profile_screen.dart';
+import '../pages/farmer screens/main_farmer/farmer profile/profile_screen_farmer.dart';
 
 class AppPages {
   static Map<String, WidgetBuilder> getRoutes() {
@@ -75,6 +77,7 @@ class AppPages {
       AppRoutes.PROCESSING: (context) => ProcessingScreen(),
       AppRoutes.PAYMENT: (context) => ToPayScreen(),
       AppRoutes.REVIEW: (context) => ProfileScreenReview(),
+      AppRoutes.EDITFARMER: (context) => FarmerEditProfileScreen(),
     };
   }
 }
