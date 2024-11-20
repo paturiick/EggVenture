@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/widgets/button%20widgets/save_button.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -40,7 +39,6 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Get the screen width and height
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -238,7 +236,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
                         try {
                           final String uid = _service.getCurrentUserId();
                           await FirebaseFirestore.instance
-                              .collection('userDetails')
+                              .collection('userDetails')  
                               .doc(uid)
                               .update({'isSeller': true});
 

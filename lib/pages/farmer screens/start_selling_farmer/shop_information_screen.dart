@@ -78,73 +78,66 @@ class _ShopInformationScreenState extends State<ShopInformationScreen> {
   }
 
   Widget _buildTextField(String label, TextEditingController controller,
-      {TextInputType? keyboardType, String? Function(String?)? validator}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        cursorColor: AppColors.YELLOW,
-        controller: controller,
-        keyboardType: keyboardType ?? TextInputType.text,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: label,
-          labelStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.BLUE,
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.RED),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.YELLOW),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.BLUE),
-          ),
-        ),
-        style: TextStyle(
+    {TextInputType? keyboardType, String? Function(String?)? validator}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: TextFormField(
+      cursorColor: AppColors.YELLOW,
+      controller: controller,
+      keyboardType: keyboardType ?? TextInputType.text,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: label,
+        labelStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
           color: AppColors.BLUE,
         ),
-        validator: validator ??
-            (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter $label';
-              }
-              return null;
-            },
-        onChanged: (value) {
-          setState(() {
-            // Trigger UI update on every change to clear the error message
-          });
-        },
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.RED),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.YELLOW),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.BLUE),
+        ),
       ),
-    );
-  }
+      style: const TextStyle(
+        color: AppColors.BLUE,
+      ),
+      validator: validator ?? (value) => value?.isEmpty ?? true ? 'Please enter $label' : null,
+      onChanged: (value) => setState(() {}),
+    ),
+  );
+}
 
   Widget _buildProfilePicturePicker() {
+    final imageUrl = _firebaseShopinfoProfile.uploadedImageUrl;
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.4,
       height: MediaQuery.of(context).size.width * 0.4,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(12),
-        image: _uploadImageUrl != null && _uploadImageUrl!.isNotEmpty
+        image: imageUrl != null && imageUrl.isNotEmpty
             ? DecorationImage(
-                image: NetworkImage(_uploadImageUrl!),
+                image: NetworkImage(imageUrl),
                 fit: BoxFit.cover,
               )
             : null,
       ),
-      child: _uploadImageUrl == null || _uploadImageUrl!.isEmpty
+      child: imageUrl == null || imageUrl.isEmpty
           ? Center(
               child: IconButton(
-                icon: Icon(Icons.add, color: AppColors.BLUE),
+                icon: const Icon(
+                  Icons.add,
+                  color: AppColors.BLUE,
+                ),
                 onPressed: () async {
                   await _firebaseShopinfoProfile.changeProfilePicture(context);
-                  setState(() {
-                    _uploadImageUrl = _firebaseShopinfoProfile.uploadedImageUrl;
-                  });
+                  setState(() {});
                 },
               ),
             )

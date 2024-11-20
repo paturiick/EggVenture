@@ -19,7 +19,6 @@ class ShopInfoDetails {
     uploadImageUrl = imageUrlInput;
   }
 
-  // Retrieve details
   static Map<String, String?> getDetails() {
     return {
       'shopName': shopName,

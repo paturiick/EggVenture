@@ -1,87 +1,66 @@
-
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/controller/image_picker_controller.dart';
 import 'package:eggventure/providers/edit_profile_provider.dart';
-import 'package:eggventure/services/facebook/facebook_auth_service.dart';
-import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/services/firebase/firebase%20storage/firebase_farmer_profile_picture.dart';
+import 'package:eggventure/widgets/image%20picker%20widget/image_picker_widget.dart';
 import 'package:eggventure/widgets/loading_screen.dart/shimmer_effect.dart';
 import 'package:eggventure/widgets/profile%20widget/share_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
-import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
+import 'package:eggventure/widgets/navigation%20bars/navigation_bar_farmer.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreenFarmer extends StatefulWidget {
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _ProfileScreenFarmerState createState() => _ProfileScreenFarmerState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
   final FirestoreService _service = FirestoreService();
-  final ChangeProfilePicture _changeProfilePicture = ChangeProfilePicture();
-  final ShimmerEffect _shimmerEffect = ShimmerEffect();
+  final ImagePickerController _imagePickerController = ImagePickerController();
   final ShareProfile shareProfile = ShareProfile();
-  final FacebookAuthService _facebookAuthService = FacebookAuthService();
+  final ShimmerEffect _shimmerEffect = ShimmerEffect();
+  final ChangeFarmerProfilePicture _changeFarmerProfilePicture =
+      ChangeFarmerProfilePicture();
+
+  String? shopName;
+  String? _uploadedImageUrl;
 
   bool _isLoading = true;
-  bool _hasFetchedData = false;
-  bool _isFacebookLogin = false;
 
-  String? userName;
-  String? _uploadedImageUrl;
+  XFile? imageFile;
+
+  void imageSelection(ImageSource source) async {
+    final XFile? pickedFile = await _imagePickerController.pickImage(source);
+    setState(() {
+      imageFile = pickedFile;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    if (!_hasFetchedData) {
-      _fetchUserProfile();
-    }
+    getShopName();
   }
 
-  Future<void> _fetchUserProfile() async {
-    if (_hasFetchedData) {
-      setState(() {
-        _isLoading = false;
-      });
-      return;
-    }
-
-    final isFacebookLogin = await _facebookAuthService.isFacebookLoggedIn();
-    if (isFacebookLogin && !_isFacebookLogin) {
-      final facebookData =
-          await _facebookAuthService.loginWithFacebook(context);
-
-      if (facebookData != null) {
-        setState(() {
-          _isFacebookLogin = true;
-          userName = facebookData['name'];
-          _uploadedImageUrl = facebookData['picture']['data']['url'];
-        });
-      }
-    } else {
-      await getUserName();
-      await loadProfilePictureUrl();
-    }
-
-    setState(() {
-      _isLoading = false; // Stop loading screen
-      _hasFetchedData = true; // Set only after the fetch is complete
-    });
-  }
-
-  Future<void> getUserName() async {
+  Future<void> getShopName() async {
     try {
       final uid = _service.getCurrentUserId();
-      final userDetails = await _service.getBasedOnId('userDetails', uid);
-      final firstName = userDetails['firstName'];
-      final lastName = userDetails['lastName'];
-      userName = '$firstName $lastName';
+      final shopDetails = await _service.getBasedOnId('businessDetails', uid);
+
+      final shopNameDb = shopDetails['shopName'];
+      setState(() {
+        shopName = '$shopNameDb';
+        _isLoading = false;
+      });
     } catch (e) {
-      print('$e');
+      return null;
     }
   }
 
@@ -107,17 +86,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  Future<void> getUserName() async {
+    try {
+      final uid = _service.getCurrentUserId();
+      final userDetails = await _service.getBasedOnId('userDetails', uid);
+      var shopName = userDetails['shopName'];
+      shopName = '$shopName';
+    } catch (e) {
+      print('$e');
+    }
+  }
+
   Future<void> _updateProfilePicture() async {
-    await _changeProfilePicture.changeProfilePicture(context);
-    final newImageUrl = _changeProfilePicture.uploadedImageUrl;
+    await _changeFarmerProfilePicture.changeFarmerProfilePicture(context);
+    final newImageUrl = _changeFarmerProfilePicture.uploadedImageUrl;
     if (newImageUrl != null) {
       await saveUserImageUrl(newImageUrl);
       setState(() {
-        _uploadedImageUrl =
-            newImageUrl;
+        _uploadedImageUrl = newImageUrl;
       });
     } else {
-      // Show error message if image upload fails
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.YELLOW,
@@ -130,7 +118,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -172,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           body: _isLoading
               ? _shimmerEffect.buildShimmerEffect(screenWidth, screenHeight)
               : _buildProfileContent(screenWidth, screenHeight),
-          bottomNavigationBar: NavigationBarWidget(currentIndex: 4),
+          bottomNavigationBar: NavigationBarWidgetFarmer(currentIndex: 4),
         ),
       ),
     );
@@ -184,7 +171,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return Stack(
           alignment: Alignment.bottomRight,
           children: [
-            // Display the profile picture from the provider or a default icon
             CircleAvatar(
               radius: screenWidth * 0.15,
               backgroundImage: userImageProvider.imageUrl.isNotEmpty
@@ -206,8 +192,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               right: 0,
               child: GestureDetector(
                 onTap: () async {
-                  await _changeProfilePicture.changeProfilePicture(context);
-                  final newImageUrl = _changeProfilePicture.uploadedImageUrl;
+                  await _changeFarmerProfilePicture
+                      .changeFarmerProfilePicture(context);
+                  final newImageUrl =
+                      _changeFarmerProfilePicture.uploadedImageUrl;
 
                   // Update both the provider and UI with the new image URL
                   if (newImageUrl != null) {
@@ -247,7 +235,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-
   Widget _buildProfileContent(double screenWidth, double screenHeight) {
     return Stack(
       children: [
@@ -255,19 +242,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           top: screenHeight * 0.01,
           right: screenWidth * 0.05,
           child: ElevatedButton.icon(
-            onPressed: () async {
-              debugPrint('button clicked');
-              final String uid = _service.getCurrentUserId();
-              final userDetails = await _service.getBasedOnId('userDetails', uid);
-              userDetails['isSeller'] ? Navigator.pushNamed(context, AppRoutes.HOMEFARMER) : Navigator.pushNamed(context, AppRoutes.SHOPINFO);
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, AppRoutes.PROFILESCREEN);
             },
-            icon: Image.asset(
-              "assets/icons/start_selling.png",
-              height: screenHeight * 0.03,
-            ),
+            icon: Icon(AntDesign.shopping_fill,
+                size: screenWidth * 0.04, color: AppColors.BLUE),
             label: Text(
-              'Start Selling',
+              'Back to Buying',
               style: TextStyle(
+                fontFamily: 'AvenirNextCyr',
                 fontSize: screenWidth * 0.03,
                 color: AppColors.BLUE,
               ),
@@ -305,7 +288,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            userName ?? '',
+                            shopName ?? '',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: screenWidth * 0.05,
@@ -341,13 +324,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     _buildProfileOption(context, 'Edit Profile', screenWidth,
                         () {
-                      Navigator.pushNamed(context, AppRoutes.EDITPROFILE);
+                      Navigator.pushNamed(context, AppRoutes.EDITFARMER);
                     }),
                     _buildProfileOption(context, 'Share Profile', screenWidth,
                         () {
                       shareProfile.showShareProfileDialog(
                           context,
-                          'https://www.exampledomain.com/${userName}',
+                          'https://www.exampledomain.com/${shopName}',
                           getUserName);
                     }),
                   ],
@@ -359,18 +342,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _buildIconOption(
-                        context, Icons.payment, 'To Pay', screenWidth),
-                    _buildIconOption(context, AntDesign.sync_outline,
+                        context, FontAwesome.money_bill_transfer_solid, 'Sales', screenWidth),
+                    _buildIconOption(context, BoxIcons.bx_sync,
                         'Processing', screenWidth),
                     _buildIconOption(
                       context,
-                      Icons.rate_review,
-                      'Review',
+                      Icons.thumb_up_off_alt_outlined,
+                      'Feedback',
                       screenWidth,
-                      () {
-                        Navigator.pushNamed(
-                            context, AppRoutes.PROFILESCREENREVIEW);
-                      },
+                      // () {
+                      //   Navigator.pushNamed(
+                      //       context, AppRoutes.PROFILESCREENREVIEW);
+                      // },
                     ),
                   ],
                 ),
