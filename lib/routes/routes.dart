@@ -22,6 +22,7 @@ class AppRoutes {
   static const ADDPRODUCTFARMER = '/app-product-screen';
   static const FARMERCHATMESSAGES = '/farmer-chat-messages';
   static const USERCHAT = 'user-chat';
+  static const USERCHAT2 = 'user-chat2';
   static const FARMERCHAT = '/farmer-chat';
   static const HOMEFARMER = '/home-farmer';
   static const ORDERFARMER = '/order-farmer';

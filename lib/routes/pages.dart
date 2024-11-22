@@ -1,10 +1,11 @@
+import 'package:eggventure/pages/consumer_screens/chat_consumer/user2_chat_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/edit_profile_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/processing_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/to_pay_screen.dart';
 import 'package:eggventure/pages/search%20screens/home_search_screen.dart';
 import 'package:eggventure/pages/search%20screens/tray_search_screen.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/pages/consumer_screens/chat_consumer/user_chat_screen.dart';
+import 'package:eggventure/pages/consumer_screens/chat_consumer/user1_chat_screen.dart';
 import 'package:eggventure/pages/consumer_screens/chat_consumer/chat_screen.dart';
 import 'package:eggventure/pages/address%20edit%20screens/delivery_edit_info_screen.dart';
 import 'package:eggventure/pages/address%20edit%20screens/pickup_edit_address_screen.dart';
@@ -78,6 +79,7 @@ class AppPages {
       AppRoutes.PAYMENT: (context) => ToPayScreen(),
       AppRoutes.REVIEW: (context) => ProfileScreenReview(),
       AppRoutes.EDITFARMER: (context) => FarmerEditProfileScreen(),
+      AppRoutes.USERCHAT2: (context) => User2ChatScreen(),
     };
   }
 }
