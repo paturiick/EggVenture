@@ -296,7 +296,7 @@ class _TrayScreenState extends State<TrayScreen> {
               SizedBox(
                 height: screenHeight * 0.02,
               ),
-              if (trayProvider.trayItems.isNotEmpty)
+              if (trayProvider.trayItems.isNotEmpty && trayProvider.selectedItems.isNotEmpty)
                 Padding(
                   padding: EdgeInsets.all(20),
                   child: Container(

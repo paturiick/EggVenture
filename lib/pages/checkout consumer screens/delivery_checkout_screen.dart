@@ -1,4 +1,5 @@
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/providers/user_info_provider.dart';
@@ -345,6 +346,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
   }
 
   Widget _buildBottomNavigationBar(double screenWidth) {
+    final buyNowProvider = Provider.of<BuyNowProvider>(context, listen: false);
     final userInfoProvider =
         Provider.of<UserInfoProvider>(context, listen: false).userInfo;
     final screenWidth = MediaQuery.of(context).size.width;

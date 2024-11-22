@@ -9,6 +9,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final latestMessage = ChatController.getLatestMessage();
+    final latestFormattedTime = ChatController.getLatestFormattedTime();
 
     // Get screen dimensions
     final screenWidth = MediaQuery.of(context).size.width;
@@ -88,31 +89,115 @@ class ChatScreen extends StatelessWidget {
                     SizedBox(
                       width: screenWidth * 0.04, // Responsive spacing
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: screenWidth * 0.02),
-                          child: Text(
-                            "White Feathers Farm",
-                            style: TextStyle(
-                              color: AppColors.BLUE,
-                              fontSize: screenWidth * 0.05,
-                              fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsets.only(bottom: screenWidth * 0.02),
+                            child: Text(
+                              "White Feathers Farm",
+                              style: TextStyle(
+                                color: AppColors.BLUE,
+                                fontSize: screenWidth * 0.05,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          "${ChatController.getLatestMessage()}",
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: screenWidth *
-                                0.035, // Smaller font for subtitle
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  latestMessage,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: screenWidth * 0.025,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                latestFormattedTime,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: screenWidth * 0.025,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Divider(
+              color: Colors.grey[600],
+              thickness: 1.5,
+              indent: 0,
+              endIndent: 0,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.USERCHAT2);
+              },
+              child: Padding(
+                padding:
+                    EdgeInsets.all(screenWidth * 0.03), // Responsive padding
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: screenWidth * 0.06,
+                      backgroundImage:
+                          AssetImage("assets/stores/pabilona_duck.jpg"),
+                      backgroundColor: Colors.grey[200],
+                    ),
+                    SizedBox(width: screenWidth * 0.04), // Responsive spacing
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding:
+                                EdgeInsets.only(bottom: screenWidth * 0.02),
+                            child: Text(
+                              "Pabilona Duck Farm",
+                              style: TextStyle(
+                                color: AppColors.BLUE,
+                                fontSize: screenWidth * 0.05,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  latestMessage,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: screenWidth * 0.025,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                latestFormattedTime,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: screenWidth * 0.025,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

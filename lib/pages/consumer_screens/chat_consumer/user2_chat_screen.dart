@@ -1,16 +1,17 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/chat_controller.dart';
+import 'package:eggventure/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 
-class UserChatScreen extends StatefulWidget {
+class User2ChatScreen extends StatefulWidget {
   @override
   _UserChatScreenState createState() => _UserChatScreenState();
 }
 
-class _UserChatScreenState extends State<UserChatScreen> {
+class _UserChatScreenState extends State<User2ChatScreen> {
   @override
   void initState() {
     super.initState();
@@ -61,7 +62,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
                         ChatController.isEmojiVisible = false;
                       });
                       ChatController.handleAttachmentPressed(
-                        context, 
+                        context,
                         setState,
                         () => ChatController.handleImageSelection(setState),
                         () => ChatController.handleFileSelection(setState),
@@ -128,7 +129,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
                 color: AppColors.BLUE, size: screenWidth * 0.06),
             padding: EdgeInsets.zero,
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, AppRoutes.CHATSCREEN);
             },
           ),
           title: Row(
@@ -145,12 +146,12 @@ class _UserChatScreenState extends State<UserChatScreen> {
                     CircleAvatar(
                       radius: screenWidth * 0.04,
                       backgroundImage:
-                          AssetImage("assets/stores/white_feathers.jpg"),
+                          AssetImage("assets/stores/pabilona_duck.jpg"),
                       backgroundColor: Colors.grey[200],
                     ),
                     SizedBox(width: screenWidth * 0.02),
                     Text(
-                      "Farmer User #1",
+                      "Pabilona Duck Farm",
                       style: TextStyle(
                         color: AppColors.BLUE,
                         fontSize: screenWidth * 0.048,
