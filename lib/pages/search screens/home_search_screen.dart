@@ -1,11 +1,53 @@
-import 'package:eggventure/constants/colors.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/models/store_list.dart'; // Import the model file
 
-class HomeSearchScreen extends StatelessWidget {
+class HomeSearchScreen extends StatefulWidget {
+  @override
+  _HomeSearchScreenState createState() => _HomeSearchScreenState();
+}
+
+class _HomeSearchScreenState extends State<HomeSearchScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
+  List<StoreList> popularStores = [];
+  List<StoreList> displayedStores = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _randomizePopularStores();
+    displayedStores = popularStores;
+  }
+
+  void _randomizePopularStores() {
+    setState(() {
+      popularStores = [...store]..shuffle(Random());
+      popularStores =
+          popularStores.take(3).toList();
+    });
+  }
+
+  void _filterStores(String query) {
+    final lowerCaseQuery = query.toLowerCase();
+
+    setState(() {
+      if (query.isEmpty) {
+        displayedStores = popularStores;
+      } else {
+        // Show all matching stores
+        displayedStores = store
+            .where((storeItem) =>
+                storeItem.name.toLowerCase().contains(lowerCaseQuery))
+            .toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    
 
     return SafeArea(
       child: Scaffold(
@@ -30,6 +72,8 @@ class HomeSearchScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: _searchController,
+                      style: TextStyle(color: AppColors.BLUE),
                       decoration: InputDecoration(
                         hintText: "Search",
                         prefixIcon: Icon(Icons.search, color: AppColors.BLUE),
@@ -40,9 +84,11 @@ class HomeSearchScreen extends StatelessWidget {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: AppColors.YELLOW),
-                          borderRadius: BorderRadius.circular(10)
-                        )
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
+                      onChanged: (query) =>
+                          _filterStores(query), // Trigger filtering
                     ),
                   ),
                   TextButton(
@@ -57,8 +103,40 @@ class HomeSearchScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20),
+              Expanded(
+                child: displayedStores.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: displayedStores.length,
+                        itemBuilder: (context, index) {
+                          final storeItem = displayedStores[index];
+                          return ListTile(
+                            title: Text(
+                              storeItem.name,
+                              style: TextStyle(color: AppColors.BLUE),
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(context, storeItem.routeName);
+                            },
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          "No results found",
+                          style: TextStyle(color: AppColors.BLUE, fontSize: 16),
+                        ),
+                      ),
+              ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _randomizePopularStores();
+            displayedStores = popularStores;
+          },
+          child: Icon(Icons.refresh),
+          backgroundColor: AppColors.YELLOW,
         ),
       ),
     );
