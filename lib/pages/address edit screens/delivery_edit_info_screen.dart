@@ -16,31 +16,35 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
   final _form = GlobalKey<FormState>();
   final DropdownListProvince _province = DropdownListProvince();
   String? _selectedProvince;
-  String _firstName = '';
-  String _lastName = '';
-  String _streetAddress = '';
-  String _barangayAddress = '';
-  String _cityAddress = '';
-  String _provinceAddress = '';
-  String _additionalInfo = '';
+  late TextEditingController _streetAddress;
+  late TextEditingController _barangayAddress;
+  late TextEditingController _cityAddress;
+  late TextEditingController _additionalInfo;
 
   @override
   void initState() {
     super.initState();
+
     final userProvider = Provider.of<UserInfoProvider>(context, listen: false);
 
     final storedUserInfo = userProvider.getUserInfo();
 
-    setState(() {
-      _firstName = storedUserInfo.firstName;
-      _lastName = storedUserInfo.lastName;
-      _streetAddress = storedUserInfo.streetAddress;
-      _barangayAddress = storedUserInfo.barangayAddress;
-      _cityAddress = storedUserInfo.cityAddress;
-      _provinceAddress = storedUserInfo.provinceAddress;
-      _additionalInfo = storedUserInfo.additionalInfo;
-      _selectedProvince = _provinceAddress.isNotEmpty ? _provinceAddress : null;
-    });
+    _streetAddress = TextEditingController(text: storedUserInfo.streetAddress);
+    _barangayAddress = TextEditingController(text: storedUserInfo.barangayAddress);
+    _cityAddress = TextEditingController(text: storedUserInfo.cityAddress);
+    _additionalInfo = TextEditingController(text: storedUserInfo.additionalInfo);
+    _selectedProvince = storedUserInfo.provinceAddress.isNotEmpty
+    ? storedUserInfo.provinceAddress
+    : null;
+  }
+
+  @override
+  void dispose() {
+    _streetAddress.dispose();
+    _barangayAddress.dispose();
+    _cityAddress.dispose();
+    _additionalInfo.dispose();
+    super.dispose();
   }
 
   @override
@@ -87,66 +91,9 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                   key: _form,
                   child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              onSaved: (value) => _firstName = value ?? '',
-                              keyboardType: TextInputType.name,
-                              maxLength: 30,
-                              cursorColor: AppColors.YELLOW,
-                              style: TextStyle(
-                                color: AppColors.BLUE,
-                                fontSize: screenWidth * 0.025,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: "First Name",
-                                labelStyle: TextStyle(
-                                  color: AppColors.BLUE,
-                                  fontSize: screenWidth * 0.03,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.YELLOW),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: screenWidth * 0.01),
-                          Expanded(
-                            child: TextFormField(
-                              onSaved: (value) => _lastName = value ?? '',
-                              keyboardType: TextInputType.name,
-                              maxLength: 30,
-                              cursorColor: AppColors.YELLOW,
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.025,
-                                color: AppColors.BLUE,
-                              ),
-                              decoration: InputDecoration(
-                                labelText: "Last Name",
-                                labelStyle: TextStyle(
-                                  color: AppColors.BLUE,
-                                  fontSize: screenWidth * 0.03,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.YELLOW),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        onSaved: (value) => _streetAddress = value ?? '',
+                        controller: _streetAddress,
                         keyboardType: TextInputType.streetAddress,
                         maxLines: null,
                         minLines: 1,
@@ -170,7 +117,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        onSaved: (value) => _barangayAddress = value ?? '',
+                        controller: _barangayAddress,
                         keyboardType: TextInputType.text,
                         maxLength: 40,
                         style: TextStyle(
@@ -193,7 +140,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        onSaved: (value) => _cityAddress = value ?? '',
+                        controller: _cityAddress,
                         keyboardType: TextInputType.text,
                         maxLength: 40,
                         style: TextStyle(
@@ -216,11 +163,22 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       DropdownButtonFormField<String>(
-                        onSaved: (value) => _provinceAddress = value ?? '',
-                        dropdownColor: Colors.white,
                         value: _selectedProvince,
-                        icon:
-                            Icon(Icons.arrow_drop_down, color: AppColors.BLUE),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedProvince = newValue;
+                          });
+                        },
+                        items: _province.province.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(color: AppColors.BLUE),
+                            ),
+                          );
+                        }).toList(),
+                        dropdownColor: Colors.white,
                         decoration: InputDecoration(
                           labelText: "Province",
                           labelStyle: TextStyle(
@@ -234,24 +192,10 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        items: _province.province.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: AppColors.BLUE),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedProvince = newValue;
-                          });
-                        },
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextFormField(
-                        onSaved: (value) => _additionalInfo = value ?? '',
+                        controller: _additionalInfo,
                         keyboardType: TextInputType.text,
                         minLines: 1,
                         maxLines: null,
@@ -308,13 +252,11 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                         if (_form.currentState!.validate()) {
                           _form.currentState!.save();
                           final newUserInfo = UserInfo(
-                              firstName: _firstName,
-                              lastName: _lastName,
-                              streetAddress: _streetAddress,
-                              barangayAddress: _barangayAddress,
-                              cityAddress: _cityAddress,
-                              provinceAddress: _provinceAddress,
-                              additionalInfo: _additionalInfo);
+                              streetAddress: _streetAddress.text,
+                              barangayAddress: _barangayAddress.text,
+                              cityAddress: _cityAddress.text,
+                              provinceAddress: _selectedProvince ?? '',
+                              additionalInfo: _additionalInfo.text);
                           Provider.of<UserInfoProvider>(context, listen: false)
                               .updateUserInfo(newUserInfo);
 
