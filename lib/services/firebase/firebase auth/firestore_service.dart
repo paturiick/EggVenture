@@ -81,4 +81,9 @@ class FirestoreService {
     final uid = getCurrentUserId();
     await _createSubCollection('businessDetails', 'products', data, uid);
   }
+
+  Future<QuerySnapshot> getBusinessDetails() async {
+    final businessDetails = await _get('businessDetails');
+    return businessDetails;
+  }
 }
