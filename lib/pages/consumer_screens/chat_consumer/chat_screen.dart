@@ -101,32 +101,18 @@ class ChatScreen extends StatelessWidget {
                               "White Feathers Farm",
                               style: TextStyle(
                                 color: AppColors.BLUE,
-                                fontSize: screenWidth * 0.05,
+                                fontSize: screenWidth * 0.04,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  latestMessage,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: screenWidth * 0.025,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                latestFormattedTime,
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: screenWidth * 0.025,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "$latestMessage \t $latestFormattedTime",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: screenWidth * 0.03,
+                            ),
                           ),
                         ],
                       ),
@@ -169,32 +155,18 @@ class ChatScreen extends StatelessWidget {
                               "Pabilona Duck Farm",
                               style: TextStyle(
                                 color: AppColors.BLUE,
-                                fontSize: screenWidth * 0.05,
+                                fontSize: screenWidth * 0.04,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  latestMessage,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: screenWidth * 0.025,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                latestFormattedTime,
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: screenWidth * 0.025,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "$latestMessage \t $latestFormattedTime",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: screenWidth * 0.03,
+                            ),
                           ),
                         ],
                       ),

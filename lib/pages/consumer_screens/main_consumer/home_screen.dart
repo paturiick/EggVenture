@@ -173,10 +173,10 @@ class HomeScreen extends StatelessWidget {
                           Icon(AntDesign.search_outline, color: AppColors.BLUE),
                           SizedBox(width: size.width * 0.03),
                           Text(
-                            'Search',
+                            'Search for stores',
                             style: TextStyle(
                               color: AppColors.BLUE,
-                              fontSize: size.width * 0.04,
+                              fontSize: size.width * 0.035,
                             ),
                           ),
                         ],

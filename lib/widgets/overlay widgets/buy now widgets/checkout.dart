@@ -21,7 +21,6 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-
   @override
   Widget build(BuildContext context) {
     final buynowProvider = Provider.of<BuyNowProvider>(context, listen: false);
@@ -86,7 +85,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                 ),
                 Text(
-                  // fix the price 
+                  // fix the price
                   'P ${buynowProvider.subtotal}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -111,7 +110,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Text(
                   "P 10.00",
                   style: TextStyle(
-                    fontSize: screenWidth * 0.045,  
+                    fontSize: screenWidth * 0.045,
                     fontWeight: FontWeight.bold,
                     color: AppColors.BLUE,
                   ),
@@ -150,14 +149,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ElevatedButton(
                     onPressed: () {
                       buynowProvider.clearTray();
-                      buynowProvider.buyItems.clear();
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: AppColors.RED,
                       side: BorderSide(color: AppColors.RED),
                       backgroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -179,7 +178,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       foregroundColor: AppColors.BLUE,
                       side: BorderSide(color: AppColors.BLUE),
                       backgroundColor: AppColors.BLUE,
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
