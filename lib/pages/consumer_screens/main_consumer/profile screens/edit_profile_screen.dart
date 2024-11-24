@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/constants/dropdown_list_province.dart';
-import 'package:eggventure/controller/edit_profile_name_controller.dart';
 import 'package:eggventure/providers/edit_profile_provider.dart';
+import 'package:eggventure/providers/user_info_provider.dart';
 import 'package:eggventure/routes/routes.dart';
-import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:eggventure/services/profile/edit_profile_service.dart';
+import 'package:eggventure/widgets/confirmation/save_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:eggventure/models/user_info.dart' as user_info;
 
 class EditProfileScreen extends StatefulWidget {
   @override
@@ -16,151 +17,28 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final ChangeProfilePicture changeProfilePicture = ChangeProfilePicture();
-  final FirestoreService _service = FirestoreService();
+  final profileService = EditProfileService();
+  final changeProfilePicture = ChangeProfilePicture();
+
   final DropdownListProvince _province = DropdownListProvince();
-  final _formKey = GlobalKey<FormState>();
-
-  String? userName;
-  String? userEmail;
-  String? _selectedProvince;
-
-  bool _isLoading = true;
-  bool _hasFetchedData = false;
-
-  late TextEditingController _firstNameController;
-  late TextEditingController _lastNameController;
-  late Stream<DocumentSnapshot> userProfileStream;
-  late EditProfileNameController _userEditProfileName;
 
   @override
   void initState() {
     super.initState();
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
-    _userEditProfileName = EditProfileNameController(_service);
-
-    if (!_hasFetchedData) {
-      getUserName();
-
-      // Fetch user ID and pass it to the stream method
-      final userId = _service.getCurrentUserId();
-      userProfileStream = _service.getUserProfileStream(userId);
-
-      getUserEmail().then((email) {
-        setState(() {
-          userEmail = email;
-        });
-      });
-      _hasFetchedData = true;
-    }
+    profileService.init(context);
   }
 
-  Future<void> saveUserName() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      final newFirstName = _firstNameController.text.trim();
-      final newLastName = _lastNameController.text.trim();
-      final uid = _service.getCurrentUserId();
-
-      // Show a SnackBar for saving in progress
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Saving changes...',
-            style: TextStyle(color: AppColors.BLUE),
-          ),
-          backgroundColor: AppColors.YELLOW,
-        ),
-      );
-
-      try {
-        await _userEditProfileName.updateUserName(
-          uid: uid,
-          firstName: newFirstName,
-          lastName: newLastName,
-          context: context,
-          updatedUserName: (updatedName) {
-            setState(() {
-              userName = updatedName;
-            });
-          },
-        );
-
-        // Show a success SnackBar
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Profile updated successfully!',
-              style: TextStyle(color: AppColors.BLUE),
-            ),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } catch (error) {
-        // Show an error SnackBar
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Failed to update profile: $error',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } else {
-      // Show a SnackBar if validation fails
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Please fill in all required fields correctly.',
-            style: TextStyle(color: AppColors.BLUE),
-          ),
-          backgroundColor: AppColors.YELLOW,
-        ),
-      );
-    }
+  @override
+  void dispose() {
+    profileService.dispose();
+    super.dispose();
+  }
+  
+  void saveChanges(){
+    profileService.saveUserName(context);
   }
 
-  Future<void> saveProfilePicture(String newImageUrl) async {
-    final uid = _service.getCurrentUserId();
-    await _service.updateUserField(uid, 'profilePictureUrl', newImageUrl);
-  }
-
-  Future<void> getUserName() async {
-    try {
-      final uid = _service.getCurrentUserId();
-      final userDetails = await _service.getBasedOnId('userDetails', uid);
-      final data = userDetails.data() as Map<String, dynamic>?;
-      final firstName = data?["firstName"];
-      final lastName = data?["lastName"];
-
-      setState(() {
-        userName = '$firstName $lastName';
-        _firstNameController.text = firstName ?? '';
-        _lastNameController.text = lastName ?? '';
-        _hasFetchedData = true;
-        _isLoading = false;
-      });
-    } catch (e) {
-      print(e);
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  Future<String?> getUserEmail() async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      return user?.email;
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
-  Widget buildProfilePicture(double screenWidth) {
+   Widget buildProfilePicture(double screenWidth) {
     return Consumer<EditProfileProvider>(
       builder: (context, userImageProvider, child) {
         return Stack(
@@ -189,12 +67,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   final newImageUrl = changeProfilePicture.uploadedImageUrl;
 
                   if (newImageUrl != null) {
-                    await saveProfilePicture(newImageUrl);
-                    userImageProvider
-                        .updateImageUrl(newImageUrl); // Update provider
-                    setState(() {
-                      // Update UI
-                    });
+                    await profileService.saveProfilePicture(newImageUrl);
+                    userImageProvider.updateImageUrl(newImageUrl);
+                    setState(() {});
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -235,7 +110,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: SafeArea(
           child: Scaffold(
               body: StreamBuilder<DocumentSnapshot>(
-                  stream: userProfileStream,
+                  stream: profileService.userProfileStream,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -290,7 +165,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: screenHeight * 0.02,
                           ),
                           Text(
-                            userName ?? '',
+                            profileService.userName ?? '',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: screenWidth * 0.05,
@@ -301,7 +176,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: screenHeight * 0.01,
                           ),
                           Text(
-                            userEmail ?? '',
+                            profileService.userEmail ?? '',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: screenWidth * 0.03,
@@ -319,9 +194,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     Expanded(
                                         child: TextField(
-                                      controller: _firstNameController,
+                                      controller: profileService.firstNameController,
                                       style: TextStyle(
-                                          fontSize: screenWidth * 0.025,
+                                          fontSize: screenWidth * 0.035,
                                           color: AppColors.BLUE),
                                       decoration: InputDecoration(
                                           label: Text(
@@ -342,9 +217,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     ),
                                     Expanded(
                                         child: TextField(
-                                      controller: _lastNameController,
+                                      controller: profileService.lastNameController,
                                       style: TextStyle(
-                                          fontSize: screenWidth * 0.025,
+                                          fontSize: screenWidth * 0.035,
                                           color: AppColors.BLUE),
                                       decoration: InputDecoration(
                                           label: Text(
@@ -366,8 +241,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: screenHeight * 0.02,
                                 ),
                                 TextFormField(
+                                  controller: profileService.streetAddressController,
+                                  keyboardType: TextInputType.streetAddress,
+                                  maxLines: null,
+                                  minLines: 1,
                                   style: TextStyle(
-                                    fontSize: screenWidth * 0.025,
+                                    fontSize: screenWidth * 0.035,
                                     color: AppColors.BLUE,
                                   ),
                                   decoration: InputDecoration(
@@ -397,9 +276,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: screenHeight * 0.02,
                                 ),
                                 TextFormField(
+                                  controller: profileService.barangayAddressController,
+                                  keyboardType: TextInputType.text,
                                   maxLength: 40,
                                   style: TextStyle(
-                                    fontSize: screenWidth * 0.025,
+                                    fontSize: screenWidth * 0.035,
                                     color: AppColors.BLUE,
                                   ),
                                   decoration: InputDecoration(
@@ -429,9 +310,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: screenHeight * 0.02,
                                 ),
                                 TextFormField(
+                                  controller: profileService.cityAddressController,
+                                  keyboardType: TextInputType.text,
                                   maxLength: 40,
                                   style: TextStyle(
-                                    fontSize: screenWidth * 0.025,
+                                    fontSize: screenWidth * 0.035,
                                     color: AppColors.BLUE,
                                   ),
                                   decoration: InputDecoration(
@@ -462,7 +345,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 DropdownButtonFormField<String>(
                                   dropdownColor: Colors.white,
-                                  value: _selectedProvince,
+                                  value: profileService.selectedProvince,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      profileService.selectedProvince = newValue;
+                                    });
+                                  },
                                   icon: Icon(Icons.arrow_drop_down,
                                       color: AppColors.BLUE),
                                   decoration: InputDecoration(
@@ -488,11 +376,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       ),
                                     );
                                   }).toList(),
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      _selectedProvince = newValue;
-                                    });
-                                  },
                                 ),
                               ],
                             ),
@@ -527,7 +410,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    saveUserName();
+                                    if (profileService.form.currentState!.validate()) {
+                                      profileService.form.currentState!.save();
+                                      final newUserInfo = user_info.UserInfo(
+                                          streetAddress: profileService.streetAddressController.text,
+                                          barangayAddress:
+                                              profileService
+                                              .barangayAddressController.text,
+                                          cityAddress: profileService.cityAddressController.text,
+                                          provinceAddress:
+                                              profileService.selectedProvince ?? '',
+                                          additionalInfo: profileService.additionalInfoController.text);
+                                      Provider.of<UserInfoProvider>(context,
+                                              listen: false)
+                                          .updateUserInfo(newUserInfo);
+
+                                      showSaveConfirmation(context);
+
+                                      Navigator.pushNamed(
+                                          context, AppRoutes.PROFILESCREEN);
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.YELLOW,

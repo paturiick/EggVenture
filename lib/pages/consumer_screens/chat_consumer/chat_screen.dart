@@ -107,7 +107,7 @@ class ChatScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "$latestMessage \t $latestFormattedTime",
+                            "$latestMessage \t : $latestFormattedTime",
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Colors.grey[600],
@@ -161,7 +161,7 @@ class ChatScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "$latestMessage \t $latestFormattedTime",
+                            "$latestMessage \t : $latestFormattedTime",
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Colors.grey[600],

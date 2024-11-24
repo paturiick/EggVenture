@@ -4,13 +4,13 @@ import 'package:eggventure/models/user_info.dart';
 
 class UserInfoProvider with ChangeNotifier {
   UserInfo _userInfo = UserInfo(
-      firstName: '',
-      lastName: '',
       streetAddress: '',
       barangayAddress: '',
       cityAddress: '',
       provinceAddress: '',
       additionalInfo: '');
+
+  static var userProfileStream;
 
   UserInfo get userInfo => _userInfo;
 
@@ -20,8 +20,6 @@ class UserInfoProvider with ChangeNotifier {
     if (doc.exists) {
       final data = doc.data();
       _userInfo = UserInfo(
-        firstName: data?['firstName'] ?? '',
-        lastName: data?['lastName'] ?? '',
         streetAddress: data?['streetAddress'] ?? '',
         barangayAddress: data?['barangayAddress'] ?? '',
         cityAddress: data?['cityAddress'] ?? '',
@@ -36,13 +34,6 @@ class UserInfoProvider with ChangeNotifier {
     _userInfo = newInfo;
     notifyListeners();
   }
-
-  void updateNameInfo({String? firstName, String? lastName}) {
-    if (firstName != null) _userInfo.firstName = firstName;
-    if (lastName != null) _userInfo.lastName = lastName;
-    notifyListeners();
-  }
-
   UserInfo getUserInfo() {
     return _userInfo;
   }

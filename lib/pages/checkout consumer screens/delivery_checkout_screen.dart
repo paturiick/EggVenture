@@ -36,13 +36,9 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
 
       final firstName = userDetails['firstName'];
       final lastName = userDetails['lastName'];
-
-      Provider.of<UserInfoProvider>(context, listen: false)
-          .updateNameInfo(firstName: firstName, lastName: lastName);
-
       setState(() {
         userName = '$firstName $lastName';
-        isLoading = false; // Stop loading after data is fetched
+        isLoading = false;
       });
     } catch (e) {
       print('Error fetching user name: $e');
@@ -118,16 +114,8 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                           contentPadding: EdgeInsets.zero,
                           title: Consumer<UserInfoProvider>(
                             builder: (context, provider, _) {
-                              final userInfo = provider.userInfo;
-
-                              String displayName = userInfo
-                                          .firstName.isNotEmpty &&
-                                      userInfo.lastName.isNotEmpty
-                                  ? "${userInfo.firstName} ${userInfo.lastName}"
-                                  : userName ?? "Loading...";
-
                               return Text(
-                                "Name: ${displayName}",
+                                "Name: ${userName}",
                                 style: TextStyle(color: AppColors.BLUE),
                               );
                             },
