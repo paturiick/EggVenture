@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/image_picker_controller.dart';
+import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:file_picker/file_picker.dart';
@@ -12,11 +13,14 @@ import 'package:mime/mime.dart';
 import 'package:flutter/material.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_socket_channel/io.dart';
 
 class ChatController {
   static List<types.Message> _messages = [];
   static List<types.Message> get messages => _messages;
   static types.Message? _latestMessage;
+  static IOWebSocketChannel _webSocket = IOWebSocketChannel.connect('ws://echo.websocket.org');
+  final FirestoreService _firestoreService = FirestoreService();
 
   static final user = const types.User(
     id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
@@ -107,6 +111,14 @@ class ChatController {
     );
     addMessage(textMessage, setState);
     textController.clear();
+    _webSocket.sink.add(message);
+
+
+    _webSocket.sink.done.then((_) {
+      print('Message sent successfully!');
+    }).catchError((error) {
+      print('Error sending message: $error');
+    });
   }
 
   /// Handle image selection
