@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:flutter/services.dart'; // Import this for SystemUiOverlayStyle
 import 'package:eggventure/pages/store%20screens/daily_fresh_screen.dart';
 import 'package:eggventure/pages/store%20screens/pabilona_screen.dart';
@@ -11,48 +13,38 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final FirestoreService _service = FirestoreService();
+  late QuerySnapshot businessDetails;
+  @override
+  void initState() {
+    super.initState();
+    getBusinessDetails();
+  }
 
-  final List<Map<String, dynamic>> stores = [
-    {
-      'image': 'assets/stores/vista.jpg',
-      'name': 'Vista',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': VistaScreen(),
-    },
-    {
-      'image': 'assets/stores/pelonio.png',
-      'name': 'Pelonio',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': PelonioScreen(),
-    },
-    {
-      'image': 'assets/stores/daily_fresh.jpg',
-      'name': 'Daily Fresh',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': DailyFreshScreen(),
-    },
-    {
-      'image': 'assets/stores/sundo.png',
-      'name': 'Sundo',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': SundoScreen(),
-    },
-    {
-      'image': 'assets/stores/pabilona.jpg',
-      'name': 'Pabilona',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': PabilonaScreen(),
-    },
-  ];
+  Future<List<Map<String, dynamic>>> getBusinessDetails() async {
+    businessDetails = await _service.getBusinessDetails();
+    stores = businessDetails.docs.map((doc) {
+      return {
+        'image': 'assets/stores/vista.jpg',
+        'name': doc['shopName'],
+        'hours': '8AM - 5PM',
+        'days': 'Mon - Sat',
+        'screen': VistaScreen(),
+      };
+    }).toList();
+    print("Stores2: $stores");
+    return stores;
+  }
+
+  List<Map<String, dynamic>> stores = [];
 
   final List<Map<String, dynamic>> populars = [
     {
@@ -233,29 +225,55 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: size.height * 0.01),
-                SizedBox(
-                  height: size.height * 1.1,
-                  child: GridView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: stores.length,
-                    itemBuilder: (context, index) {
-                      final store = stores[index];
-                      return _buildStoreItem(
-                        context,
-                        store['image']!,
-                        store['name']!,
-                        store['hours']!,
-                        store['days']!,
-                        store['screen'],
-                        size,
-                      );
-                    },
-                  ),
-                ),
+                FutureBuilder(
+                  future:
+                      getBusinessDetails(), // Assuming this is the function that fetches the data
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                          child:
+                              CircularProgressIndicator()); // Show a loading indicator while waiting for data
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        stores = snapshot.data!; // Assign the fetched data to the stores variable
+                        return SizedBox(
+                          height: size.height * 1.1,
+                          child: GridView.builder(
+                            padding: EdgeInsets.zero,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
+                            itemCount: stores.length,
+                            itemBuilder: (context, index) {
+                              final store = stores[index];
+                              print('Store: $stores');
+                              return _buildStoreItem(
+                                context,
+                                store['image'] ?? '',
+                                store['name'] ?? '',
+                                store['hours'] ?? '',
+                                store['days'] ?? '',
+                                store['screen'] ?? VistaScreen(),
+                                size,
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        return Center(
+                            child: Text(
+                                'No data available')); // Handle the case where no data is available
+                      }
+                    } else {
+                      return Center(
+                          child: Text(
+                              'Error fetching data')); // Handle the case where an error occurs while fetching data
+                    }
+                  },
+                )
               ],
             ),
           ),
