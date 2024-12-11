@@ -26,7 +26,6 @@ class FirestoreService {
       return await dbFirestore.collection(collectionName).doc(userId).get();
   }
 
-
   Future<void> fetchUsers() async {
     try {
       
@@ -34,7 +33,6 @@ class FirestoreService {
       
     }
   }
-
 
   Future<void> submitBusiness(
     String shopName, 

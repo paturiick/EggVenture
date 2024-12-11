@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/controller/chat_controller.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/services/websocket/websocket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:uuid/uuid.dart';
+import 'package:web_socket_channel/io.dart';
 
 class UserChatScreen extends StatefulWidget {
   @override
@@ -12,10 +17,20 @@ class UserChatScreen extends StatefulWidget {
 }
 
 class _UserChatScreenState extends State<UserChatScreen> {
+  final IOWebSocketChannel _webSocket = IOWebSocketChannel.connect('ws://echo.websocket.org');
+  
   @override
   void initState() {
     super.initState();
     ChatController.loadMessages(setState);
+    _webSocket.stream.listen(
+      (message) {
+        print('Received message from server: $message');
+        // Handle the incoming message here
+      },
+      onDone: () => print('WebSocket closed'),
+      onError: (error) => print('WebSocket error: $error'),
+    );
   }
 
   @override
