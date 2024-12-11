@@ -9,4 +9,5 @@ class StringConstants {
   static const String USEREMAIL = 'userEmail';
   static const String PROFILEIMAGEURL = 'profileImage';
   static const String ISSELLER = 'isSeller';
+  static const String USERID = 'userId';
 }

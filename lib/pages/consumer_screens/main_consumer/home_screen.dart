@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   final FirestoreService _service = FirestoreService();
   late QuerySnapshot businessDetails;
+  
   @override
   void initState() {
     super.initState();
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'name': doc['shopName'],
         'hours': '8AM - 5PM',
         'days': 'Mon - Sat',
-        'screen': VistaScreen(),
+        'screen': VistaScreen(businessDetails: doc.data() as Map<String, dynamic>),
       };
     }).toList();
     print("Stores2: $stores");
@@ -256,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 store['name'] ?? '',
                                 store['hours'] ?? '',
                                 store['days'] ?? '',
-                                store['screen'] ?? VistaScreen(),
+                                store['screen'],
                                 size,
                               );
                             },
