@@ -80,6 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final firstName = userDetails['firstName'];
       final lastName = userDetails['lastName'];
       userName = '$firstName $lastName';
+      print(uid);
     } catch (e) {
       print('$e');
     }
@@ -258,6 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () async {
               debugPrint('button clicked');
               final String uid = _service.getCurrentUserId();
+              print(uid);
               final userDetails = await _service.getBasedOnId('userDetails', uid);
               userDetails['isSeller'] ? Navigator.pushNamed(context, AppRoutes.HOMEFARMER) : Navigator.pushNamed(context, AppRoutes.SHOPINFO);
             },
