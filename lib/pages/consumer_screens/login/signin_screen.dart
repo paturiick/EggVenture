@@ -317,8 +317,8 @@ class _SigninScreenState extends State<SigninScreen> {
                                   if (_formKey.currentState!.validate()) {
                                     User? user = await _auth.signIn(
                                       context,
-                                      'admin@gmail.com',
-                                      'admin123',
+                                      _emailController.text.trim(),
+                                      _passwordController.text.trim(),
                                     );
                                     if (user != null) {
                                       Navigator.pushAndRemoveUntil(
