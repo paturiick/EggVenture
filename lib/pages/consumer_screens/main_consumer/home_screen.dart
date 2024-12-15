@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:flutter/services.dart'; // Import this for SystemUiOverlayStyle
 import 'package:eggventure/pages/store%20screens/daily_fresh_screen.dart';
 import 'package:eggventure/pages/store%20screens/pabilona_screen.dart';
@@ -11,48 +13,38 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final FirestoreService _firestoreService = FirestoreService();
 
-  final List<Map<String, dynamic>> stores = [
-    {
-      'image': 'assets/stores/vista.jpg',
-      'name': 'Vista',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': VistaScreen(),
-    },
-    {
-      'image': 'assets/stores/pelonio.png',
-      'name': 'Pelonio',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': PelonioScreen(),
-    },
-    {
-      'image': 'assets/stores/daily_fresh.jpg',
-      'name': 'Daily Fresh',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': DailyFreshScreen(),
-    },
-    {
-      'image': 'assets/stores/sundo.png',
-      'name': 'Sundo',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': SundoScreen(),
-    },
-    {
-      'image': 'assets/stores/pabilona.jpg',
-      'name': 'Pabilona',
-      'hours': '8AM - 5PM',
-      'days': 'Mon - Sat',
-      'screen': PabilonaScreen(),
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    getBusinessDetails();
+  }
+
+  Future<QuerySnapshot> getBusinessDetails() async {
+    final businessDetails = await _firestoreService.getBusinessDetails();
+    stores.clear();
+    businessDetails.docs.forEach((doc) {
+      stores.add({
+        'image': 'assets/stores/white_feathers.jpg',
+        'name': doc['shopName'],
+        'hours': '8AM - 5PM',
+        'days': 'Mon - Sat',
+        'screen': VistaScreen(),
+      });
+    });
+    print(stores);
+    return businessDetails;
+  }
+
+  List<Map<String, dynamic>> stores = [];
 
   final List<Map<String, dynamic>> populars = [
     {
@@ -233,29 +225,45 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: size.height * 0.01),
-                SizedBox(
-                  height: size.height * 1.1,
-                  child: GridView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: stores.length,
-                    itemBuilder: (context, index) {
-                      final store = stores[index];
-                      return _buildStoreItem(
-                        context,
-                        store['image']!,
-                        store['name']!,
-                        store['hours']!,
-                        store['days']!,
-                        store['screen'],
-                        size,
+                FutureBuilder(
+                  future: getBusinessDetails(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('waiting');
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      print(stores[0]['name']);
+                      return GridView.builder(
+                        physics:
+                            NeverScrollableScrollPhysics(), 
+                        shrinkWrap:
+                            true, 
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, 
+                          crossAxisSpacing: 10.0, 
+                          mainAxisSpacing: 10.0,
+                          childAspectRatio:
+                              1.0, 
+                        ),
+                        itemCount: stores.length,
+                        itemBuilder: (context, index) {
+                          final store = stores[index];
+                          return _buildStoreItem(
+                            context,
+                            store['image'],
+                            store['name'],
+                            store['hours'],
+                            store['days'],
+                            store['screen'],
+                            size,
+                          );
+                        },
                       );
-                    },
-                  ),
-                ),
+                    }
+                  },
+                )
               ],
             ),
           ),
@@ -265,7 +273,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  @override
   Widget _buildStoreItem(BuildContext context, String imagePath, String title,
       String time, String days, Widget screen, Size size) {
     return GestureDetector(
