@@ -5,7 +5,6 @@ import 'package:eggventure/services/firebase/firebase%20auth/firebase_options.da
 import 'package:eggventure/providers/buy_now_provider.dart';
 import 'package:eggventure/providers/user_info_provider.dart';
 import 'package:eggventure/routes/pages.dart';
-import 'package:eggventure/pages/consumer_screens/login/signin_screen.dart';
 import 'package:eggventure/widgets/loading_screen.dart/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
