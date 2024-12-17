@@ -3,10 +3,7 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:flutter/services.dart'; // Import this for SystemUiOverlayStyle
-import 'package:eggventure/pages/store%20screens/daily_fresh_screen.dart';
 import 'package:eggventure/pages/store%20screens/pabilona_screen.dart';
-import 'package:eggventure/pages/store%20screens/pelonio_screen.dart';
-import 'package:eggventure/pages/store%20screens/sundo_screen.dart';
 import 'package:eggventure/pages/store%20screens/vista_screen.dart';
 import 'package:eggventure/pages/store%20screens/white_feathers_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,35 +11,34 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final FirestoreService _service = FirestoreService();
-  late QuerySnapshot businessDetails;
-  
+  final FirestoreService _firestoreService = FirestoreService();
+
   @override
   void initState() {
     super.initState();
     getBusinessDetails();
   }
 
-  Future<List<Map<String, dynamic>>> getBusinessDetails() async {
-    businessDetails = await _service.getBusinessDetails();
-    stores = businessDetails.docs.map((doc) {
-      return {
-        'image': 'assets/stores/vista.jpg',
+  Future<QuerySnapshot> getBusinessDetails() async {
+    final businessDetails = await _firestoreService.getBusinessDetails();
+    stores.clear();
+    businessDetails.docs.forEach((doc) {
+      stores.add({
+        'image': 'assets/stores/white_feathers.jpg',
         'name': doc['shopName'],
         'hours': '8AM - 5PM',
         'days': 'Mon - Sat',
-        'screen': VistaScreen(businessDetails: doc.data() as Map<String, dynamic>),
-      };
-    }).toList();
-    print("Stores2: $stores");
-    return stores;
+        'screen': VistaScreen(),
+      });
+    });
+    print(stores);
+    return businessDetails;
   }
 
   List<Map<String, dynamic>> stores = [];
@@ -227,51 +223,41 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: size.height * 0.01),
                 FutureBuilder(
-                  future:
-                      getBusinessDetails(), // Assuming this is the function that fetches the data
+                  future: getBusinessDetails(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                          child:
-                              CircularProgressIndicator()); // Show a loading indicator while waiting for data
-                    } else if (snapshot.connectionState ==
-                        ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        stores = snapshot.data!; // Assign the fetched data to the stores variable
-                        return SizedBox(
-                          height: size.height * 1.1,
-                          child: GridView.builder(
-                            padding: EdgeInsets.zero,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                            ),
-                            itemCount: stores.length,
-                            itemBuilder: (context, index) {
-                              final store = stores[index];
-                              print('Store: $stores');
-                              return _buildStoreItem(
-                                context,
-                                store['image'] ?? '',
-                                store['name'] ?? '',
-                                store['hours'] ?? '',
-                                store['days'] ?? '',
-                                store['screen'],
-                                size,
-                              );
-                            },
-                          ),
-                        );
-                      } else {
-                        return Center(
-                            child: Text(
-                                'No data available')); // Handle the case where no data is available
-                      }
+                      print('waiting');
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
                     } else {
-                      return Center(
-                          child: Text(
-                              'Error fetching data')); // Handle the case where an error occurs while fetching data
+                      print(stores[0]['name']);
+                      return GridView.builder(
+                        physics:
+                            NeverScrollableScrollPhysics(), 
+                        shrinkWrap:
+                            true, 
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, 
+                          crossAxisSpacing: 10.0, 
+                          mainAxisSpacing: 10.0,
+                          childAspectRatio:
+                              1.0, 
+                        ),
+                        itemCount: stores.length,
+                        itemBuilder: (context, index) {
+                          final store = stores[index];
+                          return _buildStoreItem(
+                            context,
+                            store['image'],
+                            store['name'],
+                            store['hours'],
+                            store['days'],
+                            store['screen'],
+                            size,
+                          );
+                        },
+                      );
                     }
                   },
                 )
@@ -284,7 +270,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  @override
   Widget _buildStoreItem(BuildContext context, String imagePath, String title,
       String time, String days, Widget screen, Size size) {
     return GestureDetector(
