@@ -35,13 +35,13 @@ class _VistaScreenState extends State<VistaScreen> {
         await _firestoreService.getProducts(widget.businessDetails!['userId']);
     productDetails.clear(); // Clear the existing data
 
-    products.docs.forEach((doc) {
-      final name = doc.data()!['name'];
-      print(name);
-      productDetails['assets/browse store/small_eggs.jpg'] = {
-        "name": name,
-      };
-    });
+    // products.docs.forEach((doc) {
+    //   final name = doc.data()!['name'];
+    //   print(name);
+    //   productDetails['assets/browse store/small_eggs.jpg'] = {
+    //     "name": name,
+    //   };
+    // });
   }
 
   final List<String> imagePaths = [
