@@ -17,28 +17,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final FirestoreService _firestoreService = FirestoreService();
-
+   final FirestoreService _service = FirestoreService();
+  late QuerySnapshot businessDetails;
+  
   @override
   void initState() {
     super.initState();
     getBusinessDetails();
   }
 
-  Future<QuerySnapshot> getBusinessDetails() async {
-    final businessDetails = await _firestoreService.getBusinessDetails();
-    stores.clear();
-    businessDetails.docs.forEach((doc) {
-      stores.add({
-        'image': 'assets/stores/white_feathers.jpg',
+
+   Future<List<Map<String, dynamic>>> getBusinessDetails() async {
+    businessDetails = await _service.getBusinessDetails();
+    stores = businessDetails.docs.map((doc) {
+      return {
+        'image': 'assets/stores/vista.jpg',
         'name': doc['shopName'],
         'hours': '8AM - 5PM',
         'days': 'Mon - Sat',
-        'screen': VistaScreen(),
-      });
-    });
-    print(stores);
-    return businessDetails;
+        'screen': VistaScreen(businessDetails: doc.data() as Map<String, dynamic>),
+      };
+    }).toList();
+    return stores;
   }
 
   List<Map<String, dynamic>> stores = [];

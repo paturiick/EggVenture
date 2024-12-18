@@ -13,7 +13,6 @@ class ChatScreen extends StatelessWidget {
 
     // Get screen dimensions
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return SafeArea(
       child: Scaffold(
