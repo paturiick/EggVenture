@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
 import 'package:eggventure/widgets/overlay%20widgets/buy%20now%20widgets/buy_now.dart';
 import 'package:badges/badges.dart' as badges;
@@ -9,6 +11,9 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 class VistaScreen extends StatefulWidget {
+  final Map<String, dynamic>? businessDetails;
+
+  VistaScreen({this.businessDetails});
   @override
   _VistaScreenState createState() => _VistaScreenState();
 }
@@ -16,6 +21,28 @@ class VistaScreen extends StatefulWidget {
 class _VistaScreenState extends State<VistaScreen> {
   int currentPageIndex = 0;
   final PageController _pageController = PageController();
+  final FirestoreService _firestoreService = FirestoreService();
+  late QuerySnapshot products;
+
+  @override
+  void initState() {
+    super.initState();
+    getProducts();
+  }
+
+  void getProducts() async {
+    products =
+        await _firestoreService.getProducts(widget.businessDetails!['userId']);
+    productDetails.clear(); // Clear the existing data
+
+    // products.docs.forEach((doc) {
+    //   final name = doc.data()!['name'];
+    //   print(name);
+    //   productDetails['assets/browse store/small_eggs.jpg'] = {
+    //     "name": name,
+    //   };
+    // });
+  }
 
   final List<String> imagePaths = [
     "assets/browse store/small_eggs.jpg",
@@ -251,7 +278,7 @@ class _VistaScreenState extends State<VistaScreen> {
                         backgroundImage: AssetImage("assets/stores/vista.jpg"),
                       ),
                       title: Text(
-                        "Vista Fesh Healthy Eggs",
+                        '${widget.businessDetails!['shopName']}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: screenWidth * 0.03,

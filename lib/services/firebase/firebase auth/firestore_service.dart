@@ -46,7 +46,8 @@ class FirestoreService {
         StringConstants.SHOPNAME: shopName,
         StringConstants.SHOPEMAIL: shopEmail,
         StringConstants.ADDRESS: shopAddress,
-        StringConstants.SHOPPHONENUMBER: shopPhoneNumber
+        StringConstants.SHOPPHONENUMBER: shopPhoneNumber,
+        StringConstants.USERID: uid
       });
     } catch (e) {
       print('Error submitting business: $e');
@@ -83,5 +84,12 @@ class FirestoreService {
   Future<QuerySnapshot> getBusinessDetails() async {
     final businessDetails = await _get('businessDetails');
     return businessDetails;
+  }
+
+  Future<QuerySnapshot> getProducts(String uid) async {
+    final docRef = await dbFirestore.collection('businessDetails').where('userId', isEqualTo: uid).get();
+    final products = await docRef.docs.first.reference.collection('products').get();
+    
+    return products;
   }
 }
