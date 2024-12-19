@@ -92,4 +92,14 @@ class FirestoreService {
     
     return products;
   }
+  
+  Future<List<String>> getEmails() async {
+    List<String> emails = [];
+    await dbFirestore.collection('userDetails').get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        emails.add(doc['userEmail']);
+      });
+    });
+    return emails;
+  }
 }
