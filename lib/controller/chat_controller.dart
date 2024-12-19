@@ -1,11 +1,7 @@
 import 'dart:convert';
 import 'package:eggventure/constants/colors.dart';
-import 'package:eggventure/controller/image_picker_controller.dart';
-import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:file_picker/file_picker.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -20,7 +16,6 @@ class ChatController {
   static List<types.Message> get messages => _messages;
   static types.Message? _latestMessage;
   static IOWebSocketChannel _webSocket = IOWebSocketChannel.connect('ws://echo.websocket.org');
-  final FirestoreService _firestoreService = FirestoreService();
 
   static final user = const types.User(
     id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',

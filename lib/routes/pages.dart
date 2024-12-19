@@ -1,7 +1,9 @@
+import 'package:eggventure/pages/admin%20pages/admin_home_screen.dart';
 import 'package:eggventure/pages/consumer_screens/chat_consumer/user2_chat_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/edit_profile_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/processing_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/to_pay_screen.dart';
+import 'package:eggventure/pages/farmer%20screens/revenue/revenue_screen.dart';
 import 'package:eggventure/pages/search%20screens/home_search_screen.dart';
 import 'package:eggventure/pages/search%20screens/tray_search_screen.dart';
 import 'package:eggventure/routes/routes.dart';
@@ -80,6 +82,8 @@ class AppPages {
       AppRoutes.REVIEW: (context) => ProfileScreenReview(),
       AppRoutes.EDITFARMER: (context) => FarmerEditProfileScreen(),
       AppRoutes.USERCHAT2: (context) => User2ChatScreen(),
+      AppRoutes.ADMINHOME: (context) => AdminHomeScreen(),
+      AppRoutes.REVENUE: (context) => RevenueScreen(),
     };
   }
 }
