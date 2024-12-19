@@ -38,4 +38,6 @@ class AppRoutes {
   static const REVIEW = '/to-review';
   static const PAYMENT = '/to-pay';
   static const EDITFARMER = '/edit-farmer';
+  static const ADMINHOME  = '/admin-home';
+  static const REVENUE = '/revenue';
 }
