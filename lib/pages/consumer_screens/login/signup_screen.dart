@@ -8,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../../services/firebase/firebase auth/firestore_service.dart';
+
 class SignupScreen extends StatefulWidget {
   SignupScreen({super.key});
 
@@ -21,10 +23,12 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _passwordVisible = false;
   bool _confirmPasswordVisible = false;
   bool _isLoading = false;
+  bool emailExists = false;
 
   final SignupController _signupController = SignupController();
   final FirebaseAuthService _auth = FirebaseAuthService();
   final _formKey = GlobalKey<FormState>();
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   void initState() {
@@ -46,6 +50,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<bool> _onWillPop() async {
     return true;
+  }
+
+  Future<void> checkIfEmailExists(String email) async {
+    List<String> emails = await _firestoreService.getEmails();
+    emailExists = emails.contains(email) ? true : false;
+    print(emailExists);
   }
 
   Future<void> _showLoadingScreen() async {
@@ -430,52 +440,70 @@ class _SignupScreenState extends State<SignupScreen> {
             _attemptedSignUp = true;
             _isLoading = true; // Start loading indicator
           });
+
+          final emailString = _signupController.emailController.text.trim();
+          final passwordString =
+              _signupController.passwordController.text.trim();
+          final lastNameString =
+              _signupController.lastNameController.text.trim();
+          final firstNameString =
+              _signupController.firstNameController.text.trim();
+          final userPhoneNumberString =
+              _signupController.phoneController.text.trim();
+
+              print(emailString);
+
+          await checkIfEmailExists(emailString);
+          print(emailExists);
+
           if (_formKey.currentState!.validate() && _agreeToTerms) {
-            try {
-              final emailString = _signupController.emailController.text.trim();
-              final passwordString =
-                  _signupController.passwordController.text.trim();
-              final lastNameString =
-                  _signupController.lastNameController.text.trim();
-              final firstNameString =
-                  _signupController.firstNameController.text.trim();
-              final userPhoneNumberString =
-                  _signupController.phoneController.text.trim();
-
-              User? user = await _auth.signupUser(
-                lastNameString,
-                firstNameString,
-                int.parse(userPhoneNumberString),
-                emailString,
-                passwordString,
-              );
-
-              debugPrint('Signup clicked');
-
-              if (user != null) {
-                setState(() => _isLoading = false); // Stop loading on success
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => SigninScreen()),
-                  (Route<dynamic> route) => false,
-                );
-              } else {
+             try{
+               if (emailExists) {
                 setState(() => _isLoading = false); // Stop loading on error
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content:
-                        Text('Sign up failed. Please check your credentials.'),
+                        Text('Email already exists. Please use another one'),
                   ),
                 );
+              } else {
+                User? user = await _auth.signupUser(
+                  lastNameString,
+                  firstNameString,
+                  int.parse(userPhoneNumberString),
+                  emailString,
+                  passwordString,
+                );
+
+                debugPrint('Signup clicked');
+
+                if (user != null) {
+                  setState(() => _isLoading = false); // Stop loading on success
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => SigninScreen()),
+                    (Route<dynamic> route) => false,
+                  );
+                } else {
+                  setState(() => _isLoading = false); // Stop loading on error
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Sign up failed. Please check your credentials.'),
+                    ),
+                  );
+                }
               }
-            } catch (e) {
-              setState(() => _isLoading = false); // Stop loading on exception
+             } catch (e) {
+              
+                  setState(() => _isLoading = false); // Stop loading on error
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('An error occurred. Please try again.'),
-                ),
-              );
-            }
+                    SnackBar(
+                      content: Text(
+                          'error occured, Please try again.'),
+                    ),
+                  );
+             }
           } else {
             setState(
                 () => _isLoading = false); // Stop loading if validation fails
