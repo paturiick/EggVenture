@@ -91,7 +91,7 @@ class _BuyNowState extends State<BuyNowContent> {
 
   @override
   void dispose() {
-    checkedItems.clear();
+  
     super.dispose();
   }
 
@@ -214,6 +214,9 @@ class _BuyNowState extends State<BuyNowContent> {
                     checkedItems.forEach((item) {
                       buynowProvider.buyItems.add(item);
                     });
+                    buynowProvider.recalculateSubtotal();
+                    
+                    checkedItems.clear();
                     CheckoutScreen.showCheckOutScreen(context);
                     setState(() {
                       _isChecked = List.filled(trayItems.length, false);

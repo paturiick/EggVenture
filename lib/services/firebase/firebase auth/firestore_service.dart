@@ -102,4 +102,18 @@ class FirestoreService {
     });
     return emails;
   }
+
+  Future<void> addTransaction(
+    String userId,
+    String total,
+    Timestamp timestamp
+  ) async {
+    final data = {
+      'userId': userId,
+      'total': total,
+      'timestamp': timestamp
+    };
+
+    await _create('transactions', data);
+  }
 }
