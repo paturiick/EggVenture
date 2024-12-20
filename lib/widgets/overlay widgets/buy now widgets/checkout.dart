@@ -86,6 +86,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 Text(
                   // fix the price
+
                   'P ${buynowProvider.subtotal}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -149,6 +150,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ElevatedButton(
                     onPressed: () {
                       buynowProvider.clearTray();
+                      buynowProvider.subtotal = 0.0;
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(

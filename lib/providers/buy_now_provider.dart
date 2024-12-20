@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class BuyNowProvider extends ChangeNotifier {
   final List<TrayItem> buyItems = [];
   List<TrayItem> selectedItems = [];
-  double _subtotal = 0.0;
-  double get subtotal => _subtotal;
+  double subtotal = 0.0;
+  // double get subtotal => _subtotal;
 
   void toggleSelection(TrayItem item) {
     if (selectedItems.contains(item)) {
@@ -18,27 +18,27 @@ class BuyNowProvider extends ChangeNotifier {
 
   void removeFromTray(TrayItem item) {
     buyItems.remove(item);
-    _recalculateSubtotal(); // Recalculate subtotal after removal
+    recalculateSubtotal(); // Recalculate subtotal after removal
     notifyListeners();
   }
 
   void clearTray() {
     selectedItems.clear();
     buyItems.clear();
-    _subtotal = 0.0; // Reset subtotal
+    subtotal = 0.0; // Reset subtotal
     notifyListeners();
   }
 
   void incrementAmount(int index) {
     buyItems[index].amount += 1;
-    _recalculateSubtotal(); // Recalculate subtotal after increment
+    recalculateSubtotal(); // Recalculate subtotal after increment
     notifyListeners();
   }
 
   void decrementAmount(int index) {
     if (buyItems[index].amount > 0) {
       buyItems[index].amount--;
-      _recalculateSubtotal(); // Recalculate subtotal after decrement
+      recalculateSubtotal(); // Recalculate subtotal after decrement
     }
     notifyListeners();
   }
@@ -48,12 +48,12 @@ class BuyNowProvider extends ChangeNotifier {
   }
 
   // Calculate the subtotal of all items
-  void _recalculateSubtotal() {
+  void recalculateSubtotal() {
     double sum = 0.0;
     for (var item in buyItems) {
       sum += item.amount * item.price; // Multiply amount by price
     }
-    _subtotal = sum; // Update the subtotal
+    subtotal = sum; // Update the subtotal
   }
 
   void addToTray(TrayItem item) {
@@ -70,7 +70,7 @@ class BuyNowProvider extends ChangeNotifier {
     }
 
     // Recalculate subtotal
-    _recalculateSubtotal();
+    recalculateSubtotal();
     notifyListeners();
   }
 }
