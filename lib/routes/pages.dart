@@ -1,4 +1,5 @@
 import 'package:eggventure/pages/admin%20pages/admin_home_screen.dart';
+import 'package:eggventure/pages/checkout%20consumer%20screens/order%20track/order_on_the_way.dart';
 import 'package:eggventure/pages/consumer_screens/chat_consumer/user2_chat_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/edit_profile_screen.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/profile%20screens/processing_screen.dart';
@@ -83,7 +84,8 @@ class AppPages {
       AppRoutes.EDITFARMER: (context) => FarmerEditProfileScreen(),
       AppRoutes.USERCHAT2: (context) => User2ChatScreen(),
       AppRoutes.ADMINHOME: (context) => AdminHomeScreen(),
-      AppRoutes.REVENUE: (context) => RevenueScreen(),
+      AppRoutes.REVENUE: (context) => RevenueScreen(businessId: 'businessId',),
+      AppRoutes.ORDERONTHEWAY: (context) => OrderOnTheWay(),
     };
   }
 }

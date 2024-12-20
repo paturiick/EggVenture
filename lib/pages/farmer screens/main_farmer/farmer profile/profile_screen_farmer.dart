@@ -43,10 +43,13 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
     });
   }
 
-  Future<void> getTotal () async {
+  Future<void> getTotal() async {
     final uid = _service.getCurrentUserId();
-    final sales = await _service.dbFirestore.collection('transactions').where('businessId', isEqualTo: uid).get();
-    sales.docs.forEach( (doc) {
+    final sales = await _service.dbFirestore
+        .collection('transactions')
+        .where('businessId', isEqualTo: uid)
+        .get();
+    sales.docs.forEach((doc) {
       print(doc.data());
     });
   }
@@ -351,18 +354,23 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _buildIconOption(
-                        context, FontAwesome.money_bill_transfer_solid, 'Sales', screenWidth),
-                    _buildIconOption(context, BoxIcons.bx_sync,
-                        'Processing', screenWidth),
+                        context,
+                        FontAwesome.money_bill_transfer_solid,
+                        'Revenue',
+                        screenWidth, () {
+                      Navigator.pushNamed(context, AppRoutes.REVENUE);
+                    }),
+                    _buildIconOption(
+                        context, BoxIcons.bx_sync, 'Processing', screenWidth),
                     _buildIconOption(
                       context,
                       Icons.thumb_up_off_alt_outlined,
                       'Feedback',
                       screenWidth,
-                      // () {
-                      //   Navigator.pushNamed(
-                      //       context, AppRoutes.PROFILESCREENREVIEW);
-                      // },
+                      () {
+                        Navigator.pushNamed(
+                            context, AppRoutes.PROFILESCREENREVIEW);
+                      },
                     ),
                   ],
                 ),

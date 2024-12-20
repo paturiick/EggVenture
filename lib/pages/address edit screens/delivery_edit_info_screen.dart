@@ -228,7 +228,7 @@ class _DeliveryEditInfoScreenState extends State<DeliveryEditInfoScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async{
                         Navigator.pushNamed(
                             context, AppRoutes.DELIVERYCHECKOUT);
                       },

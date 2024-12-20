@@ -40,4 +40,5 @@ class AppRoutes {
   static const EDITFARMER = '/edit-farmer';
   static const ADMINHOME  = '/admin-home';
   static const REVENUE = '/revenue';
+  static const ORDERONTHEWAY = '/order-on-the-way';
 }

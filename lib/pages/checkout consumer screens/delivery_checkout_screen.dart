@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
+import 'package:eggventure/pages/checkout%20consumer%20screens/order%20track/order_on_the_way.dart';
 import 'package:eggventure/pages/consumer_screens/main_consumer/home_screen.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/providers/business_details_provider.dart';
@@ -417,7 +418,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
             await _service.addTransaction(uid, (buyNowProvider.subtotal + 10.0).toString(), timestamp, trayProvider.businessDetails['userId'] );
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
+              MaterialPageRoute(builder: (context) => OrderOnTheWay()),
             );
           }
         },
