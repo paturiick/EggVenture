@@ -1,6 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/pages/admin%20pages/admin_home_screen.dart';
 import 'package:eggventure/pages/admin%20pages/admin_profile_screen.dart';
+import 'package:eggventure/pages/admin%20pages/admin_transaction_screen.dart';
 import 'package:flutter/material.dart';
 class NavigationBarAdmin extends StatefulWidget {
   final int currentIndex;
@@ -31,6 +32,7 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarAdmin> {
 
     final routes = [
       AdminHomeScreen(),
+      AdminTransactionScreen(),
       AdminProfileScreen()
     ];
 
@@ -55,8 +57,16 @@ class _NavigationBarWidgetFarmerState extends State<NavigationBarAdmin> {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.person_rounded,
+            Icons.list_alt,
             color: _selectedIndex == 1 ? AppColors.YELLOW : AppColors.BLUE,
+          ),
+          label: 'Transactions',
+        ),
+
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.person_rounded,
+            color: _selectedIndex == 2 ? AppColors.YELLOW : AppColors.BLUE,
           ),
           label: 'Profile',
         ),

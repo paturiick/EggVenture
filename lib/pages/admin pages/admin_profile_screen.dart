@@ -1,6 +1,7 @@
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/edit_profile_provider.dart';
 import 'package:eggventure/services/firebase/firebase%20storage/firebase_profile_picture.dart';
+import 'package:eggventure/widgets/confirmation/logout_confirmation.dart';
 import 'package:eggventure/widgets/loading_screen.dart/shimmer_effect.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_admin.dart';
 import 'package:eggventure/widgets/overlay%20widgets/menu.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class AdminProfileScreen extends StatefulWidget {
   @override
@@ -20,11 +22,14 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
 
   bool _isLoading = true;
   String? _uploadedImageUrl;
+  String? _role = "Administrator";
+  String? _lastLogin = "";
 
   @override
   void initState() {
     super.initState();
     loadProfilePictureUrl();
+    loadLastLogin();
   }
 
   Future<void> saveProfilePictureUrl(String imageUrl) async {
@@ -33,14 +38,37 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
   }
 
   Future<void> loadProfilePictureUrl() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      setState(() {
+        _uploadedImageUrl = preferences.getString('profileImageUrl');
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.YELLOW,
+          content: Text(
+            "Error loading profile picture.",
+            style: TextStyle(color: AppColors.BLUE),
+          ),
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> loadLastLogin() async {
+    // Mock data: Replace with real last login retrieval logic.
     setState(() {
-      _uploadedImageUrl = preferences.getString('profileImageUrl');
-      _isLoading = false;
+      _lastLogin = DateFormat.yMd().add_jm().format(DateTime.now());
     });
   }
 
   Future<void> _updateProfilePicture() async {
+    setState(() => _isLoading = true);
     await _changeProfilePicture.changeProfilePicture(context);
     final newImageUrl = _changeProfilePicture.uploadedImageUrl;
     if (newImageUrl != null) {
@@ -48,6 +76,8 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       setState(() {
         _uploadedImageUrl = newImageUrl;
       });
+      Provider.of<EditProfileProvider>(context, listen: false)
+          .updateImageUrl(newImageUrl);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -59,6 +89,12 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
         ),
       );
     }
+    setState(() => _isLoading = false);
+  }
+
+  Future<void> _logout() async {
+    // Implement logout functionality here.
+    LogoutConfirmation.showLogOutConfirmation(context);
   }
 
   @override
@@ -90,52 +126,91 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
               ),
             ),
             centerTitle: true,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.menu, color: AppColors.BLUE),
-                onPressed: () {
-                  MenuScreen.showMenu(context);
-                },
-              ),
-            ],
           ),
-          body: _isLoading
-              ? _shimmerEffect.buildShimmerEffect(screenWidth, screenHeight)
-              : Center( 
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: screenHeight * 0.02),
-                      buildProfilePicture(screenWidth),
-                      SizedBox(height: screenHeight * 0.02),
-                      Text(
-                        'admin',
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.05,
-                          color: AppColors.BLUE,
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.01),
-                      Text(
-                        "admin@gmail.com",
-                        style: TextStyle(
-                          fontSize: screenWidth * 0.04,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      _buildProfileOption(
-                        context,
-                        'Edit Profile',
-                        screenWidth,
-                        () {
-                          // Navigate to edit profile screen
-                        },
-                      ),
-                    ],
-                  ),
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.YELLOW.withOpacity(0.8),
+                  Colors.white,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-          bottomNavigationBar: NavigationBarAdmin(currentIndex: 1),
+            ),
+            child: _isLoading
+                ? _shimmerEffect.buildShimmerEffect(screenWidth, screenHeight)
+                : Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(screenWidth * 0.05),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          buildProfileCard(screenWidth, screenHeight),
+                          SizedBox(height: screenHeight * 0.03),
+                          _buildProfileOption(
+                            context,
+                            'Edit Profile',
+                            screenWidth,
+                            () {
+                              // Navigate to edit profile screen
+                            },
+                          ),
+                          SizedBox(height: screenHeight * 0.02),
+                          _buildProfileOption(
+                            context,
+                            'Logout',
+                            screenWidth,
+                            _logout,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+          ),
+          bottomNavigationBar: NavigationBarAdmin(currentIndex: 2),
+        ),
+      ),
+    );
+  }
+
+  Widget buildProfileCard(double screenWidth, double screenHeight) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 8,
+      child: Padding(
+        padding: EdgeInsets.all(screenWidth * 0.05),
+        child: Column(
+          children: [
+            buildProfilePicture(screenWidth),
+            SizedBox(height: screenHeight * 0.02),
+            Text(
+              'admin',
+              style: TextStyle(
+                fontSize: screenWidth * 0.05,
+                color: AppColors.BLUE,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: screenHeight * 0.01),
+            Text(
+              'Role: $_role',
+              style: TextStyle(
+                fontSize: screenWidth * 0.04,
+                color: AppColors.BLUE,
+              ),
+            ),
+            SizedBox(height: screenHeight * 0.01),
+            Text(
+              'Last Login: $_lastLogin',
+              style: TextStyle(
+                fontSize: screenWidth * 0.035,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -164,35 +239,21 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
             Positioned(
               bottom: 0,
               right: 0,
-              child: GestureDetector(
-                onTap: () async {
-                  await _changeProfilePicture.changeProfilePicture(context);
-                  final newImageUrl = _changeProfilePicture.uploadedImageUrl;
-                  if (newImageUrl != null) {
-                    await saveProfilePictureUrl(newImageUrl);
-                    userImageProvider.updateImageUrl(newImageUrl);
-                    setState(() {
-                      _uploadedImageUrl = newImageUrl;
-                    });
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        backgroundColor: AppColors.YELLOW,
-                        content: Text(
-                          "Failed to retrieve the new Profile Picture",
-                          style: TextStyle(color: AppColors.BLUE),
-                        ),
-                      ),
-                    );
-                  }
-                },
-                child: CircleAvatar(
-                  backgroundColor: AppColors.YELLOW,
-                  radius: screenWidth * 0.05,
-                  child: Icon(
-                    Icons.edit,
-                    color: AppColors.BLUE,
-                    size: screenWidth * 0.04,
+              child: Tooltip(
+                message: 'Edit Profile Picture',
+                child: GestureDetector(
+                  onTap: _updateProfilePicture,
+                  child: CircleAvatar(
+                    backgroundColor: AppColors.YELLOW,
+                    radius: screenWidth * 0.05,
+                    child: _isLoading
+                        ? CircularProgressIndicator(
+                            color: AppColors.BLUE, strokeWidth: 2)
+                        : Icon(
+                            Icons.edit,
+                            color: AppColors.BLUE,
+                            size: screenWidth * 0.04,
+                          ),
                   ),
                 ),
               ),
@@ -208,6 +269,8 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
+        shadowColor: Colors.grey.withOpacity(0.5),
+        elevation: 8,
         foregroundColor: AppColors.BLUE,
         backgroundColor: AppColors.YELLOW,
         padding: EdgeInsets.symmetric(

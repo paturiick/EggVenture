@@ -81,7 +81,6 @@ class MenuScreen {
   }
 
   static Widget _buildLogoutButton(BuildContext context, String title) {
-    
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
