@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
+import 'package:eggventure/providers/business_details_provider.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:eggventure/widgets/add%20to%20tray%20widgets/add_to_tray.dart';
@@ -23,11 +24,15 @@ class _VistaScreenState extends State<VistaScreen> {
   final PageController _pageController = PageController();
   final FirestoreService _firestoreService = FirestoreService();
   late QuerySnapshot products;
+  
+
 
   @override
   void initState() {
     super.initState();
     getProducts();
+
+    
   }
 
   void getProducts() async {
@@ -75,7 +80,7 @@ class _VistaScreenState extends State<VistaScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     final trayProvider = Provider.of<AddToTrayProvider>(context);
-
+    trayProvider.businessDetails.addAll(widget.businessDetails!);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

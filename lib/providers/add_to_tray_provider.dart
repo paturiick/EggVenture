@@ -5,6 +5,7 @@ class AddToTrayProvider extends ChangeNotifier {
   final List<TrayItem> _trayItems = [];
   List<TrayItem> get trayItems => _trayItems;
    List<TrayItem> selectedItems = [];
+  Map<String, dynamic> businessDetails = {};
 
   void toggleSelection(TrayItem item) {
     if (selectedItems.contains(item)) {
