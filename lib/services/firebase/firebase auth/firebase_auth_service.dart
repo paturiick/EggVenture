@@ -72,43 +72,51 @@ class FirebaseAuthService {
     }
   }
 
- Future<User?> signIn(BuildContext context, String email, String password) async {
-  try {
-    _showLoadingDialog(context); // Show loading indicator
+ Future<User?> signIn(
+      BuildContext context, String email, String password) async {
+    try {
+      _showLoadingDialog(context); // Show loading indicator
 
-    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+      // Check if the email is registered
+      List<String> signInMethods =
+          await _auth.fetchSignInMethodsForEmail(email);
+      if (signInMethods.isEmpty) {
+        Navigator.pop(context);
+        errorMessage = 'User does not exist with these credentials.';
+        return null;
+      }
 
-    Navigator.pop(context); // Dismiss the loading indicator on success
-    return userCredential.user;
-  } on FirebaseAuthException catch (e) {
-    Navigator.pop(context); // Dismiss the loading indicator on error
+      // Proceed with sign-in if email exists
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
+      Navigator.pop(context); // Dismiss the loading indicator on success
+      return userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context); // Dismiss the loading indicator on error
 
-    print('Email: $email, Password: $password');
-
-    if (e.code == 'wrong-password') {
-      errorMessage = 'The password you entered is incorrect. Please try again.';
-    } else if (e.code == 'invalid-email') {
-      errorMessage = 'Email address format is invalid.';
-    } else if (e.code == 'user-disabled') {
-      errorMessage = 'This account has been disabled';
-    } else if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
-      errorMessage = 'User does not exist with these credentials.';
-    } else if (e.code == 'operation-not-allowed') {
-      errorMessage = 'This type of sign-in is not enabled.';
-    } else {
-      errorMessage = 'An unexpected error occurred. Please try again or contact support if the issue persists.';
+      // Handle specific errors
+      if (e.code == 'wrong-password') {
+        errorMessage =
+            'The password you entered is incorrect. Please try again.';
+      } else if (e.code == 'invalid-email') {
+        errorMessage = 'Email address format is invalid.';
+      } else if (e.code == 'user-disabled') {
+        errorMessage = 'This account has been disabled.';
+      } else {
+        errorMessage = 'An unexpected error occurred. Please try again.';
+      }
+      return null;
+    } catch (e) {
+      Navigator.pop(
+          context); // Dismiss the loading indicator on unexpected error
+      errorMessage = 'An error occurred. Please try again later.';
+      return null;
     }
+  }
 
-    return null; 
-  } catch (e) {
-    Navigator.pop(context); 
-    return null; 
-  }
-  }
 
   Future<void> signOut() async {
     await _auth.signOut();
