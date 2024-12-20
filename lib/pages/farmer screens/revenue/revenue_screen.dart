@@ -10,7 +10,7 @@ class RevenueScreen extends StatefulWidget {
 }
 
 class _RevenueScreenState extends State<RevenueScreen> {
-  late Future<List<Map<String, dynamic>>> _revenueDataFuture;
+  late Future<Map<String, dynamic>> _revenueDataFuture;
   final FirestoreService _firestoreService = FirestoreService();
 
   @override
@@ -19,12 +19,13 @@ class _RevenueScreenState extends State<RevenueScreen> {
     _revenueDataFuture = _fetchRevenueData();
   }
 
-  Future<List<Map<String, dynamic>>> _fetchRevenueData() async {
+  Future<Map<String, dynamic>> _fetchRevenueData() async {
     List<Map<String, dynamic>> revenueList = [];
+    double totalRevenue = 0.0;
     final uid = await _firestoreService.getCurrentUserId();
     if (uid == null) {
       print('User ID is null. User might not be logged in.');
-      return [];
+      return {'revenueList': [], 'totalRevenue': 0.0};
     }
 
     try {
@@ -34,14 +35,15 @@ class _RevenueScreenState extends State<RevenueScreen> {
           .get();
 
       if (querySnapshot.docs.isEmpty) {
-        print('No documents found for businessId: $uid');
+        print('No documents found for userId: $uid');
       }
 
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
-        print('Document data: $data');
+        double price = double.parse(data['total']);
+        totalRevenue += price;
         revenueList.add({
-          'total': data['total'] ?? 0.0, 
+          'price': price,
           'timestamp':
               data.containsKey('timestamp') ? data['timestamp'].toDate() : null,
         });
@@ -50,7 +52,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
       print('Error fetching revenue data: $e');
     }
 
-    return revenueList;
+    return {'revenueList': revenueList, 'totalRevenue': totalRevenue};
   }
 
   @override
@@ -101,7 +103,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
               ),
               // Revenue Data Section
               Expanded(
-                child: FutureBuilder<List<Map<String, dynamic>>>(
+                child: FutureBuilder<Map<String, dynamic>>(
                   future: _revenueDataFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -113,7 +115,8 @@ class _RevenueScreenState extends State<RevenueScreen> {
                           style: TextStyle(color: Colors.red),
                         ),
                       );
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    } else if (!snapshot.hasData ||
+                        snapshot.data!['revenueList'].isEmpty) {
                       return Center(
                         child: Text(
                           'No revenue data available.',
@@ -122,34 +125,55 @@ class _RevenueScreenState extends State<RevenueScreen> {
                       );
                     }
 
-                    final revenueData = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: revenueData.length,
-                      itemBuilder: (context, index) {
-                        final item = revenueData[index];
-                        return Card(
-                          elevation: 3,
-                          margin: EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 16.0),
-                          child: ListTile(
-                            title: Text(
-                              'Total: ${item['total']}',
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.04,
-                                color: AppColors.BLUE,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            subtitle: Text(
-                              'Timestamp: ${item['timestamp']}',
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.035,
-                                color: Colors.grey,
-                              ),
+                    final revenueData = snapshot.data!['revenueList'] as List<Map<String, dynamic>>;
+                    final totalRevenue = snapshot.data!['totalRevenue'] as double;
+
+                    return Column(
+                      children: [
+                        // Display Total Revenue
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            'Total Revenue: \ P${totalRevenue.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.05,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.BLUE,
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        // List of Revenue Data
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: revenueData.length,
+                            itemBuilder: (context, index) {
+                              final item = revenueData[index];
+                              return Card(
+                                elevation: 3,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 16.0),
+                                child: ListTile(
+                                  title: Text(
+                                    'Price: \ P${item['price'].toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      fontSize: screenWidth * 0.04,
+                                      color: AppColors.BLUE,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'Timestamp: ${item['timestamp']}',
+                                    style: TextStyle(
+                                      fontSize: screenWidth * 0.035,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
