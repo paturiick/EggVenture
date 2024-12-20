@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/providers/add_to_tray_provider.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
@@ -358,7 +359,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
           padding: EdgeInsets.symmetric(vertical: 15),
           elevation: 0,
         ),
-        onPressed: () {
+        onPressed: () async{
           if (userInfoProvider.streetAddress.isEmpty ||
               userInfoProvider.barangayAddress.isEmpty ||
               userInfoProvider.cityAddress.isEmpty ||
@@ -404,7 +405,10 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
                   );
                 });
           } else {
-            //For google maps navigation here
+            final uid = await _service.getCurrentUserId();
+            final timestamp = Timestamp.now();
+            await _service.addTransaction(uid, (buyNowProvider.subtotal + 10.0).toString(), timestamp);
+            
           }
         },
         child: SizedBox(
