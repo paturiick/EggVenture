@@ -106,12 +106,14 @@ class FirestoreService {
   Future<void> addTransaction(
     String userId,
     String total,
-    Timestamp timestamp
+    Timestamp timestamp,
+    String businessId
   ) async {
     final data = {
       'userId': userId,
       'total': total,
-      'timestamp': timestamp
+      'timestamp': timestamp,
+      'businessId': businessId
     };
 
     await _create('transactions', data);

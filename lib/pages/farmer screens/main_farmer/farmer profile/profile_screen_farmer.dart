@@ -43,10 +43,19 @@ class _ProfileScreenFarmerState extends State<ProfileScreenFarmer> {
     });
   }
 
+  Future<void> getTotal () async {
+    final uid = _service.getCurrentUserId();
+    final sales = await _service.dbFirestore.collection('transactions').where('businessId', isEqualTo: uid).get();
+    sales.docs.forEach( (doc) {
+      print(doc.data());
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getShopName();
+    getTotal();
   }
 
   Future<void> getShopName() async {
