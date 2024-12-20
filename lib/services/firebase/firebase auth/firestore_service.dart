@@ -93,6 +93,7 @@ class FirestoreService {
     return products;
   }
   
+  
   Future<List<String>> getEmails() async {
     List<String> emails = [];
     await dbFirestore.collection('userDetails').get().then((QuerySnapshot querySnapshot) {
