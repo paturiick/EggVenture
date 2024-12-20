@@ -1,8 +1,8 @@
-import 'package:eggventure/pages/admin%20pages/userDetails/user_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/widgets/navigation%20bars/navigation_bar_admin.dart';
+import 'package:eggventure/pages/admin%20pages/userDetails/user_details_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   @override
@@ -70,8 +70,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.white,
-        title: Text('Remove User',
-        style: TextStyle(color: AppColors.BLUE),),
+        title: Text(
+          'Remove User',
+          style: TextStyle(color: AppColors.BLUE),
+        ),
         content: Text('Are you sure you want to remove this user?',
             style: TextStyle(color: AppColors.BLUE)),
         actions: [
@@ -137,40 +139,44 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     );
   }
 
-  Widget buildDashboardCard(String title, dynamic value, Color color) {
-    return Card(
-      elevation: 5,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+  Widget buildCircularStat(
+      String title, dynamic value, Color color, double size) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Stack(
+          alignment: Alignment.center,
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                color: AppColors.BLUE,
-                fontWeight: FontWeight.bold,
+            SizedBox(
+              width: size,
+              height: size,
+              child: CircularProgressIndicator(
+                value: 1.0, // Fully filled circle
+                strokeWidth: 8.0,
+                color: color,
+                backgroundColor: Colors.grey[200],
               ),
             ),
-            SizedBox(height: 10),
-            AnimatedSwitcher(
-              duration: Duration(milliseconds: 300),
-              child: Text(
-                value.toString(),
-                key: ValueKey<dynamic>(value),
-                style: TextStyle(
-                  fontSize: 22,
-                  color: AppColors.YELLOW,
-                  fontWeight: FontWeight.bold,
-                ),
+            Text(
+              value.toString(),
+              style: TextStyle(
+                fontSize: size * 0.3,
+                color: color,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
-      ),
+        SizedBox(height: 8),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: size * 0.2,
+            color: AppColors.BLUE,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 
@@ -234,19 +240,19 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                               ),
                               SizedBox(height: 20),
 
-                              // Dashboard Grid
-                              GridView.count(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                children: [
-                                  buildDashboardCard('Registered Users',
-                                      _userCount, AppColors.YELLOW),
-                                  buildDashboardCard('Registered Stores',
-                                      _businessCount, AppColors.YELLOW),
-                                ],
+                              // Circular Stats Section
+                              SizedBox(
+                                height: 200, // Adjust height as needed
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    buildCircularStat('Users', _userCount,
+                                        AppColors.YELLOW, 120),
+                                    buildCircularStat('Businesses',
+                                        _businessCount, AppColors.YELLOW, 120),
+                                  ],
+                                ),
                               ),
                               SizedBox(height: 20),
                               // Refresh Button
