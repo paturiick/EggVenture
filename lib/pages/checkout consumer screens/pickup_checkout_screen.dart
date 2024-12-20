@@ -61,9 +61,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back, color: AppColors.BLUE),
                   onPressed: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    }
+                    Navigator.pushNamed(context, AppRoutes.HOMESCREEN);
                   },
                 ),
                 title: Text(
@@ -232,7 +230,7 @@ class _PickupCheckoutScreenState extends State<PickupCheckoutScreen> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.YELLOW, 
+                      backgroundColor: AppColors.YELLOW,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
