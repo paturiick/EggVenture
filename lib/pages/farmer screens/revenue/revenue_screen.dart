@@ -62,7 +62,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          color: Colors.white,
+          color: AppColors.YELLOW,
           child: Column(
             children: [
               // AppBar Section
@@ -125,26 +125,64 @@ class _RevenueScreenState extends State<RevenueScreen> {
                       );
                     }
 
-                    final revenueData = snapshot.data!['revenueList'] as List<Map<String, dynamic>>;
-                    final totalRevenue = snapshot.data!['totalRevenue'] as double;
+                    final revenueData = snapshot.data!['revenueList']
+                        as List<Map<String, dynamic>>;
+                    final totalRevenue =
+                        snapshot.data!['totalRevenue'] as double;
 
                     return Column(
                       children: [
-                        // Display Total Revenue
+                        // Total Revenue Summary Card
                         Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            'Total Revenue: \ P${totalRevenue.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.05,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.BLUE,
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.BLUE.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white,
+                                  spreadRadius: 2,
+                                  blurRadius: 6,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Total Revenue",
+                                  style: TextStyle(
+                                    fontSize: screenWidth * 0.05,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.BLUE,
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  "P${totalRevenue.toStringAsFixed(2)}",
+                                  style: TextStyle(
+                                    fontSize: screenWidth * 0.06,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.BLUE,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                         // List of Revenue Data
                         Expanded(
-                          child: ListView.builder(
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) => Divider(
+                              color: Colors.grey[300],
+                              thickness: 1,
+                              indent: 16,
+                              endIndent: 16,
+                            ),
                             itemCount: revenueData.length,
                             itemBuilder: (context, index) {
                               final item = revenueData[index];
@@ -152,20 +190,28 @@ class _RevenueScreenState extends State<RevenueScreen> {
                                 elevation: 3,
                                 margin: EdgeInsets.symmetric(
                                     vertical: 8.0, horizontal: 16.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                                 child: ListTile(
+                                  leading: Icon(
+                                    Icons.attach_money,
+                                    color: AppColors.BLUE,
+                                    size: 36,
+                                  ),
                                   title: Text(
-                                    'Price: \ P${item['price'].toStringAsFixed(2)}',
+                                    'Price: P${item['price'].toStringAsFixed(2)}',
                                     style: TextStyle(
-                                      fontSize: screenWidth * 0.04,
+                                      fontSize: screenWidth * 0.045,
+                                      fontWeight: FontWeight.w600,
                                       color: AppColors.BLUE,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   subtitle: Text(
                                     'Timestamp: ${item['timestamp']}',
                                     style: TextStyle(
-                                      fontSize: screenWidth * 0.035,
-                                      color: Colors.grey,
+                                      fontSize: screenWidth * 0.04,
+                                      color: Colors.grey[600],
                                     ),
                                   ),
                                 ),

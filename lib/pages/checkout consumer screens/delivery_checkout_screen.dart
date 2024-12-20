@@ -31,7 +31,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
     ));
-    getUserName(); // Call getUserName on initialization
+    getUserName();
     
   }
 
@@ -415,7 +415,7 @@ class _DeliveryCheckoutScreenState extends State<DeliveryCheckoutScreen> {
             final uid = await _service.getCurrentUserId();
             final timestamp = Timestamp.now();
             print(trayProvider.businessDetails['userId']);
-            await _service.addTransaction(uid, (buyNowProvider.subtotal + 10.0).toString(), timestamp, trayProvider.businessDetails['userId'] );
+            await _service.addTransaction(uid, (buyNowProvider.subtotal + 10.0).toString(), timestamp, trayProvider.businessDetails['userId'], userName);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => OrderOnTheWay()),

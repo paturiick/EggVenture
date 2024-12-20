@@ -108,13 +108,14 @@ class FirestoreService {
     String userId,
     String total,
     Timestamp timestamp,
-    String businessId
+    String businessId, userName
   ) async {
     final data = {
       'userId': userId,
       'total': total,
       'timestamp': timestamp,
-      'businessId': businessId
+      'businessId': businessId,
+      'userName': userName
     };
 
     await _create('transactions', data);
