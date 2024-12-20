@@ -1,19 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
+import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:flutter/material.dart';
 
 class RevenueScreen extends StatefulWidget {
-  final String businessId;
-
-  RevenueScreen({required this.businessId});
-
   @override
   _RevenueScreenState createState() => _RevenueScreenState();
 }
 
 class _RevenueScreenState extends State<RevenueScreen> {
   late Future<List<Map<String, dynamic>>> _revenueDataFuture;
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   void initState() {
@@ -23,20 +21,29 @@ class _RevenueScreenState extends State<RevenueScreen> {
 
   Future<List<Map<String, dynamic>>> _fetchRevenueData() async {
     List<Map<String, dynamic>> revenueList = [];
+    final uid = await _firestoreService.getCurrentUserId();
+    if (uid == null) {
+      print('User ID is null. User might not be logged in.');
+      return [];
+    }
 
     try {
       final querySnapshot = await FirebaseFirestore.instance
-          .collection(
-              'transactions')
-          .where('businessId', isEqualTo: widget.businessId)
+          .collection('transactions')
+          .where('userId', isEqualTo: uid)
           .get();
 
+      if (querySnapshot.docs.isEmpty) {
+        print('No documents found for businessId: $uid');
+      }
+
       for (var doc in querySnapshot.docs) {
+        final data = doc.data();
+        print('Document data: $data');
         revenueList.add({
-          'total': doc[
-              'total'],
+          'total': data['total'] ?? 0.0, 
           'timestamp':
-              doc['timestamp'].toDate(),
+              data.containsKey('timestamp') ? data['timestamp'].toDate() : null,
         });
       }
     } catch (e) {
@@ -45,7 +52,6 @@ class _RevenueScreenState extends State<RevenueScreen> {
 
     return revenueList;
   }
-
 
   @override
   Widget build(BuildContext context) {

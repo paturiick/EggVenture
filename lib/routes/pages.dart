@@ -84,7 +84,7 @@ class AppPages {
       AppRoutes.EDITFARMER: (context) => FarmerEditProfileScreen(),
       AppRoutes.USERCHAT2: (context) => User2ChatScreen(),
       AppRoutes.ADMINHOME: (context) => AdminHomeScreen(),
-      AppRoutes.REVENUE: (context) => RevenueScreen(businessId: 'businessId',),
+      AppRoutes.REVENUE: (context) => RevenueScreen(),
       AppRoutes.ORDERONTHEWAY: (context) => OrderOnTheWay(),
     };
   }
