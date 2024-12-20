@@ -315,7 +315,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             GestureDetector(
                                 onTap: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    if (_emailController.text.trim() == "admin@gmail.com" &&
+                                    if (_emailController.text.trim() == "admin" &&
                                         _passwordController.text.trim() == "admin") {
                                       Navigator.pushNamed(
                                           context, AppRoutes.ADMINHOME);

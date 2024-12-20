@@ -1,3 +1,4 @@
+import 'package:eggventure/pages/admin%20pages/userDetails/user_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eggventure/constants/colors.dart';
@@ -11,9 +12,8 @@ class AdminHomeScreen extends StatefulWidget {
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   int _userCount = 0;
   int _businessCount = 0;
-  int _dailyLogins = 0;
-  double _monthlyGrowth = 0.0;
   bool _isLoading = true;
+  List<String> _userIds = [];
 
   @override
   void initState() {
@@ -24,17 +24,16 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   Future<void> _fetchCounts() async {
     setState(() => _isLoading = true);
     try {
-      // Fetch total users
       FirebaseFirestore.instance
           .collection('userDetails')
           .snapshots()
           .listen((userSnapshot) {
         setState(() {
           _userCount = userSnapshot.docs.length;
+          _userIds = userSnapshot.docs.map((doc) => doc.id).toList();
         });
       });
 
-      // Fetch total businesses
       FirebaseFirestore.instance
           .collection('businessDetails')
           .snapshots()
@@ -43,257 +42,281 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           _businessCount = businessSnapshot.docs.length;
         });
       });
-      final today = DateTime.now();
-      final startOfDay = DateTime(today.year, today.month, today.day);
-      FirebaseFirestore.instance
-          .collection('logins')
-          .where('timestamp', isGreaterThanOrEqualTo: startOfDay)
-          .snapshots()
-          .listen((loginSnapshot) {
-        setState(() {
-          _dailyLogins = loginSnapshot.docs.length;
-        });
-      });
-      final startOfMonth = DateTime(today.year, today.month, 1);
-      final lastMonth = DateTime(today.year, today.month - 1, 1);
-      FirebaseFirestore.instance
-          .collection('userDetails')
-          .where('createdAt', isGreaterThanOrEqualTo: lastMonth)
-          .snapshots()
-          .listen((userSnapshot) {
-        final lastMonthCount = userSnapshot.docs
-            .where((doc) =>
-                (doc['createdAt'] as Timestamp).toDate().isBefore(startOfMonth))
-            .length;
-        final currentMonthCount = userSnapshot.docs
-            .where((doc) =>
-                (doc['createdAt'] as Timestamp).toDate().isAfter(startOfMonth))
-            .length;
-
-        setState(() {
-          _monthlyGrowth = lastMonthCount == 0
-              ? 0.0
-              : ((currentMonthCount - lastMonthCount) / lastMonthCount * 100)
-                  .clamp(0, 100);
-          _isLoading = false;
-        });
-      });
     } catch (error) {
       setState(() => _isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to fetch data: $error'),
-        ),
-      );
+      _showErrorDialog('Failed to fetch data: $error');
     }
+    setState(() => _isLoading = false);
+  }
+
+  Future<void> _deleteUser(String userId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('userDetails')
+          .doc(userId)
+          .delete();
+      setState(() {
+        _userIds.remove(userId);
+        _userCount--;
+      });
+      _showSuccessDialog('User removed successfully.');
+    } catch (error) {
+      _showErrorDialog('Failed to remove user: $error');
+    }
+  }
+
+  void _confirmDeleteUser(String userId) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text('Remove User',
+        style: TextStyle(color: AppColors.BLUE),),
+        content: Text('Are you sure you want to remove this user?',
+            style: TextStyle(color: AppColors.BLUE)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel', style: TextStyle(color: AppColors.RED)),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _deleteUser(userId);
+            },
+            child: Text('Remove', style: TextStyle(color: AppColors.RED)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorDialog(String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text(
+          'Error',
+          style: TextStyle(color: AppColors.RED),
+        ),
+        content: Text(errorMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'OK',
+              style: TextStyle(color: AppColors.YELLOW),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showSuccessDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text(
+          'Success',
+          style: TextStyle(color: AppColors.BLUE),
+        ),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'OK',
+              style: TextStyle(color: AppColors.BLUE),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildDashboardCard(String title, dynamic value, Color color) {
+    return Card(
+      elevation: 5,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                color: AppColors.BLUE,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: Text(
+                value.toString(),
+                key: ValueKey<dynamic>(value),
+                style: TextStyle(
+                  fontSize: 22,
+                  color: AppColors.YELLOW,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            // AppBar Section
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.BLUE.withOpacity(0.2),
-                    offset: Offset(0, 2),
-                    blurRadius: 5,
-                    spreadRadius: 5,
-                  ),
-                ],
-              ),
-              child: AppBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                automaticallyImplyLeading: false,
-                title: Text(
-                  "Dashboard",
-                  style: TextStyle(
-                    fontSize: screenWidth * 0.07,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.BLUE,
-                  ),
+        body: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              // AppBar Section
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.BLUE.withOpacity(0.2),
+                      offset: Offset(0, 2),
+                      blurRadius: 5,
+                      spreadRadius: 5,
+                    ),
+                  ],
                 ),
-                centerTitle: true,
+                child: AppBar(
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  automaticallyImplyLeading: false,
+                  title: Text(
+                    "Dashboard",
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.07,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.BLUE,
+                    ),
+                  ),
+                  centerTitle: true,
+                ),
               ),
-            ),
 
-            // Main Content
-            Expanded(
-              child: _isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // System Overview Header
-                            Text(
-                              'System Overview',
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.05,
-                                color: AppColors.BLUE,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-
-                            // Total Users Card
-                            Card(
-                              color: Colors.white,
-                              elevation: 3,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: ListTile(
-                                leading:
-                                    Icon(Icons.group, color: Colors.blueAccent),
-                                title: Text(
-                                  'Total Users',
-                                  style: TextStyle(
-                                    fontSize: screenWidth * 0.04,
-                                    color: AppColors.BLUE,
-                                  ),
-                                ),
-                                trailing: Text(
-                                  '$_userCount',
-                                  style: TextStyle(
-                                    fontSize: screenWidth * 0.045,
-                                    color: AppColors.BLUE,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+              // Main Content
+              Expanded(
+                child: _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // System Overview Header
+                              Text(
+                                'System Overview',
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.05,
+                                  color: AppColors.BLUE,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
+                              SizedBox(height: 20),
 
-                            // Total Businesses Card
-                            Card(
-                              color: Colors.white,
-                              elevation: 3,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: ListTile(
-                                leading:
-                                    Icon(Icons.business, color: Colors.orange),
-                                title: Text(
-                                  'Total Businesses',
-                                  style: TextStyle(
-                                    fontSize: screenWidth * 0.04,
-                                    color: AppColors.BLUE,
-                                  ),
-                                ),
-                                trailing: Text(
-                                  '$_businessCount',
-                                  style: TextStyle(
-                                    fontSize: screenWidth * 0.045,
-                                    color: AppColors.BLUE,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20),
-
-                            // Trends Section
-                            Text(
-                              'Trends & Insights',
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.05,
-                                color: AppColors.BLUE,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-
-                            // Monthly Growth and Daily Activity
-                            Card(
-                              color: Colors.white,
-                              elevation: 3,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Column(
+                              // Dashboard Grid
+                              GridView.count(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
                                 children: [
-                                  ListTile(
-                                    leading: Icon(Icons.trending_up,
-                                        color: Colors.green),
-                                    title: Text(
-                                      'Monthly Growth',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.04,
-                                        color: AppColors.BLUE,
-                                      ),
-                                    ),
-                                    trailing: Text(
-                                      '${_monthlyGrowth.toStringAsFixed(1)}%',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.045,
-                                        color: Colors.green,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Divider(),
-                                  ListTile(
-                                    leading: Icon(Icons.bar_chart,
-                                        color: Colors.blueAccent),
-                                    title: Text(
-                                      'Daily Activity',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.04,
-                                        color: AppColors.BLUE,
-                                      ),
-                                    ),
-                                    trailing: Text(
-                                      '$_dailyLogins logins',
-                                      style: TextStyle(
-                                        fontSize: screenWidth * 0.045,
-                                        color: AppColors.BLUE,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
+                                  buildDashboardCard('Registered Users',
+                                      _userCount, AppColors.YELLOW),
+                                  buildDashboardCard('Registered Stores',
+                                      _businessCount, AppColors.YELLOW),
                                 ],
                               ),
-                            ),
-                            SizedBox(height: screenHeight * 0.03),
-
-                            // Refresh Button
-                            ElevatedButton.icon(
-                              onPressed: _fetchCounts,
-                              icon: Icon(
-                                Icons.refresh,
-                                color: AppColors.BLUE,
-                              ),
-                              label: Text(
-                                'Refresh Data',
-                                style: TextStyle(
-                                  fontSize: screenWidth * 0.03,
-                                  color: AppColors.BLUE,
+                              SizedBox(height: 20),
+                              // Refresh Button
+                              Center(
+                                child: ElevatedButton.icon(
+                                  onPressed: _fetchCounts,
+                                  icon: Icon(
+                                    Icons.refresh,
+                                    color: AppColors.BLUE,
+                                  ),
+                                  label: Text(
+                                    'Refresh Data',
+                                    style: TextStyle(
+                                      fontSize: screenWidth * 0.03,
+                                      color: AppColors.BLUE,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.YELLOW,
+                                  ),
                                 ),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.YELLOW,
+                              SizedBox(height: 20),
+                              // User IDs List
+                              Text(
+                                'User Details',
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.05,
+                                  color: AppColors.BLUE,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                              SizedBox(height: 10),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: _userIds.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      UserDetailsDialog.show(
+                                          context, _userIds[index]);
+                                    },
+                                    child: ListTile(
+                                      title: Text(
+                                        _userIds[index],
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: AppColors.BLUE,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.delete,
+                                            color: Colors.red),
+                                        onPressed: () =>
+                                            _confirmDeleteUser(_userIds[index]),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
-
         // Bottom Navigation Bar
         bottomNavigationBar: NavigationBarAdmin(currentIndex: 0),
       ),

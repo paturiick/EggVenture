@@ -61,6 +61,7 @@ dependencies:
   share_plus: ^10.1.1
   shared_preferences: ^2.3.2
   web_socket_channel: ^2.2.0
+  fl_chart: 0.69.2
 
 dev_dependencies:
   flutter_test:

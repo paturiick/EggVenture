@@ -41,6 +41,9 @@ class _AddProductScreenFarmerState extends State<AddProductScreenFarmer> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: screenWidth * 0.02),
       child: TextField(
+        style: TextStyle(
+          color: AppColors.BLUE
+        ),
         cursorColor: AppColors.YELLOW,
         controller: controller,
         decoration: InputDecoration(

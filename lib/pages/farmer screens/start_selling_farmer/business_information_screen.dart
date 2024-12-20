@@ -93,6 +93,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
               SizedBox(height: screenHeight * 0.03),
               // Updated TextFormField for Registered Name
               TextFormField(
+                style: TextStyle(color: AppColors.BLUE),
                 controller: _registeredNameController,
                 cursorColor: AppColors.YELLOW,
                 decoration: InputDecoration(
@@ -167,6 +168,7 @@ class _BusinessInformationScreenState extends State<BusinessInformationScreen> {
               ),
               SizedBox(height: screenHeight * 0.03),
               TextFormField(
+                style: TextStyle(color: AppColors.BLUE),
                 cursorColor: AppColors.YELLOW,
                 controller: _businessNameController,
                 decoration: InputDecoration(

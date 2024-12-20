@@ -150,7 +150,6 @@ class _SignupScreenState extends State<SignupScreen> {
                             prefixIcon: Icon(Icons.email),
                           ),
                           SizedBox(height: 20),
-                          // Modify the phone field without the validator
                           IntlPhoneField(
                             controller: _signupController.phoneController,
                             focusNode: _signupController.phoneFocusNode,
@@ -462,8 +461,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 setState(() => _isLoading = false); // Stop loading on error
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
+                    backgroundColor: AppColors.YELLOW,
                     content:
-                        Text('Email already exists. Please use another one'),
+                        Text('Email already exists. Please use another one',
+                        style: TextStyle(
+                          color: AppColors.BLUE
+                        ),),
                   ),
                 );
               } else {
@@ -474,9 +477,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   emailString,
                   passwordString,
                 );
-
-                debugPrint('Signup clicked');
-
                 if (user != null) {
                   setState(() => _isLoading = false); // Stop loading on success
                   Navigator.pushAndRemoveUntil(
