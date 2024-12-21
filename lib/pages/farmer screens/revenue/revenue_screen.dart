@@ -31,7 +31,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('transactions')
-          .where('userId', isEqualTo: uid)
+          .where('businessId', isEqualTo: uid)
           .get();
 
       if (querySnapshot.docs.isEmpty) {
