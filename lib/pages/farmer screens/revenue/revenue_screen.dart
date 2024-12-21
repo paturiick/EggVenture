@@ -3,6 +3,8 @@ import 'package:eggventure/constants/colors.dart';
 import 'package:eggventure/routes/routes.dart';
 import 'package:eggventure/services/firebase/firebase%20auth/firestore_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class RevenueScreen extends StatefulWidget {
   @override
@@ -62,29 +64,24 @@ class _RevenueScreenState extends State<RevenueScreen> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          color: AppColors.YELLOW,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.YELLOW.withOpacity(0.8), Colors.white],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
           child: Column(
             children: [
               // AppBar Section
               Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.BLUE.withOpacity(0.2),
-                      offset: Offset(0, 2),
-                      blurRadius: 5,
-                      spreadRadius: 5,
-                    ),
-                  ],
-                ),
                 child: AppBar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColors.YELLOW,
                   elevation: 0,
                   leading: IconButton(
                     icon: Icon(
                       Icons.arrow_back,
-                      color: AppColors.BLUE,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.PROFILEFARMER);
@@ -92,10 +89,10 @@ class _RevenueScreenState extends State<RevenueScreen> {
                   ),
                   title: Text(
                     "Revenue",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: screenWidth * 0.07,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.BLUE,
+                      color: Colors.white,
                     ),
                   ),
                   centerTitle: true,
@@ -107,12 +104,21 @@ class _RevenueScreenState extends State<RevenueScreen> {
                   future: _revenueDataFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return Center(
+                        child: SpinKitFadingCircle(
+                          color: AppColors.BLUE,
+                          size: 50.0,
+                        ),
+                      );
                     } else if (snapshot.hasError) {
                       return Center(
                         child: Text(
                           'Error fetching data.',
-                          style: TextStyle(color: Colors.red),
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.red,
+                          ),
                         ),
                       );
                     } else if (!snapshot.hasData ||
@@ -120,7 +126,11 @@ class _RevenueScreenState extends State<RevenueScreen> {
                       return Center(
                         child: Text(
                           'No revenue data available.',
-                          style: TextStyle(color: AppColors.BLUE),
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.BLUE,
+                          ),
                         ),
                       );
                     }
@@ -138,36 +148,39 @@ class _RevenueScreenState extends State<RevenueScreen> {
                           child: Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: AppColors.BLUE.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12),
+                              gradient: LinearGradient(
+                                colors: [AppColors.YELLOW, AppColors.BLUE],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.white,
-                                  spreadRadius: 2,
-                                  blurRadius: 6,
-                                  offset: Offset(0, 3),
+                                  color: Colors.black12,
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
                                 ),
                               ],
                             ),
-                            padding: const EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   "Total Revenue",
-                                  style: TextStyle(
+                                  style: GoogleFonts.poppins(
                                     fontSize: screenWidth * 0.05,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.BLUE,
+                                    color: Colors.white,
                                   ),
                                 ),
                                 SizedBox(height: 8),
                                 Text(
                                   "P${totalRevenue.toStringAsFixed(2)}",
-                                  style: TextStyle(
+                                  style: GoogleFonts.poppins(
                                     fontSize: screenWidth * 0.06,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.BLUE,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ],
@@ -187,7 +200,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
                             itemBuilder: (context, index) {
                               final item = revenueData[index];
                               return Card(
-                                elevation: 3,
+                                elevation: 5,
                                 margin: EdgeInsets.symmetric(
                                     vertical: 8.0, horizontal: 16.0),
                                 shape: RoundedRectangleBorder(
@@ -201,7 +214,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
                                   ),
                                   title: Text(
                                     'Price: P${item['price'].toStringAsFixed(2)}',
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       fontSize: screenWidth * 0.045,
                                       fontWeight: FontWeight.w600,
                                       color: AppColors.BLUE,
@@ -209,7 +222,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
                                   ),
                                   subtitle: Text(
                                     'Timestamp: ${item['timestamp']}',
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       fontSize: screenWidth * 0.04,
                                       color: Colors.grey[600],
                                     ),
